@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu · Wedding Invitation">
+<meta name="theme-color" content="#b39b36">
+<meta property="og:type" content="website">
+<meta property="og:title" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu">
+<meta property="og:description" content="សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ">
+<!-- for a photo preview when the link is shared on Telegram/Facebook, add: <meta property="og:image" content="https://YOUR-USERNAME.github.io/REPO-NAME/assets/og.jpg"> -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💍%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>សំបុត្រអញ្ជើញអាពាហ៍ពិពាហ៍ | Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Moul&family=Battambang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="pre"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="45" style="stroke-width:.6;animation-delay:.3s"/><text id="pm" x="60" y="68">S &amp; C</text></svg></div>
+<noscript></noscript>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div id="cover">
+  <div class="heart" style="background:#fff"><svg viewBox="0 0 24 24" style="fill:#b39b36"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"/></svg></div>
+  <h1>សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
+  <div class="names"><span id="cn1"></span> &amp; <span id="cn2"></span></div>
+  <p>សូមគោរពអញ្ជើញ</p>
+  <p class="moul" id="guestName" style="color:#fff;font-size:1.1rem;margin:0"></p>
+  <div class="env" aria-hidden="false"><div class="flap"></div><div class="letter"></div><div class="pocket"></div><button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ / Open invitation">♥</button></div>
+  <p style="margin:16px 0 0;font-size:.9rem;opacity:.9">ចុចលើសំបុត្រ ដើម្បីបើក</p>
+</div>
+
+<div id="mtl"></div>
+<button id="mus" aria-label="music"><span class="eqb"><i></i><i></i><i></i><i></i></span></button>
+
+<section id="hero">
+  <div class="aur"><i></i><i></i><i></i></div>
+  <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"/></svg></div>
+  <h2>សិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
+  <div class="orn"></div>
+  <div id="heroGuest" hidden style="margin:4px 0 18px"><p class="sub" style="margin:0 0 4px;opacity:.85">សូមគោរពអញ្ជើញ</p><p class="moul" id="heroGuestName" style="font-size:1.2rem;margin:0"></p></div>
+  <p class="role">កូនកំលោះ</p>
+  <p class="nm" id="n1"></p>
+  <div class="amp">&amp;</div>
+  <p class="role">កូនក្រមុំ</p>
+  <p class="nm" id="n2"></p>
+  <p class="date" id="dateTxt"></p>
+  <p class="cdl" id="cdLbl">រាប់ថយក្រោយដល់ថ្ងៃមង្គលការ</p>
+  <div id="cd" style="margin-top:8px"></div>
+  <p class="sub" id="cdMsg" style="margin-top:12px"></p>
+  <svg class="lotus" viewBox="0 0 160 92" aria-hidden="true">
+    <path pathLength="1" style="--d:0s" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+    <path pathLength="1" style="--d:.3s" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+    <path pathLength="1" style="--d:.3s" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+    <path pathLength="1" style="--d:.6s" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+    <path pathLength="1" style="--d:.6s" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+    <path pathLength="1" style="--d:.9s" d="M34 82Q80 94 126 82"/>
+  </svg>
+</section>
+
+<nav id="nav">
+  <a href="#s-prog">កម្មវិធី</a>
+  <a href="#s-photo">រូបភាព</a>
+  <a href="#s-map">ទីតាំង</a>
+</nav>
+<div id="petals" aria-hidden="true"></div>
+<div id="bar"></div>
+<div id="setup" hidden>
+  <button id="sX" type="button" aria-label="close">✕</button>
+  <b>⏱ Countdown setup</b> <small>(owner only)</small>
+  <label for="sd">Wedding date &amp; time — Cambodia time (UTC+7)</label>
+  <input type="datetime-local" id="sd">
+  <div class="row" style="margin-top:0"><button class="btn sm" id="sSave" type="button">Save</button><button class="btn alt sm" id="sReset" type="button">Reset</button><button class="btn alt sm" id="sCopy" type="button">Copy CONFIG line</button><button class="btn sm" id="sGuests" type="button">👥 Guest links</button></div>
+  <p class="hint" id="sInfo" style="text-align:left"></p>
+</div>
+<div id="gp" hidden><div class="in">
+  <button id="gX" type="button" aria-label="close">✕</button>
+  <b>👥 Guest links</b> <small>(owner only — guests never see this)</small>
+  <label for="gnames">Guest names — one per line</label>
+  <textarea id="gnames" rows="5" placeholder="Sok Dara&#10;Chan Sreyneang"></textarea>
+  <label for="gbase">Invitation link (use your short domain if you have one)</label>
+  <input id="gbase">
+  <label for="gmsg">Message — you can use {name} {couple} {link}</label>
+  <textarea id="gmsg" rows="3"></textarea>
+  <div class="row" style="justify-content:flex-start;margin-top:12px">
+    <button class="btn sm" id="gGen" type="button">Make links</button>
+    <button class="btn alt sm" id="gCsv" type="button">Copy CSV</button>
+    <button class="btn alt sm" id="gQr" type="button">QR for print</button>
+  </div>
+  <div id="gQrBox" style="text-align:center;margin:14px 0"></div>
+  <div id="gList"></div>
+</div></div>
+
+<button id="thm" type="button" aria-label="theme">🌙</button>
+<div id="lb" hidden><button id="lbx" type="button" aria-label="close">✕</button><button id="lbp" type="button" aria-label="previous">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="next">›</button></div>
+
+<section id="s-prog">
+  <h2>ព័ត៌មានកម្មវិធី</h2><div class="orn"></div>
+  <div id="prog"></div>
+  <a class="btn" id="liveBtn" target="_blank" rel="noopener" hidden style="margin-top:12px">🔴 មើលការផ្សាយផ្ទាល់</a>
+</section>
+
+<section>
+  <div class="quote">ស្នេហាពិតមិនមែនជារឿងដែលយើងស្វែងរកឃើញនោះទេ តែជារឿងដែលយើងកសាងជាមួយគ្នារាល់ថ្ងៃ។</div>
+  <p class="hint">Love is not found, it is built together every day.</p>
+</section>
+
+<section id="s-story">
+  <h2>រឿងរ៉ាវស្នេហារបស់យើង</h2><div class="orn"></div>
+  <div id="story"></div>
+</section>
+
+<section id="s-photo">
+  <h2>រូបភាព Pre Wedding</h2><div class="orn"></div>
+  <div class="grid" id="grid"></div>
+  <p class="hint">Tap a slot to add your photo (preview only; see the note to make it permanent).</p>
+</section>
+
+<section>
+  <h2>វីដេអូ Pre Wedding</h2><div class="orn"></div>
+  <div class="vids" id="vids"></div>
+</section>
+
+<section id="s-map">
+  <h2>ទីតាំងពិធី</h2><div class="orn"></div>
+  <p id="venue"></p>
+  <a class="btn" id="mapBtn" target="_blank" rel="noopener">📍 បើក Google Map</a>
+  <div><div id="qr"></div></div>
+  <p class="sub">ស្កេន QR Code ដើម្បីបើកទីតាំងក្នុង Google Map</p>
+</section>
+
+<section id="s-dress">
+  <h2>ពណ៌សម្លៀកបំពាក់</h2><div class="orn"></div>
+  <p class="sub" id="dtxt"></p>
+  <div class="row" id="sws"></div>
+</section>
+
+<footer>សូមអរគុណ · Thank you ♥</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

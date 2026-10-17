@@ -253,9 +253,9 @@ $("openBtn").addEventListener("click",function(){$("cover").classList.add("unsea
 (function(){
   var el=$("thanksText");if(!el)return;
   var full=el.textContent.trim();
-  var parts=(window.Intl&&Intl.Segmenter)?Array.from(new Intl.Segmenter("km",{granularity:"grapheme"}).segment(full),function(x){return x.segment}):Array.from(full);
-  var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
-  if(calm||!("IntersectionObserver" in window))return;
+  var parts;
+  try{parts=(window.Intl&&Intl.Segmenter)?Array.from(new Intl.Segmenter("km",{granularity:"grapheme"}).segment(full),function(x){return x.segment}):Array.from(full)}catch(e){parts=Array.from(full)}
+  if(!("IntersectionObserver" in window))return;
   var done=document.createElement("span"),rest=document.createElement("span");
   rest.style.visibility="hidden";rest.textContent=full;el.textContent="";el.appendChild(done);el.appendChild(rest);
   el.setAttribute("aria-label",full);
@@ -267,5 +267,5 @@ $("openBtn").addEventListener("click",function(){$("cover").classList.add("unsea
     step()}
   new IntersectionObserver(function(en,ob){
     en.forEach(function(e){if(e.isIntersecting&&!started){started=true;ob.disconnect();write()}})
-  },{threshold:.35}).observe(el);
+  },{threshold:.1}).observe(el);
 })();

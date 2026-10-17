@@ -81,7 +81,7 @@ if(new URLSearchParams(location.search).has("setup")){
   try{sent=JSON.parse(localStorage.getItem("gsent")||"{}");$("gnames").value=localStorage.getItem("glist")||""}catch(e){}
   $("gbase").value=base;$("gmsg").value=DM;
   function enc(t){return encodeURIComponent(t)}
-  function gl(n){return $("gbase").value.trim().replace(/[?#].*$/,"")+"?to="+enc(n)}
+  function gl(n){return $("gbase").value.trim().replace(/[?#].*$/,"")+"?="+enc(n)}
   function gm(n,withLink){return $("gmsg").value.replace(/\{name\}/g,n).replace(/\{couple\}/g,CONFIG.groom+" & "+CONFIG.bride).replace(/\{link\}/g,withLink===false?"":gl(n)).trim()}
   function gnames(){return $("gnames").value.split("\n").map(function(x){return x.trim()}).filter(function(x,i,a){return x&&a.indexOf(x)===i})}
   function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e}

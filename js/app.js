@@ -248,7 +248,8 @@ function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus"
 $("mus").onclick=function(){playing?stopMusic():startMusic();this.style.opacity=playing?1:.5};
 $("openBtn").addEventListener("click",function(){$("cover").classList.add("unseal");setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},900);try{startMusic()}catch(e){}});
 
-/* thank-you paragraph: written out letter by letter when the guest scrolls to it */
+/* thank-you paragraph: written out slowly (like a song) when the guest scrolls to it.
+   speed: 110 ms per letter, 170 ms at spaces, 700 ms at the end of a sentence – change the numbers below to adjust */
 (function(){
   var el=$("thanksText");if(!el)return;
   var full=el.textContent.trim();
@@ -262,7 +263,7 @@ $("openBtn").addEventListener("click",function(){$("cover").classList.add("unsea
   function write(){
     var i=0,step=function(){
       i++;done.textContent=parts.slice(0,i).join("");rest.textContent=parts.slice(i).join("");
-      if(i<parts.length)setTimeout(step,45)};
+      if(i<parts.length)setTimeout(step,parts[i-1]==="។"?700:(parts[i-1]===" "?170:110))};
     step()}
   new IntersectionObserver(function(en,ob){
     en.forEach(function(e){if(e.isIntersecting&&!started){started=true;ob.disconnect();write()}})

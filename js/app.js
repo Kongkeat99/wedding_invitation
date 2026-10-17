@@ -247,3 +247,24 @@ function startMusic(){
 function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq")}
 $("mus").onclick=function(){playing?stopMusic():startMusic();this.style.opacity=playing?1:.5};
 $("openBtn").addEventListener("click",function(){$("cover").classList.add("unseal");setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},900);try{startMusic()}catch(e){}});
+
+/* thank-you paragraph: written out letter by letter when the guest scrolls to it */
+(function(){
+  var el=$("thanksText");if(!el)return;
+  var full=el.textContent.trim();
+  var parts=(window.Intl&&Intl.Segmenter)?Array.from(new Intl.Segmenter("km",{granularity:"grapheme"}).segment(full),function(x){return x.segment}):Array.from(full);
+  var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if(calm||!("IntersectionObserver" in window))return;
+  var done=document.createElement("span"),rest=document.createElement("span");
+  rest.style.visibility="hidden";rest.textContent=full;el.textContent="";el.appendChild(done);el.appendChild(rest);
+  el.setAttribute("aria-label",full);
+  var started=false;
+  function write(){
+    var i=0,step=function(){
+      i++;done.textContent=parts.slice(0,i).join("");rest.textContent=parts.slice(i).join("");
+      if(i<parts.length)setTimeout(step,45)};
+    step()}
+  new IntersectionObserver(function(en,ob){
+    en.forEach(function(e){if(e.isIntersecting&&!started){started=true;ob.disconnect();write()}})
+  },{threshold:.35}).observe(el);
+})();

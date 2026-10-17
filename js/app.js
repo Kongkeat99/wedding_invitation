@@ -53,7 +53,8 @@ catch(e){$("qr").textContent=CONFIG.mapUrl}
 
 /* personal guest links: ?to=Name */
 var base=location.href.split("?")[0].split("#")[0];
-var to=new URLSearchParams(location.search).get("to");
+var qp=new URLSearchParams(location.search),to=qp.get("to")||qp.get("name")||qp.get("guest")||qp.get("")||"";
+if(!to){qp.forEach(function(v,k){if(!to&&v&&k!=="setup")to=v})}
 if(to){$("guestName").textContent=to;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
 /* ===== guest features ===== */

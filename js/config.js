@@ -31,6 +31,7 @@ var CONFIG = {
     { date: "២០២៦", title: "ស្នើសុំរៀបការ", text: "ព្រោះអាយុកាន់តែចាស់" },
     { date: "២០២៦", title: "ថ្ងៃមង្គលការ", text: "ថ្ងៃដែលយើងចាប់ដៃគ្នាចូលក្នុងជីវិតថ្មី" }
   ],
+  videos: [],                          // e.g. ["assets/videos/video1.mp4","assets/videos/video2.mp4"] — shows real videos (empty = upload slots)
   khqr: "",                                    // optional: link to your KHQR image
   live: ""                                     // optional: Facebook / YouTube live link on the wedding day
 };

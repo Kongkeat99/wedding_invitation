@@ -39,13 +39,32 @@ for(var i=1;i<=15;i++){(function(i){
   s.appendChild(f);g.appendChild(s);
 })(i)}
 
-/* 2 videos */
+/* 2 videos: set CONFIG.videos = ["assets/videos/v1.mp4","assets/videos/v2.mp4"] to show real videos;
+   empty slot = guest/owner can pick a file (preview only) */
+function mountVideo(b,src){
+  b.innerHTML="";b.classList.add("has");
+  var v=document.createElement("video");v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";v.src=src;
+  var pl=document.createElement("span");pl.className="pl";pl.textContent="▶";
+  v.addEventListener("play",function(){pl.classList.add("off")});
+  v.addEventListener("pause",function(){pl.classList.remove("off")});
+  v.addEventListener("ended",function(){pl.classList.remove("off")});
+  b.appendChild(v);b.appendChild(pl)}
 for(var j=1;j<=2;j++){(function(j){
-  var b=document.createElement("label");b.className="vid";b.textContent="🎬 Video "+j;
+  var b=document.createElement("label");b.className="vid pre";b.style.setProperty("--d",(j-1)*.25+"s");
+  var vs=(CONFIG.videos||[]);
+  if(vs[j-1]){b.className="vid pre has";mountVideo(b,vs[j-1]);$("vids").appendChild(b);return}
+  var em=document.createElement("span");em.className="em";em.textContent="🎬 Video "+j;b.appendChild(em);
   var f=document.createElement("input");f.type="file";f.accept="video/*";f.hidden=true;
-  f.onchange=function(){if(!f.files[0])return;b.innerHTML='<video controls playsinline src="'+URL.createObjectURL(f.files[0])+'"></video>'};
+  f.onchange=function(){if(!f.files[0])return;b.removeAttribute("for");mountVideo(b,URL.createObjectURL(f.files[0]))};
   b.appendChild(f);$("vids").appendChild(b);
 })(j)}
+/* videos: frame rises in one by one when scrolled into view */
+(function(){
+  var vs=Array.prototype.slice.call($("vids").children);
+  if(!("IntersectionObserver" in window)){vs.forEach(function(v){v.classList.remove("pre")});return}
+  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.remove("pre");io.unobserve(e.target)}})},{threshold:.2});
+  vs.forEach(function(v){io.observe(v)});
+})();
 
 /* QR code for the map link */
 try{new QRCode($("qr"),{text:CONFIG.mapUrl,width:170,height:170,colorDark:"#6e5c12",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M})}
@@ -109,8 +128,8 @@ var dc=CONFIG.dress;
 if(dc&&dc.colors&&dc.colors.length){$("dtxt").textContent=dc.text||"";dc.colors.forEach(function(c){var i=document.createElement("span");i.className="sw";i.style.background=c;i.title=c;$("sws").appendChild(i)})}
 else $("s-dress").hidden=true;
 var sy=$("story");
-(CONFIG.story||[]).forEach(function(e){var d=document.createElement("div");d.className="st";
-  var a=document.createElement("small");a.textContent=e.date||"";var h=document.createElement("h3");h.textContent=e.title||"";
+(CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("div");d.className="st";
+  var a=document.createElement("small");a.textContent=e.date||"";var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
   var p=document.createElement("p");p.textContent=e.text||"";d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
 if(!sy.children.length)$("s-story").hidden=true;
 
@@ -268,4 +287,59 @@ $("openBtn").addEventListener("click",function(){$("cover").classList.add("unsea
   new IntersectionObserver(function(en,ob){
     en.forEach(function(e){if(e.isIntersecting&&!started){started=true;ob.disconnect();write()}})
   },{threshold:.1}).observe(el);
+})();
+
+/* photo autoplay:
+   1) all photos start hidden
+   2) when the gallery comes on screen they appear ONE BY ONE (every 500 ms)
+   3) then a golden spotlight moves from photo to photo (zoom + glow, 1.5 s each) while the gallery is on screen
+   Pauses while the guest touches or hovers the gallery. */
+(function(){
+  var g=$("grid");if(!g||!("IntersectionObserver" in window))return;
+  var REVEAL=500,LIFT=1500;
+  var idx=-1,timer=null,paused=false,last=null,revealed=false,started=false;
+  Array.prototype.forEach.call(g.children,function(n){n.classList.add("hide")});
+  function reveal(){
+    var items=Array.prototype.slice.call(g.children),i=0;
+    var t=setInterval(function(){
+      if(i<items.length){items[i].classList.remove("hide");i++}
+      if(i>=items.length){clearInterval(t);setTimeout(function(){revealed=true;if(onScreen)play()},700)}
+    },REVEAL);
+  }
+  function tick(){
+    if(paused)return;
+    var items=g.children;if(!items.length)return;
+    if(last)last.classList.remove("auto");
+    idx=(idx+1)%items.length;
+    last=items[idx];last.classList.add("auto");
+  }
+  var onScreen=false;
+  function play(){if(!timer&&revealed){g.classList.add("playing");tick();timer=setInterval(tick,LIFT)}}
+  function stop(){clearInterval(timer);timer=null;g.classList.remove("playing");if(last){last.classList.remove("auto");last=null}idx=-1}
+  g.addEventListener("mouseenter",function(){paused=true;g.classList.remove("playing");if(last)last.classList.remove("auto")});
+  g.addEventListener("mouseleave",function(){paused=false;if(timer)g.classList.add("playing")});
+  g.addEventListener("touchstart",function(){paused=true;g.classList.remove("playing");if(last)last.classList.remove("auto")},{passive:true});
+  g.addEventListener("touchend",function(){setTimeout(function(){paused=false;if(timer)g.classList.add("playing")},2500)},{passive:true});
+  new IntersectionObserver(function(en){en.forEach(function(e){
+    onScreen=e.isIntersecting;
+    if(onScreen){if(!started){started=true;reveal()}else play()}else stop();
+  })},{threshold:.2}).observe(g);
+})();
+
+/* love story: cards slide in one by one, dots pop, gold line grows while scrolling */
+(function(){
+  var sy=$("story");if(!sy||!sy.children.length)return;
+  var cards=Array.prototype.slice.call(sy.children);
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.25});
+    cards.forEach(function(c){io.observe(c)});
+  }else cards.forEach(function(c){c.classList.add("in")});
+  function line(){
+    var r=sy.getBoundingClientRect(),vh=window.innerHeight||600;
+    var p=(vh*0.7-r.top)/Math.max(r.height,1);
+    sy.style.setProperty("--p",Math.max(0,Math.min(1,p)));
+  }
+  var tk=false;
+  window.addEventListener("scroll",function(){if(!tk){tk=true;requestAnimationFrame(function(){line();tk=false})}},{passive:true});
+  window.addEventListener("resize",line);line();
 })();

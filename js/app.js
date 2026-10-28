@@ -74,6 +74,7 @@ catch(e){$("qr").textContent=CONFIG.mapUrl}
 var base=location.href.split("?")[0].split("#")[0];
 var qp=new URLSearchParams(location.search),to=qp.get("to")||qp.get("name")||qp.get("guest")||qp.get("")||"";
 if(!to){qp.forEach(function(v,k){if(!to&&v&&k!=="setup")to=v})}
+if(/^\?=/.test(location.search)){var rw=location.search.slice(2).split("#")[0];try{rw=decodeURIComponent(rw.replace(/\+/g," "))}catch(e){rw=rw.replace(/\+/g," ")}to=rw.replace(/_/g," ").replace(/\s+/g," ").trim()||to}
 if(to){$("guestName").textContent=to;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
 /* ===== guest features ===== */

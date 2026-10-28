@@ -74,6 +74,7 @@ catch(e){$("qr").textContent=CONFIG.mapUrl}
 var base=location.href.split("?")[0].split("#")[0];
 var qp=new URLSearchParams(location.search),to=qp.get("to")||qp.get("name")||qp.get("guest")||qp.get("")||"";
 if(!to){qp.forEach(function(v,k){if(!to&&v&&k!=="setup")to=v})}
+if(/^\?=/.test(location.search)){var rw=location.search.slice(2).split("#")[0];try{rw=decodeURIComponent(rw.replace(/\+/g," "))}catch(e){rw=rw.replace(/\+/g," ")}to=rw.replace(/_/g," ").replace(/\s+/g," ").trim()||to}
 if(to){$("guestName").textContent=to;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
 /* ===== guest features ===== */
@@ -338,6 +339,7 @@ $("openBtn").addEventListener("click",function(){$("cover").classList.add("unsea
     var r=sy.getBoundingClientRect(),vh=window.innerHeight||600;
     var p=(vh*0.7-r.top)/Math.max(r.height,1);
     sy.style.setProperty("--p",Math.max(0,Math.min(1,p)));
+    var lc=cards[cards.length-1];sy.style.setProperty("--end",Math.max(0,sy.offsetHeight-lc.offsetTop-27)+"px");
   }
   var tk=false;
   window.addEventListener("scroll",function(){if(!tk){tk=true;requestAnimationFrame(function(){line();tk=false})}},{passive:true});

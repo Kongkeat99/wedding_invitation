@@ -27,7 +27,7 @@ var CONFIG = {
   photos: [],                                  // real photo links, e.g. ["assets/photos/p1.jpg", ...] — shows a swipeable full-screen viewer (empty = upload slots)
   story: [                                     // love story timeline — edit the text; delete all entries to hide the section
     { date: "២០២៦", title: "ជួបគ្នាលើកដំបូង", text: "ពេលពួកយើងទៅដើរលេងនៅកោះទន្សាយ" },
-    { date: "២០២៦", title: "ក្លាយជាគូស្នេហ៍", text: "ពេលត្រឡប់មកពីដើរវិញបាន៣ថ្ងៃ" },
+    { date: "២០២៦", title: "ក្លាយជាគូស្នេហ៍", text: "ពេលត្រឡប់មកវិញ" },
     { date: "២០២៦", title: "ស្នើសុំរៀបការ", text: "ព្រោះអាយុកាន់តែចាស់" },
     { date: "២០២៦", title: "ថ្ងៃមង្គលការ", text: "ថ្ងៃដែលយើងចាប់ដៃគ្នាចូលក្នុងជីវិតថ្មី" }
   ],

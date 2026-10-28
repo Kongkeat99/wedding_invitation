@@ -338,6 +338,7 @@ $("openBtn").addEventListener("click",function(){$("cover").classList.add("unsea
     var r=sy.getBoundingClientRect(),vh=window.innerHeight||600;
     var p=(vh*0.7-r.top)/Math.max(r.height,1);
     sy.style.setProperty("--p",Math.max(0,Math.min(1,p)));
+    var lc=cards[cards.length-1];sy.style.setProperty("--end",Math.max(0,sy.offsetHeight-lc.offsetTop-27)+"px");
   }
   var tk=false;
   window.addEventListener("scroll",function(){if(!tk){tk=true;requestAnimationFrame(function(){line();tk=false})}},{passive:true});

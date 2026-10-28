@@ -220,7 +220,10 @@ footer .lotus{margin-bottom:14px;opacity:.8}
 
 /* ===== love story: pretty timeline ===== */
 #story{padding-left:34px}
-#story:before{width:3px;border-radius:3px;left:7.5px;top:27px;bottom:var(--end,27px);transform-origin:top;transform:scaleY(var(--p,0));transition:transform .15s linear;background:linear-gradient(var(--gold2),var(--gold),var(--gold2))}
+#story:before{display:none}
+.st{z-index:0}
+.st:not(:last-child):after{content:"";position:absolute;left:-26.5px;top:27px;width:3px;height:calc(100% + 28px);z-index:-1;border-radius:3px;background:linear-gradient(var(--gold2),var(--gold),var(--gold2));transform-origin:top;transform:scaleY(0);transition:transform .9s ease .7s}
+.st.in:not(:last-child):after{transform:scaleY(1)}
 .st{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px 14px;margin:0 0 26px;box-shadow:0 6px 18px rgba(179,155,54,.14);
   opacity:0;transform:translateX(40px) scale(.96);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
 .st:nth-child(even){transform:translateX(-40px) scale(.96)}

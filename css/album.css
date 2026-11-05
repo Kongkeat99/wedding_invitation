@@ -1,0 +1,11 @@
+/* Guest album page (album.html). Colors and fonts come from style.css */
+.album{max-width:720px;margin:0 auto;padding:28px 16px 40px}
+.album h1{font-size:1.5rem;margin:18px 0 0}
+.album .sub{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin:0 0 14px}
+.agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
+@media (min-width:560px){.agrid{grid-template-columns:repeat(3,1fr);gap:14px}}
+.agrid img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;transition:transform .25s}
+.agrid img:hover{transform:scale(1.02)}
+#lbd{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%)}
+footer{padding:20px;color:var(--gold);text-align:center}
+@media (prefers-reduced-motion:reduce){.agrid img{transition:none}.agrid img:hover{transform:none}}

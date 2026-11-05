@@ -26,6 +26,12 @@ var CONFIG = {
   },
   guests: {                                    // short guest links: "code": "Name shown on the invitation"  ->  your-site/?g=code  (made by the ?setup guest-link tool)
   },
+  // guest album page (album.html). Pick ONE way to fill it:
+  //  1) albumCount: 40  -> uses assets/album/1.jpg ... 40.jpg   2) album: ["assets/album/a.jpg", ...]   3) leave both empty -> shows the gallery photos
+  albumFolder: "assets/album/",
+  albumCount: 0,
+  album: [],
+  albumUpload: "",                             // optional: a shared Google Drive / Google Photos folder link so guests can send you their photos
   photos: [                                    // upload files to assets/photos/ with exactly these names (any count; remove lines you do not use)
     "assets/photos/p1.jpg",
     "assets/photos/p2.jpg",

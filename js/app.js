@@ -76,6 +76,9 @@ function copyTxt(t,done){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done&&done()},fb)}else fb()}
 function flash(b,txt){var o=b.dataset.o||b.textContent;b.dataset.o=o;b.textContent=txt;setTimeout(function(){b.textContent=o},1800)}
 
+/* guest album page: keep the personal guest link when opening it */
+$("albumLink").href="album.html"+location.search;
+
 /* live stream (optional) */
 if(CONFIG.live){$("liveBtn").href=CONFIG.live;$("liveBtn").hidden=false}
 

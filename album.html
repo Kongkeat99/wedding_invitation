@@ -1,39 +1,208 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="km">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#b39b36">
-<meta name="description" content="អាល់ប៊ុមរូបភាព · Guest Album · Soem Kungkiet &amp; Chham Chanthu">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📸%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<title>អាល់ប៊ុមរូបភាព | Guest Album</title>
-<link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Moul&family=Noto+Sans+Khmer:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/album.css">
+<meta name="theme-color" content="#14110A">
+<meta name="description" content="អាល់ប៊ុមរូបភាព · Soem Kungkiet &amp; Chham Chanthu">
+<title>អាល់ប៊ុមរូបភាព · Soem Kungkiet &amp; Chham Chanthu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Moul&amp;family=Noto+Sans+Khmer:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14110A;--gold:#C9A63A;--ivory:#F3EBD8;--wine:#7A1F2B;--muted:#b9ae98;--line:#c9a63a55;--card:#211c11;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;color-scheme:dark}
+*,*:before,*:after{box-sizing:inherit}
+html,body{min-height:100dvh;margin:0;background:var(--ink);color:var(--ivory)}
+body{font-family:'Noto Sans Khmer','Battambang',sans-serif;line-height:1.6;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 20%,#3b2d1018,transparent 58%),radial-gradient(ellipse at 50% 110%,#7a1f2b18,transparent 52%)}
+button,a{font:inherit}
+button{color:inherit}
+.site-header{position:sticky;top:0;z-index:30;min-height:60px;padding:calc(8px + var(--safe-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:#14110Aee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.back-link{justify-self:start;display:inline-flex;align-items:center;min-height:44px;padding:7px 12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.78rem;white-space:nowrap}
+.back-link:hover,.back-link:focus-visible{border-color:var(--gold);color:var(--ivory)}
+.header-title{grid-column:2;margin:0;color:var(--gold);font:400 1rem/1.3 'Moul','Noto Sans Khmer',sans-serif;text-align:center;white-space:nowrap}
+.header-mark{justify-self:end;width:24px;height:24px;border:1px solid var(--wine);border-radius:50%;opacity:.8}
+.page{width:min(1100px,100%);margin:0 auto;padding:30px 16px calc(58px + var(--safe-bottom))}
+.hero{text-align:center;padding:18px 0 28px}
+.hero-kicker{margin:0;color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.hero h1{margin:8px 0 0;font:400 clamp(1.45rem,5vw,2.2rem)/1.45 'Moul','Noto Sans Khmer',sans-serif;color:var(--ivory)}
+.names{margin:7px 0 8px;font:italic 600 clamp(1.5rem,5vw,2.5rem)/1.05 'Cormorant Garamond',Georgia,serif;color:var(--gold)}
+.hero-count{margin:0;color:var(--muted);font-size:.82rem}
+.rule{width:min(180px,45%);height:1px;margin:18px auto 0;background:var(--gold)}
+.control-deck{position:sticky;top:calc(60px + var(--safe-top));z-index:20;margin:0 -16px;padding:10px 16px 12px;background:#14110Aee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.segmented{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(440px,100%);min-height:52px;margin:0 auto 12px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#1e180d;isolation:isolate}
+.seg-indicator{position:absolute;z-index:-1;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--gold);transition:transform .25s ease}
+.segmented[data-side="bride"] .seg-indicator{transform:translateX(100%)}
+.segmented button{min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--gold);font-size:.78rem;cursor:pointer;transition:color .25s ease}
+.segmented button[aria-pressed="true"]{color:var(--ink);font-weight:700}
+.categories-wrap{position:relative;max-width:100%;overflow:hidden}
+.categories-wrap:after,.categories-wrap:before{content:"";position:absolute;z-index:2;top:0;bottom:0;width:30px;pointer-events:none}
+.categories-wrap:before{left:0;background:linear-gradient(90deg,#14110A,transparent)}
+.categories-wrap:after{right:0;background:linear-gradient(270deg,#14110A,transparent)}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:2px 28px 4px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.categories::-webkit-scrollbar{display:none}
+.category-chip{flex:0 0 auto;min-height:44px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--gold);cursor:pointer;scroll-snap-align:center;white-space:nowrap;font-size:.75rem;line-height:1.55;transition:background .25s ease,border-color .25s ease,color .25s ease,transform .25s ease}
+.category-chip:hover,.category-chip:focus-visible{border-color:var(--gold);transform:translateY(-1px)}
+.category-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:700}
+.category-chip small{font-family:'Cormorant Garamond',Georgia,serif;font-size:.95rem}
+.gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px;color:var(--muted);font-size:.78rem}
+.gallery-meta strong{color:var(--ivory);font-weight:500}
+.photo-grid{columns:2 160px;column-gap:10px}
+.photo-card{display:block;width:100%;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:1px solid transparent;border-radius:14px;background:#211c11;cursor:pointer;text-align:left;opacity:0;transform:translateY(12px);transition:opacity .55s ease var(--delay),transform .55s ease var(--delay),border-color .25s ease}
+.photo-card.is-ready{opacity:1;transform:none}
+.photo-card:hover,.photo-card:focus-visible{border-color:var(--gold)}
+.photo-card img{display:block;width:100%;height:auto;min-height:80px;background:linear-gradient(110deg,#211c11 8%,#332a18 18%,#211c11 33%);background-size:200% 100%;animation:shimmer 1.5s linear infinite;filter:blur(14px);opacity:.65;transition:filter .55s ease,opacity .55s ease}
+.photo-card img.is-loaded{filter:blur(0);opacity:1;animation:none}
+@keyframes shimmer{to{background-position:-200% 0}}
+.empty-state{margin:44px auto;text-align:center;color:var(--muted);font-size:.85rem}
+.site-footer{padding:0 16px 28px;text-align:center;color:var(--muted);font-size:.75rem}
+.lightbox{position:fixed;inset:0;z-index:60;display:grid;grid-template-rows:auto 1fr auto;padding:calc(12px + var(--safe-top)) max(16px,env(safe-area-inset-right)) calc(14px + var(--safe-bottom)) max(16px,env(safe-area-inset-left));background:#0d0b08f5;backdrop-filter:blur(16px)}
+.lightbox[hidden]{display:none}
+.lightbox-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.lightbox-action{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:#211c11;color:var(--ivory);text-decoration:none;cursor:pointer}
+.lightbox-action:hover,.lightbox-action:focus-visible{border-color:var(--gold);color:var(--gold)}
+.lightbox-counter{color:var(--gold);font:600 1rem 'Cormorant Garamond',Georgia,serif}
+.lightbox-stage{position:relative;display:grid;place-items:center;min-height:0;overflow:hidden}
+.lightbox-image{max-width:calc(100vw - 32px);max-height:calc(100dvh - 150px);width:auto;height:auto;object-fit:contain;touch-action:none;user-select:none;border-radius:10px;box-shadow:0 16px 60px #0008;transition:transform .25s ease}
+.lightbox-image.slide-left{animation:slideLeft .25s ease-out}.lightbox-image.slide-right{animation:slideRight .25s ease-out}
+@keyframes slideLeft{from{opacity:.35;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideRight{from{opacity:.35;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+.lightbox-nav{position:absolute;top:50%;display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:#211c11cc;color:var(--ivory);font-size:1.8rem;cursor:pointer;transform:translateY(-50%)}
+.lightbox-nav:hover,.lightbox-nav:focus-visible{border-color:var(--gold);color:var(--gold)}
+.lightbox-prev{left:0}.lightbox-next{right:0}
+.lightbox-bottom{display:flex;justify-content:center}
+.lightbox-bottom .lightbox-action{min-width:120px;color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:700}
+@media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
+@media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}}
+@media (max-width:400px){.back-link{padding-left:9px;padding-right:9px;font-size:.7rem}.header-mark{display:none}.header-title{font-size:.85rem}.control-deck{top:calc(56px + var(--safe-top))}}
+</style>
 </head>
 <body>
-<main class="album">
-  <a class="btn alt sm" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
-  <h1>អាល់ប៊ុមរូបភាព</h1>
-  <div class="orn"></div>
-  <p class="sub" id="sub">Guest Album</p>
-  <div class="album-nav">
-    <div class="tabs" role="group" aria-label="Choose album">
-      <button type="button" id="tGroom" data-side="groom">ខាងកូនកំលោះ · Groom <small></small></button>
-      <button type="button" id="tBride" data-side="bride">ខាងកូនក្រមុំ · Bride <small></small></button>
+<header class="site-header">
+  <a class="back-link" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
+  <p class="header-title">អាល់ប៊ុមរូបភាព</p>
+  <span class="header-mark" aria-hidden="true"></span>
+</header>
+
+<main class="page">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="hero-kicker">Guest photo album</p>
+    <h1 id="page-title">អាល់ប៊ុមរូបភាព</h1>
+    <p class="names">Soem Kungkiet &amp; Chham Chanthu</p>
+    <p class="hero-count" id="heroCount" aria-live="polite"></p>
+    <div class="rule" aria-hidden="true"></div>
+  </section>
+
+  <section class="control-deck" aria-label="Album filters">
+    <div class="segmented" id="sides" data-side="groom" role="group" aria-label="Choose album side">
+      <span class="seg-indicator" aria-hidden="true"></span>
+      <button id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
+      <button id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
     </div>
-    <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
-  </div>
-  <div class="agrid" id="agrid"></div>
-  <p class="hint" id="empty" hidden>រូបភាពនឹងត្រូវបានបន្ថែមក្រោយពិធី · Photos will be added after the wedding.</p>
+    <div class="categories-wrap">
+      <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
+    </div>
+  </section>
+
+  <div class="gallery-meta"><strong id="galleryTitle">Groom · All</strong><span id="galleryCount"></span></div>
+  <section class="photo-grid" id="photoGrid" aria-live="polite"></section>
+  <p class="empty-state" id="empty" hidden>រូបភាពនឹងត្រូវបានបន្ថែមក្រោយពិធី<br><span>Photos will be added after the wedding.</span></p>
 </main>
-<footer>សូមអរគុណ · Thank you ♥</footer>
+<footer class="site-footer">សូមអរគុណ · Thank you ♥</footer>
 
-<div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden><button id="lbx" type="button" aria-label="Close photo viewer">✕</button><button id="lbp" type="button" aria-label="Previous photo">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="Next photo">›</button><a id="lbd" class="btn sm" download>⬇ ទាញយក · Save</a></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="lightbox-top">
+    <button class="lightbox-action" id="closeLightbox" type="button" aria-label="Close photo viewer">✕ <span>បិទ · Close</span></button>
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <a class="lightbox-action" id="downloadPhoto" download>⬇ <span>រក្សាទុក · Save</span></a>
+  </div>
+  <div class="lightbox-stage">
+    <button class="lightbox-nav lightbox-prev" id="previousPhoto" type="button" aria-label="Previous photo">‹</button>
+    <img class="lightbox-image" id="lightboxImage" alt="" draggable="false">
+    <button class="lightbox-nav lightbox-next" id="nextPhoto" type="button" aria-label="Next photo">›</button>
+  </div>
+  <div class="lightbox-bottom"><button class="lightbox-action" id="zoomPhoto" type="button">＋ ពង្រីក · Zoom</button></div>
+</div>
 
-<script defer src="js/config.js"></script>
-<script defer src="js/album.js"></script>
+<script>
+const CONFIG={
+  couple:{groom:'Soem Kungkiet',bride:'Chham Chanthu'},
+  album:{
+    groom:{categories:[
+      {id:'trax-team',km:'ក្រុមការងារ Trax Apparel',en:'Trax Apparel Team',folder:'assets/album/groom/trax-team/',count:15,list:[]},
+      {id:'silver-age',km:'ក្រុមការងារ Silver Age',en:'Silver Age Team',folder:'assets/album/groom/silver-age/',count:15,list:[]},
+      {id:'university',km:'មិត្តចាស់សាកលវិទ្យាល័យ',en:'University Old Friend',folder:'assets/album/groom/university/',count:15,list:[]},
+      {id:'high-school',km:'មិត្តចាស់វិទ្យាល័យ',en:'High School Old Friend',folder:'assets/album/groom/high-school/',count:15,list:[]},
+      {id:'primary',km:'មិត្តចាស់បឋមសិក្សា',en:'Primary Old Friend',folder:'assets/album/groom/primary/',count:15,list:[]},
+      {id:'cgti',km:'មិត្តចាស់ CGTI',en:'Old Friend CGTI',folder:'assets/album/groom/cgti/',count:15,list:[]},
+      {id:'family',km:'បងប្អូន និងញាតិសន្តាន',en:'Sibling & Cousin',folder:'assets/album/groom/family/',count:15,list:[]}
+    ]},
+    bride:{categories:[
+      {id:'mv-team',km:'ក្រុមការងារ MV',en:'MV Team',folder:'assets/album/bride/mv-team/',count:15,list:[]},
+      {id:'king-success',km:'ក្រុមការងារ King Success',en:'King Success Team',folder:'assets/album/bride/king-success/',count:15,list:[]},
+      {id:'university',km:'មិត្តចាស់សាកលវិទ្យាល័យ',en:'University Old Friend',folder:'assets/album/bride/university/',count:15,list:[]},
+      {id:'high-school',km:'មិត្តចាស់វិទ្យាល័យ',en:'High School Old Friend',folder:'assets/album/bride/high-school/',count:15,list:[]},
+      {id:'primary',km:'មិត្តចាស់បឋមសិក្សា',en:'Primary Old Friend',folder:'assets/album/bride/primary/',count:15,list:[]},
+      {id:'family',km:'បងប្អូន និងញាតិសន្តាន',en:'Sibling & Cousin',folder:'assets/album/bride/family/',count:15,list:[]}
+    ]}
+  },
+  photos:['assets/photos/p1.jpg','assets/photos/p2.jpg','assets/photos/p3.jpg','assets/photos/p4.jpg','assets/photos/p5.jpg','assets/photos/p6.jpg','assets/photos/p7.jpg','assets/photos/p8.jpg','assets/photos/p9.jpg','assets/photos/p10.jpg','assets/photos/p11.jpg','assets/photos/p12.jpg','assets/photos/p13.jpg','assets/photos/p14.jpg','assets/photos/p15.jpg']
+};
+
+(() => {
+  const $=id=>document.getElementById(id);
+  const sideButtons=[$('tGroom'),$('tBride')];
+  let side='groom',category='all',photos=[],viewerIndex=0,viewerFrom=null,swipeX=0,pinchDistance=0,zoom=1,pinching=false;
+  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const listFor=group=>group.list&&group.list.length?group.list:Array.from({length:group.count||0},(_,i)=>(group.folder||'')+(i+1)+'.jpg');
+  const groups=()=>CONFIG.album[side].categories||[];
+  const availableGroups=()=>groups().filter(group=>group.count||group.list&&group.list.length);
+  const allPhotos=()=>availableGroups().flatMap(listFor);
+  const setHash=()=>history.replaceState(null,'',location.pathname+location.search+'#'+side+(category==='all'?'':'/'+category));
+  const label=group=>group?group.en:'All';
+
+  function renderCategories(){
+    const nav=$('categories');nav.innerHTML='';const available=availableGroups();
+    const all=document.createElement('button');all.className='category-chip';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='ទាំងអស់ · All <small>('+available.reduce((total,group)=>total+listFor(group).length,0)+')</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
+    available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=group.km+' · '+group.en+' <small>('+listFor(group).length+')</small>';chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
+    const active=nav.querySelector('[aria-pressed="true"]');if(active&&window.matchMedia('(max-width:700px)').matches)active.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
+  }
+
+  function renderGrid(){
+    const grid=$('photoGrid');grid.innerHTML='';photos=category==='all'?allPhotos():listFor(groups().find(group=>group.id===category));
+    if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
+    photos.forEach((src,index)=>{const card=document.createElement('button');card.className='photo-card';card.type='button';card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');const image=document.createElement('img');image.src=src;image.alt=(side==='groom'?'Groom':'Bride')+' guest photo '+(index+1);image.width=720;image.height=960;image.loading='lazy';image.decoding='async';image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});card.appendChild(image);card.onclick=()=>openViewer(index);grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))});
+  }
+
+  function render(){
+    const valid=category==='all'||groups().some(group=>group.id===category&&listFor(group).length);if(!valid)category='all';
+    $('sides').dataset.side=side;sideButtons.forEach(button=>button.setAttribute('aria-pressed',button.dataset.side===side));
+    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length;const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent='រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+(current?current.km+' · '+current.en:'ទាំងអស់ · All');$('galleryCount').textContent=count+' photos';
+  }
+
+  function selectSide(next){side=next;category='all';closeViewer();setHash();render()}
+  function selectCategory(next){category=next;closeViewer();setHash();render()}
+  function showViewer(index,direction){if(!photos.length)return;viewerIndex=(index+photos.length)%photos.length;const image=$('lightboxImage');if(direction){image.classList.remove('slide-left','slide-right');void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.src=photos[viewerIndex];image.alt=(side==='groom'?'Groom':'Bride')+' guest photo '+(viewerIndex+1);$('lightboxCounter').textContent=(viewerIndex+1)+' / '+photos.length;$('downloadPhoto').href=photos[viewerIndex];$('downloadPhoto').download=photos[viewerIndex].split('/').pop()}
+  function openViewer(index){viewerFrom=document.activeElement;zoom=1;$('lightboxImage').style.transform='scale(1)';showViewer(index);$('lightbox').hidden=false;document.body.style.overflow='hidden';$('closeLightbox').focus()}
+  function closeViewer(){if($('lightbox').hidden)return;$('lightbox').hidden=true;document.body.style.overflow='';zoom=1;if(viewerFrom&&viewerFrom.focus)viewerFrom.focus();viewerFrom=null}
+  function distance(touches){return Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)}
+  function changeZoom(next){zoom=Math.max(1,Math.min(3,next));$('lightboxImage').style.transform='scale('+zoom+')'}
+
+  sideButtons.forEach(button=>button.onclick=()=>selectSide(button.dataset.side));
+  $('back').href='index.html'+location.search;
+  $('closeLightbox').onclick=closeViewer;$('previousPhoto').onclick=()=>showViewer(viewerIndex-1,1);$('nextPhoto').onclick=()=>showViewer(viewerIndex+1,-1);$('zoomPhoto').onclick=()=>changeZoom(zoom===1?2:1);
+  $('lightbox').onclick=event=>{if(event.target===$('lightbox'))closeViewer()};
+  $('lightboxImage').addEventListener('touchstart',event=>{if(event.touches.length===2){pinching=true;pinchDistance=distance(event.touches);return}swipeX=event.touches[0].clientX},{passive:true});
+  $('lightboxImage').addEventListener('touchmove',event=>{if(!pinching||event.touches.length!==2)return;changeZoom(zoom*distance(event.touches)/pinchDistance);pinchDistance=distance(event.touches);event.preventDefault()},{passive:false});
+  $('lightboxImage').addEventListener('touchend',event=>{if(pinching){if(event.touches.length<2)pinching=false;return}const delta=event.changedTouches[0].clientX-swipeX;if(Math.abs(delta)>45)showViewer(viewerIndex+(delta<0?1:-1),delta<0?-1:1)},{passive:true});
+  $('lightboxImage').ondblclick=()=>changeZoom(zoom===1?2:1);
+  document.addEventListener('keydown',event=>{if($('lightbox').hidden)return;if(event.key==='Escape')closeViewer();if(event.key==='ArrowRight')showViewer(viewerIndex+1,-1);if(event.key==='ArrowLeft')showViewer(viewerIndex-1,1)});
+  const hash=location.hash.slice(1).split('/');side=hash[0]==='bride'?'bride':'groom';category=hash[1]||'all';render();if(category!==hash[1]&&hash[1])setHash();
+})();
+</script>
 </body>
 </html>

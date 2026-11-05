@@ -36,8 +36,11 @@
   }
 
   function pick(k,c,keepHash){
-    side=k;category=c||"all";
-    var cats=sides[k].categories||[],selected=category==="all"?cats:cats.filter(function(item){return item.id===category});
+    if(!lb.hidden)close();
+    side=k;
+    var requested=c||"all",cats=sides[k].categories||[];
+    category=requested!=="all"&& !cats.some(function(item){return item.id===requested})?"all":requested;
+    var selected=category==="all"?cats:cats.filter(function(item){return item.id===category});
     list=selected.reduce(function(all,item){return all.concat(categoryList(item))},[]);
     if(preview)list=C.photos||[];
     renderCategories(k);grid.innerHTML="";
@@ -51,7 +54,7 @@
       im.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();show(i)}};
       im.onerror=function(){im.remove()};
       grid.appendChild(im)});
-    if(!keepHash)setHash(k,category)
+    if(!keepHash||requested!==category)setHash(k,category)
   }
 
   $("tGroom").onclick=function(){pick("groom")};

@@ -64,6 +64,9 @@ var base=location.href.split("?")[0].split("#")[0];
 var qp=new URLSearchParams(location.search),to=qp.get("to")||qp.get("name")||qp.get("guest")||qp.get("")||"";
 if(!to){qp.forEach(function(v,k){if(!to&&v&&k!=="setup")to=v})}
 if(/^\?=/.test(location.search)){var rw=location.search.slice(2).split("#")[0];try{rw=decodeURIComponent(rw.replace(/\+/g," "))}catch(e){rw=rw.replace(/\+/g," ")}to=rw.replace(/_/g," ").replace(/\s+/g," ").trim()||to}
+/* short links: ?g=<base64url of the name> (made by the guest-link tool; the older ?=Name links still work) */
+var gq=qp.get("g");
+if(gq){try{to=new TextDecoder().decode(Uint8Array.from(atob(gq.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)}))}catch(e){to=""}}
 if(to){$("guestName").textContent=to;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
 /* ===== guest features ===== */
@@ -90,7 +93,19 @@ if(new URLSearchParams(location.search).has("setup")){
   try{sent=JSON.parse(localStorage.getItem("gsent")||"{}");$("gnames").value=localStorage.getItem("glist")||""}catch(e){}
   $("gbase").value=base;$("gmsg").value=DM;
   function enc(t){return encodeURIComponent(t)}
-  function gl(n){return $("gbase").value.trim().replace(/[?#].*$/,"")+"?="+enc(n)}
+  function b64u(t){var s="";new TextEncoder().encode(t).forEach(function(c){s+=String.fromCharCode(c)});return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+  function gl(n){var u=$("gbase").value.trim().replace(/[?#].*$/,"");return $("gshort").checked?u+"?g="+b64u(n):u+"?="+enc(n)}
+  function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+  /* message where the link is hidden behind clickable text (rich text clipboard) */
+  function gmRich(n){
+    var t=$("gmsg").value.replace(/\{name\}/g,n).replace(/\{couple\}/g,CONFIG.groom+" & "+CONFIG.bride).trim(),
+        parts=t.indexOf("{link}")<0?[t+"\n",""]:t.split("{link}"),
+        txt=$("glt").value.trim()||"Open the invitation",url=gl(n);
+    return {html:"<div>"+parts.map(esc).join('<a href="'+esc(url)+'">'+esc(txt)+'</a>').replace(/\n/g,"<br>")+"</div>",plain:parts.join(url)}}
+  function copyRich(o,done){
+    try{if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+      navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([o.html],{type:"text/html"}),"text/plain":new Blob([o.plain],{type:"text/plain"})})]).then(done,function(){copyTxt(o.plain,done)});return}}catch(e){}
+    copyTxt(o.plain,done)}
   function gm(n,withLink){return $("gmsg").value.replace(/\{name\}/g,n).replace(/\{couple\}/g,CONFIG.groom+" & "+CONFIG.bride).replace(/\{link\}/g,withLink===false?"":gl(n)).trim()}
   function gnames(){return $("gnames").value.split("\n").map(function(x){return x.trim()}).filter(function(x,i,a){return x&&a.indexOf(x)===i})}
   function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e}
@@ -100,13 +115,14 @@ if(new URLSearchParams(location.search).has("setup")){
       var r=mk("div","gr"+(sent[n]?" sent":"")),mark=function(){sent[n]=1;r.classList.add("sent");try{localStorage.setItem("gsent",JSON.stringify(sent))}catch(e){}};
       r.appendChild(mk("b","",n));
       var cp=mk("button","btn alt sm","Copy link");cp.type="button";cp.onclick=function(){copyTxt(gm(n),function(){flash(cp,"✓ Copied");mark()})};r.appendChild(cp);
+      var cr=mk("button","btn alt sm","Copy clickable");cr.type="button";cr.onclick=function(){copyRich(gmRich(n),function(){flash(cr,"✓ Copied");mark()})};r.appendChild(cr);
       [["Telegram","https://t.me/share/url?url="+enc(gl(n))+"&text="+enc(gm(n,false).replace(/[៖:]\s*$/,""))],["WhatsApp","https://wa.me/?text="+enc(gm(n))],["SMS","sms:?&body="+enc(gm(n))]].forEach(function(x){
         var a=mk("a","btn sm",x[0]);a.href=x[1];a.target="_blank";a.rel="noopener";a.onclick=mark;r.appendChild(a)});
       L.appendChild(r)});
     if(!L.children.length)L.appendChild(mk("p","hint","Add names above, then press Make links."))}
   $("sGuests").onclick=function(){$("gp").hidden=false;gen()};
   $("gX").onclick=function(){$("gp").hidden=true};
-  $("gGen").onclick=gen;
+  $("gGen").onclick=gen;$("gshort").onchange=gen;$("glt").onchange=gen;
   $("gCsv").onclick=function(){var b=this;copyTxt("name,link\n"+gnames().map(function(n){return '"'+n.replace(/"/g,'""')+'",'+gl(n)}).join("\n"),function(){flash(b,"✓ Copied")})};
   $("gQr").onclick=function(){var q=$("gQrBox");q.innerHTML="";
     try{new QRCode(q,{text:$("gbase").value.trim(),width:200,height:200,colorDark:"#3a3010",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M})}catch(e){q.textContent="QR library not loaded (needs internet)"}

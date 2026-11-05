@@ -19,6 +19,15 @@ body{font-family:'Noto Sans Khmer','Battambang',sans-serif;line-height:1.6;overf
 body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 20%,#3b2d1018,transparent 58%),radial-gradient(ellipse at 50% 110%,#7a1f2b18,transparent 52%)}
 button,a{font:inherit}
 button{color:inherit}
+/* CENTER-PINCH WIPE UTILITY: shared by primary, tab, chip, sheet, and lightbox controls. */
+.wipe-fill{--wipe-ease:cubic-bezier(.4,0,.2,1);--wipe-duration:450ms;--wipe-fill:var(--gold);--wipe-base:#c9a63a14;--wipe-text-rest:#1a1405;--wipe-text-hover:#E9CF7A;position:relative;isolation:isolate;overflow:hidden;background:var(--wipe-base);color:var(--wipe-text-rest);transition:color var(--wipe-duration) var(--wipe-ease)}
+.wipe-fill:before{content:"";position:absolute;inset:0;z-index:-1;background:var(--wipe-fill);clip-path:inset(0 0 0 0 round 999px);transition:clip-path var(--wipe-duration) var(--wipe-ease)}
+.wipe-fill>*{position:relative;z-index:1}
+.wipe-fill--inverse{--wipe-text-rest:var(--gold);--wipe-text-hover:#1a1405}.wipe-fill--inverse:before{clip-path:inset(0 50% 0 50% round 999px)}
+@media (hover:hover){.wipe-fill:not([aria-pressed="true"]):not([aria-selected="true"]):hover{color:var(--wipe-text-hover)}.wipe-fill:not([aria-pressed="true"]):not([aria-selected="true"]):hover:before{clip-path:inset(0 50% 0 50% round 999px)}.wipe-fill--inverse:not([aria-pressed="true"]):not([aria-selected="true"]):hover{color:var(--wipe-text-hover)}.wipe-fill--inverse:not([aria-pressed="true"]):not([aria-selected="true"]):hover:before{clip-path:inset(0 0 0 0 round 999px)}}
+.wipe-fill:focus-visible{color:var(--wipe-text-hover);outline:2px solid var(--gold);outline-offset:2px}.wipe-fill:focus-visible:before{clip-path:inset(0 50% 0 50% round 999px)}.wipe-fill--inverse:focus-visible{color:var(--wipe-text-hover)}.wipe-fill--inverse:focus-visible:before{clip-path:inset(0 0 0 0 round 999px)}
+.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"]{background:var(--gold);color:var(--wipe-text-rest)}.wipe-fill[aria-pressed="true"]:before,.wipe-fill[aria-selected="true"]:before{clip-path:inset(0 0 0 0 round 999px)}.wipe-fill:active{filter:brightness(.92)}
+@media (prefers-reduced-motion:reduce){.wipe-fill,.wipe-fill:before{transition-duration:1ms}}
 .site-header{position:sticky;top:0;z-index:30;min-height:60px;padding:calc(8px + var(--safe-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:#14110Aee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
 .back-link{justify-self:start;display:inline-flex;align-items:center;min-height:44px;padding:7px 12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.78rem;white-space:nowrap}
 .back-link:hover,.back-link:focus-visible{border-color:var(--gold);color:var(--ivory)}
@@ -88,6 +97,8 @@ button{color:inherit}
 .lightbox-prev{left:0}.lightbox-next{right:0}
 .lightbox-bottom{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 .lightbox-bottom .lightbox-action{min-width:120px;color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:700}
+/* Keep the utility layer visible above each control's existing background rules. */
+.wipe-fill{background:var(--wipe-base)!important}.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"]{background:var(--gold)!important}
 @media (hover:none) and (pointer:coarse){.lightbox-nav{display:none}}
 @media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
 @media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
@@ -98,12 +109,12 @@ button{color:inherit}
 </head>
 <body>
 <header class="site-header">
-  <a class="back-link" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
+  <a class="back-link wipe-fill" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
   <p class="header-title">អាល់ប៊ុមរូបភាព</p>
   <div class="language-toggle" id="languageToggle" role="group" aria-label="Language / ភាសា">
-    <button type="button" data-language="both" aria-pressed="true">ខ្មែរ · EN</button>
-    <button type="button" data-language="km" aria-pressed="false">ខ្មែរ</button>
-    <button type="button" data-language="en" aria-pressed="false">EN</button>
+    <button class="wipe-fill wipe-fill--inverse" type="button" data-language="both" aria-pressed="true">ខ្មែរ · EN</button>
+    <button class="wipe-fill wipe-fill--inverse" type="button" data-language="km" aria-pressed="false">ខ្មែរ</button>
+    <button class="wipe-fill wipe-fill--inverse" type="button" data-language="en" aria-pressed="false">EN</button>
   </div>
 </header>
 
@@ -119,12 +130,12 @@ button{color:inherit}
   <section class="control-deck" aria-label="Album filters">
     <div class="segmented" id="sides" data-side="groom" role="group" aria-label="Choose album side">
       <span class="seg-indicator" aria-hidden="true"></span>
-      <button id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
-      <button id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
+      <button class="wipe-fill wipe-fill--inverse" id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
+      <button class="wipe-fill wipe-fill--inverse" id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
     </div>
     <div class="categories-wrap">
       <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
-      <button class="group-picker" id="groupPicker" type="button" aria-haspopup="dialog" aria-expanded="false">
+      <button class="group-picker wipe-fill" id="groupPicker" type="button" aria-haspopup="dialog" aria-expanded="false">
         <span>ជ្រើសរើសក្រុម · Choose group</span><strong id="pickerValue"></strong><span aria-hidden="true">⌄</span>
       </button>
     </div>
@@ -138,22 +149,22 @@ button{color:inherit}
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
   <div class="lightbox-top">
-    <button class="lightbox-action" id="closeLightbox" type="button" aria-label="បិទ · Close photo viewer">✕ <span>បិទ · Close</span></button>
+    <button class="lightbox-action wipe-fill" id="closeLightbox" type="button" aria-label="បិទ · Close photo viewer">✕ <span>បិទ · Close</span></button>
     <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
     <span class="lightbox-spacer" aria-hidden="true"></span>
   </div>
   <div class="lightbox-stage" id="lightboxStage">
-    <button class="lightbox-nav lightbox-prev" id="previousPhoto" type="button" aria-label="រូបមុន · Previous photo">‹</button>
+    <button class="lightbox-nav wipe-fill" id="previousPhoto" type="button" aria-label="រូបមុន · Previous photo">‹</button>
     <img class="lightbox-image" id="lightboxImage" alt="" draggable="false">
-    <button class="lightbox-nav lightbox-next" id="nextPhoto" type="button" aria-label="រូបបន្ទាប់ · Next photo">›</button>
+    <button class="lightbox-nav wipe-fill" id="nextPhoto" type="button" aria-label="រូបបន្ទាប់ · Next photo">›</button>
   </div>
-  <div class="lightbox-bottom"><a class="lightbox-action" id="downloadPhoto" download>⬇ រក្សាទុក · Save</a><button class="lightbox-action" id="sharePhoto" type="button">↗ ចែករំលែក · Share</button><button class="lightbox-action" id="zoomPhoto" type="button">＋ ពង្រីក · Zoom</button></div>
+  <div class="lightbox-bottom"><a class="lightbox-action wipe-fill" id="downloadPhoto" download>⬇ រក្សាទុក · Save</a><button class="lightbox-action wipe-fill" id="sharePhoto" type="button">↗ ចែករំលែក · Share</button><button class="lightbox-action wipe-fill" id="zoomPhoto" type="button">＋ ពង្រីក · Zoom</button></div>
 </div>
 
 <div class="sheet-backdrop" id="groupSheet" hidden>
   <section class="group-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
     <div class="sheet-handle" aria-hidden="true"></div>
-    <div class="sheet-heading"><h2 id="sheetTitle">ជ្រើសរើសក្រុម · Choose group</h2><button class="sheet-close" id="closeSheet" type="button" aria-label="បិទ · Close">✕</button></div>
+    <div class="sheet-heading"><h2 id="sheetTitle">ជ្រើសរើសក្រុម · Choose group</h2><button class="sheet-close wipe-fill" id="closeSheet" type="button" aria-label="បិទ · Close">✕</button></div>
     <div class="sheet-options" id="sheetOptions" role="listbox"></div>
   </section>
 </div>
@@ -199,9 +210,9 @@ const albums={
 
   function renderCategories(){
     const nav=$('categories');nav.innerHTML='';const available=availableGroups();
-    const all=document.createElement('button');all.className='category-chip';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span><small>'+available.reduce((total,group)=>total+listFor(group).length,0)+'</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
-    available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=chipMarkup(group);chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
-    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));option.innerHTML='<span class="sheet-km">'+(group?group.kh:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span><small>'+ (group?listFor(group).length:available.reduce((total,item)=>total+listFor(item).length,0))+'</small><span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
+    const all=document.createElement('button');all.className='category-chip wipe-fill wipe-fill--inverse';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span><small>'+available.reduce((total,group)=>total+listFor(group).length,0)+'</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
+    available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip wipe-fill wipe-fill--inverse';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=chipMarkup(group);chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
+    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option wipe-fill wipe-fill--inverse';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));option.innerHTML='<span class="sheet-km">'+(group?group.kh:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span><small>'+ (group?listFor(group).length:available.reduce((total,item)=>total+listFor(item).length,0))+'</small><span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
     $('pickerValue').textContent=displayName(category==='all'?null:available.find(group=>group.id===category));
     const active=nav.querySelector('[aria-pressed="true"]');if(active&&window.matchMedia('(max-width:700px)').matches)active.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
   }

@@ -50,6 +50,7 @@ button{color:inherit}
 .photo-grid{columns:2 160px;column-gap:10px}
 .photo-card{display:block;position:relative;width:100%;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:2px solid transparent;border-radius:14px;background:#211c11;cursor:pointer;text-align:left;opacity:0;transform:translateY(12px);transition:opacity .55s ease var(--delay),transform .55s ease var(--delay),border-color .25s ease,box-shadow .25s ease}
 .photo-card.is-ready{opacity:1;transform:none}
+/* PHOTO CARD WIPE CSS: paste these rules inside the page's STYLES section. */
 .photo-card:before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(90,20,32,.94),rgba(200,32,58,.88));transform:scaleX(0);transform-origin:right;transition:transform 550ms cubic-bezier(.77,0,.18,1)}
 .photo-caption{position:absolute;z-index:2;right:12px;bottom:12px;left:12px;display:flex;align-items:center;gap:10px;color:var(--ivory);opacity:0;transform:translateY(12px);transition:opacity 250ms ease 180ms,transform 250ms ease 180ms;pointer-events:none}
 .photo-caption .heart{display:grid;flex:0 0 36px;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--ivory);color:var(--wine);font-size:1.15rem;line-height:1}
@@ -208,6 +209,7 @@ const albums={
   function renderGrid(){
     const grid=$('photoGrid');grid.innerHTML='';photos=category==='all'?allPhotos():entriesFor(groups().find(group=>group.id===category));
     if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
+    /* PHOTO CARD TOUCH JS: paste this renderer block inside the page's SCRIPT section. */
     photos.forEach((entry,index)=>{const photo=entry.photo,group=entry.group,card=document.createElement('button');card.className='photo-card';card.type='button';card.tabIndex=0;card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');const image=document.createElement('img');image.src=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});const caption=document.createElement('span');caption.className='photo-caption';caption.innerHTML='<span class="heart" aria-hidden="true">♥</span><span><span class="caption-kh">'+group.kh+'</span><span class="caption-en">'+group.en+'</span></span>';card.appendChild(image);card.appendChild(caption);card.onclick=event=>{if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}openViewer(index)};grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))});
   }
 

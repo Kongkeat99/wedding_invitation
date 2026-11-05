@@ -36,6 +36,7 @@ var CONFIG = {
       {id:"university", km:"មិត្តចាស់សាកលវិទ្យាល័យ", en:"University Old Friend", folder:"assets/album/groom/university/", count:15, list:[]},
       {id:"high-school", km:"មិត្តចាស់វិទ្យាល័យ", en:"High School Old Friend", folder:"assets/album/groom/high-school/", count:15, list:[]},
       {id:"primary", km:"មិត្តចាស់បឋមសិក្សា", en:"Primary Old Friend", folder:"assets/album/groom/primary/", count:15, list:[]},
+      {id:"cgti", km:"មិត្តចាស់ CGTI", en:"Old Friend CGTI", folder:"assets/album/groom/cgti/", count:0, list:[]},
       {id:"family", km:"បងប្អូន និងញាតិសន្តាន", en:"Sibling & Cousin", folder:"assets/album/groom/family/", count:15, list:[]}
     ]},
     bride: { categories: [

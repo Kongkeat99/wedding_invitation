@@ -95,6 +95,10 @@ img.ph{object-fit:cover;width:100%;height:auto;border-style:solid;transition:tra
 img.ph:active{transform:scale(.97)}
 #lb{position:fixed;top:0;left:0;right:0;bottom:0;z-index:70;background:#000e;display:flex;align-items:center;justify-content:center}
 #lb img{max-width:92vw;max-height:84vh;border-radius:10px}
+#lb img.slide-left{animation:lbSlideLeft .25s ease-out}
+#lb img.slide-right{animation:lbSlideRight .25s ease-out}
+@keyframes lbSlideLeft{from{opacity:.35;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes lbSlideRight{from{opacity:.35;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
 #lb button{position:absolute;background:#0007;color:#fff;border:0;border-radius:50%;width:44px;height:44px;font-size:1.4rem;cursor:pointer}
 #lbp{left:10px}#lbn{right:10px}#lbx{top:calc(10px + env(safe-area-inset-top,0px));right:10px}
 #thm{position:fixed;right:14px;bottom:calc(68px + env(safe-area-inset-bottom,0px));z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);background:var(--card);color:var(--gold);font-size:1.1rem;box-shadow:0 4px 14px #0003;cursor:pointer}

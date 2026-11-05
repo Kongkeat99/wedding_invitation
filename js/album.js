@@ -16,10 +16,12 @@
   var sides={groom:A.groom||{},bride:A.bride||{}},preview=!hasPhotos(sides.groom)&&!hasPhotos(sides.bride);
   var grid=$("agrid"),lb=$("lb"),categoryBar=$("categories"),list=[],li=0,from=null,side="groom",category="all";
 
-  function show(i){
+  function show(i,direction){
     if(!list.length)return;
     li=(i+list.length)%list.length;
-    $("lbi").src=list[li];$("lbi").alt="Photo "+(li+1)+" of "+list.length;
+    var image=$("lbi");
+    if(direction){image.classList.remove("slide-left","slide-right");void image.offsetWidth;image.classList.add(direction<0?"slide-left":"slide-right")}
+    image.src=list[li];image.alt="Photo "+(li+1)+" of "+list.length;
     $("lbd").href=list[li];$("lbd").setAttribute("download",list[li].split("/").pop());
     if(lb.hidden){from=document.activeElement;lb.hidden=false;$("lbx").focus()}}
   function close(){lb.hidden=true;if(from&&from.focus)from.focus();from=null}
@@ -62,16 +64,16 @@
   var hash=location.hash.slice(1).split("/"),initialSide=hash[0]==="bride"?"bride":"groom",initialCategory=hash[1]||"all";
   pick(initialSide,initialCategory,true);
 
-  $("lbx").onclick=close;$("lbp").onclick=function(){show(li-1)};$("lbn").onclick=function(){show(li+1)};
+  $("lbx").onclick=close;$("lbp").onclick=function(){show(li-1,1)};$("lbn").onclick=function(){show(li+1,-1)};
   lb.onclick=function(e){if(e.target===lb)close()};
   var tx=0;
   lb.addEventListener("touchstart",function(e){tx=e.touches[0].clientX},{passive:true});
-  lb.addEventListener("touchend",function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(li+(d<0?1:-1))},{passive:true});
+  lb.addEventListener("touchend",function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(li+(d<0?1:-1),d<0?-1:1)},{passive:true});
   document.addEventListener("keydown",function(e){
     if(lb.hidden)return;
     if(e.key==="Escape")close();
-    if(e.key==="ArrowRight")show(li+1);
-    if(e.key==="ArrowLeft")show(li-1);
+    if(e.key==="ArrowRight")show(li+1,-1);
+    if(e.key==="ArrowLeft")show(li-1,1);
     if(e.key==="Tab"){var f=[$("lbx"),$("lbp"),$("lbn"),$("lbd")],k=f.indexOf(document.activeElement);
       e.preventDefault();f[(k+(e.shiftKey?f.length-1:1))%f.length].focus()}});
 })();

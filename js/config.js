@@ -27,14 +27,29 @@ var CONFIG = {
   guests: {                                    // short guest links: "code": "Name shown on the invitation"  ->  your-site/?g=code  (made by the ?setup guest-link tool)
   },
   // guest album page (album.html) - one album for the groom's guests and one for the bride's guests.
-  // For each side pick ONE way to fill it:
-  //   count: 40            -> uses <folder>1.jpg ... <folder>40.jpg
-  //   list: ["a.jpg", ...] -> exact file paths
-  // upload: optional shared Google Drive / Google Photos folder link so that side's guests can send photos.
-  // While both sides are empty the page shows the gallery photos as a preview.
+  // Photos use <folder>1.jpg ... <folder>count.jpg unless list is provided.
+  // While both sides are empty the page shows the invitation gallery as a preview.
   album: {
-    groom: { folder: "assets/album/groom/", count: 0, list: [], upload: "" },
-    bride: { folder: "assets/album/bride/", count: 0, list: [], upload: "" }
+    groom: { categories: [
+      {id:"trax-team", km:"ក្រុមការងារ Trax Apparel", en:"Trax Apparel Team", folder:"assets/album/groom/trax-team/", count:0, list:[]},
+      {id:"mv-team", km:"ក្រុមការងារ MV", en:"MV Team", folder:"assets/album/groom/mv-team/", count:0, list:[]},
+      {id:"king-success", km:"ក្រុមការងារ King Success", en:"King Success Team", folder:"assets/album/groom/king-success/", count:0, list:[]},
+      {id:"silver-age", km:"ក្រុមការងារ Silver Age", en:"Silver Age Team", folder:"assets/album/groom/silver-age/", count:0, list:[]},
+      {id:"university", km:"មិត្តចាស់សាកលវិទ្យាល័យ", en:"University Old Friend", folder:"assets/album/groom/university/", count:0, list:[]},
+      {id:"high-school", km:"មិត្តចាស់វិទ្យាល័យ", en:"High School Old Friend", folder:"assets/album/groom/high-school/", count:0, list:[]},
+      {id:"primary", km:"មិត្តចាស់បឋមសិក្សា", en:"Primary Old Friend", folder:"assets/album/groom/primary/", count:0, list:[]},
+      {id:"family", km:"បងប្អូន និងញាតិសន្តាន", en:"Sibling & Cousin", folder:"assets/album/groom/family/", count:0, list:[]}
+    ]},
+    bride: { categories: [
+      {id:"trax-team", km:"ក្រុមការងារ Trax Apparel", en:"Trax Apparel Team", folder:"assets/album/bride/trax-team/", count:0, list:[]},
+      {id:"mv-team", km:"ក្រុមការងារ MV", en:"MV Team", folder:"assets/album/bride/mv-team/", count:0, list:[]},
+      {id:"king-success", km:"ក្រុមការងារ King Success", en:"King Success Team", folder:"assets/album/bride/king-success/", count:0, list:[]},
+      {id:"silver-age", km:"ក្រុមការងារ Silver Age", en:"Silver Age Team", folder:"assets/album/bride/silver-age/", count:0, list:[]},
+      {id:"university", km:"មិត្តចាស់សាកលវិទ្យាល័យ", en:"University Old Friend", folder:"assets/album/bride/university/", count:0, list:[]},
+      {id:"high-school", km:"មិត្តចាស់វិទ្យាល័យ", en:"High School Old Friend", folder:"assets/album/bride/high-school/", count:0, list:[]},
+      {id:"primary", km:"មិត្តចាស់បឋមសិក្សា", en:"Primary Old Friend", folder:"assets/album/bride/primary/", count:0, list:[]},
+      {id:"family", km:"បងប្អូន និងញាតិសន្តាន", en:"Sibling & Cousin", folder:"assets/album/bride/family/", count:0, list:[]}
+    ]}
   },
   photos: [                                    // upload files to assets/photos/ with exactly these names (any count; remove lines you do not use)
     "assets/photos/p1.jpg",

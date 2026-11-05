@@ -26,12 +26,16 @@ var CONFIG = {
   },
   guests: {                                    // short guest links: "code": "Name shown on the invitation"  ->  your-site/?g=code  (made by the ?setup guest-link tool)
   },
-  // guest album page (album.html). Pick ONE way to fill it:
-  //  1) albumCount: 40  -> uses assets/album/1.jpg ... 40.jpg   2) album: ["assets/album/a.jpg", ...]   3) leave both empty -> shows the gallery photos
-  albumFolder: "assets/album/",
-  albumCount: 0,
-  album: [],
-  albumUpload: "",                             // optional: a shared Google Drive / Google Photos folder link so guests can send you their photos
+  // guest album page (album.html) - one album for the groom's guests and one for the bride's guests.
+  // For each side pick ONE way to fill it:
+  //   count: 40            -> uses <folder>1.jpg ... <folder>40.jpg
+  //   list: ["a.jpg", ...] -> exact file paths
+  // upload: optional shared Google Drive / Google Photos folder link so that side's guests can send photos.
+  // While both sides are empty the page shows the gallery photos as a preview.
+  album: {
+    groom: { folder: "assets/album/groom/", count: 0, list: [], upload: "" },
+    bride: { folder: "assets/album/bride/", count: 0, list: [], upload: "" }
+  },
   photos: [                                    // upload files to assets/photos/ with exactly these names (any count; remove lines you do not use)
     "assets/photos/p1.jpg",
     "assets/photos/p2.jpg",

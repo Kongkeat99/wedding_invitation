@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Moul&amp;family=Noto+Sans+Khmer:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<!-- STYLES -->
 <style>
 :root{--ink:#14110A;--gold:#C9A63A;--ivory:#F3EBD8;--wine:#7A1F2B;--muted:#b9ae98;--line:#c9a63a55;--card:#211c11;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;color-scheme:dark}
 *,*:before,*:after{box-sizing:inherit}
@@ -47,10 +48,14 @@ button{color:inherit}
 .gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px;color:var(--muted);font-size:.78rem}
 .gallery-meta strong{color:var(--ivory);font-weight:500}
 .photo-grid{columns:2 160px;column-gap:10px}
-.photo-card{display:block;width:100%;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:1px solid transparent;border-radius:14px;background:#211c11;cursor:pointer;text-align:left;opacity:0;transform:translateY(12px);transition:opacity .55s ease var(--delay),transform .55s ease var(--delay),border-color .25s ease}
+.photo-card{display:block;position:relative;width:100%;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:2px solid transparent;border-radius:14px;background:#211c11;cursor:pointer;text-align:left;opacity:0;transform:translateY(12px);transition:opacity .55s ease var(--delay),transform .55s ease var(--delay),border-color .25s ease,box-shadow .25s ease}
 .photo-card.is-ready{opacity:1;transform:none}
-.photo-card:hover,.photo-card:focus-visible{border-color:var(--gold)}
-.photo-card img{display:block;width:100%;height:auto;min-height:80px;background:linear-gradient(110deg,#211c11 8%,#332a18 18%,#211c11 33%);background-size:200% 100%;animation:shimmer 1.5s linear infinite;filter:blur(14px);opacity:.65;transition:filter .55s ease,opacity .55s ease}
+.photo-card:before{content:"";position:absolute;z-index:1;inset:auto 0 0;height:42%;pointer-events:none;background:linear-gradient(0deg,#5A1420c7,transparent);opacity:0;transition:opacity .25s ease}
+.photo-card:after{content:"⌕";position:absolute;z-index:2;right:10px;bottom:8px;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;background:#14110acc;color:var(--gold);font:700 1.2rem/1 Georgia,serif;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}
+.photo-card:hover,.photo-card:focus-visible{border-color:var(--gold);box-shadow:0 0 24px #c9a63a59;transform:translateY(-4px)}
+.photo-card:hover:before,.photo-card:focus-visible:before,.photo-card:hover:after,.photo-card:focus-visible:after{opacity:1;transform:none}
+.photo-card img{display:block;width:100%;height:auto;min-height:80px;background:linear-gradient(110deg,#211c11 8%,#332a18 18%,#211c11 33%);background-size:200% 100%;animation:shimmer 1.5s linear infinite;filter:blur(14px) saturate(.9);opacity:.65;transition:filter .55s ease,opacity .55s ease,transform .25s ease}
+.photo-card:hover img,.photo-card:focus-visible img{filter:blur(0) saturate(1.08);transform:scale(1.04)}
 .photo-card img.is-loaded{filter:blur(0);opacity:1;animation:none}
 @keyframes shimmer{to{background-position:-200% 0}}
 .empty-state{margin:44px auto;text-align:center;color:var(--muted);font-size:.85rem}
@@ -82,7 +87,7 @@ button{color:inherit}
 @media (hover:none) and (pointer:coarse){.lightbox-nav{display:none}}
 @media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
 @media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
-@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.photo-card:hover,.photo-card:focus-visible{transform:none}.photo-card:hover img,.photo-card:focus-visible img{transform:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
 @media (max-width:639px){.categories{display:none}.group-picker{display:flex}.control-deck{top:calc(60px + var(--safe-top))}}
 @media (max-width:400px){.back-link{padding-left:9px;padding-right:9px;font-size:.7rem}.header-title{font-size:.85rem}.language-toggle button{padding-left:6px;padding-right:6px;font-size:.58rem}.control-deck{top:calc(56px + var(--safe-top))}}
 </style>
@@ -150,49 +155,48 @@ button{color:inherit}
 </div>
 
 <script>
-const CONFIG={
-  couple:{groom:'Soem Kungkiet',bride:'Chham Chanthu'},
-  album:{
-    groom:{categories:[
-      {id:'trax-team',km:'ក្រុមការងារ Trax Apparel',en:'Trax Apparel Team',folder:'assets/album/groom/trax-team/',count:15,list:[]},
-      {id:'silver-age',km:'ក្រុមការងារ Silver Age',en:'Silver Age Team',folder:'assets/album/groom/silver-age/',count:15,list:[]},
-      {id:'university',km:'មិត្តចាស់សាកលវិទ្យាល័យ',en:'University Old Friend',folder:'assets/album/groom/university/',count:15,list:[]},
-      {id:'high-school',km:'មិត្តចាស់វិទ្យាល័យ',en:'High School Old Friend',folder:'assets/album/groom/high-school/',count:15,list:[]},
-      {id:'primary',km:'មិត្តចាស់បឋមសិក្សា',en:'Primary Old Friend',folder:'assets/album/groom/primary/',count:15,list:[]},
-      {id:'cgti',km:'មិត្តចាស់ CGTI',en:'Old Friend CGTI',folder:'assets/album/groom/cgti/',count:15,list:[]},
-      {id:'family',km:'បងប្អូន និងញាតិសន្តាន',en:'Sibling & Cousin',folder:'assets/album/groom/family/',count:15,list:[]}
-    ]},
-    bride:{categories:[
-      {id:'mv-team',km:'ក្រុមការងារ MV',en:'MV Team',folder:'assets/album/bride/mv-team/',count:15,list:[]},
-      {id:'king-success',km:'ក្រុមការងារ King Success',en:'King Success Team',folder:'assets/album/bride/king-success/',count:15,list:[]},
-      {id:'university',km:'មិត្តចាស់សាកលវិទ្យាល័យ',en:'University Old Friend',folder:'assets/album/bride/university/',count:15,list:[]},
-      {id:'high-school',km:'មិត្តចាស់វិទ្យាល័យ',en:'High School Old Friend',folder:'assets/album/bride/high-school/',count:15,list:[]},
-      {id:'primary',km:'មិត្តចាស់បឋមសិក្សា',en:'Primary Old Friend',folder:'assets/album/bride/primary/',count:15,list:[]},
-      {id:'family',km:'បងប្អូន និងញាតិសន្តាន',en:'Sibling & Cousin',folder:'assets/album/bride/family/',count:15,list:[]}
-    ]}
-  },
-  photos:['assets/photos/p1.jpg','assets/photos/p2.jpg','assets/photos/p3.jpg','assets/photos/p4.jpg','assets/photos/p5.jpg','assets/photos/p6.jpg','assets/photos/p7.jpg','assets/photos/p8.jpg','assets/photos/p9.jpg','assets/photos/p10.jpg','assets/photos/p11.jpg','assets/photos/p12.jpg','assets/photos/p13.jpg','assets/photos/p14.jpg','assets/photos/p15.jpg']
+/* DATA: one bilingual source of truth for both album sides. */
+const makePhotos=(folder,kh,en)=>Array.from({length:15},(_,index)=>{const number=index+1;return{src:folder+number+'.jpg',thumb:folder+number+'.jpg',w:720,h:960,alt:kh+' · '+en+' · រូបភាព '+number+' · Photo '+number}});
+const albums={
+  groom:{label:['ខាងកូនកំលោះ','Groom'],groups:[
+    {id:'trax-team',kh:'ក្រុមការងារ Trax Apparel',en:'Trax Apparel Team',photos:makePhotos('assets/album/groom/trax-team/','ក្រុមការងារ Trax Apparel','Trax Apparel Team')},
+    {id:'silver-age',kh:'ក្រុមការងារ Silver Age',en:'Silver Age Team',photos:makePhotos('assets/album/groom/silver-age/','ក្រុមការងារ Silver Age','Silver Age Team')},
+    {id:'university',kh:'មិត្តចាស់សាកលវិទ្យាល័យ',en:'University Old Friend',photos:makePhotos('assets/album/groom/university/','មិត្តចាស់សាកលវិទ្យាល័យ','University Old Friend')},
+    {id:'high-school',kh:'មិត្តចាស់វិទ្យាល័យ',en:'High School Old Friend',photos:makePhotos('assets/album/groom/high-school/','មិត្តចាស់វិទ្យាល័យ','High School Old Friend')},
+    {id:'primary',kh:'មិត្តចាស់បឋមសិក្សា',en:'Primary Old Friend',photos:makePhotos('assets/album/groom/primary/','មិត្តចាស់បឋមសិក្សា','Primary Old Friend')},
+    {id:'cgti',kh:'មិត្តចាស់ CGTI',en:'Old Friend CGTI',photos:makePhotos('assets/album/groom/cgti/','មិត្តចាស់ CGTI','Old Friend CGTI')},
+    {id:'family',kh:'បងប្អូន និងញាតិសន្ដាន',en:'Sibling & Cousin',photos:makePhotos('assets/album/groom/family/','បងប្អូន និងញាតិសន្ដាន','Sibling & Cousin')}
+  ]},
+  bride:{label:['ខាងកូនក្រមុំ','Bride'],groups:[
+    {id:'mv-team',kh:'ក្រុមការងារ MV',en:'MV Team',photos:makePhotos('assets/album/bride/mv-team/','ក្រុមការងារ MV','MV Team')},
+    {id:'king-success',kh:'ក្រុមការងារ King Success',en:'King Success Team',photos:makePhotos('assets/album/bride/king-success/','ក្រុមការងារ King Success','King Success Team')},
+    {id:'university',kh:'មិត្តចាស់សាកលវិទ្យាល័យ',en:'University Old Friend',photos:makePhotos('assets/album/bride/university/','មិត្តចាស់សាកលវិទ្យាល័យ','University Old Friend')},
+    {id:'high-school',kh:'មិត្តចាស់វិទ្យាល័យ',en:'High School Old Friend',photos:makePhotos('assets/album/bride/high-school/','មិត្តចាស់វិទ្យាល័យ','High School Old Friend')},
+    {id:'primary',kh:'មិត្តចាស់បឋមសិក្សា',en:'Primary Old Friend',photos:makePhotos('assets/album/bride/primary/','មិត្តចាស់បឋមសិក្សា','Primary Old Friend')},
+    {id:'family',kh:'បងប្អូន និងញាតិសន្ដាន',en:'Sibling & Cousin',photos:makePhotos('assets/album/bride/family/','បងប្អូន និងញាតិសន្ដាន','Sibling & Cousin')}
+  ]}
 };
 
+/* SCRIPT */
 (() => {
   const $=id=>document.getElementById(id);
   const sideButtons=[$('tGroom'),$('tBride')];
   let side='groom',category='all',photos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false,uiLanguage='both',sheetFocus=null,sheetStartY=0;
   const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const listFor=group=>group.list&&group.list.length?group.list:Array.from({length:group.count||0},(_,i)=>(group.folder||'')+(i+1)+'.jpg');
-  const groups=()=>CONFIG.album[side].categories||[];
-  const availableGroups=()=>groups().filter(group=>group.count||group.list&&group.list.length);
+  const listFor=group=>group?group.photos||[]:[];
+  const groups=()=>albums[side].groups||[];
+  const availableGroups=()=>groups().filter(group=>group.photos&&group.photos.length);
   const allPhotos=()=>availableGroups().flatMap(listFor);
   const setHash=()=>history.replaceState(null,'',location.pathname+location.search+'#'+side+(category==='all'?'':'/'+category));
-  const displayName=group=>{if(!group)return uiLanguage==='km'?'ទាំងអស់':uiLanguage==='en'?'All':'ទាំងអស់ · All';return uiLanguage==='km'?group.km:uiLanguage==='en'?group.en:group.km+' · '+group.en};
-  const chipMarkup=group=>'<span class="category-km">'+(uiLanguage==='en'?group.en:group.km)+'</span><span class="category-en">'+(uiLanguage==='km'?'':uiLanguage==='en'?'':group.en)+'</span><small>'+listFor(group).length+'</small>';
+  const displayName=group=>{if(!group)return uiLanguage==='km'?'ទាំងអស់':uiLanguage==='en'?'All':'ទាំងអស់ · All';return uiLanguage==='km'?group.kh:uiLanguage==='en'?group.en:group.kh+' · '+group.en};
+  const chipMarkup=group=>'<span class="category-km">'+(uiLanguage==='en'?group.en:group.kh)+'</span><span class="category-en">'+(uiLanguage==='km'?'':uiLanguage==='en'?'':group.en)+'</span><small>'+listFor(group).length+'</small>';
 
   function renderCategories(){
     const nav=$('categories');nav.innerHTML='';const available=availableGroups();
     const all=document.createElement('button');all.className='category-chip';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span><small>'+available.reduce((total,group)=>total+listFor(group).length,0)+'</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
     available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=chipMarkup(group);chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
-    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));option.innerHTML='<span class="sheet-km">'+(group?group.km:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span><small>'+ (group?listFor(group).length:available.reduce((total,item)=>total+listFor(item).length,0))+'</small><span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
+    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));option.innerHTML='<span class="sheet-km">'+(group?group.kh:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span><small>'+ (group?listFor(group).length:available.reduce((total,item)=>total+listFor(item).length,0))+'</small><span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
     $('pickerValue').textContent=displayName(category==='all'?null:available.find(group=>group.id===category));
     const active=nav.querySelector('[aria-pressed="true"]');if(active&&window.matchMedia('(max-width:700px)').matches)active.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
   }
@@ -200,7 +204,7 @@ const CONFIG={
   function renderGrid(){
     const grid=$('photoGrid');grid.innerHTML='';photos=category==='all'?allPhotos():listFor(groups().find(group=>group.id===category));
     if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
-    photos.forEach((src,index)=>{const card=document.createElement('button');card.className='photo-card';card.type='button';card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');const image=document.createElement('img');image.src=src;image.alt=(side==='groom'?'Groom':'Bride')+' guest photo '+(index+1);image.width=720;image.height=960;image.loading='lazy';image.decoding='async';image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});card.appendChild(image);card.onclick=()=>openViewer(index);grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))});
+    photos.forEach((photo,index)=>{const card=document.createElement('button');card.className='photo-card';card.type='button';card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');const image=document.createElement('img');image.src=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});card.appendChild(image);card.onclick=()=>openViewer(index);grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))});
   }
 
   function render(){
@@ -214,8 +218,8 @@ const CONFIG={
   function selectSide(next){side=next;category='all';closeSheet();closeViewer();setHash();render()}
   function selectCategory(next){category=next;closeSheet();closeViewer();setHash();render()}
   function applyTransform(){$('lightboxImage').style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
-  function preload(index){if(!photos.length)return;const image=new Image();image.src=photos[(index+photos.length)%photos.length]}
-  function showViewer(index,direction){if(!photos.length)return;viewerIndex=(index+photos.length)%photos.length;const image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photos[viewerIndex];if(image.complete)image.classList.add('is-loaded');image.alt=(side==='groom'?'Groom':'Bride')+' guest photo '+(viewerIndex+1);$('lightboxCounter').textContent=(viewerIndex+1)+' / '+photos.length;$('downloadPhoto').href=photos[viewerIndex];$('downloadPhoto').download=photos[viewerIndex].split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
+  function preload(index){if(!photos.length)return;const image=new Image();image.src=photos[(index+photos.length)%photos.length].src}
+  function showViewer(index,direction){if(!photos.length)return;viewerIndex=(index+photos.length)%photos.length;const photo=photos[viewerIndex],image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photo.src;if(image.complete)image.classList.add('is-loaded');image.alt=photo.alt;$('lightboxCounter').textContent=(viewerIndex+1)+' / '+photos.length;$('downloadPhoto').href=photo.src;$('downloadPhoto').download=photo.src.split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
   function rubberBand(direction){const stage=$('lightboxStage');stage.classList.remove('rubber-left','rubber-right');void stage.offsetWidth;stage.classList.add(direction<0?'rubber-left':'rubber-right')}
   function navigate(direction){if(zoom>1){rubberBand(direction);return}const next=viewerIndex+direction;if(next<0||next>=photos.length){rubberBand(direction);return}showViewer(next,direction<0?-1:1)}
   function animateFromThumbnail(){if(reduceMotion||!viewerFrom)return;const image=$('lightboxImage'),origin=viewerFrom.getBoundingClientRect(),target=image.getBoundingClientRect();if(!target.width||!target.height)return;image.style.setProperty('--flip-x',origin.left+origin.width/2-(target.left+target.width/2)+'px');image.style.setProperty('--flip-y',origin.top+origin.height/2-(target.top+target.height/2)+'px');image.style.setProperty('--flip-sx',Math.max(.05,origin.width/target.width));image.style.setProperty('--flip-sy',Math.max(.05,origin.height/target.height));image.classList.remove('flip-in');void image.offsetWidth;image.classList.add('flip-in')}
@@ -223,7 +227,7 @@ const CONFIG={
   function closeViewer(){if($('lightbox').hidden)return;$('lightbox').classList.remove('is-open');$('lightbox').hidden=true;document.body.style.overflow='';zoom=1;panX=0;panY=0;if(viewerFrom&&viewerFrom.focus)viewerFrom.focus();viewerFrom=null}
   function distance(touches){return Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)}
   function changeZoom(next){zoom=Math.max(1,Math.min(3,next));if(zoom===1){panX=0;panY=0}applyTransform()}
-  async function sharePhoto(){const url=new URL(photos[viewerIndex],location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
+  async function sharePhoto(){const url=new URL(photos[viewerIndex].src,location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
 
   sideButtons.forEach(button=>button.onclick=()=>selectSide(button.dataset.side));
   $('groupPicker').onclick=openSheet;$('closeSheet').onclick=closeSheet;$('groupSheet').onclick=event=>{if(event.target===$('groupSheet'))closeSheet()};
@@ -238,7 +242,8 @@ const CONFIG={
   $('lightboxImage').addEventListener('touchend',event=>{if(pinching){if(event.touches.length<2)pinching=false;return}const dx=event.changedTouches[0].clientX-swipeX,dy=event.changedTouches[0].clientY-swipeY;dragging=false;if(zoom>1)return;if(dy>80&&Math.abs(dy)>Math.abs(dx)){closeViewer();return}if(Math.abs(dx)>45)navigate(dx<0?1:-1)},{passive:true});
   $('lightboxImage').ondblclick=()=>changeZoom(zoom===1?2:1);
   document.addEventListener('keydown',event=>{if(!$('groupSheet').hidden){if(event.key==='Escape'){event.preventDefault();closeSheet();return}if(event.key==='Tab'){const focusable=[$('closeSheet'),...$('sheetOptions').querySelectorAll('button')],current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}return}if($('lightbox').hidden)return;if(event.key==='Escape'){event.preventDefault();closeViewer();return}if(event.key==='ArrowRight'){event.preventDefault();navigate(1)}if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1)}if(event.key==='Tab'){const focusable=[$('closeLightbox'),$('previousPhoto'),$('nextPhoto'),$('downloadPhoto'),$('sharePhoto'),$('zoomPhoto')].filter(element=>getComputedStyle(element).display!=='none'),current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}});
-  const hash=location.hash.slice(1).split('/');side=hash[0]==='bride'?'bride':'groom';category=hash[1]||'all';render();if(category!==hash[1]&&hash[1])setHash();
+  function readHash(){const hash=location.hash.slice(1).split('/'),requested=hash[1]||'all';side=hash[0]==='bride'?'bride':'groom';category=requested;render();if(requested!==category)setHash()}
+  readHash();window.addEventListener('hashchange',()=>{closeViewer();readHash()});
 })();
 </script>
 </body>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="km">
 <head>
 <meta charset="utf-8">
@@ -23,7 +22,7 @@ button{color:inherit}
 .back-link{justify-self:start;display:inline-flex;align-items:center;min-height:44px;padding:7px 12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.78rem;white-space:nowrap}
 .back-link:hover,.back-link:focus-visible{border-color:var(--gold);color:var(--ivory)}
 .header-title{grid-column:2;margin:0;color:var(--gold);font:400 1rem/1.3 'Moul','Noto Sans Khmer',sans-serif;text-align:center;white-space:nowrap}
-.header-mark{justify-self:end;width:24px;height:24px;border:1px solid var(--wine);border-radius:50%;opacity:.8}
+.language-toggle{justify-self:end;display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:999px;background:#1e180d}.language-toggle button{min-height:32px;padding:4px 8px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:.65rem;cursor:pointer}.language-toggle button[aria-pressed="true"]{background:var(--gold);color:var(--ink);font-weight:700}.language-toggle button:focus-visible,.sheet-close:focus-visible,.group-picker:focus-visible,.sheet-option:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .page{width:min(1100px,100%);margin:0 auto;padding:30px 16px calc(58px + var(--safe-bottom))}
 .hero{text-align:center;padding:18px 0 28px}
 .hero-kicker{margin:0;color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
@@ -37,16 +36,14 @@ button{color:inherit}
 .segmented[data-side="bride"] .seg-indicator{transform:translateX(100%)}
 .segmented button{min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--gold);font-size:.78rem;cursor:pointer;transition:color .25s ease}
 .segmented button[aria-pressed="true"]{color:var(--ink);font-weight:700}
-.categories-wrap{position:relative;max-width:100%;overflow:hidden}
-.categories-wrap:after,.categories-wrap:before{content:"";position:absolute;z-index:2;top:0;bottom:0;width:30px;pointer-events:none}
-.categories-wrap:before{left:0;background:linear-gradient(90deg,#14110A,transparent)}
-.categories-wrap:after{right:0;background:linear-gradient(270deg,#14110A,transparent)}
-.categories{display:flex;gap:8px;overflow-x:auto;padding:2px 28px 4px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.categories::-webkit-scrollbar{display:none}
-.category-chip{flex:0 0 auto;min-height:44px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--gold);cursor:pointer;scroll-snap-align:center;white-space:nowrap;font-size:.75rem;line-height:1.55;transition:background .25s ease,border-color .25s ease,color .25s ease,transform .25s ease}
-.category-chip:hover,.category-chip:focus-visible{border-color:var(--gold);transform:translateY(-1px)}
-.category-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:700}
-.category-chip small{font-family:'Cormorant Garamond',Georgia,serif;font-size:.95rem}
+.categories-wrap{max-width:900px;margin:0 auto;overflow:hidden}
+.categories{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;max-height:116px;overflow:hidden;padding:0}
+.category-chip{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"kh count" "en count";align-items:center;column-gap:12px;flex:0 1 auto;min-width:145px;min-height:48px;padding:10px 16px;border:1px solid #c9a63a59;border-radius:14px;background:transparent;color:var(--ivory);cursor:pointer;text-align:left;transition:background .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease}
+.category-km{grid-area:kh;font:500 15px/1.35 'Noto Sans Khmer','Battambang',sans-serif;white-space:nowrap}.category-en{grid-area:en;color:var(--ivory);font:500 11px/1.2 'Cormorant Garamond','Noto Sans Khmer',serif;opacity:.6;white-space:nowrap}.category-chip small{grid-area:count;align-self:center;padding:2px 7px;border-radius:999px;background:#c9a63a2b;color:var(--gold);font:600 .85rem/1.3 'Cormorant Garamond',Georgia,serif}
+.category-chip:hover,.category-chip:focus-visible{border-color:#c9a63ab3;transform:translateY(-1px)}
+.category-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink);box-shadow:0 0 20px #c9a63a35}.category-chip[aria-pressed="true"] .category-en{color:var(--ink);opacity:.7}.category-chip[aria-pressed="true"] small{background:#14110a33;color:var(--ink)}
+.group-picker{display:none;width:100%;min-height:48px;padding:10px 14px;border:1px solid #c9a63a59;border-radius:14px;background:var(--card);color:var(--ivory);text-align:left;align-items:center;justify-content:space-between;gap:10px;cursor:pointer}.group-picker strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--gold);font-size:.8rem;font-weight:500}.group-picker span:last-child{color:var(--gold);font-size:1.2rem}
+.sheet-backdrop{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;background:#0009;opacity:0;transition:opacity .2s ease}.sheet-backdrop.is-open{opacity:1}.sheet-backdrop[hidden]{display:none}.group-sheet{width:100%;max-height:min(80dvh,640px);padding:10px 16px calc(16px + var(--safe-bottom));border-top:1px solid var(--line);border-radius:20px 20px 0 0;background:#211c11;transform:translateY(100%);transition:transform .25s ease}.sheet-backdrop.is-open .group-sheet{transform:none}.sheet-handle{width:42px;height:4px;margin:0 auto 12px;border-radius:999px;background:var(--gold)}.sheet-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:10px}.sheet-heading h2{margin:0;color:var(--ivory);font:500 1rem/1.4 'Noto Sans Khmer','Battambang',sans-serif}.sheet-close{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--gold);cursor:pointer}.sheet-options{overflow:auto;padding-top:6px}.sheet-option{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;width:100%;min-height:48px;padding:8px 4px;border:0;border-bottom:1px solid #c9a63a26;background:transparent;color:var(--ivory);text-align:left;cursor:pointer}.sheet-option .sheet-km{font-size:.9rem}.sheet-option .sheet-en{color:var(--muted);font:500 .9rem 'Cormorant Garamond','Noto Sans Khmer',serif}.sheet-option small{color:var(--gold);font:600 .95rem 'Cormorant Garamond',Georgia,serif}.sheet-option .check{width:22px;color:var(--gold);font-size:1.1rem;opacity:0}.sheet-option[aria-selected="true"] .check{opacity:1}
 .gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px;color:var(--muted);font-size:.78rem}
 .gallery-meta strong{color:var(--ivory);font-weight:500}
 .photo-grid{columns:2 160px;column-gap:10px}
@@ -86,14 +83,19 @@ button{color:inherit}
 @media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
 @media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
-@media (max-width:400px){.back-link{padding-left:9px;padding-right:9px;font-size:.7rem}.header-mark{display:none}.header-title{font-size:.85rem}.control-deck{top:calc(56px + var(--safe-top))}}
+@media (max-width:639px){.categories{display:none}.group-picker{display:flex}.control-deck{top:calc(60px + var(--safe-top))}}
+@media (max-width:400px){.back-link{padding-left:9px;padding-right:9px;font-size:.7rem}.header-title{font-size:.85rem}.language-toggle button{padding-left:6px;padding-right:6px;font-size:.58rem}.control-deck{top:calc(56px + var(--safe-top))}}
 </style>
 </head>
 <body>
 <header class="site-header">
   <a class="back-link" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
   <p class="header-title">អាល់ប៊ុមរូបភាព</p>
-  <span class="header-mark" aria-hidden="true"></span>
+  <div class="language-toggle" id="languageToggle" role="group" aria-label="Language / ភាសា">
+    <button type="button" data-language="both" aria-pressed="true">ខ្មែរ · EN</button>
+    <button type="button" data-language="km" aria-pressed="false">ខ្មែរ</button>
+    <button type="button" data-language="en" aria-pressed="false">EN</button>
+  </div>
 </header>
 
 <main class="page">
@@ -113,6 +115,9 @@ button{color:inherit}
     </div>
     <div class="categories-wrap">
       <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
+      <button class="group-picker" id="groupPicker" type="button" aria-haspopup="dialog" aria-expanded="false">
+        <span>ជ្រើសរើសក្រុម · Choose group</span><strong id="pickerValue"></strong><span aria-hidden="true">⌄</span>
+      </button>
     </div>
   </section>
 
@@ -134,6 +139,14 @@ button{color:inherit}
     <button class="lightbox-nav lightbox-next" id="nextPhoto" type="button" aria-label="រូបបន្ទាប់ · Next photo">›</button>
   </div>
   <div class="lightbox-bottom"><a class="lightbox-action" id="downloadPhoto" download>⬇ រក្សាទុក · Save</a><button class="lightbox-action" id="sharePhoto" type="button">↗ ចែករំលែក · Share</button><button class="lightbox-action" id="zoomPhoto" type="button">＋ ពង្រីក · Zoom</button></div>
+</div>
+
+<div class="sheet-backdrop" id="groupSheet" hidden>
+  <section class="group-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="sheet-heading"><h2 id="sheetTitle">ជ្រើសរើសក្រុម · Choose group</h2><button class="sheet-close" id="closeSheet" type="button" aria-label="បិទ · Close">✕</button></div>
+    <div class="sheet-options" id="sheetOptions" role="listbox"></div>
+  </section>
 </div>
 
 <script>
@@ -164,7 +177,7 @@ const CONFIG={
 (() => {
   const $=id=>document.getElementById(id);
   const sideButtons=[$('tGroom'),$('tBride')];
-  let side='groom',category='all',photos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false;
+  let side='groom',category='all',photos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false,uiLanguage='both',sheetFocus=null,sheetStartY=0;
   const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const listFor=group=>group.list&&group.list.length?group.list:Array.from({length:group.count||0},(_,i)=>(group.folder||'')+(i+1)+'.jpg');
@@ -172,12 +185,15 @@ const CONFIG={
   const availableGroups=()=>groups().filter(group=>group.count||group.list&&group.list.length);
   const allPhotos=()=>availableGroups().flatMap(listFor);
   const setHash=()=>history.replaceState(null,'',location.pathname+location.search+'#'+side+(category==='all'?'':'/'+category));
-  const label=group=>group?group.en:'All';
+  const displayName=group=>{if(!group)return uiLanguage==='km'?'ទាំងអស់':uiLanguage==='en'?'All':'ទាំងអស់ · All';return uiLanguage==='km'?group.km:uiLanguage==='en'?group.en:group.km+' · '+group.en};
+  const chipMarkup=group=>'<span class="category-km">'+(uiLanguage==='en'?group.en:group.km)+'</span><span class="category-en">'+(uiLanguage==='km'?'':uiLanguage==='en'?'':group.en)+'</span><small>'+listFor(group).length+'</small>';
 
   function renderCategories(){
     const nav=$('categories');nav.innerHTML='';const available=availableGroups();
-    const all=document.createElement('button');all.className='category-chip';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='ទាំងអស់ · All <small>('+available.reduce((total,group)=>total+listFor(group).length,0)+')</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
-    available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=group.km+' · '+group.en+' <small>('+listFor(group).length+')</small>';chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
+    const all=document.createElement('button');all.className='category-chip';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span><small>'+available.reduce((total,group)=>total+listFor(group).length,0)+'</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
+    available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=chipMarkup(group);chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
+    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));option.innerHTML='<span class="sheet-km">'+(group?group.km:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span><small>'+ (group?listFor(group).length:available.reduce((total,item)=>total+listFor(item).length,0))+'</small><span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
+    $('pickerValue').textContent=displayName(category==='all'?null:available.find(group=>group.id===category));
     const active=nav.querySelector('[aria-pressed="true"]');if(active&&window.matchMedia('(max-width:700px)').matches)active.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
   }
 
@@ -190,11 +206,13 @@ const CONFIG={
   function render(){
     const valid=category==='all'||groups().some(group=>group.id===category&&listFor(group).length);if(!valid)category='all';
     $('sides').dataset.side=side;sideButtons.forEach(button=>button.setAttribute('aria-pressed',button.dataset.side===side));
-    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length;const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent='រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+(current?current.km+' · '+current.en:'ទាំងអស់ · All');$('galleryCount').textContent=count+' photos';
+    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length;const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent='រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=count+' photos';
   }
 
-  function selectSide(next){side=next;category='all';closeViewer();setHash();render()}
-  function selectCategory(next){category=next;closeViewer();setHash();render()}
+  function openSheet(){sheetFocus=document.activeElement;$('groupPicker').setAttribute('aria-expanded','true');$('groupSheet').hidden=false;requestAnimationFrame(()=>{$('groupSheet').classList.add('is-open');const selected=$('sheetOptions').querySelector('[aria-selected="true"]');if(selected)selected.focus()})}
+  function closeSheet(){if($('groupSheet').hidden)return;$('groupSheet').classList.remove('is-open');$('groupSheet').hidden=true;$('groupPicker').setAttribute('aria-expanded','false');if(sheetFocus&&sheetFocus.focus)sheetFocus.focus();sheetFocus=null}
+  function selectSide(next){side=next;category='all';closeSheet();closeViewer();setHash();render()}
+  function selectCategory(next){category=next;closeSheet();closeViewer();setHash();render()}
   function applyTransform(){$('lightboxImage').style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
   function preload(index){if(!photos.length)return;const image=new Image();image.src=photos[(index+photos.length)%photos.length]}
   function showViewer(index,direction){if(!photos.length)return;viewerIndex=(index+photos.length)%photos.length;const image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photos[viewerIndex];if(image.complete)image.classList.add('is-loaded');image.alt=(side==='groom'?'Groom':'Bride')+' guest photo '+(viewerIndex+1);$('lightboxCounter').textContent=(viewerIndex+1)+' / '+photos.length;$('downloadPhoto').href=photos[viewerIndex];$('downloadPhoto').download=photos[viewerIndex].split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
@@ -208,6 +226,10 @@ const CONFIG={
   async function sharePhoto(){const url=new URL(photos[viewerIndex],location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
 
   sideButtons.forEach(button=>button.onclick=()=>selectSide(button.dataset.side));
+  $('groupPicker').onclick=openSheet;$('closeSheet').onclick=closeSheet;$('groupSheet').onclick=event=>{if(event.target===$('groupSheet'))closeSheet()};
+  $('groupSheet').addEventListener('touchstart',event=>{sheetStartY=event.touches[0].clientY},{passive:true});
+  $('groupSheet').addEventListener('touchend',event=>{if(event.changedTouches[0].clientY-sheetStartY>60)closeSheet()},{passive:true});
+  $('languageToggle').querySelectorAll('button').forEach(button=>button.onclick=()=>{uiLanguage=button.dataset.language;$('languageToggle').querySelectorAll('button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));render()});
   $('back').href='index.html'+location.search;
   $('closeLightbox').onclick=closeViewer;$('previousPhoto').onclick=()=>navigate(-1);$('nextPhoto').onclick=()=>navigate(1);$('zoomPhoto').onclick=()=>changeZoom(zoom===1?2:1);$('sharePhoto').onclick=sharePhoto;
   $('lightbox').onclick=event=>{if(event.target===$('lightbox'))closeViewer()};
@@ -215,7 +237,7 @@ const CONFIG={
   $('lightboxImage').addEventListener('touchmove',event=>{if(pinching&&event.touches.length===2){changeZoom(zoom*distance(event.touches)/pinchDistance);pinchDistance=distance(event.touches);event.preventDefault();return}if(dragging&&zoom>1){panX=panStartX+event.touches[0].clientX-swipeX;panY=panStartY+event.touches[0].clientY-swipeY;applyTransform();event.preventDefault()}},{passive:false});
   $('lightboxImage').addEventListener('touchend',event=>{if(pinching){if(event.touches.length<2)pinching=false;return}const dx=event.changedTouches[0].clientX-swipeX,dy=event.changedTouches[0].clientY-swipeY;dragging=false;if(zoom>1)return;if(dy>80&&Math.abs(dy)>Math.abs(dx)){closeViewer();return}if(Math.abs(dx)>45)navigate(dx<0?1:-1)},{passive:true});
   $('lightboxImage').ondblclick=()=>changeZoom(zoom===1?2:1);
-  document.addEventListener('keydown',event=>{if($('lightbox').hidden)return;if(event.key==='Escape'){event.preventDefault();closeViewer();return}if(event.key==='ArrowRight'){event.preventDefault();navigate(1)}if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1)}if(event.key==='Tab'){const focusable=[$('closeLightbox'),$('previousPhoto'),$('nextPhoto'),$('downloadPhoto'),$('sharePhoto'),$('zoomPhoto')].filter(element=>getComputedStyle(element).display!=='none'),current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}});
+  document.addEventListener('keydown',event=>{if(!$('groupSheet').hidden){if(event.key==='Escape'){event.preventDefault();closeSheet();return}if(event.key==='Tab'){const focusable=[$('closeSheet'),...$('sheetOptions').querySelectorAll('button')],current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}return}if($('lightbox').hidden)return;if(event.key==='Escape'){event.preventDefault();closeViewer();return}if(event.key==='ArrowRight'){event.preventDefault();navigate(1)}if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1)}if(event.key==='Tab'){const focusable=[$('closeLightbox'),$('previousPhoto'),$('nextPhoto'),$('downloadPhoto'),$('sharePhoto'),$('zoomPhoto')].filter(element=>getComputedStyle(element).display!=='none'),current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}});
   const hash=location.hash.slice(1).split('/');side=hash[0]==='bride'?'bride':'groom';category=hash[1]||'all';render();if(category!==hash[1]&&hash[1])setHash();
 })();
 </script>

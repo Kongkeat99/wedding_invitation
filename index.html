@@ -8,7 +8,9 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu">
 <meta property="og:description" content="សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ">
-<!-- for a photo preview when the link is shared on Telegram/Facebook, add: <meta property="og:image" content="https://YOUR-USERNAME.github.io/REPO-NAME/assets/og.jpg"> -->
+<meta property="og:image" content="https://wedding-ten-self.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💍%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>សំបុត្រអញ្ជើញអាពាហ៍ពិពាហ៍ | Wedding Invitation</title>
@@ -26,12 +28,12 @@
   <div class="names"><span id="cn1"></span> &amp; <span id="cn2"></span></div>
   <p>សូមគោរពអញ្ជើញ</p>
   <p class="moul" id="guestName" style="color:#fff;font-size:1.1rem;margin:0"></p>
-  <div class="env" aria-hidden="false"><div class="flap"></div><div class="letter"></div><div class="pocket"></div><button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ / Open invitation">♥</button></div>
+  <div class="env"><div class="flap"></div><div class="letter"></div><div class="pocket"></div><button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ / Open invitation">♥</button></div>
   <p style="margin:16px 0 0;font-size:.9rem;opacity:.9">ចុចលើសំបុត្រ ដើម្បីបើក</p>
 </div>
 
 <div id="mtl"></div>
-<button id="mus" aria-label="music"><span class="eqb"><i></i><i></i><i></i><i></i></span></button>
+<button id="mus" type="button" aria-label="Play music"><span class="eqb"><i></i><i></i><i></i><i></i></span></button>
 
 <section id="hero">
   <div class="aur"><i></i><i></i><i></i></div>
@@ -91,8 +93,8 @@
   <div id="gList"></div>
 </div></div>
 
-<button id="thm" type="button" aria-label="theme">🌙</button>
-<div id="lb" hidden><button id="lbx" type="button" aria-label="close">✕</button><button id="lbp" type="button" aria-label="previous">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="next">›</button></div>
+<button id="thm" type="button" aria-label="Switch to dark theme">🌙</button>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden><button id="lbx" type="button" aria-label="Close photo viewer">✕</button><button id="lbp" type="button" aria-label="Previous photo">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="Next photo">›</button></div>
 
 <section id="s-prog">
   <h2>ព័ត៌មានកម្មវិធី</h2><div class="orn"></div>
@@ -113,7 +115,6 @@
 <section id="s-photo">
   <h2>រូបភាព Pre Wedding</h2><div class="orn"></div>
   <div class="grid" id="grid"></div>
-  <p class="hint">Tap a slot to add your photo (preview only; see the note to make it permanent).</p>
 </section>
 
 <section>
@@ -142,8 +143,8 @@
 
 <footer>សូមអរគុណ · Thank you ♥</footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="js/config.js"></script>
-<script src="js/app.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script defer src="js/config.js"></script>
+<script defer src="js/app.js"></script>
 </body>
 </html>

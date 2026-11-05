@@ -30,34 +30,23 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-/* gallery: 15 photos */
+/* gallery: photos come from CONFIG.photos (built further below) */
 var g=$("grid");
-for(var i=1;i<=15;i++){(function(i){
-  var s=document.createElement("label");s.className="ph";s.textContent="📷 "+i;
-  var f=document.createElement("input");f.type="file";f.accept="image/*";f.hidden=true;
-  f.onchange=function(){var r=new FileReader();r.onload=function(){s.innerHTML='<img alt="photo '+i+'" src="'+r.result+'">'};if(f.files[0])r.readAsDataURL(f.files[0])};
-  s.appendChild(f);g.appendChild(s);
-})(i)}
 
-/* 2 videos: set CONFIG.videos = ["assets/videos/v1.mp4","assets/videos/v2.mp4"] to show real videos;
-   empty slot = guest/owner can pick a file (preview only) */
-function mountVideo(b,src){
-  b.innerHTML="";b.classList.add("has");
-  var v=document.createElement("video");v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";v.src=src;
-  var pl=document.createElement("span");pl.className="pl";pl.textContent="▶";
+/* videos: set CONFIG.videos = ["assets/videos/video1.mp4", ...]
+   poster image = same path with .jpg (assets/videos/video1.jpg) */
+function mountVideo(b,src,n){
+  var v=document.createElement("video");v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";
+  v.poster=src.replace(/\.[^./]+$/,".jpg");v.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);
+  var pl=document.createElement("span");pl.className="pl";pl.textContent="▶";pl.setAttribute("aria-hidden","true");
   v.addEventListener("play",function(){pl.classList.add("off")});
   v.addEventListener("pause",function(){pl.classList.remove("off")});
   v.addEventListener("ended",function(){pl.classList.remove("off")});
   b.appendChild(v);b.appendChild(pl)}
-for(var j=1;j<=2;j++){(function(j){
-  var b=document.createElement("label");b.className="vid pre";b.style.setProperty("--d",(j-1)*.25+"s");
-  var vs=(CONFIG.videos||[]);
-  if(vs[j-1]){b.className="vid pre has";mountVideo(b,vs[j-1]);$("vids").appendChild(b);return}
-  var em=document.createElement("span");em.className="em";em.textContent="🎬 Video "+j;b.appendChild(em);
-  var f=document.createElement("input");f.type="file";f.accept="video/*";f.hidden=true;
-  f.onchange=function(){if(!f.files[0])return;b.removeAttribute("for");mountVideo(b,URL.createObjectURL(f.files[0]))};
-  b.appendChild(f);$("vids").appendChild(b);
-})(j)}
+(CONFIG.videos||[]).forEach(function(src,k){
+  var b=document.createElement("div");b.className="vid pre has";b.style.setProperty("--d",k*.25+"s");
+  mountVideo(b,src,k+1);$("vids").appendChild(b)});
+if(!$("vids").children.length)$("vids").parentNode.hidden=true;
 /* videos: frame rises in one by one when scrolled into view */
 (function(){
   var vs=Array.prototype.slice.call($("vids").children);
@@ -134,16 +123,30 @@ var sy=$("story");
   var p=document.createElement("p");p.textContent=e.text||"";d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
 if(!sy.children.length)$("s-story").hidden=true;
 
-var ph=CONFIG.photos||[],li=0;
-function openLb(i){li=(i+ph.length)%ph.length;$("lbi").src=ph[li];$("lb").hidden=false}
-if(ph.length){g.innerHTML="";ph.forEach(function(u,i){var im=document.createElement("img");im.src=u;im.alt="photo "+(i+1);im.loading="lazy";im.className="ph";im.onclick=function(){openLb(i)};g.appendChild(im)});
-  var hn=document.querySelector("#s-photo .hint");if(hn)hn.hidden=true}
-$("lbx").onclick=function(){$("lb").hidden=true};$("lbp").onclick=function(){openLb(li-1)};$("lbn").onclick=function(){openLb(li+1)};
-$("lb").onclick=function(e){if(e.target===this)this.hidden=true};
-var tx=0;$("lb").addEventListener("touchstart",function(e){tx=e.touches[0].clientX},{passive:true});
-$("lb").addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)openLb(li+(dx<0?1:-1))});
-document.addEventListener("keydown",function(e){if($("lb").hidden)return;
-  if(e.key==="Escape")$("lb").hidden=true;if(e.key==="ArrowRight")openLb(li+1);if(e.key==="ArrowLeft")openLb(li-1)});
+var ph=CONFIG.photos||[],li=0,lbFrom=null,lb=$("lb");
+function openLb(i){
+  li=(i+ph.length)%ph.length;$("lbi").src=ph[li];$("lbi").alt="Pre-wedding photo "+(li+1)+" of "+ph.length;
+  if(lb.hidden){lbFrom=document.activeElement;lb.hidden=false;$("lbx").focus()}}
+function closeLb(){lb.hidden=true;if(lbFrom&&lbFrom.focus)lbFrom.focus();lbFrom=null}
+if(ph.length){
+  ph.forEach(function(u,i){
+    var im=document.createElement("img");im.src=u;im.alt="Pre-wedding photo "+(i+1);im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
+    im.className="ph";im.tabIndex=0;im.setAttribute("role","button");
+    im.onclick=function(){openLb(i)};
+    im.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openLb(i)}};
+    g.appendChild(im)})
+}else $("s-photo").hidden=true;
+$("lbx").onclick=closeLb;$("lbp").onclick=function(){openLb(li-1)};$("lbn").onclick=function(){openLb(li+1)};
+lb.onclick=function(e){if(e.target===this)closeLb()};
+var tx=0;lb.addEventListener("touchstart",function(e){tx=e.touches[0].clientX},{passive:true});
+lb.addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)openLb(li+(dx<0?1:-1))});
+document.addEventListener("keydown",function(e){if(lb.hidden)return;
+  if(e.key==="Escape")closeLb();
+  if(e.key==="ArrowRight")openLb(li+1);
+  if(e.key==="ArrowLeft")openLb(li-1);
+  if(e.key==="Tab"){ /* keep keyboard focus inside the viewer */
+    var f=[$("lbx"),$("lbp"),$("lbn")],k=f.indexOf(document.activeElement);
+    e.preventDefault();f[(k+(e.shiftKey?f.length-1:1))%f.length].focus()}})
 
 if(!(window.CSS&&CSS.supports("animation-timeline","scroll()")))window.addEventListener("scroll",function(){var h=document.documentElement.scrollHeight-innerHeight;$("bar").style.width=(h>0?scrollY/h*100:0)+"%"},{passive:true});
 
@@ -154,14 +157,15 @@ function confetti(){if(navigator.vibrate)navigator.vibrate([30,40,30]);var c=["#
 
 var thm=$("thm"),root=document.documentElement;
 function isDark(){var a=root.getAttribute("data-theme");return a?a==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
-function setTheme(t){root.setAttribute("data-theme",t);thm.textContent=t==="dark"?"☀":"🌙";try{localStorage.setItem("theme",t)}catch(e){}}
+function syncThm(){thm.setAttribute("aria-label",isDark()?"Switch to light theme":"Switch to dark theme")}
+function setTheme(t){root.setAttribute("data-theme",t);thm.textContent=t==="dark"?"☀":"🌙";syncThm();try{localStorage.setItem("theme",t)}catch(e){}}
 thm.onclick=function(){
   var t=isDark()?"light":"dark";
   if(!document.startViewTransition||matchMedia("(prefers-reduced-motion:reduce)").matches){setTheme(t);return}
   var r=thm.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
   document.startViewTransition(function(){setTheme(t)}).ready.then(function(){
     document.documentElement.animate({clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"]},{duration:650,easing:"ease-in-out",pseudoElement:"::view-transition-new(root)"})})};
-try{var sv=localStorage.getItem("theme");if(sv)setTheme(sv);else thm.textContent=isDark()?"☀":"🌙"}catch(e){thm.textContent=isDark()?"☀":"🌙"}
+try{var sv=localStorage.getItem("theme");if(sv)setTheme(sv);else{thm.textContent=isDark()?"☀":"🌙";syncThm()}}catch(e){thm.textContent=isDark()?"☀":"🌙";syncThm()}
 
 /* ===== magic pack ===== */
 /* monogram preloader */
@@ -256,7 +260,7 @@ function melody(){
 }
 function startMusic(){
   var pl=CONFIG.playlist||[],tr=pl[ti%(pl.length||1)];
-  playing=true;$("mus").classList.add("eq");
+  playing=true;$("mus").classList.add("eq");$("mus").setAttribute("aria-label","Pause music");
   var u=tr&&tr.url;
   if(u){
     if(!au){au=new Audio();au.addEventListener("ended",function(){ti++;startMusic()});
@@ -264,7 +268,7 @@ function startMusic(){
     au.src=u;au.play().catch(function(){});label(tr.title);return}
   label(tr?tr.title:"Wedding Melody");melody();
 }
-function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq")}
+function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq");$("mus").setAttribute("aria-label","Play music")}
 $("mus").onclick=function(){playing?stopMusic():startMusic();this.style.opacity=playing?1:.5};
 $("openBtn").addEventListener("click",function(){$("cover").classList.add("unseal");setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},900);try{startMusic()}catch(e){}});
 

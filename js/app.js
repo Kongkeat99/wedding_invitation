@@ -66,7 +66,8 @@ if(!to){qp.forEach(function(v,k){if(!to&&v&&k!=="setup")to=v})}
 if(/^\?=/.test(location.search)){var rw=location.search.slice(2).split("#")[0];try{rw=decodeURIComponent(rw.replace(/\+/g," "))}catch(e){rw=rw.replace(/\+/g," ")}to=rw.replace(/_/g," ").replace(/\s+/g," ").trim()||to}
 /* short links: ?g=<base64url of the name> (made by the guest-link tool; the older ?=Name links still work) */
 var gq=qp.get("g");
-if(gq){try{to=new TextDecoder().decode(Uint8Array.from(atob(gq.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)}))}catch(e){to=""}}
+if(gq&&CONFIG.guests&&CONFIG.guests[gq.toLowerCase()])to=CONFIG.guests[gq.toLowerCase()];
+else if(gq){try{to=new TextDecoder().decode(Uint8Array.from(atob(gq.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)}))}catch(e){to=""}}
 if(to){$("guestName").textContent=to;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
 /* ===== guest features ===== */
@@ -94,7 +95,7 @@ if(new URLSearchParams(location.search).has("setup")){
   $("gbase").value=base;$("gmsg").value=DM;
   function enc(t){return encodeURIComponent(t)}
   function b64u(t){var s="";new TextEncoder().encode(t).forEach(function(c){s+=String.fromCharCode(c)});return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
-  function gl(n){var u=$("gbase").value.trim().replace(/[?#].*$/,"");return $("gshort").checked?u+"?g="+b64u(n):u+"?="+enc(n)}
+  function gl(n){var u=$("gbase").value.trim().replace(/[?#].*$/,"");if(codeOf[n])return u+"?g="+codeOf[n];return $("gshort").checked?u+"?g="+b64u(n):u+"?="+enc(n)}
   function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
   /* message where the link is hidden behind clickable text (rich text clipboard) */
   function gmRich(n){
@@ -107,11 +108,17 @@ if(new URLSearchParams(location.search).has("setup")){
       navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([o.html],{type:"text/html"}),"text/plain":new Blob([o.plain],{type:"text/plain"})})]).then(done,function(){copyTxt(o.plain,done)});return}}catch(e){}
     copyTxt(o.plain,done)}
   function gm(n,withLink){return $("gmsg").value.replace(/\{name\}/g,n).replace(/\{couple\}/g,CONFIG.groom+" & "+CONFIG.bride).replace(/\{link\}/g,withLink===false?"":gl(n)).trim()}
-  function gnames(){return $("gnames").value.split("\n").map(function(x){return x.trim()}).filter(function(x,i,a){return x&&a.indexOf(x)===i})}
+  /* a line can be "code = Full name" -> link ?g=code (very short; needs the snippet in config.js) */
+  var codeOf={};
+  function gnames(){codeOf={};return $("gnames").value.split("\n").map(function(x){x=x.trim();
+      var m=x.match(/^([A-Za-z0-9_-]{1,24})\s*=\s*(.+)$/);if(m){codeOf[m[2].trim()]=m[1].toLowerCase();return m[2].trim()}return x}).filter(function(x,i,a){return x&&a.indexOf(x)===i})}
   function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e}
   function gen(){
     var L=$("gList");L.innerHTML="";try{localStorage.setItem("glist",$("gnames").value)}catch(e){}
-    gnames().forEach(function(n){
+    var names=gnames(),codes=Object.keys(codeOf);
+    $("gSnipBox").hidden=!codes.length;
+    $("gSnip").value=codes.map(function(n){return '    '+JSON.stringify(codeOf[n])+': '+JSON.stringify(n)}).join(",\n");
+    names.forEach(function(n){
       var r=mk("div","gr"+(sent[n]?" sent":"")),mark=function(){sent[n]=1;r.classList.add("sent");try{localStorage.setItem("gsent",JSON.stringify(sent))}catch(e){}};
       r.appendChild(mk("b","",n));
       var cp=mk("button","btn alt sm","Copy link");cp.type="button";cp.onclick=function(){copyTxt(gm(n),function(){flash(cp,"✓ Copied");mark()})};r.appendChild(cp);
@@ -122,6 +129,7 @@ if(new URLSearchParams(location.search).has("setup")){
     if(!L.children.length)L.appendChild(mk("p","hint","Add names above, then press Make links."))}
   $("sGuests").onclick=function(){$("gp").hidden=false;gen()};
   $("gX").onclick=function(){$("gp").hidden=true};
+  $("gSnipCopy").onclick=function(){var b=this;copyTxt($("gSnip").value,function(){flash(b,"✓ Copied")})};
   $("gGen").onclick=gen;$("gshort").onchange=gen;$("glt").onchange=gen;
   $("gCsv").onclick=function(){var b=this;copyTxt("name,link\n"+gnames().map(function(n){return '"'+n.replace(/"/g,'""')+'",'+gl(n)}).join("\n"),function(){flash(b,"✓ Copied")})};
   $("gQr").onclick=function(){var q=$("gQrBox");q.innerHTML="";

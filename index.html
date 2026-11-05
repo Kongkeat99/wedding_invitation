@@ -79,7 +79,8 @@
   <button id="gX" type="button" aria-label="close">✕</button>
   <b>👥 Guest links</b> <small>(owner only — guests never see this)</small>
   <label for="gnames">Guest names — one per line</label>
-  <textarea id="gnames" rows="5" placeholder="Sok Dara&#10;Chan Sreyneang"></textarea>
+  <textarea id="gnames" rows="5" placeholder="Sok Dara&#10;Chan Sreyneang&#10;mai = ម៉ៃ ម៉ុំ និង កញ្ញា ឆេង សុខឃីម"></textarea>
+  <p class="hint" style="text-align:left">Very short link: write <b>code = Full name</b> (example: <b>mai = ម៉ៃ ម៉ុំ</b>) to get <b>?g=mai</b>. Then paste the snippet shown below into <b>guests</b> in js/config.js once.</p>
   <label for="gbase">Invitation link (use your short domain if you have one)</label>
   <input id="gbase">
   <label for="gshort" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="gshort" checked style="width:auto;margin:0"> Short links (recommended — the name is packed into a few characters)</label>
@@ -94,6 +95,11 @@
     <button class="btn alt sm" id="gQr" type="button">QR for print</button>
   </div>
   <div id="gQrBox" style="text-align:center;margin:14px 0"></div>
+  <div id="gSnipBox" hidden>
+    <label for="gSnip">Paste inside <b>guests: { ... }</b> in js/config.js, then redeploy</label>
+    <textarea id="gSnip" rows="4" readonly></textarea>
+    <button class="btn alt sm" id="gSnipCopy" type="button">Copy snippet</button>
+  </div>
   <div id="gList"></div>
 </div></div>
 

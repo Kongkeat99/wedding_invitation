@@ -24,6 +24,8 @@ var CONFIG = {
     text: "សូមស្លៀកពាក់តាមពណ៌ខាងក្រោម ដើម្បីបន្ថែមភាពស្រស់ស្អាតដល់ថ្ងៃពិសេសរបស់យើងខ្ញុំ",
     colors: ["#b39b36", "#d8c068", "#fbf7ea", "#6e5c12"]
   },
+  guests: {                                    // short guest links: "code": "Name shown on the invitation"  ->  your-site/?g=code  (made by the ?setup guest-link tool)
+  },
   photos: [                                    // upload files to assets/photos/ with exactly these names (any count; remove lines you do not use)
     "assets/photos/p1.jpg",
     "assets/photos/p2.jpg",

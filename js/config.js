@@ -44,9 +44,9 @@ var CONFIG = {
     "assets/photos/p15.jpg"
   ],
   story: [                                     // love story timeline — edit the text; delete all entries to hide the section
-    { date: "២០២៦", title: "ជួបគ្នាលើកដំបូង", text: "ពេលពួកយើងទៅដើរលេងនៅកោះទន្សាយ" },
-    { date: "២០២៦", title: "ក្លាយជាគូស្នេហ៍", text: "ពេលត្រឡប់មកវិញ" },
-    { date: "២០២៦", title: "ស្នើសុំរៀបការ", text: "ព្រោះអាយុកាន់តែចាស់" },
+    { date: "២០២៦", title: "ជួបគ្នាលើកដំបូង", text: "ពេលយើងទៅដើរលេងនៅកោះទន្សាយ" },
+    { date: "២០២៦", title: "ក្លាយជាគូស្នេហ៍", text: "ពេលយើងយល់ពីចិត្តគ្នាកាន់តែច្បាស់" },
+    { date: "២០២៦", title: "ស្នើសុំរៀបការ", text: "ព្រោះយើងបានច្បាស់លាស់ជាមួយគ្នា" },
     { date: "២០២៦", title: "ថ្ងៃមង្គលការ", text: "ថ្ងៃដែលយើងចាប់ដៃគ្នាចូលក្នុងជីវិតថ្មី" }
   ],
   videos: ["assets/videos/video1.mp4", "assets/videos/video2.mp4"],   // upload files to assets/videos/ with these names

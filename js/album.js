@@ -28,10 +28,11 @@
   function renderCategories(k){
     var cats=(sides[k].categories||[]).filter(function(c){return c.count||c.list&&c.list.length});
     categoryBar.innerHTML="";
-    var all=document.createElement("button");all.type="button";all.textContent="All ("+cats.reduce(function(total,c){return total+categoryList(c).length},0)+")";all.setAttribute("aria-pressed",category==="all");all.onclick=function(){pick(k,"all")};categoryBar.appendChild(all);
+    var active=null,all=document.createElement("button");all.type="button";all.textContent="All ("+cats.reduce(function(total,c){return total+categoryList(c).length},0)+")";all.setAttribute("aria-pressed",category==="all");all.onclick=function(){pick(k,"all")};categoryBar.appendChild(all);if(category==="all")active=all;
     cats.forEach(function(c){
-      var b=document.createElement("button");b.type="button";b.dataset.category=c.id;b.innerHTML=c.km+" <small>("+categoryList(c).length+")</small>";b.setAttribute("aria-pressed",category===c.id);b.title=c.en;b.onclick=function(){pick(k,c.id)};categoryBar.appendChild(b)
-    })
+      var b=document.createElement("button");b.type="button";b.dataset.category=c.id;b.innerHTML=c.km+" <small>("+categoryList(c).length+")</small>";b.setAttribute("aria-pressed",category===c.id);b.title=c.en;b.onclick=function(){pick(k,c.id)};categoryBar.appendChild(b);if(category===c.id)active=b
+    });
+    if(active&&window.matchMedia&&window.matchMedia("(max-width:700px)").matches)active.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"})
   }
 
   function pick(k,c,keepHash){

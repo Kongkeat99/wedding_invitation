@@ -1,10 +1,11 @@
 /* Guest album page (album.html). Colors and fonts come from style.css */
-.album{max-width:720px;margin:0 auto;padding:28px 16px 40px}
+.album{max-width:1100px;margin:0 auto;padding:28px 16px 40px}
 .album h1{font-size:1.5rem;margin:18px 0 0}
 .album .sub{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin:0 0 14px}
-.categories{display:flex;gap:7px;overflow-x:auto;margin:0 -16px;padding:4px 16px 10px;scrollbar-width:none;text-align:left}
+.categories{display:flex;gap:7px;overflow-x:auto;margin:0 -16px;padding:4px 16px 10px;scrollbar-width:none;text-align:left;position:relative;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .categories::-webkit-scrollbar{display:none}
-.categories button{flex:none;font:inherit;font-family:'Noto Sans Khmer','Battambang',sans-serif;font-size:.76rem;line-height:1.35;color:var(--gold);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 11px;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.categories:after{content:"";position:absolute;z-index:1;top:0;right:0;bottom:0;width:34px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none}
+.categories button{flex:none;font:inherit;font-family:'Noto Sans Khmer','Battambang',sans-serif;font-size:.76rem;line-height:1.6;color:var(--gold);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:8px 16px;cursor:pointer;touch-action:manipulation;white-space:nowrap;scroll-snap-align:center}
 .categories button[aria-pressed="true"]{background:var(--gold);color:#fff;border-color:var(--gold)}
 .categories small{font-family:'Cormorant Garamond',serif;font-size:.9rem}
 .tabs{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:30px;background:var(--card);margin:6px 0 16px;max-width:100%}
@@ -12,7 +13,8 @@
 .tabs button[aria-pressed="true"]{background:var(--gold);color:#fff}
 .tabs small{opacity:.8}
 .agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
-@media (min-width:560px){.agrid{grid-template-columns:repeat(3,1fr);gap:14px}}
+@media (min-width:701px){.categories{flex-wrap:wrap;justify-content:center;gap:10px 12px;overflow:hidden;margin:0;padding:4px 0 10px;scroll-snap-type:none}.categories:after{display:none}}
+@media (min-width:1000px){.agrid{grid-template-columns:repeat(3,1fr);gap:14px}}
 .agrid img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;transition:transform .25s}
 .agrid img:hover{transform:scale(1.02)}
 #lbd{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%)}

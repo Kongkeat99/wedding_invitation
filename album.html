@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Moul&amp;family=Noto+Sans+Khmer:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/coming-soon.css">
 <!-- STYLES -->
 <style>
 :root{--ink:#14110A;--gold:#C9A63A;--ivory:#F3EBD8;--wine:#7A1F2B;--muted:#b9ae98;--line:#c9a63a55;--card:#211c11;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;color-scheme:dark}
@@ -127,23 +128,27 @@ button{color:inherit}
     <div class="rule" aria-hidden="true"></div>
   </section>
 
-  <section class="control-deck" aria-label="Album filters">
-    <div class="segmented" id="sides" data-side="groom" role="group" aria-label="Choose album side">
-      <span class="seg-indicator" aria-hidden="true"></span>
-      <button class="wipe-fill wipe-fill--inverse" id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
-      <button class="wipe-fill wipe-fill--inverse" id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
-    </div>
-    <div class="categories-wrap">
-      <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
-      <button class="group-picker wipe-fill" id="groupPicker" type="button" aria-haspopup="dialog" aria-expanded="false">
-        <span>ជ្រើសរើសក្រុម · Choose group</span><strong id="pickerValue"></strong><span aria-hidden="true">⌄</span>
-      </button>
+  <section class="album-gallery-section">
+    <div class="coming-soon-content">
+      <section class="control-deck" aria-label="Album filters">
+        <div class="segmented" id="sides" data-side="groom" role="group" aria-label="Choose album side">
+          <span class="seg-indicator" aria-hidden="true"></span>
+          <button class="wipe-fill wipe-fill--inverse" id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
+          <button class="wipe-fill wipe-fill--inverse" id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
+        </div>
+        <div class="categories-wrap">
+          <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
+          <button class="group-picker wipe-fill" id="groupPicker" type="button" aria-haspopup="dialog" aria-expanded="false">
+            <span>ជ្រើសរើសក្រុម · Choose group</span><strong id="pickerValue"></strong><span aria-hidden="true">⌄</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="gallery-meta"><strong id="galleryTitle">Groom · All</strong><span id="galleryCount"></span></div>
+      <section class="photo-grid" id="photoGrid" aria-live="polite"></section>
+      <p class="empty-state" id="empty" hidden>រូបភាពនឹងត្រូវបានបន្ថែមក្រោយពិធី<br><span>Photos will be added after the wedding.</span></p>
     </div>
   </section>
-
-  <div class="gallery-meta"><strong id="galleryTitle">Groom · All</strong><span id="galleryCount"></span></div>
-  <section class="photo-grid" id="photoGrid" aria-live="polite"></section>
-  <p class="empty-state" id="empty" hidden>រូបភាពនឹងត្រូវបានបន្ថែមក្រោយពិធី<br><span>Photos will be added after the wedding.</span></p>
 </main>
 <footer class="site-footer">សូមអរគុណ · Thank you ♥</footer>
 
@@ -169,6 +174,8 @@ button{color:inherit}
   </section>
 </div>
 
+<script src="js/config.js"></script>
+<script src="js/coming-soon.js"></script>
 <script>
 /* DATA: one bilingual source of truth for both album sides. */
 const makePhotos=(folder,kh,en)=>Array.from({length:15},(_,index)=>{const number=index+1;return{src:folder+number+'.jpg',thumb:folder+number+'.jpg',w:720,h:960,alt:kh+' · '+en+' · រូបភាព '+number+' · Photo '+number}});
@@ -250,7 +257,7 @@ const albums={
   $('groupPicker').onclick=openSheet;$('closeSheet').onclick=closeSheet;$('groupSheet').onclick=event=>{if(event.target===$('groupSheet'))closeSheet()};
   $('groupSheet').addEventListener('touchstart',event=>{sheetStartY=event.touches[0].clientY},{passive:true});
   $('groupSheet').addEventListener('touchend',event=>{if(event.changedTouches[0].clientY-sheetStartY>60)closeSheet()},{passive:true});
-  $('languageToggle').querySelectorAll('button').forEach(button=>button.onclick=()=>{uiLanguage=button.dataset.language;$('languageToggle').querySelectorAll('button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));render()});
+  $('languageToggle').querySelectorAll('button').forEach(button=>button.onclick=()=>{uiLanguage=button.dataset.language;$('languageToggle').querySelectorAll('button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));if(window.updateComingSoonLanguage)window.updateComingSoonLanguage(uiLanguage);render()});
   $('back').href='index.html'+location.search;
   $('closeLightbox').onclick=closeViewer;$('previousPhoto').onclick=()=>navigate(-1);$('nextPhoto').onclick=()=>navigate(1);$('zoomPhoto').onclick=()=>changeZoom(zoom===1?2:1);$('sharePhoto').onclick=sharePhoto;
   $('lightbox').onclick=event=>{if(event.target===$('lightbox'))closeViewer()};

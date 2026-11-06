@@ -8,4 +8,9 @@
 .coming-soon-sub{margin-top:18px;color:#e8d27acc;font:400 clamp(.72rem,2.4vw,.95rem)/1.7 'Cormorant Garamond','Noto Sans Khmer',serif}
 @keyframes comingSoonFade{from{opacity:0}to{opacity:1}}
 @keyframes comingSoonShimmer{50%{text-shadow:0 0 24px rgba(232,210,122,.55)}}
+.coming-soon-photo{position:relative;display:block;min-width:0}
+.coming-soon-photo-badge{position:absolute;z-index:4;inset:50% auto auto 50%;display:flex;flex-direction:column;align-items:center;width:max-content;max-width:90%;padding:clamp(7px,2vw,13px) clamp(9px,2.5vw,18px);border:1px solid rgba(232,210,122,.7);border-radius:8px;background:rgba(20,17,8,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#e8d27a;transform:translate(-50%,-50%);pointer-events:none;text-align:center;box-shadow:0 5px 18px rgba(0,0,0,.28)}
+.coming-soon-photo-kh{color:#c9a935;font-size:clamp(.72rem,2.4vw,1.05rem);font-weight:700;line-height:1.35;white-space:nowrap}
+.coming-soon-photo-divider{width:55%;height:1px;margin:4px 0;background:linear-gradient(90deg,transparent,#e8d27a,transparent)}
+.coming-soon-photo-en{font:600 clamp(.58rem,1.8vw,.82rem)/1.1 'Cormorant Garamond',Georgia,serif;letter-spacing:.1em;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){.coming-soon-overlay{animation:none}.coming-soon-kh{animation:none}.coming-soon-blurred{transition:none}}

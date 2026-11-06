@@ -275,3 +275,6 @@ img.ph{border-style:solid}
   .ph.auto{transform:none}
   .ph.hide{filter:none}
 }
+
+/* stop the slide-in reveal animations from causing a brief sideways scroll on phones */
+@supports (overflow:clip){html,body{overflow-x:clip}}

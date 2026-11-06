@@ -23,11 +23,13 @@
     document.querySelectorAll(".coming-soon-photo-badge").forEach(function(item){item.querySelector(".coming-soon-photo-kh").textContent=text.kh;item.querySelector(".coming-soon-photo-en").textContent=text.en})
   }
   function decoratePhotos(){
+    var changed=false;
     document.querySelectorAll(".photo-card:not(.coming-soon-photo),img.ph:not(.coming-soon-photo-source)").forEach(function(photo){
       var target=photo;
       if(photo.matches("img.ph")){target=document.createElement("span");target.className="coming-soon-photo";photo.classList.add("coming-soon-photo-source");photo.parentNode.insertBefore(target,photo);target.appendChild(photo)}else target.classList.add("coming-soon-photo");
-      target.appendChild(badge())
-    });updateBadges()
+      target.appendChild(badge());changed=true
+    });
+    if(changed)updateBadges()
   }
   function init(){
     var enabled=typeof CONFIG!=="undefined"&&CONFIG.COMING_SOON===true;

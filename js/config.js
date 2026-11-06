@@ -2,6 +2,7 @@
 var CONFIG = {
   COMING_SOON: false,
   PHOTO_COMING_SOON: true,
+  VIDEO_COMING_SOON: true,
   groom: "Soem Kungkiet",
   bride: "Chham Chanthu",
   date: "2026-11-22T15:00:00+07:00",          // wedding date/time (placeholder)

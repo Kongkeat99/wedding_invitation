@@ -33,25 +33,71 @@ tick();setInterval(tick,1000);
 /* gallery: photos come from CONFIG.photos (built further below) */
 var g=$("grid");
 
-/* Videos use a poster image with the same path and a .jpg extension. */
 function mountVideo(b,src,n){
-  var v=document.createElement("video");v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";
-  v.poster=src.replace(/\.[^./]+$/,".jpg");v.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);
-  var pl=document.createElement("span");pl.className="pl";pl.textContent="▶";pl.setAttribute("aria-hidden","true");
-  v.addEventListener("play",function(){pl.classList.add("off")});
-  v.addEventListener("pause",function(){pl.classList.remove("off")});
-  v.addEventListener("ended",function(){pl.classList.remove("off")});
-  b.appendChild(v);b.appendChild(pl)}
+  var stage=document.createElement("div");stage.className="video-frame";
+  var v=document.createElement("video");v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";
+  v.poster=src.replace(/\.[^./]+$/,".jpg");v.dataset.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);
+  var playOverlay=document.createElement("button");playOverlay.type="button";playOverlay.className="video-play";playOverlay.setAttribute("aria-label","Play pre-wedding video");
+  playOverlay.innerHTML='<span aria-hidden="true">▶</span>';
+  var corners=document.createElement("span");corners.className="video-corners";corners.setAttribute("aria-hidden","true");
+  var controls=document.createElement("div");controls.className="video-controls";controls.setAttribute("role","group");controls.setAttribute("aria-label","Video controls");
+  var toggle=document.createElement("button");toggle.type="button";toggle.className="video-control video-toggle";toggle.setAttribute("aria-label","Play video");toggle.textContent="▶";
+  var progress=document.createElement("input");progress.className="video-progress";progress.type="range";progress.min="0";progress.max="1000";progress.value="0";progress.setAttribute("aria-label","Video progress");
+  var audio=document.createElement("button");audio.type="button";audio.className="video-control video-audio";audio.disabled=true;audio.setAttribute("aria-label","This video has no audio");audio.title="No audio track";audio.textContent="🔇";
+  var fullscreen=document.createElement("button");fullscreen.type="button";fullscreen.className="video-control video-fullscreen";fullscreen.setAttribute("aria-label","Enter fullscreen");fullscreen.textContent="⛶";
+  var play=function(){
+    if(!v.src){v.src=v.dataset.src;v.load()}
+    var result=v.play();
+    if(result&&result.catch)result.catch(function(){playOverlay.hidden=false;toggle.textContent="▶";toggle.setAttribute("aria-label","Play video")})
+  };
+  playOverlay.addEventListener("click",play);
+  toggle.addEventListener("click",function(){if(v.paused||v.ended)play();else v.pause()});
+  v.addEventListener("play",function(){playOverlay.hidden=true;toggle.textContent="Ⅱ";toggle.setAttribute("aria-label","Pause video")});
+  function showPlay(){playOverlay.hidden=false;toggle.textContent="▶";toggle.setAttribute("aria-label","Play video")}
+  v.addEventListener("pause",showPlay);v.addEventListener("ended",showPlay);
+  function updateProgress(){
+    var ratio=v.duration?Math.min(1,v.currentTime/v.duration):0;
+    progress.value=String(Math.round(ratio*1000));progress.style.setProperty("--progress",ratio*100+"%");
+  }
+  v.addEventListener("timeupdate",updateProgress);v.addEventListener("durationchange",updateProgress);
+  progress.addEventListener("input",function(){if(v.duration)v.currentTime=v.duration*Number(progress.value)/1000});
+  fullscreen.addEventListener("click",function(){
+    if(document.fullscreenElement){document.exitFullscreen();return}
+    if(stage.requestFullscreen)stage.requestFullscreen();
+    else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()
+  });
+  stage.appendChild(v);stage.appendChild(corners);stage.appendChild(playOverlay);
+  controls.appendChild(toggle);controls.appendChild(progress);controls.appendChild(audio);controls.appendChild(fullscreen);
+  b.appendChild(stage);b.appendChild(controls);
+  b.video=v;b.playVideo=play
+}
 (CONFIG.videos||[]).forEach(function(src,k){
-  var b=document.createElement("div");b.className="vid pre has";b.style.setProperty("--d",k*.25+"s");
+  var b=document.createElement("div");b.className="vid video-card pre has";b.style.setProperty("--d",k*.25+"s");
   mountVideo(b,src,k+1);$("vids").appendChild(b)});
 if(!$("vids").children.length)$("vids").parentNode.hidden=true;
-/* videos: frame rises in one by one when scrolled into view */
+/* Load video metadata near the viewport and pause when it is no longer visible. */
 (function(){
   var vs=Array.prototype.slice.call($("vids").children);
-  if(!("IntersectionObserver" in window)){vs.forEach(function(v){v.classList.remove("pre")});return}
-  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.remove("pre");io.unobserve(e.target)}})},{threshold:.2});
-  vs.forEach(function(v){io.observe(v)});
+  function pauseAll(){vs.forEach(function(card){if(card.video&&!card.video.paused)card.video.pause()})}
+  if(!("IntersectionObserver" in window)){
+    vs.forEach(function(card){card.classList.remove("pre");card.video.src=card.video.dataset.src;card.video.load()});
+  }else{
+    var reveal=new IntersectionObserver(function(entries,observer){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.remove("pre");observer.unobserve(e.target)}})},{threshold:.12});
+    var visibleCards=[];
+    var media=new IntersectionObserver(function(entries){entries.forEach(function(e){
+      var video=e.target.video;
+      if(e.isIntersecting){
+        if(visibleCards.indexOf(e.target)<0)visibleCards.push(e.target);
+        if(!video.src){video.src=video.dataset.src;video.load()}
+      }else{
+        visibleCards=visibleCards.filter(function(card){return card!==e.target});
+        if(video&&!video.paused)video.pause()
+      }
+      document.body.classList.toggle("video-section-active",visibleCards.length>0)
+    })},{threshold:.15});
+    vs.forEach(function(card){reveal.observe(card);media.observe(card)})
+  }
+  document.addEventListener("visibilitychange",function(){if(document.hidden)pauseAll()});
 })();
 
 /* QR code for the map link */

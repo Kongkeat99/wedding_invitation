@@ -18,6 +18,8 @@
       --gold-light: #E8D28A;
       --gold-deep: #8F7524;
       --cream: #F3EAD0;
+      --ease-out: cubic-bezier(.22, .8, .24, 1);
+      --ease-spring: cubic-bezier(.34, 1.3, .5, 1);
       --khmer: "Kantumruy Pro", "Noto Serif Khmer", "Battambang", sans-serif;
       --serif: "Cormorant Garamond", Georgia, serif;
       --display: "Alfa Slab One", "Cormorant Garamond", Georgia, serif;
@@ -32,6 +34,7 @@
       min-height: 100dvh;
       margin: 0;
       overflow-x: hidden;
+      transition: background 900ms ease;
       background:
         radial-gradient(ellipse at 50% 46%, rgba(138, 122, 60, .28), transparent 49%),
         radial-gradient(ellipse at 50% 95%, rgba(138, 122, 60, .12), transparent 44%),
@@ -40,7 +43,7 @@
       font-family: var(--khmer);
       -webkit-font-smoothing: antialiased;
     }
-    body.is-opening { overflow: hidden; }
+    body.is-opening { overflow: hidden; pointer-events: none; cursor: wait; }
     button { font: inherit; }
 
     .ambience {
@@ -70,8 +73,8 @@
       opacity: 0;
       pointer-events: none;
     }
-    .seal-half--left { clip-path: inset(0 50% 0 0 round 50%); }
-    .seal-half--right { clip-path: inset(0 0 0 50% round 50%); }
+    .seal-half--left { clip-path: polygon(0 0, 100% 0, 53% 11%, 42% 24%, 56% 37%, 44% 50%, 57% 63%, 43% 76%, 53% 89%, 48% 100%, 0 100%); }
+    .seal-half--right { clip-path: polygon(100% 0, 0 0, 47% 11%, 58% 24%, 44% 37%, 56% 50%, 43% 63%, 57% 76%, 47% 89%, 52% 100%, 100% 100%); }
     .seal-burst {
       position: absolute;
       z-index: 6;
@@ -91,14 +94,22 @@
       opacity: 0;
       transform: translate(-50%, -50%);
     }
-    .seal-burst i:nth-child(1) { --burst-x: -34px; --burst-y: -28px; }
-    .seal-burst i:nth-child(2) { --burst-x: 0px; --burst-y: -42px; }
-    .seal-burst i:nth-child(3) { --burst-x: 36px; --burst-y: -24px; }
-    .seal-burst i:nth-child(4) { --burst-x: 43px; --burst-y: 10px; }
-    .seal-burst i:nth-child(5) { --burst-x: 25px; --burst-y: 34px; }
-    .seal-burst i:nth-child(6) { --burst-x: -28px; --burst-y: 34px; }
-    .seal-burst i:nth-child(7) { --burst-x: -44px; --burst-y: 8px; }
-    .seal-burst i:nth-child(8) { --burst-x: -14px; --burst-y: 18px; }
+    .seal-burst i:nth-child(1) { --burst-x: -70px; --burst-y: 0px; }
+    .seal-burst i:nth-child(2) { --burst-x: -65px; --burst-y: -27px; }
+    .seal-burst i:nth-child(3) { --burst-x: -50px; --burst-y: -50px; }
+    .seal-burst i:nth-child(4) { --burst-x: -27px; --burst-y: -65px; }
+    .seal-burst i:nth-child(5) { --burst-x: 0px; --burst-y: -70px; }
+    .seal-burst i:nth-child(6) { --burst-x: 27px; --burst-y: -65px; }
+    .seal-burst i:nth-child(7) { --burst-x: 50px; --burst-y: -50px; }
+    .seal-burst i:nth-child(8) { --burst-x: 65px; --burst-y: -27px; }
+    .seal-burst i:nth-child(9) { --burst-x: 70px; --burst-y: 0px; }
+    .seal-burst i:nth-child(10) { --burst-x: 65px; --burst-y: 27px; }
+    .seal-burst i:nth-child(11) { --burst-x: 50px; --burst-y: 50px; }
+    .seal-burst i:nth-child(12) { --burst-x: 27px; --burst-y: 65px; }
+    .seal-burst i:nth-child(13) { --burst-x: 0px; --burst-y: 70px; }
+    .seal-burst i:nth-child(14) { --burst-x: -27px; --burst-y: 65px; }
+    .seal-burst i:nth-child(15) { --burst-x: -50px; --burst-y: 50px; }
+    .seal-burst i:nth-child(16) { --burst-x: -65px; --burst-y: 27px; }
     .watermark {
       position: absolute;
       top: 50%;
@@ -125,6 +136,11 @@
     .petal--two { left: 32%; width: 13px; --duration: 24s; --delay: -16s; }
     .petal--three { left: 72%; width: 14px; --duration: 21s; --delay: -11s; }
     .petal--four { left: 88%; --duration: 26s; --delay: -4s; }
+    .reveal-petal { top: -34px; opacity: 0; animation: petal-drift 9s linear var(--delay, 0s) forwards; }
+    .reveal-petal:nth-last-child(4) { left: 21%; --delay: 0ms; }
+    .reveal-petal:nth-last-child(3) { left: 39%; width: 12px; --delay: 180ms; }
+    .reveal-petal:nth-last-child(2) { left: 63%; width: 15px; --delay: 320ms; }
+    .reveal-petal:nth-last-child(1) { left: 79%; --delay: 90ms; }
 
     .stage {
       position: relative;
@@ -222,6 +238,17 @@
       perspective: 800px;
       filter: drop-shadow(0 21px 30px rgba(0, 0, 0, .45)) drop-shadow(0 0 22px rgba(181, 155, 52, .12));
     }
+    .envelope-wrap::after {
+      position: absolute;
+      z-index: -1;
+      inset: -8px;
+      border-radius: 14px;
+      box-shadow: 0 32px 38px rgba(0, 0, 0, .55), 0 0 38px rgba(201, 166, 58, .2);
+      content: "";
+      opacity: 0;
+      transition: opacity 450ms ease;
+      pointer-events: none;
+    }
     .envelope {
       position: absolute;
       inset: 0;
@@ -237,6 +264,89 @@
       cursor: pointer;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
+    }
+    .envelope-lining {
+      position: absolute;
+      z-index: 0;
+      inset: 9px;
+      overflow: hidden;
+      border-radius: 5px;
+      background:
+        radial-gradient(ellipse at 50% 24%, rgba(240, 220, 154, .34), transparent 58%),
+        repeating-linear-gradient(45deg, transparent 0 13px, rgba(240, 220, 154, .055) 13px 14px),
+        linear-gradient(145deg, #B88F2E, #C9A63A 55%, #9B7625);
+      opacity: .56;
+      transition: opacity 400ms ease;
+    }
+    .envelope-lining svg { position: absolute; inset: 8% 30%; width: 40%; height: 84%; fill: none; stroke: rgba(255, 237, 177, .23); stroke-width: 1.2; }
+    .envelope-front {
+      position: absolute;
+      z-index: 4;
+      inset: 0;
+      background: linear-gradient(150deg, #F5E5B9, #E2D1A0);
+      clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+    }
+    .envelope-front::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        linear-gradient(34deg, transparent 49.75%, rgba(160, 125, 43, .32) 50%, transparent 50.35%),
+        linear-gradient(-34deg, transparent 49.75%, rgba(160, 125, 43, .32) 50%, transparent 50.35%);
+      content: "";
+    }
+    .envelope-front::after {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(34deg, transparent 49.75%, rgba(160, 125, 43, .32) 50%, transparent 50.35%),
+        linear-gradient(-34deg, transparent 49.75%, rgba(160, 125, 43, .32) 50%, transparent 50.35%);
+      content: "";
+    }
+    .envelope-light {
+      position: absolute;
+      z-index: 2;
+      top: -34%;
+      left: 50%;
+      width: 90%;
+      height: 110%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at 50% 75%, rgba(255, 242, 190, .8), rgba(232, 190, 75, .3) 34%, transparent 70%);
+    }
+    .envelope-light i {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      width: 1px;
+      height: 78%;
+      opacity: .6;
+      transform: translateX(-50%) rotate(var(--ray-angle));
+      transform-origin: bottom center;
+      background: linear-gradient(0deg, rgba(255, 241, 183, .8), transparent);
+    }
+    .envelope-light i:nth-child(1) { --ray-angle: -34deg; }
+    .envelope-light i:nth-child(2) { --ray-angle: -23deg; }
+    .envelope-light i:nth-child(3) { --ray-angle: -12deg; }
+    .envelope-light i:nth-child(4) { --ray-angle: 0deg; }
+    .envelope-light i:nth-child(5) { --ray-angle: 12deg; }
+    .envelope-light i:nth-child(6) { --ray-angle: 23deg; }
+    .envelope-light i:nth-child(7) { --ray-angle: 34deg; }
+    .envelope-flash {
+      position: absolute;
+      z-index: 7;
+      top: 50%;
+      left: 50%;
+      width: 1px;
+      height: 1px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 240, .82), rgba(255, 237, 177, .42) 36%, transparent 72%);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
     }
     .envelope::before {
       position: absolute;
@@ -260,7 +370,7 @@
     }
     .envelope-flap {
       position: absolute;
-      z-index: 3;
+      z-index: 5;
       top: -1px;
       left: 0;
       width: 100%;
@@ -273,20 +383,22 @@
       backface-visibility: visible;
       -webkit-backface-visibility: visible;
     }
-    .envelope-flap::after {
+    .flap-back {
       position: absolute;
       inset: 0;
       border: 1px solid rgba(255, 248, 219, .78);
-      background: linear-gradient(155deg, #FFF9E5, #F2E6C3);
+      background:
+        radial-gradient(ellipse at 50% 15%, rgba(255, 250, 225, .8), transparent 70%),
+        repeating-linear-gradient(45deg, transparent 0 11px, rgba(201, 166, 58, .08) 11px 12px),
+        linear-gradient(155deg, #F4E5BB, #D9BC69);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
-      content: "";
       transform: rotateX(180deg);
-      transform-origin: center;
       backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
     .envelope-glint {
       position: absolute;
-      z-index: 4;
+      z-index: 5;
       top: 15%;
       left: 17%;
       width: 8px;
@@ -297,7 +409,7 @@
     .envelope-glint--two { top: 26%; right: 17%; left: auto; width: 6px; animation-delay: -1.3s; }
     .wax-seal {
       position: absolute;
-      z-index: 5;
+      z-index: 6;
       top: 50%;
       left: 50%;
       display: grid;
@@ -323,29 +435,6 @@
       content: "";
     }
     .wax-seal svg { position: relative; width: 36%; height: 36%; fill: none; stroke: #F8EBD6; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px rgba(86, 8, 19, .45)); }
-    .seal-crack {
-      position: absolute;
-      z-index: 6;
-      top: 45%;
-      left: 50%;
-      width: 30px;
-      height: 25px;
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(.5);
-      pointer-events: none;
-    }
-    .seal-crack::before, .seal-crack::after {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 1.5px;
-      height: 25px;
-      background: #FFE9A7;
-      box-shadow: 0 0 8px #E8D28A;
-      content: "";
-      transform: rotate(28deg);
-    }
-    .seal-crack::after { height: 15px; transform: translate(3px, 8px) rotate(-52deg); }
     .tap-prompt {
       display: flex;
       min-height: 50px;
@@ -374,14 +463,14 @@
       width: min(calc(100% - 24px), 410px);
       max-height: 100dvh;
       margin: 0;
-      padding: clamp(29px, 8vw, 42px) clamp(20px, 6vw, 34px) 25px;
+      padding: max(clamp(29px, 8vw, 42px), env(safe-area-inset-top)) clamp(20px, 6vw, 34px) max(25px, env(safe-area-inset-bottom));
       display: flex;
       align-items: flex-start;
       justify-content: center;
       overflow-x: hidden;
       overflow-y: auto;
       overscroll-behavior: contain;
-      border: 1px solid rgba(181, 155, 52, .12);
+      border: 0;
       border-radius: 5px;
       background: linear-gradient(145deg, #fff8df, #efe1b9);
       box-shadow: 0 24px 70px rgba(0, 0, 0, .48), 0 0 54px rgba(138, 122, 60, .16);
@@ -390,24 +479,39 @@
       visibility: hidden;
       transform: translate(-50%, -50%);
       transform-origin: center;
-      transition: background 350ms ease, border-radius 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
+      transition: background 350ms ease, border-radius 350ms ease, box-shadow 350ms ease;
       will-change: transform;
     }
-    .invitation::before {
+    .border-art {
       position: absolute;
-      inset: 11px;
-      border: 1.5px solid rgba(181, 155, 52, .88);
-      border-radius: 17px;
-      content: "";
+      z-index: 3;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
       pointer-events: none;
     }
-    .invitation::after {
+    .border-art path {
+      fill: none;
+      stroke: url(#frame-gold);
+      stroke-width: 1.5;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      vector-effect: non-scaling-stroke;
+    }
+    .border-art .inner { stroke: rgba(232, 210, 138, .38); stroke-width: 1; stroke-dasharray: .008 .006; }
+    .morph-pulse {
       position: absolute;
-      inset: 20px;
-      border: 1px dashed rgba(232, 210, 138, .25);
-      border-radius: 12px;
-      content: "";
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      width: min(100vw, 480px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(240, 220, 154, .7);
+      border-radius: 50%;
+      opacity: 0;
       pointer-events: none;
+      transform: translate(-50%, -50%) scale(.6);
     }
     .content { position: relative; z-index: 1; width: 100%; }
     .letter-monogram {
@@ -423,6 +527,38 @@
       transform: translate(-50%, -50%);
     }
     .letter-monogram span { color: var(--gold-deep); }
+    .letter-monogram::after {
+      position: absolute;
+      inset: -10px -28px;
+      background: linear-gradient(105deg, transparent 38%, rgba(255, 246, 202, .92) 50%, transparent 62%);
+      content: "";
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+    .letter-trails {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .letter-trails i {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #F0DC9A;
+      box-shadow: 0 0 8px #D9BC55;
+      opacity: 0;
+    }
+    .letter-trails i:nth-child(1) { top: 75%; left: 5%; }
+    .letter-trails i:nth-child(2) { top: 60%; left: 12%; }
+    .letter-trails i:nth-child(3) { top: 83%; left: 19%; }
+    .letter-trails i:nth-child(4) { top: 66%; right: 12%; }
+    .letter-trails i:nth-child(5) { top: 78%; right: 5%; }
+    .letter-trails i:nth-child(6) { top: 48%; left: 7%; }
+    .letter-trails i:nth-child(7) { top: 52%; right: 7%; }
+    .letter-trails i:nth-child(8) { top: 88%; left: 50%; }
     .card-item { opacity: 0; transform: translateY(8px); }
     .heart-badge {
       display: grid;
@@ -457,74 +593,133 @@
     .number.tick { animation: number-tick 250ms ease-out; }
     .unit { display: block; padding: 5px 2px 6px; color: #231E0E; font-size: .66rem; line-height: 1.2; }
     .lotus { display: block; width: min(170px, 55vw); margin: 20px auto 0; overflow: visible; }
-    .lotus path { fill: none; stroke: url(#lotus-gold); stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+    .lotus path { fill: none; stroke: url(#lotus-gold); stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
     .lotus .petal-line { filter: drop-shadow(0 0 3px rgba(232, 210, 138, .17)); }
+    .replay-link {
+      display: inline-flex;
+      min-height: 40px;
+      margin: 6px auto 0;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background: transparent;
+      color: rgba(232, 210, 138, .72);
+      font-size: .75rem;
+      letter-spacing: .04em;
+      text-decoration: underline;
+      text-decoration-color: rgba(232, 210, 138, .35);
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
 
+    body.is-opening { background:
+      radial-gradient(ellipse at 50% 46%, rgba(138, 122, 60, .42), transparent 49%),
+      radial-gradient(ellipse at 50% 95%, rgba(138, 122, 60, .18), transparent 44%),
+      linear-gradient(155deg, #3A3015, #1C170A 60%, #171307);
+      transition-delay: 1800ms;
+    }
     body.is-opening .ambience { opacity: .55; filter: brightness(1.22); }
+    body.is-opening .watermark { opacity: .1; transition: opacity 900ms ease 1800ms; }
     body.is-opening .cover-heading,
     body.is-opening .cover-tools,
     body.is-opening .tap-prompt,
-    body.is-opening .tap-caption { opacity: 0; transition: opacity 250ms ease; }
-    body.is-opening .cover-heading,
-    body.is-opening .cover-tools,
-    body.is-opening .tap-prompt { opacity: 0; transition: opacity 250ms ease; }
+    body.is-opening .tap-caption { opacity: 0; transform: translateY(-12px); transition: opacity 300ms ease, transform 300ms ease; }
     body.is-opening .cover { pointer-events: none; }
-    body.is-opening .wax-seal { animation: seal-press 250ms ease-in forwards; }
-    body.is-opening .seal-half--left { opacity: 1; animation: seal-split-left 360ms cubic-bezier(.2, .75, .3, 1) 250ms forwards; }
-    body.is-opening .seal-half--right { opacity: 1; animation: seal-split-right 360ms cubic-bezier(.2, .75, .3, 1) 250ms forwards; }
-    body.is-opening .seal-burst i { animation: particle-burst 420ms ease-out 130ms forwards; }
-    body.is-opening .envelope-flap { animation: flap-open 650ms cubic-bezier(.3, .7, .2, 1) 250ms forwards; }
-    body.is-opening .envelope::after { animation: fold-disappear 120ms ease-out 780ms forwards; }
-    body.is-opening .envelope-wrap { animation: envelope-exit 500ms ease-in 1400ms forwards; }
+    body.is-opening .envelope-wrap { animation: envelope-exit 900ms var(--ease-out) 1800ms forwards; }
+    body.is-opening .envelope-wrap::after { opacity: 1; }
+    body.is-opening .wax-seal { animation: seal-press 120ms ease-in forwards; }
+    body.is-opening .seal-half--left { opacity: 1; animation: seal-split-left 330ms var(--ease-out) 120ms forwards; }
+    body.is-opening .seal-half--right { opacity: 1; animation: seal-split-right 330ms var(--ease-out) 120ms forwards; }
+    body.is-opening .seal-burst i { animation: particle-burst 500ms ease-out forwards; }
+    body.is-opening .envelope-flash { animation: seal-flash 300ms ease-out forwards; }
+    body.is-opening .envelope-flap { animation: flap-open 750ms cubic-bezier(.22, .8, .24, 1) 350ms forwards; }
+    body.is-opening .envelope-front::before { animation: fold-disappear 180ms ease-out 900ms forwards; }
+    body.is-opening .envelope-light { animation: light-spill 750ms ease-out 350ms forwards; }
+    body.is-opening .envelope::after { animation: fold-disappear 180ms ease-out 900ms forwards; }
+    body.is-opening .envelope-lining { opacity: 1; }
     body.is-opening .invitation {
       visibility: visible;
-      animation: letter-morph 2s cubic-bezier(.22, 1, .36, 1) forwards;
+      animation: letter-rise 800ms cubic-bezier(.34, 1.3, .5, 1) 1000ms both,
+        letter-morph 900ms cubic-bezier(.22, .8, .24, 1) 1800ms forwards,
+        letter-skin 900ms cubic-bezier(.22, .8, .24, 1) 1800ms forwards;
     }
-    body.is-opening .letter-monogram { animation: monogram-show 2s linear forwards; }
+    body.is-opening .letter-monogram { animation: monogram-show 800ms ease-out 1000ms both; }
+    body.is-opening .letter-monogram::after { animation: monogram-shimmer 600ms ease-out 1200ms both; }
+    body.is-opening .border-art { animation: border-show 700ms ease-out 1800ms forwards; }
+    body.is-opening .border-art path { animation: border-draw 700ms ease-out 1800ms forwards; }
+    body.is-opening .lotus path { animation: lotus-draw 900ms ease-out 2300ms forwards; }
+    body.is-opening .morph-pulse { animation: morph-pulse 600ms ease-out 1800ms both; }
+    body.is-opening .card-item { animation: item-arrive 220ms ease-out forwards; }
+    body.is-opening .card-item:nth-child(1) { animation-delay: 2400ms; }
+    body.is-opening .card-item:nth-child(2) { animation-delay: 2460ms; }
+    body.is-opening .card-item:nth-child(3) { animation-delay: 2520ms; }
+    body.is-opening .card-item:nth-child(4) { animation-delay: 2580ms; }
+    body.is-opening .card-item:nth-child(5) { animation-delay: 2640ms; }
+    body.is-opening .card-item:nth-child(6) { animation-delay: 2700ms; }
+    body.is-opening .card-item:nth-child(7) { animation-delay: 2760ms; }
+    body.is-opening .card-item:nth-child(8) { animation-delay: 2820ms; }
+    body.is-opening .card-item:nth-child(9) { animation-delay: 2880ms; }
+    body.is-opening .card-item:nth-child(10) { animation-delay: 2940ms; }
+    body.is-opening .tile:nth-child(1) .number { animation: tile-flip 180ms ease-out 2700ms both; }
+    body.is-opening .tile:nth-child(2) .number { animation: tile-flip 180ms ease-out 2800ms both; }
+    body.is-opening .tile:nth-child(3) .number { animation: tile-flip 180ms ease-out 2900ms both; }
+    body.is-opening .tile:nth-child(4) .number { animation: tile-flip 180ms ease-out 3000ms both; }
+    body.is-opening .letter-trails i { animation: trail-rise 800ms ease-out 1600ms forwards; }
     body.is-opened .invitation {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, -50%) scale(1);
-      border-color: rgba(181, 155, 52, .12);
       border-radius: 25px;
       background:
         radial-gradient(ellipse at 50% 25%, rgba(138, 122, 60, .22), transparent 58%),
         linear-gradient(155deg, rgba(42, 36, 16, .97), rgba(35, 30, 14, .98));
     }
     body.is-opened .letter-monogram { opacity: 0; }
-    body.is-opened .card-item { animation: item-arrive 120ms ease-out forwards; }
-    body.is-opened .card-item:nth-child(1) { animation-delay: 0ms; }
-    body.is-opened .card-item:nth-child(2) { animation-delay: 60ms; }
-    body.is-opened .card-item:nth-child(3) { animation-delay: 120ms; }
-    body.is-opened .card-item:nth-child(4) { animation-delay: 180ms; }
-    body.is-opened .card-item:nth-child(5) { animation-delay: 240ms; }
-    body.is-opened .card-item:nth-child(6) { animation-delay: 300ms; }
-    body.is-opened .card-item:nth-child(7) { animation-delay: 360ms; }
-    body.is-opened .card-item:nth-child(8) { animation-delay: 420ms; }
-    body.is-opened .card-item:nth-child(9) { animation-delay: 480ms; }
-    body.is-opened .cover { display: none; pointer-events: none; cursor: default; }
-    body.is-opened { overflow: hidden; cursor: default; }
+    body.is-opened .title { position: relative; display: table; margin-right: auto; margin-left: auto; color: var(--gold-light); }
+    body.is-opened .title::after { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(100deg, transparent 38%, rgba(255, 244, 199, .78) 50%, transparent 62%); background-clip: text; color: transparent; content: attr(data-shimmer); opacity: 0; pointer-events: none; -webkit-background-clip: text; animation: title-sheen 8s ease-in-out 1s infinite; }
+    body.is-opened .card-item { opacity: 1; transform: none; animation: none; }
+    body.is-opened .border-art { opacity: 1; }
+    body.is-opened .border-art path { stroke-dashoffset: 0; }
+    body.is-opened .lotus path { stroke-dashoffset: 0; }
+    body.is-opened .replay-link { opacity: 1; }
+    body.is-opened { overflow: auto; pointer-events: auto; cursor: default; }
+    body.is-opened .ambience { opacity: .46; filter: none; }
+    body.is-opened .watermark { opacity: .1; }
+    body.is-opening .stage, body.is-opened .stage { overflow: visible; }
+    body.is-opened .stage { min-height: 100dvh; }
     body.is-opening .stage, body.is-opened .stage { overflow: visible; }
     body.is-opened .stage { min-height: 100dvh; }
 
     @keyframes twinkle { 0%, 100% { opacity: .32; transform: scale(.75) rotate(0); } 50% { opacity: 1; transform: scale(1.06) rotate(45deg); } }
     @keyframes drift-down { from { transform: translate3d(0, -5vh, 0) rotate(-18deg); } to { transform: translate3d(24px, 112vh, 0) rotate(260deg); } }
+    @keyframes petal-drift { 0% { opacity: 0; transform: translate3d(0, -5vh, 0) rotate(-18deg); } 12% { opacity: .35; } 100% { opacity: 0; transform: translate3d(20px, 108vh, 0) rotate(230deg); } }
+    @keyframes trail-rise { 0% { opacity: 0; transform: translateY(16px) scale(.5); } 30% { opacity: .9; } 100% { opacity: 0; transform: translateY(-44px) scale(.2); } }
     @keyframes seal-breathe { 0%, 100% { scale: 1; } 50% { scale: 1.05; } }
     @keyframes prompt-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-    @keyframes seal-press { 0% { transform: translate(-50%, -50%) scale(1); } 75% { transform: translate(-50%, -50%) scale(.92); } 100% { transform: translate(-50%, -50%) scale(.92); opacity: 0; } }
-    @keyframes seal-split-left { from { opacity: 1; transform: translate(0, 0) rotate(0); } to { opacity: 0; transform: translate(-22px, 34px) rotate(-30deg); } }
-    @keyframes seal-split-right { from { opacity: 1; transform: translate(0, 0) rotate(0); } to { opacity: 0; transform: translate(22px, 34px) rotate(30deg); } }
-    @keyframes particle-burst { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--burst-x), var(--burst-y)) scale(.3); } }
-    @keyframes flap-open { 0% { z-index: 6; transform: rotateX(0); } 100% { z-index: 0; transform: rotateX(180deg); } }
+    @keyframes seal-press { to { transform: translate(-50%, -50%) scale(.9); } }
+    @keyframes seal-split-left { to { opacity: 0; transform: translate(-12px, 18px) rotate(-12deg); } }
+    @keyframes seal-split-right { to { opacity: 0; transform: translate(12px, 18px) rotate(12deg); } }
+    @keyframes particle-burst { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 18% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--burst-x), var(--burst-y)) scale(.3); } }
+    @keyframes seal-flash { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 25% { opacity: .5; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(8); } }
+    @keyframes flap-open { 0% { z-index: 5; transform: rotateX(0); } 68% { z-index: 5; transform: rotateX(-120deg); } 100% { z-index: 1; transform: rotateX(-178deg); } }
+    @keyframes light-spill { 0%, 100% { opacity: 0; } 45% { opacity: .8; } }
     @keyframes fold-disappear { to { opacity: 0; } }
-    @keyframes letter-morph {
-      0%, 44% { opacity: 0; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--start-dy))) scale(var(--start-sx), var(--start-sy)); }
-      45% { opacity: 1; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--start-dy))) scale(var(--start-sx), var(--start-sy)); }
-      70% { opacity: 1; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--lift-dy))) scale(var(--start-sx), var(--start-sy)); }
-      95%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    @keyframes letter-rise {
+      0% { opacity: 0; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--start-dy))) scale(var(--start-sx), var(--start-sy)); }
+      1% { opacity: 1; }
+      100% { opacity: 1; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--lift-dy))) scale(var(--start-sx), var(--start-sy)) rotate(1.5deg); }
     }
-    @keyframes monogram-show { 0%, 44% { opacity: 0; } 45%, 69% { opacity: 1; } 70%, 100% { opacity: 0; } }
-    @keyframes envelope-exit { to { opacity: 0; transform: translateY(40px); visibility: hidden; } }
+    @keyframes letter-morph { from { opacity: 1; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--lift-dy))) scale(var(--start-sx), var(--start-sy)) rotate(1.5deg); } to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); } }
+    @keyframes letter-skin { from { border-radius: 5px; background: linear-gradient(145deg, #fff8df, #efe1b9); } to { border-radius: 25px; background: radial-gradient(ellipse at 50% 25%, rgba(138, 122, 60, .22), transparent 58%), linear-gradient(155deg, rgba(42, 36, 16, .97), rgba(35, 30, 14, .98)); } }
+    @keyframes monogram-show { 0% { opacity: 0; } 8%, 85% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes monogram-shimmer { 0% { opacity: 0; transform: translateX(-120%); } 15% { opacity: 1; } 100% { opacity: 0; transform: translateX(120%); } }
+    @keyframes morph-pulse { 0% { opacity: .5; transform: translate(-50%, -50%) scale(.6); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.6); } }
+    @keyframes border-show { to { opacity: 1; } }
+    @keyframes border-draw { to { stroke-dashoffset: 0; } }
+    @keyframes lotus-draw { to { stroke-dashoffset: 0; } }
+    @keyframes title-sheen { 0%, 74% { opacity: 0; transform: translateX(-120%); } 78% { opacity: .8; } 90%, 100% { opacity: 0; transform: translateX(120%); } }
+    @keyframes tile-flip { 0% { opacity: .5; transform: perspective(240px) rotateX(-65deg) translateY(4px); } 100% { opacity: 1; transform: perspective(240px) rotateX(0) translateY(0); } }
+    @keyframes envelope-exit { to { opacity: 0; transform: translateY(50px) scale(.96); visibility: hidden; } }
     @keyframes item-arrive { to { opacity: 1; transform: translateY(0); } }
     @keyframes number-tick { 0% { opacity: .45; transform: translateY(4px); } 100% { opacity: 1; transform: translateY(0); } }
 
@@ -534,7 +729,7 @@
       .cover-subtitle { margin-bottom: 13px; }
       .envelope-wrap { width: min(85vw, 420px, 65dvh); }
       .tap-prompt { margin-top: 18px; padding-right: 11px; padding-left: 11px; gap: 7px; font-size: .88rem; }
-      .invitation { padding: 25px 17px 21px; }
+      .invitation { padding: max(25px, env(safe-area-inset-top)) 17px max(21px, env(safe-area-inset-bottom)); }
       .tiles { gap: 6px; }
       .unit { font-size: .61rem; }
     }
@@ -544,7 +739,7 @@
       .cover-subtitle { margin-bottom: 10px; }
       .tap-prompt { margin-top: 15px; }
       .envelope-wrap { width: min(85vw, 390px, 58dvh); }
-      .invitation { padding: 14px 18px 12px; }
+      .invitation { padding: max(14px, env(safe-area-inset-top)) 18px max(12px, env(safe-area-inset-bottom)); }
       .heart-badge { width: 58px; height: 58px; margin-bottom: 8px; }
       .heart-badge svg { width: 27px; height: 27px; }
       .divider { height: 10px; margin: 4px auto 8px; }
@@ -574,21 +769,40 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .card-item { transform: none; }
+      body.is-opening { pointer-events: none; transition-delay: 0s !important; }
       body.is-opening .cover-heading,
       body.is-opening .cover-tools,
       body.is-opening .tap-prompt,
-      body.is-opening .tap-caption { opacity: 0; transition: opacity 450ms ease !important; }
+      body.is-opening .tap-caption { opacity: 0; transform: none; transition: opacity 400ms ease !important; }
+      body.is-opening .cover { opacity: 0; transition: opacity 400ms ease !important; }
       body.is-opening .wax-seal,
       body.is-opening .seal-half,
       body.is-opening .seal-burst i,
+      body.is-opening .envelope-flash,
       body.is-opening .envelope-flap,
+      body.is-opening .envelope-light,
+      body.is-opening .envelope-wrap,
+      body.is-opening .envelope-wrap::after,
+      body.is-opening .envelope-front::before,
       body.is-opening .envelope::after,
-      body.is-opening .envelope-wrap { animation: none !important; }
-      body.is-opening .invitation { opacity: 1; visibility: visible; transform: translate(-50%, -50%); animation: none !important; transition: opacity 450ms ease !important; }
-      body.is-opening .letter-monogram { display: none; }
-      body.is-opening .invitation .card-item { animation: item-arrive 450ms ease-out forwards !important; }
-      body.is-opening .invitation .card-item:nth-child(n) { animation-delay: 0s; }
-      body.is-opened .card-item { animation-delay: 0s; }
+      body.is-opening .letter-trails i { animation: none !important; }
+      body.is-opening .seal-burst i,
+      body.is-opening .envelope-flash,
+      body.is-opening .letter-trails i { opacity: 0 !important; }
+      body.is-opening .invitation {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%);
+        border-radius: 25px;
+        background: radial-gradient(ellipse at 50% 25%, rgba(138, 122, 60, .22), transparent 58%), linear-gradient(155deg, rgba(42, 36, 16, .97), rgba(35, 30, 14, .98));
+        animation: none !important;
+        transition: opacity 400ms ease !important;
+      }
+      body.is-opening .invitation .card-item { opacity: 1; transform: none; animation: none !important; }
+      body.is-opening .border-art { opacity: 1; }
+      body.is-opening .border-art path, body.is-opening .lotus path { stroke-dashoffset: 0; animation: none !important; }
+      body.is-opening .letter-monogram, body.is-opening .morph-pulse { display: none; }
+      body.is-opened .card-item { opacity: 1; transform: none; animation: none; }
     }
   </style>
 </head>
@@ -632,7 +846,12 @@
 
       <div class="envelope-wrap">
         <button class="envelope" id="openEnvelope" type="button" aria-label="Open the wedding invitation / ចុចដើម្បីបើកសំបុត្រ">
-          <span class="envelope-flap" aria-hidden="true"></span>
+          <span class="envelope-lining" aria-hidden="true">
+            <svg viewBox="0 0 100 160"><path d="M50 145C30 124 31 89 50 18c19 71 20 106 0 127ZM50 145C22 134 8 111 5 80c22 4 38 24 45 65ZM50 145c28-11 42-34 45-65-22 4-38 24-45 65M20 151q30 10 60 0"/></svg>
+          </span>
+          <span class="envelope-light" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="envelope-front" aria-hidden="true"></span>
+          <span class="envelope-flap" aria-hidden="true"><span class="flap-back"></span></span>
           <svg class="envelope-glint" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 12.2 7.8 20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z" fill="currentColor"/></svg>
           <svg class="envelope-glint envelope-glint--two" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 12.2 7.8 20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z" fill="currentColor"/></svg>
           <span class="wax-seal" aria-hidden="true">
@@ -640,7 +859,8 @@
             <span class="seal-half seal-half--left"></span>
             <span class="seal-half seal-half--right"></span>
           </span>
-          <span class="seal-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="envelope-flash" aria-hidden="true"></span>
+          <span class="seal-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
         </button>
       </div>
 
@@ -653,12 +873,19 @@
     </section>
 
     <article class="invitation" id="invitation" aria-labelledby="invitation-title" aria-hidden="true" tabindex="-1">
+      <svg class="border-art" viewBox="0 0 410 800" preserveAspectRatio="none" aria-hidden="true">
+        <defs><linearGradient id="frame-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0DC9A"/><stop offset=".5" stop-color="#B59B34"/><stop offset="1" stop-color="#8F7524"/></linearGradient></defs>
+        <path pathLength="1" d="M24 1.5H386Q408.5 1.5 408.5 24V776Q408.5 798.5 386 798.5H24Q1.5 798.5 1.5 776V24Q1.5 1.5 24 1.5Z"/>
+        <path class="inner" pathLength="1" d="M31 19H379Q391 19 391 31V769Q391 781 379 781H31Q19 781 19 769V31Q19 19 31 19Z"/>
+      </svg>
+      <span class="morph-pulse" aria-hidden="true"></span>
       <div class="letter-monogram" aria-hidden="true">S <span>&amp;</span> C</div>
+      <span class="letter-trails" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <div class="content">
         <div class="heart-badge card-item" aria-hidden="true">
           <svg viewBox="0 0 32 32"><path d="M16 27S4.5 19.8 4.5 11.8A6.2 6.2 0 0 1 16 8.3a6.2 6.2 0 0 1 11.5 3.5C27.5 19.8 16 27 16 27Z"/></svg>
         </div>
-        <h1 class="title card-item" id="invitation-title">សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
+        <h1 class="title card-item" id="invitation-title" data-shimmer="សិរីមង្គលអាពាហ៍ពិពាហ៍" tabindex="-1">សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
         <div class="divider card-item" aria-hidden="true"><i></i></div>
         <section class="person card-item" aria-label="Groom">
           <p class="role">កូនកំលោះ <span class="role-en">· Groom</span></p>
@@ -686,14 +913,15 @@
         <svg class="lotus card-item" viewBox="0 0 160 92" role="img" aria-label="Gold lotus">
           <defs><linearGradient id="lotus-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8D28A"/><stop offset=".52" stop-color="#B59B34"/><stop offset="1" stop-color="#8F7524"/></linearGradient></defs>
           <g class="petal-line">
-            <path d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
-            <path d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
-            <path d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
-            <path d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
-            <path d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
-            <path d="M34 82Q80 94 126 82"/>
+            <path pathLength="1" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+            <path pathLength="1" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+            <path pathLength="1" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+            <path pathLength="1" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+            <path pathLength="1" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+            <path pathLength="1" d="M34 82Q80 94 126 82"/>
           </g>
         </svg>
+        <button class="replay-link card-item" id="replayInvitation" type="button">បើកម្តងទៀត</button>
       </div>
     </article>
   </main>
@@ -703,10 +931,16 @@
       "use strict";
       var opened = false;
       var soundEnabled = false;
-      var openButton = document.getElementById("openEnvelope");
-      var promptButton = document.getElementById("tapPrompt");
-      var soundToggle = document.getElementById("soundToggle");
+      var stage = document.querySelector(".stage");
+      var cover = document.querySelector(".cover");
+      var coverTemplate = cover.cloneNode(true);
+      var openButton;
+      var promptButton;
+      var soundToggle;
+      var replayButton = document.getElementById("replayInvitation");
       var invitation = document.getElementById("invitation");
+      var invitationTitle = document.getElementById("invitation-title");
+      var ambience = document.querySelector(".ambience");
       var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       var target = Date.UTC(2026, 10, 22, 8, 0, 0);
       var fields = {
@@ -717,6 +951,38 @@
       };
       var previous = {};
       var audioContext;
+
+      function bindCover() {
+        cover = document.querySelector(".cover");
+        openButton = cover.querySelector("#openEnvelope");
+        promptButton = cover.querySelector("#tapPrompt");
+        soundToggle = cover.querySelector("#soundToggle");
+        openButton.addEventListener("click", openInvitation);
+        promptButton.addEventListener("click", openInvitation);
+        soundToggle.addEventListener("click", function () {
+          soundEnabled = !soundEnabled;
+          soundToggle.setAttribute("aria-pressed", String(soundEnabled));
+          soundToggle.setAttribute("aria-label", soundEnabled ? "Disable chime" : "Enable chime");
+          soundToggle.title = soundEnabled ? "Sound on" : "Sound off";
+          soundToggle.innerHTML = soundEnabled
+            ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6m2-8a8 8 0 0 1 0 10"/></svg>'
+            : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="m17 9 4 6m0-6-4 6"/></svg>';
+        });
+      }
+
+      function addRevealPetals() {
+        if (reducedMotion.matches || ambience.querySelector(".reveal-petal")) return;
+        var petals = document.createDocumentFragment();
+        for (var index = 0; index < 4; index += 1) {
+          var petal = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          petal.setAttribute("viewBox", "0 0 24 32");
+          petal.setAttribute("aria-hidden", "true");
+          petal.classList.add("petal", "reveal-petal");
+          petal.innerHTML = '<path d="M12 2C22 8 24 18 12 30 1 19 2 9 12 2Z" fill="currentColor"/><path d="M12 7v20" fill="none" stroke="#8F7524" stroke-width=".8"/>';
+          petals.appendChild(petal);
+        }
+        ambience.appendChild(petals);
+      }
 
       function updateCountdown() {
         var remaining = Math.max(0, target - Date.now());
@@ -748,19 +1014,32 @@
         if (!AudioContextClass) return;
         audioContext = audioContext || new AudioContextClass();
         if (audioContext.state === "suspended") audioContext.resume();
-        var oscillator = audioContext.createOscillator();
-        var gain = audioContext.createGain();
         var now = audioContext.currentTime;
-        oscillator.type = "sine";
-        oscillator.frequency.setValueAtTime(659.25, now);
-        oscillator.frequency.exponentialRampToValueAtTime(880, now + .28);
-        gain.gain.setValueAtTime(.0001, now);
-        gain.gain.exponentialRampToValueAtTime(.12, now + .035);
-        gain.gain.exponentialRampToValueAtTime(.0001, now + .62);
-        oscillator.connect(gain);
-        gain.connect(audioContext.destination);
-        oscillator.start(now);
-        oscillator.stop(now + .64);
+        var bell = audioContext.createOscillator();
+        var bellGain = audioContext.createGain();
+        bell.type = "sine";
+        bell.frequency.setValueAtTime(659.25, now);
+        bell.frequency.exponentialRampToValueAtTime(880, now + .28);
+        bellGain.gain.setValueAtTime(.0001, now);
+        bellGain.gain.exponentialRampToValueAtTime(.12, now + .035);
+        bellGain.gain.exponentialRampToValueAtTime(.0001, now + .62);
+        bell.connect(bellGain);
+        bellGain.connect(audioContext.destination);
+        bell.start(now);
+        bell.stop(now + .64);
+
+        var harp = audioContext.createOscillator();
+        var harpGain = audioContext.createGain();
+        harp.type = "sine";
+        harp.frequency.setValueAtTime(987.77, now + 1.8);
+        harp.frequency.exponentialRampToValueAtTime(1318.51, now + 2.2);
+        harpGain.gain.setValueAtTime(.0001, now + 1.8);
+        harpGain.gain.exponentialRampToValueAtTime(.035, now + 1.84);
+        harpGain.gain.exponentialRampToValueAtTime(.0001, now + 2.8);
+        harp.connect(harpGain);
+        harpGain.connect(audioContext.destination);
+        harp.start(now + 1.8);
+        harp.stop(now + 2.82);
       }
 
       function openInvitation() {
@@ -772,37 +1051,41 @@
         var startCenterY = envelopeRect.top + envelopeRect.height * .475;
         invitation.style.setProperty("--start-dx", (startCenterX - window.innerWidth / 2) + "px");
         invitation.style.setProperty("--start-dy", (startCenterY - window.innerHeight / 2) + "px");
-        invitation.style.setProperty("--lift-dy", (startCenterY - window.innerHeight / 2 - envelopeRect.height * .65) + "px");
+        invitation.style.setProperty("--lift-dy", (startCenterY - window.innerHeight / 2 - envelopeRect.height * .62) + "px");
         invitation.style.setProperty("--start-sx", String(envelopeRect.width * .76 / cardRect.width));
         invitation.style.setProperty("--start-sy", String(envelopeRect.height * .75 / cardRect.height));
+        invitation.style.willChange = "transform";
+        addRevealPetals();
+        if (!reducedMotion.matches && "vibrate" in navigator) navigator.vibrate(18);
         document.body.classList.add("is-opening");
         invitation.setAttribute("aria-hidden", "false");
         playChime();
         window.setTimeout(function () {
+          document.body.classList.remove("is-opening");
           document.body.classList.add("is-opened");
-          invitation.focus({ preventScroll: true });
-          if (reducedMotion.matches) {
-            document.body.classList.remove("is-opening");
-          } else {
-            window.setTimeout(function () {
-              document.body.classList.remove("is-opening");
-            }, 550);
-          }
-        }, reducedMotion.matches ? 500 : 1900);
+          invitation.style.removeProperty("will-change");
+          cover.remove();
+          invitationTitle.focus({ preventScroll: true });
+        }, reducedMotion.matches ? 400 : 3200);
       }
 
-      openButton.addEventListener("click", openInvitation);
-      promptButton.addEventListener("click", openInvitation);
-      soundToggle.addEventListener("click", function () {
-        soundEnabled = !soundEnabled;
-        soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-        soundToggle.setAttribute("aria-label", soundEnabled ? "Disable chime" : "Enable chime");
-        soundToggle.title = soundEnabled ? "Sound on" : "Sound off";
-        soundToggle.innerHTML = soundEnabled
-          ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6m2-8a8 8 0 0 1 0 10"/></svg>'
-          : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="m17 9 4 6m0-6-4 6"/></svg>';
-      });
+      function replayInvitation() {
+        opened = false;
+        soundEnabled = false;
+        document.body.classList.remove("is-opening", "is-opened");
+        ambience.querySelectorAll(".reveal-petal").forEach(function (petal) { petal.remove(); });
+        ["--start-dx", "--start-dy", "--lift-dy", "--start-sx", "--start-sy", "will-change"].forEach(function (property) {
+          invitation.style.removeProperty(property);
+        });
+        invitation.setAttribute("aria-hidden", "true");
+        stage.insertBefore(coverTemplate.cloneNode(true), invitation);
+        bindCover();
+        invitationTitle.blur();
+        openButton.focus({ preventScroll: true });
+      }
 
+      bindCover();
+      replayButton.addEventListener("click", replayInvitation);
       updateCountdown();
       window.setInterval(updateCountdown, 1000);
     }());

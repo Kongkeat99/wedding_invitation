@@ -236,6 +236,8 @@ if(splashLanguage)splashLanguage.addEventListener("click",function(){
   this.setAttribute("aria-label",language==="km"?"Switch to English":"ប្ដូរទៅភាសាខ្មែរ");
   document.querySelectorAll("#cover [data-km][data-en]").forEach(function(element){element.textContent=element.getAttribute("data-"+language)});
   $("cover").lang=language;
+  document.documentElement.dataset.language=language;
+  syncDressLanguage(language);
   $("coverCta").setAttribute("aria-label",language==="km"?"ចុចលើសំបុត្រ ដើម្បីបើក":"Tap the envelope to open")
 });
 
@@ -311,7 +313,42 @@ if(new URLSearchParams(location.search).has("setup")){
 
 /* ===== beauty pack ===== */
 var dc=CONFIG.dress;
-if(dc&&dc.colors&&dc.colors.length){$("dtxt").textContent=dc.text||"";dc.colors.forEach(function(c){var i=document.createElement("span");i.className="sw";i.style.background=c;i.title=c;$("sws").appendChild(i)})}
+var dressColorNames=[
+  {km:"មាសចាស់",en:"Antique Gold"},
+  {km:"មាសស្រាល",en:"Soft Gold"},
+  {km:"ក្រែម",en:"Ivory"},
+  {km:"មាសចាស",en:"Deep Gold"}
+];
+function syncDressLanguage(language){
+  language=language||document.documentElement.dataset.language||"km";
+  document.querySelectorAll("#sws .swatch-label").forEach(function(label){label.textContent=label.getAttribute("data-"+language)});
+  document.querySelectorAll("#sws .swatch-item").forEach(function(button){
+    var color=button.dataset.colorName||"Dress color",hex=button.dataset.hex;
+    button.setAttribute("aria-label",color+" · "+hex+" · "+(language==="km"?"ចុចដើម្បីចម្លងកូដពណ៌":"Tap to copy color code"));
+    button.title=language==="km"?"ចុចដើម្បីចម្លង "+hex:"Copy "+hex
+  })
+}
+if(dc&&dc.colors&&dc.colors.length){
+  $("dtxt").textContent=dc.text||"";
+  dc.colors.forEach(function(color,index){
+    var name=dressColorNames[index]||{km:"ពណ៌ "+(index+1),en:"Color "+(index+1)};
+    var button=document.createElement("button");button.type="button";button.className="swatch-item";button.style.setProperty("--swatch-delay",(index*100)+"ms");button.dataset.hex=color;button.dataset.colorName=name.km+" · "+name.en;
+    var jewel=document.createElement("span");jewel.className="swatch-jewel";
+    var sample=document.createElement("span");sample.className="swatch-color";sample.style.backgroundColor=color;sample.setAttribute("aria-hidden","true");jewel.appendChild(sample);
+    var label=document.createElement("span");label.className="swatch-label";label.setAttribute("data-km",name.km);label.setAttribute("data-en",name.en);
+    var tooltip=document.createElement("span");tooltip.className="swatch-tooltip";tooltip.setAttribute("role","status");tooltip.setAttribute("aria-live","polite");tooltip.textContent=color;
+    button.appendChild(jewel);button.appendChild(label);button.appendChild(tooltip);
+    var copyTimer=null;button.addEventListener("click",function(){
+      var currentLanguage=document.documentElement.dataset.language||"km";
+      copyTxt(color,function(){
+        clearTimeout(copyTimer);button.dataset.copied="true";tooltip.textContent=currentLanguage==="km"?"បានចម្លង · Copied":"Copied";
+        copyTimer=setTimeout(function(){button.dataset.copied="false";tooltip.textContent=color},1500)
+      })
+    });
+    $("sws").appendChild(button)
+  });
+  syncDressLanguage()
+}
 else $("s-dress").hidden=true;
 var sy=$("story");
 (CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("div");d.className="st";
@@ -370,8 +407,21 @@ var t0=Date.now();
 function hidePre(){setTimeout(function(){$("pre").classList.add("gone")},Math.max(0,1500-(Date.now()-t0)))}
 if(document.readyState==="complete")hidePre();else{addEventListener("load",hidePre);setTimeout(hidePre,3500)}
 
-/* lotus flourish in the footer too */
-var lt=document.querySelector("#hero .lotus").cloneNode(true),fo=document.querySelector("footer");fo.insertBefore(lt,fo.firstChild);
+/* V2 closing footer content and actions. */
+$("footerLove").textContent="With love · "+CONFIG.groom+" & "+CONFIG.bride;
+var weddingYear=new Date(CONFIG.date).getFullYear();
+$("closingYear").textContent=isFinite(weddingYear)?String(weddingYear):String(new Date().getFullYear());
+$("backToTop").addEventListener("click",function(){
+  window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})
+});
+$("shareInvitation").addEventListener("click",function(){
+  var button=this,url=location.href.split("#")[0],title=document.title;
+  if(navigator.share){
+    navigator.share({title:title,text:"Soem Kungkiet & Chham Chanthu · Wedding Invitation",url:url}).catch(function(error){
+      if(error&&error.name!=="AbortError")console.error("Could not share the wedding invitation.",error)
+    })
+  }else copyTxt(url,function(){flash(button,"✓ Copied")})
+});
 
 /* gold-dust cursor trail + heart bursts on tap */
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches){

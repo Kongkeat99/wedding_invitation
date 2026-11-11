@@ -173,15 +173,41 @@
 <section id="s-dress">
   <h2>ពណ៌សម្លៀកបំពាក់</h2><div class="orn"></div>
   <p class="sub" id="dtxt"></p>
-  <div class="row" id="sws"></div>
+  <div class="dress-card">
+    <div class="dress-swatch-row" id="sws" aria-label="Dress code colors"></div>
+  </div>
 </section>
 
 <section id="s-thanks">
   <h2>សេចក្ដីថ្លែងអំណរគុណដល់ភ្ញៀវកិត្តិយស</h2><div class="orn"></div>
-  <p class="sub" id="thanksText" style="font-size:.95rem;opacity:.9;line-height:2">ក្នុងនាមគ្រួសារទាំងសងខាង និងកូនកំលោះ កូនក្រមុំ យើងខ្ញុំសូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ ចំពោះភ្ញៀវកិត្តិយសទាំងអស់ ដែលបានអញ្ជើញមកចូលរួមជាអធិបតី និងជាសក្ខីភាព ក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ។ ការអញ្ជើញមកដល់របស់លោក លោកស្រី អ្នកនាង កញ្ញា គឺជាកិត្តិយស និងក្តីរីករាយដ៏ខ្ពង់ខ្ពស់សម្រាប់យើងខ្ញុំ។ សូមឱ្យលោកអ្នកទាំងអស់ប្រកបដោយសុខភាពល្អ សុភមង្គល និងសេចក្តីចម្រើនគ្រប់ប្រការ។</p>
+  <div class="thanks-card">
+    <span class="thanks-quote" aria-hidden="true">“</span>
+    <p class="thanks-copy" id="thanksText">ក្នុងនាមគ្រួសារទាំងសងខាង និងកូនកំលោះ កូនក្រមុំ យើងខ្ញុំសូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ ចំពោះភ្ញៀវកិត្តិយសទាំងអស់ ដែលបានអញ្ជើញមកចូលរួមជាអធិបតី និងជាសក្ខីភាព ក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ។ ការអញ្ជើញមកដល់របស់លោក លោកស្រី អ្នកនាង កញ្ញា គឺជាកិត្តិយស និងក្តីរីករាយដ៏ខ្ពង់ខ្ពស់សម្រាប់យើងខ្ញុំ។ សូមឱ្យលោកអ្នកទាំងអស់ប្រកបដោយសុខភាពល្អ សុភមង្គល និងសេចក្តីចម្រើនគ្រប់ប្រការ។</p>
+    <p class="thanks-signature"><span class="signature-orn" aria-hidden="true"></span>ក្រុមគ្រួសារទាំងសងខាង<span class="signature-orn" aria-hidden="true"></span></p>
+  </div>
+  <div class="closing-lotus-wrap" aria-hidden="true">
+    <svg class="closing-lotus" viewBox="0 0 160 92">
+      <defs><linearGradient id="closingLotusGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8D48B"/><stop offset=".52" stop-color="#C9A93F"/><stop offset="1" stop-color="#8F7524"/></linearGradient></defs>
+      <path pathLength="1" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+      <path pathLength="1" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+      <path pathLength="1" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+      <path pathLength="1" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+      <path pathLength="1" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+      <path pathLength="1" d="M34 82Q80 94 126 82"/>
+    </svg>
+  </div>
 </section>
 
-<footer>សូមអរគុណ · Thank you ♥</footer>
+<footer class="wedding-footer">
+  <div class="closing-divider" aria-hidden="true"><i></i></div>
+  <p class="closing-thanks">សូមអរគុណ <span>· Thank you</span> <b aria-hidden="true">♥</b></p>
+  <p class="footer-love" id="footerLove"></p>
+  <p class="footer-year">Wedding · <span id="closingYear"></span></p>
+  <div class="footer-actions">
+    <button class="footer-action" id="backToTop" type="button" aria-label="Back to top" title="Back to top">↑</button>
+    <button class="footer-action footer-share" id="shareInvitation" type="button" aria-label="Share invitation">↗ <span>Share</span></button>
+  </div>
+</footer>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script defer src="js/config.js"></script>

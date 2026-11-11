@@ -12,7 +12,7 @@ assets/music/beautiful-in-white.mp3
 ```
 
 ## Edit
-Open `js/config.js` – change names, date, venue, map link, program, love story, dress colors, photos, music playlist.
+Open `js/config.js` – change names, date, venue, map link, program, love story, dress colors, photos, music playlist. Set `ALBUM_COMING_SOON` to show or hide the Coming Soon notice on the guest photo album page.
 
 ## Personal guest links
 Open `https://YOUR-USERNAME.github.io/REPO-NAME/?setup` → "👥 Guest links" → enter names → "Make links".

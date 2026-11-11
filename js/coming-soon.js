@@ -1,9 +1,9 @@
 (function(){
   var language="both";
   var copy={
-    km:{kh:"ឆាប់ៗនេះ",en:"COMING SOON",sub:"រូបភាពនឹងដាក់បង្ហាញក្នុងពេលឆាប់ៗនេះ / Photos & videos will be available soon"},
-    en:{kh:"COMING SOON",en:"COMING SOON",sub:"Photos & videos will be available soon"},
-    both:{kh:"ឆាប់ៗនេះ",en:"COMING SOON",sub:"រូបភាពនឹងដាក់បង្ហាញក្នុងពេលឆាប់ៗនេះ / Photos & videos will be available soon"}
+    km:{kh:"ឆាប់ៗនេះ",en:"COMING SOON",sub:"រូបភាពនឹងដាក់បង្ហាញក្នុងពេលឆាប់ៗនេះ / Photos & videos will be available soon",album:"អាល់ប៊ុមរូបភាពនឹងដាក់បង្ហាញក្នុងពេលឆាប់ៗនេះ"},
+    en:{kh:"COMING SOON",en:"COMING SOON",sub:"Photos & videos will be available soon",album:"Guest photo albums will be available soon"},
+    both:{kh:"ឆាប់ៗនេះ",en:"COMING SOON",sub:"រូបភាពនឹងដាក់បង្ហាញក្នុងពេលឆាប់ៗនេះ / Photos & videos will be available soon",album:"អាល់ប៊ុមរូបភាពនឹងដាក់បង្ហាញក្នុងពេលឆាប់ៗនេះ / Guest photo albums will be available soon"}
   };
   function makeOverlay(){
     var overlay=document.createElement("div");overlay.className="coming-soon-overlay";overlay.setAttribute("role","status");overlay.setAttribute("aria-live","polite");overlay.setAttribute("aria-label","ឆាប់ៗនេះ · COMING SOON");
@@ -12,7 +12,8 @@
   }
   function update(section){
     var text=copy[language]||copy.both,kh=section.querySelector(".coming-soon-kh"),en=section.querySelector(".coming-soon-en"),sub=section.querySelector(".coming-soon-sub");
-    if(kh)kh.textContent=text.kh;if(en)en.textContent=text.en;if(sub)sub.textContent=text.sub
+    var album=section.classList.contains("album-gallery-section")||section.closest&&section.closest(".album-gallery-section");
+    if(kh)kh.textContent=text.kh;if(en)en.textContent=text.en;if(sub)sub.textContent=album?text.album:text.sub
   }
   function badge(){
     var badge=document.createElement("span");badge.className="coming-soon-photo-badge";badge.setAttribute("role","status");badge.setAttribute("aria-live","polite");
@@ -36,11 +37,12 @@
   }
   function init(){
     var enabled=typeof CONFIG!=="undefined"&&CONFIG.COMING_SOON===true;
+    var albumEnabled=typeof CONFIG!=="undefined"&&CONFIG.ALBUM_COMING_SOON===true;
     var photoEnabled=typeof CONFIG!=="undefined"&&CONFIG.PHOTO_COMING_SOON===true;
     var videoEnabled=typeof CONFIG!=="undefined"&&CONFIG.VIDEO_COMING_SOON===true;
     document.querySelectorAll("#s-photo,#s-video,.album-gallery-section").forEach(function(section){
       var content=section.querySelector(".coming-soon-content");if(!content)return;
-      if(!enabled)return;
+      if(section.classList.contains("album-gallery-section")?!albumEnabled:!enabled)return;
       content.setAttribute("aria-hidden","true");content.inert=true;content.classList.add("coming-soon-blurred");
       var overlay=makeOverlay();section.appendChild(overlay);update(section)
     })

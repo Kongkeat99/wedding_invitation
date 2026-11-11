@@ -211,7 +211,8 @@ footer .lotus{margin-bottom:14px;opacity:.8}
 /* photo hover: lift the photo up by 20% */
 .ph{position:relative;transition:transform .35s ease,box-shadow .35s ease}
 @media (hover:hover){
-  .ph:hover,img.ph:hover{transform:translateY(-20%);box-shadow:0 18px 30px rgba(0,0,0,.45);z-index:2}
+  .ph:hover,img.ph:hover{transform:translateY(-20%);box-shadow:0 0 0 2px var(--gold2),0 0 24px rgba(216,192,104,.55),0 18px 30px rgba(0,0,0,.45);filter:brightness(1.12) saturate(1.35);z-index:2}
+  .grid.playing .ph:not(.auto):not(.hide):hover{filter:brightness(1.12) saturate(1.35)}
 }
 
 /* photo autoplay: photos lift one by one (same look as hover) */
@@ -278,3 +279,23 @@ img.ph{border-style:solid}
 
 /* stop the slide-in reveal animations from causing a brief sideways scroll on phones */
 @supports (overflow:clip){html,body{overflow-x:clip}}
+
+/* smooth interaction polish */
+body{background-image:radial-gradient(ellipse at 50% 0,rgba(216,192,104,.11),transparent 40rem)}
+section{padding:clamp(36px,6vw,52px) clamp(16px,4vw,24px)}
+.btn,#mus,#thm,#lb button,.seg button,.card,input,textarea,select{
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background-color .25s ease,color .25s ease
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #0003}
+.btn:active,#mus:active,#thm:active,#lb button:active,.seg button:active{transform:scale(.97)}
+.btn.alt:hover{background:var(--gold);color:#fff}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(179,155,54,.18);border-color:var(--gold2)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(216,192,104,.22)}
+#lb button:hover{background:var(--gold);box-shadow:0 4px 14px #0004}
+@media (hover:hover){
+  .ph:hover,img.ph:hover{transform:translateY(-5px) scale(1.02)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}

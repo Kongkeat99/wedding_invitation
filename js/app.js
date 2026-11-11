@@ -157,7 +157,7 @@ function openLb(i){
 function closeLb(){lb.hidden=true;if(lbFrom&&lbFrom.focus)lbFrom.focus();lbFrom=null}
 if(ph.length){
   ph.forEach(function(u,i){
-    var im=document.createElement("img");im.src=u;im.alt="Pre-wedding photo "+(i+1);im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
+    var im=document.createElement("img");im.src=u.replace(/\/([^/]+)$/,"/thumbs/$1");im.alt="Pre-wedding photo "+(i+1);im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
     im.className="ph";im.tabIndex=0;im.setAttribute("role","button");
     im.onclick=function(){openLb(i)};
     im.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openLb(i)}};

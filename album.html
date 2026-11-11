@@ -100,6 +100,12 @@ button{color:inherit}
 .lightbox-bottom .lightbox-action{min-width:120px;color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:700}
 /* Keep the utility layer visible above each control's existing background rules. */
 .wipe-fill{background:var(--wipe-base)!important}.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"]{background:var(--gold)!important}
+/* Fix: component colors (.back-link gold, .group-picker ivory, lightbox/sheet buttons) were beating the wipe text color,
+   giving gold-on-gold or low-contrast text. Filled buttons always use the dark rest color; selected items use dark ink. */
+.wipe-fill:not(.wipe-fill--inverse),.wipe-fill:not(.wipe-fill--inverse) strong,.wipe-fill:not(.wipe-fill--inverse) span{color:var(--wipe-text-rest)}
+.wipe-fill:not(.wipe-fill--inverse):focus-visible,.wipe-fill:not(.wipe-fill--inverse):focus-visible strong,.wipe-fill:not(.wipe-fill--inverse):focus-visible span{color:var(--wipe-text-hover)}
+@media (hover:hover){.wipe-fill:not(.wipe-fill--inverse):hover,.wipe-fill:not(.wipe-fill--inverse):hover strong,.wipe-fill:not(.wipe-fill--inverse):hover span{color:var(--wipe-text-hover)}}
+.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"],.wipe-fill[aria-pressed="true"] strong,.wipe-fill[aria-selected="true"] strong,.wipe-fill[aria-selected="true"] span{color:#14110a!important}
 @media (hover:none) and (pointer:coarse){.lightbox-nav{display:none}}
 @media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
 @media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}

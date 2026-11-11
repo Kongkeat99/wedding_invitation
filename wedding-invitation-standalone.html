@@ -61,6 +61,44 @@
       background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, .42) 100%);
       content: "";
     }
+    .seal-half {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      border: 1px solid rgba(249, 218, 172, .65);
+      background: radial-gradient(circle at 37% 30%, #D95358, #C73440 48%, #8B1A25 88%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .seal-half--left { clip-path: inset(0 50% 0 0 round 50%); }
+    .seal-half--right { clip-path: inset(0 0 0 50% round 50%); }
+    .seal-burst {
+      position: absolute;
+      z-index: 6;
+      top: 50%;
+      left: 50%;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+    .seal-burst i {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #F0DC9A;
+      box-shadow: 0 0 8px #D9BC55;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+    .seal-burst i:nth-child(1) { --burst-x: -34px; --burst-y: -28px; }
+    .seal-burst i:nth-child(2) { --burst-x: 0px; --burst-y: -42px; }
+    .seal-burst i:nth-child(3) { --burst-x: 36px; --burst-y: -24px; }
+    .seal-burst i:nth-child(4) { --burst-x: 43px; --burst-y: 10px; }
+    .seal-burst i:nth-child(5) { --burst-x: 25px; --burst-y: 34px; }
+    .seal-burst i:nth-child(6) { --burst-x: -28px; --burst-y: 34px; }
+    .seal-burst i:nth-child(7) { --burst-x: -44px; --burst-y: 8px; }
+    .seal-burst i:nth-child(8) { --burst-x: -14px; --burst-y: 18px; }
     .watermark {
       position: absolute;
       top: 50%;
@@ -181,7 +219,7 @@
       position: relative;
       width: min(85vw, 420px, 70dvh);
       aspect-ratio: 3 / 2;
-      perspective: 1100px;
+      perspective: 800px;
       filter: drop-shadow(0 21px 30px rgba(0, 0, 0, .45)) drop-shadow(0 0 22px rgba(181, 155, 52, .12));
     }
     .envelope {
@@ -220,26 +258,6 @@
       content: "";
       pointer-events: none;
     }
-    .insert {
-      position: absolute;
-      z-index: 1;
-      top: 10%;
-      left: 12%;
-      display: flex;
-      width: 76%;
-      height: 75%;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 8%;
-      border: 1px solid rgba(181, 155, 52, .45);
-      border-radius: 5px;
-      background: linear-gradient(145deg, #fff8df, #efe1b9);
-      color: #806b2a;
-      font: 400 clamp(.72rem, 3.2vw, 1rem)/1.5 "Moul", var(--khmer);
-      opacity: 0;
-      transform: translateY(28%) scale(.85);
-      box-shadow: 0 3px 12px rgba(55, 39, 7, .14);
-    }
     .envelope-flap {
       position: absolute;
       z-index: 3;
@@ -257,10 +275,14 @@
     }
     .envelope-flap::after {
       position: absolute;
-      inset: 2px;
-      background: linear-gradient(155deg, #FFF5D8, #E8D8AA);
+      inset: 0;
+      border: 1px solid rgba(255, 248, 219, .78);
+      background: linear-gradient(155deg, #FFF9E5, #F2E6C3);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       content: "";
+      transform: rotateX(180deg);
+      transform-origin: center;
+      backface-visibility: hidden;
     }
     .envelope-glint {
       position: absolute;
@@ -290,7 +312,7 @@
       box-shadow: 0 0 0 5px rgba(181, 155, 52, .2), 0 0 25px rgba(181, 155, 52, .38), inset 0 2px 4px rgba(255, 228, 198, .35), inset 0 -7px 12px rgba(73, 4, 14, .4);
       transform: translate(-50%, -50%);
       animation: seal-breathe 3s ease-in-out infinite;
-      transition: transform 280ms ease, opacity 240ms ease;
+      transform-origin: center;
     }
     .wax-seal::before {
       position: absolute;
@@ -345,25 +367,31 @@
     .tap-caption { margin: 7px 0 0; color: rgba(201, 166, 58, .77); font: 600 .65rem/1.3 var(--serif); letter-spacing: .24em; }
 
     .invitation {
-      position: absolute;
-      z-index: 1;
+      position: fixed;
+      z-index: 4;
       top: 50%;
       left: 50%;
       width: min(calc(100% - 24px), 410px);
+      max-height: 100dvh;
       margin: 0;
       padding: clamp(29px, 8vw, 42px) clamp(20px, 6vw, 34px) 25px;
-      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
       border: 1px solid rgba(181, 155, 52, .12);
-      border-radius: 25px;
-      background:
-        radial-gradient(ellipse at 50% 25%, rgba(138, 122, 60, .22), transparent 58%),
-        linear-gradient(155deg, rgba(42, 36, 16, .97), rgba(35, 30, 14, .98));
+      border-radius: 5px;
+      background: linear-gradient(145deg, #fff8df, #efe1b9);
       box-shadow: 0 24px 70px rgba(0, 0, 0, .48), 0 0 54px rgba(138, 122, 60, .16);
       text-align: center;
       opacity: 0;
       visibility: hidden;
-      transform: translate(-50%, calc(-50% + 25vh)) scale(.85);
-      transition: opacity 430ms ease, transform 500ms cubic-bezier(.22, 1, .36, 1), visibility 0s linear 500ms;
+      transform: translate(-50%, -50%);
+      transform-origin: center;
+      transition: background 350ms ease, border-radius 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
+      will-change: transform;
     }
     .invitation::before {
       position: absolute;
@@ -381,8 +409,21 @@
       content: "";
       pointer-events: none;
     }
-    .content { position: relative; z-index: 1; }
-    .card-item { opacity: 0; transform: translateY(12px); }
+    .content { position: relative; z-index: 1; width: 100%; }
+    .letter-monogram {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      color: #806b2a;
+      font: italic 600 clamp(1.7rem, 8vw, 2.5rem)/1 var(--serif);
+      letter-spacing: .12em;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    .letter-monogram span { color: var(--gold-deep); }
+    .card-item { opacity: 0; transform: translateY(8px); }
     .heart-badge {
       display: grid;
       width: 90px;
@@ -423,31 +464,46 @@
     body.is-opening .cover-heading,
     body.is-opening .cover-tools,
     body.is-opening .tap-prompt,
-    body.is-opening .tap-caption { opacity: 0; transition: opacity 300ms ease; }
+    body.is-opening .tap-caption { opacity: 0; transition: opacity 250ms ease; }
+    body.is-opening .cover-heading,
+    body.is-opening .cover-tools,
+    body.is-opening .tap-prompt { opacity: 0; transition: opacity 250ms ease; }
     body.is-opening .cover { pointer-events: none; }
-    body.is-opening .envelope-wrap { animation: envelope-exit 520ms ease-in 1.68s forwards; }
-    body.is-opening .wax-seal { animation: seal-press 420ms ease-in forwards; }
-    body.is-opening .seal-crack { animation: crack-burst 420ms ease-out 190ms forwards; }
-    body.is-opening .envelope-flap { animation: flap-open 700ms cubic-bezier(.3, .7, .2, 1) 300ms forwards; }
-    body.is-opening .insert { animation: insert-rise 700ms cubic-bezier(.2, .8, .25, 1) 1s forwards; }
-    body.is-opening .invitation, body.is-opened .invitation {
+    body.is-opening .wax-seal { animation: seal-press 250ms ease-in forwards; }
+    body.is-opening .seal-half--left { opacity: 1; animation: seal-split-left 360ms cubic-bezier(.2, .75, .3, 1) 250ms forwards; }
+    body.is-opening .seal-half--right { opacity: 1; animation: seal-split-right 360ms cubic-bezier(.2, .75, .3, 1) 250ms forwards; }
+    body.is-opening .seal-burst i { animation: particle-burst 420ms ease-out 130ms forwards; }
+    body.is-opening .envelope-flap { animation: flap-open 650ms cubic-bezier(.3, .7, .2, 1) 250ms forwards; }
+    body.is-opening .envelope::after { animation: fold-disappear 120ms ease-out 780ms forwards; }
+    body.is-opening .envelope-wrap { animation: envelope-exit 500ms ease-in 1400ms forwards; }
+    body.is-opening .invitation {
+      visibility: visible;
+      animation: letter-morph 2s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+    body.is-opening .letter-monogram { animation: monogram-show 2s linear forwards; }
+    body.is-opened .invitation {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, -50%) scale(1);
-      transition-delay: 0s;
+      border-color: rgba(181, 155, 52, .12);
+      border-radius: 25px;
+      background:
+        radial-gradient(ellipse at 50% 25%, rgba(138, 122, 60, .22), transparent 58%),
+        linear-gradient(155deg, rgba(42, 36, 16, .97), rgba(35, 30, 14, .98));
     }
-    body.is-opening .invitation { transition-delay: 1s; }
-    body.is-opened .card-item { animation: item-arrive 500ms ease-out forwards; }
-    body.is-opened .card-item:nth-child(1) { animation-delay: 0s; }
-    body.is-opened .card-item:nth-child(2) { animation-delay: 100ms; }
-    body.is-opened .card-item:nth-child(3) { animation-delay: 200ms; }
-    body.is-opened .card-item:nth-child(4) { animation-delay: 300ms; }
-    body.is-opened .card-item:nth-child(5) { animation-delay: 400ms; }
-    body.is-opened .card-item:nth-child(6) { animation-delay: 500ms; }
-    body.is-opened .card-item:nth-child(7) { animation-delay: 600ms; }
-    body.is-opened .card-item:nth-child(8) { animation-delay: 700ms; }
-    body.is-opened .card-item:nth-child(9) { animation-delay: 800ms; }
-    body.is-opened .cover { opacity: 0; visibility: hidden; pointer-events: none; transition: none; }
+    body.is-opened .letter-monogram { opacity: 0; }
+    body.is-opened .card-item { animation: item-arrive 120ms ease-out forwards; }
+    body.is-opened .card-item:nth-child(1) { animation-delay: 0ms; }
+    body.is-opened .card-item:nth-child(2) { animation-delay: 60ms; }
+    body.is-opened .card-item:nth-child(3) { animation-delay: 120ms; }
+    body.is-opened .card-item:nth-child(4) { animation-delay: 180ms; }
+    body.is-opened .card-item:nth-child(5) { animation-delay: 240ms; }
+    body.is-opened .card-item:nth-child(6) { animation-delay: 300ms; }
+    body.is-opened .card-item:nth-child(7) { animation-delay: 360ms; }
+    body.is-opened .card-item:nth-child(8) { animation-delay: 420ms; }
+    body.is-opened .card-item:nth-child(9) { animation-delay: 480ms; }
+    body.is-opened .cover { display: none; pointer-events: none; cursor: default; }
+    body.is-opened { overflow: hidden; cursor: default; }
     body.is-opening .stage, body.is-opened .stage { overflow: visible; }
     body.is-opened .stage { min-height: 100dvh; }
 
@@ -455,11 +511,20 @@
     @keyframes drift-down { from { transform: translate3d(0, -5vh, 0) rotate(-18deg); } to { transform: translate3d(24px, 112vh, 0) rotate(260deg); } }
     @keyframes seal-breathe { 0%, 100% { scale: 1; } 50% { scale: 1.05; } }
     @keyframes prompt-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-    @keyframes seal-press { 0% { transform: translate(-50%, -50%) scale(1); } 38% { transform: translate(-50%, -50%) scale(.92); } 100% { transform: translate(-50%, -50%) scale(.72); opacity: 0; } }
-    @keyframes crack-burst { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.5); } 30% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); } }
+    @keyframes seal-press { 0% { transform: translate(-50%, -50%) scale(1); } 75% { transform: translate(-50%, -50%) scale(.92); } 100% { transform: translate(-50%, -50%) scale(.92); opacity: 0; } }
+    @keyframes seal-split-left { from { opacity: 1; transform: translate(0, 0) rotate(0); } to { opacity: 0; transform: translate(-22px, 34px) rotate(-30deg); } }
+    @keyframes seal-split-right { from { opacity: 1; transform: translate(0, 0) rotate(0); } to { opacity: 0; transform: translate(22px, 34px) rotate(30deg); } }
+    @keyframes particle-burst { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--burst-x), var(--burst-y)) scale(.3); } }
     @keyframes flap-open { 0% { z-index: 6; transform: rotateX(0); } 100% { z-index: 0; transform: rotateX(180deg); } }
-    @keyframes insert-rise { 0% { opacity: 0; transform: translateY(28%) scale(.85); } 100% { opacity: 1; transform: translateY(-60%) scale(1); } }
-    @keyframes envelope-exit { to { opacity: 0; transform: translateY(25vh) scale(.94); visibility: hidden; } }
+    @keyframes fold-disappear { to { opacity: 0; } }
+    @keyframes letter-morph {
+      0%, 44% { opacity: 0; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--start-dy))) scale(var(--start-sx), var(--start-sy)); }
+      45% { opacity: 1; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--start-dy))) scale(var(--start-sx), var(--start-sy)); }
+      70% { opacity: 1; transform: translate(calc(-50% + var(--start-dx)), calc(-50% + var(--lift-dy))) scale(var(--start-sx), var(--start-sy)); }
+      95%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    @keyframes monogram-show { 0%, 44% { opacity: 0; } 45%, 69% { opacity: 1; } 70%, 100% { opacity: 0; } }
+    @keyframes envelope-exit { to { opacity: 0; transform: translateY(40px); visibility: hidden; } }
     @keyframes item-arrive { to { opacity: 1; transform: translateY(0); } }
     @keyframes number-tick { 0% { opacity: .45; transform: translateY(4px); } 100% { opacity: 1; transform: translateY(0); } }
 
@@ -494,22 +559,36 @@
       .number { min-height: 38px; font-size: clamp(1.2rem, 5vw, 1.4rem); }
       .unit { padding: 3px 1px 4px; font-size: .59rem; }
       .lotus { width: min(128px, 42vw); margin-top: 8px; }
-      body.is-opening .invitation, body.is-opened .invitation {
-        top: max(16px, env(safe-area-inset-top));
-        transform: translateX(-50%) scale(1);
-      }
+    }
+    @media (max-height: 500px) {
+      .cover { padding-top: 30px; padding-bottom: 12px; }
+      .cover-badge { width: 36px; height: 36px; margin-bottom: 5px; }
+      .cover-badge svg { width: 19px; height: 19px; }
+      .cover-title { font-size: 1rem; line-height: 1.4; }
+      .ornament { height: 10px; margin: 2px auto 5px; }
+      .cover-subtitle { margin: 3px 0 10px; font-size: .82rem; }
+      .envelope-wrap { width: min(80vw, 44dvh); }
+      .tap-prompt { min-height: 48px; margin-top: 10px; }
+      .tap-caption { margin-top: 4px; font-size: .6rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .invitation { transform: translate(-50%, -50%) !important; }
       .card-item { transform: none; }
-      body.is-opening .invitation { transition-delay: 0s; }
-      body.is-opening .cover { opacity: 0; transition: opacity 450ms ease !important; }
-      body.is-opening .invitation { transition-duration: 450ms !important; }
+      body.is-opening .cover-heading,
+      body.is-opening .cover-tools,
+      body.is-opening .tap-prompt,
+      body.is-opening .tap-caption { opacity: 0; transition: opacity 450ms ease !important; }
+      body.is-opening .wax-seal,
+      body.is-opening .seal-half,
+      body.is-opening .seal-burst i,
+      body.is-opening .envelope-flap,
+      body.is-opening .envelope::after,
+      body.is-opening .envelope-wrap { animation: none !important; }
+      body.is-opening .invitation { opacity: 1; visibility: visible; transform: translate(-50%, -50%); animation: none !important; transition: opacity 450ms ease !important; }
+      body.is-opening .letter-monogram { display: none; }
+      body.is-opening .invitation .card-item { animation: item-arrive 450ms ease-out forwards !important; }
+      body.is-opening .invitation .card-item:nth-child(n) { animation-delay: 0s; }
       body.is-opened .card-item { animation-delay: 0s; }
-    }
-    @media (max-height: 700px) and (prefers-reduced-motion: reduce) {
-      body.is-opening .invitation, body.is-opened .invitation { transform: translateX(-50%) scale(1) !important; }
     }
   </style>
 </head>
@@ -553,14 +632,15 @@
 
       <div class="envelope-wrap">
         <button class="envelope" id="openEnvelope" type="button" aria-label="Open the wedding invitation / ចុចដើម្បីបើកសំបុត្រ">
-          <span class="insert" aria-hidden="true">សិរីមង្គលអាពាហ៍ពិពាហ៍</span>
           <span class="envelope-flap" aria-hidden="true"></span>
           <svg class="envelope-glint" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 12.2 7.8 20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z" fill="currentColor"/></svg>
           <svg class="envelope-glint envelope-glint--two" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 12.2 7.8 20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z" fill="currentColor"/></svg>
           <span class="wax-seal" aria-hidden="true">
             <svg viewBox="0 0 32 32"><path d="M16 27S4.5 19.8 4.5 11.8A6.2 6.2 0 0 1 16 8.3a6.2 6.2 0 0 1 11.5 3.5C27.5 19.8 16 27 16 27Z"/></svg>
+            <span class="seal-half seal-half--left"></span>
+            <span class="seal-half seal-half--right"></span>
           </span>
-          <span class="seal-crack" aria-hidden="true"></span>
+          <span class="seal-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
         </button>
       </div>
 
@@ -573,6 +653,7 @@
     </section>
 
     <article class="invitation" id="invitation" aria-labelledby="invitation-title" aria-hidden="true" tabindex="-1">
+      <div class="letter-monogram" aria-hidden="true">S <span>&amp;</span> C</div>
       <div class="content">
         <div class="heart-badge card-item" aria-hidden="true">
           <svg viewBox="0 0 32 32"><path d="M16 27S4.5 19.8 4.5 11.8A6.2 6.2 0 0 1 16 8.3a6.2 6.2 0 0 1 11.5 3.5C27.5 19.8 16 27 16 27Z"/></svg>
@@ -685,14 +766,29 @@
       function openInvitation() {
         if (opened) return;
         opened = true;
+        var envelopeRect = openButton.getBoundingClientRect();
+        var cardRect = invitation.getBoundingClientRect();
+        var startCenterX = envelopeRect.left + envelopeRect.width / 2;
+        var startCenterY = envelopeRect.top + envelopeRect.height * .475;
+        invitation.style.setProperty("--start-dx", (startCenterX - window.innerWidth / 2) + "px");
+        invitation.style.setProperty("--start-dy", (startCenterY - window.innerHeight / 2) + "px");
+        invitation.style.setProperty("--lift-dy", (startCenterY - window.innerHeight / 2 - envelopeRect.height * .65) + "px");
+        invitation.style.setProperty("--start-sx", String(envelopeRect.width * .76 / cardRect.width));
+        invitation.style.setProperty("--start-sy", String(envelopeRect.height * .75 / cardRect.height));
         document.body.classList.add("is-opening");
         invitation.setAttribute("aria-hidden", "false");
         playChime();
         window.setTimeout(function () {
-          document.body.classList.remove("is-opening");
           document.body.classList.add("is-opened");
           invitation.focus({ preventScroll: true });
-        }, reducedMotion.matches ? 500 : 2200);
+          if (reducedMotion.matches) {
+            document.body.classList.remove("is-opening");
+          } else {
+            window.setTimeout(function () {
+              document.body.classList.remove("is-opening");
+            }, 550);
+          }
+        }, reducedMotion.matches ? 500 : 1900);
       }
 
       openButton.addEventListener("click", openInvitation);

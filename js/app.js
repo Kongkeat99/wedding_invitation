@@ -33,8 +33,7 @@ tick();setInterval(tick,1000);
 /* gallery: photos come from CONFIG.photos (built further below) */
 var g=$("grid");
 
-/* videos: set CONFIG.videos = ["assets/videos/video1.mp4", ...]
-   poster image = same path with .jpg (assets/videos/video1.jpg) */
+/* Videos use a poster image with the same path and a .jpg extension. */
 function mountVideo(b,src,n){
   var v=document.createElement("video");v.controls=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";
   v.poster=src.replace(/\.[^./]+$/,".jpg");v.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);

@@ -3,7 +3,7 @@ var CONFIG = {
   COMING_SOON: false,
   ALBUM_COMING_SOON: false,
   PHOTO_COMING_SOON: false,
-  VIDEO_COMING_SOON: true,
+  VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",
   bride: "Chham Chanthu",
   date: "2026-11-22T15:00:00+07:00",          // wedding date/time (placeholder)
@@ -91,7 +91,7 @@ var CONFIG = {
     { date: "២០២៦", title: "ស្នើសុំរៀបការ", text: "ព្រោះយើងបានច្បាស់លាស់ជាមួយគ្នា" },
     { date: "២០២៦", title: "ថ្ងៃមង្គលការ", text: "ថ្ងៃដែលយើងចាប់ដៃគ្នាចូលក្នុងជីវិតថ្មី" }
   ],
-  videos: ["assets/videos/video1.mp4", "assets/videos/video2.mp4"],   // upload files to assets/videos/ with these names
+  videos: ["assets/videos/prewedding_merged_silent.mp4"],   // upload videos to assets/videos/ and add a matching .jpg poster
   khqr: "",                                    // optional: link to your KHQR image
   live: ""                                     // optional: Facebook / YouTube live link on the wedding day
 };

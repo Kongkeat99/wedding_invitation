@@ -34,28 +34,46 @@ tick();setInterval(tick,1000);
 var g=$("grid");
 
 function mountVideo(b,src,n){
-  var stage=document.createElement("div");stage.className="video-frame";
+  var ambient=document.createElement("canvas");ambient.className="video-ambient";ambient.width=96;ambient.height=171;ambient.setAttribute("aria-hidden","true");
+  var stage=document.createElement("div");stage.className="video-frame";stage.tabIndex=0;stage.setAttribute("role","group");stage.setAttribute("aria-label","Pre-wedding video "+n);
   var v=document.createElement("video");v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";
-  v.poster=src.replace(/\.[^./]+$/,".jpg");v.dataset.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);
+  v.poster=src.replace(/\.[^./]+$/,".jpg");v.dataset.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);v.disablePictureInPicture=true;
   var playOverlay=document.createElement("button");playOverlay.type="button";playOverlay.className="video-play";playOverlay.setAttribute("aria-label","Play pre-wedding video");
-  playOverlay.innerHTML='<span aria-hidden="true">▶</span>';
+  playOverlay.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l10.1 6.5a1.1 1.1 0 0 1 0 1.8L9.6 19.4a1.1 1.1 0 0 1-1.6-.9z"/></svg>';
   var controls=document.createElement("div");controls.className="video-controls";controls.setAttribute("role","group");controls.setAttribute("aria-label","Video controls");
   var icons={
     play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>',
     pause:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>',
-    mute:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM17 9l5 6m0-6-5 6"/></svg>',
+    mute:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM16 9l5 6m0-6-5 6"/></svg>',
     fullscreen:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3"/></svg>'
   };
-  var toggle=document.createElement("button");toggle.type="button";toggle.className="video-control video-toggle";toggle.setAttribute("aria-label","Play video");toggle.innerHTML=icons.play;
-  var progress=document.createElement("input");progress.className="video-progress";progress.type="range";progress.min="0";progress.max="1000";progress.value="0";progress.setAttribute("aria-label","Video progress");
+  var toggle=document.createElement("button");toggle.type="button";toggle.className="video-control video-toggle";toggle.setAttribute("aria-label","Play / ចាក់");toggle.dataset.tooltip="ចាក់ / Play";toggle.innerHTML=icons.play;
+  var progressWrap=document.createElement("div");progressWrap.className="video-progress-wrap";
+  var progress=document.createElement("input");progress.className="video-progress";progress.type="range";progress.min="0";progress.max="1000";progress.value="0";progress.setAttribute("aria-label","Video progress / វឌ្ឍនភាពវីដេអូ");
+  var seekTooltip=document.createElement("span");seekTooltip.className="video-seek-tooltip";seekTooltip.setAttribute("aria-hidden","true");
   var time=document.createElement("span");time.className="video-time";time.textContent="0:00 / 0:00";
-  var audio=document.createElement("button");audio.type="button";audio.className="video-control video-audio";audio.disabled=true;audio.setAttribute("aria-label","This video has no audio");audio.title="No audio track";audio.innerHTML=icons.mute;
-  var fullscreen=document.createElement("button");fullscreen.type="button";fullscreen.className="video-control video-fullscreen";fullscreen.setAttribute("aria-label","Enter fullscreen");fullscreen.innerHTML=icons.fullscreen;
+  var audioWrap=document.createElement("div");audioWrap.className="video-audio-wrap";
+  var audio=document.createElement("button");audio.type="button";audio.className="video-control video-audio";audio.disabled=true;audio.setAttribute("aria-label","No audio / គ្មានសំឡេង");audio.dataset.tooltip="គ្មានសំឡេង / No audio";audio.title="No audio track";audio.innerHTML=icons.mute;
+  var volume=document.createElement("input");volume.className="video-volume";volume.type="range";volume.min="0";volume.max="1";volume.step=".05";volume.value=String(v.volume);volume.disabled=true;volume.setAttribute("aria-label","Volume / កម្រិតសំឡេង");
+  var fullscreen=document.createElement("button");fullscreen.type="button";fullscreen.className="video-control video-fullscreen";fullscreen.setAttribute("aria-label","Fullscreen / ពេញអេក្រង់");fullscreen.dataset.tooltip="ពេញអេក្រង់ / Fullscreen";fullscreen.innerHTML=icons.fullscreen;
+  var cursor=document.createElement("span");cursor.className="video-cursor";cursor.setAttribute("aria-hidden","true");cursor.textContent="Play";
   var hideTimer=null;
+  var reduceVideoMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var hoverCapable=window.matchMedia("(hover:hover) and (pointer:fine)").matches;
   function showControls(){
     stage.classList.add("controls-visible");clearTimeout(hideTimer);
     if(!v.paused&&!v.ended)hideTimer=setTimeout(function(){stage.classList.remove("controls-visible")},2500)
   }
+  function localizeControls(){
+    var kh=($("cover").lang||document.documentElement.lang)==="km";
+    toggle.dataset.tooltip=kh?(v.paused?"ចាក់ / Play":"ផ្អាក / Pause"):(v.paused?"Play":"Pause");
+    fullscreen.dataset.tooltip=document.fullscreenElement===stage?(kh?"ចេញពីពេញអេក្រង់ / Exit fullscreen":"Exit fullscreen"):(kh?"ពេញអេក្រង់ / Fullscreen":"Fullscreen");
+    audio.dataset.tooltip=kh?"គ្មានសំឡេង / No audio":"No audio";
+    toggle.title=toggle.dataset.tooltip;fullscreen.title=fullscreen.dataset.tooltip;audio.title=audio.dataset.tooltip;
+    toggle.setAttribute("aria-label",toggle.dataset.tooltip);fullscreen.setAttribute("aria-label",fullscreen.dataset.tooltip);audio.setAttribute("aria-label",audio.dataset.tooltip);updateCursorLabel()
+  }
+  localizeControls();
+  if("MutationObserver" in window)new MutationObserver(localizeControls).observe($("cover"),{attributes:true,attributeFilter:["lang"]});
   function formatTime(seconds){
     if(!isFinite(seconds)||seconds<0)return "0:00";
     var mins=Math.floor(seconds/60),secs=Math.floor(seconds%60);
@@ -64,31 +82,106 @@ function mountVideo(b,src,n){
   var play=function(){
     if(!v.src){v.src=v.dataset.src;v.load()}
     var result=v.play();
-    if(result&&result.catch)result.catch(function(){stage.classList.remove("is-playing");playOverlay.disabled=false;playOverlay.setAttribute("aria-hidden","false");toggle.innerHTML=icons.play;toggle.setAttribute("aria-label","Play video")})
+    if(result&&result.catch)result.catch(function(error){showPlay();console.error("Could not play the pre-wedding video.",error)})
   };
+  function updateCursorLabel(){var kh=($("cover").lang||document.documentElement.lang)==="km";cursor.textContent=kh?(v.paused?"ចាក់":"ផ្អាក"):(v.paused?"Play":"Pause")}
+  function enterFullscreen(){
+    var action;
+    try{
+      if(document.fullscreenElement===stage)action=document.exitFullscreen();
+      else if(stage.requestFullscreen)action=stage.requestFullscreen();
+      else if(v.webkitEnterFullscreen){v.webkitEnterFullscreen();return}
+      else{console.error("Fullscreen is not supported for this video.");return}
+    }catch(error){console.error("Could not change video fullscreen state.",error);return}
+    if(action&&action.catch)action.catch(function(error){console.error("Could not change video fullscreen state.",error)})
+  }
+  function drawAmbient(){
+    if(v.readyState<2||!v.videoWidth||!v.videoHeight)return;
+    var context=ambient.getContext("2d");
+    if(context)context.drawImage(v,0,0,ambient.width,ambient.height)
+  }
+  var ambientTimer=null,ambientFrameId=null,ambientRunning=false,ambientGeneration=0;
+  function followAmbientFrame(generation){
+    if(!ambientRunning||generation!==ambientGeneration||v.paused||v.ended){ambientFrameId=null;return}
+    drawAmbient();
+    if(v.requestVideoFrameCallback)ambientFrameId=v.requestVideoFrameCallback(function(){ambientFrameId=null;followAmbientFrame(generation)})
+  }
+  function startAmbient(){
+    if(v.requestVideoFrameCallback){if(ambientRunning)return;ambientRunning=true;followAmbientFrame(++ambientGeneration)}
+    else if(!ambientTimer)ambientTimer=setInterval(drawAmbient,120)
+  }
+  function stopAmbient(){
+    ambientRunning=false;ambientGeneration++;
+    if(ambientFrameId!==null&&v.cancelVideoFrameCallback)v.cancelVideoFrameCallback(ambientFrameId);
+    ambientFrameId=null;clearInterval(ambientTimer);ambientTimer=null
+  }
   playOverlay.addEventListener("click",play);
   toggle.addEventListener("click",function(){if(v.paused||v.ended)play();else v.pause();showControls()});
-  v.addEventListener("play",function(){stage.classList.add("is-playing");playOverlay.disabled=true;playOverlay.setAttribute("aria-hidden","true");toggle.innerHTML=icons.pause;toggle.setAttribute("aria-label","Pause video");showControls()});
-  function showPlay(){stage.classList.remove("is-playing");playOverlay.disabled=false;playOverlay.setAttribute("aria-hidden","false");toggle.innerHTML=icons.play;toggle.setAttribute("aria-label","Play video");stage.classList.add("controls-visible");clearTimeout(hideTimer)}
+  v.addEventListener("play",function(){stage.classList.add("is-playing","controls-visible");b.classList.add("is-playing");playOverlay.disabled=true;playOverlay.setAttribute("aria-hidden","true");toggle.innerHTML=icons.pause;if(document.activeElement===playOverlay)stage.focus();localizeControls();showControls();startAmbient()});
+  function showPlay(){stage.classList.remove("is-playing");b.classList.remove("is-playing");playOverlay.disabled=false;playOverlay.setAttribute("aria-hidden","false");toggle.innerHTML=icons.play;stage.classList.add("controls-visible");clearTimeout(hideTimer);stopAmbient();localizeControls()}
   v.addEventListener("pause",showPlay);v.addEventListener("ended",showPlay);
   function updateProgress(){
     var ratio=v.duration?Math.min(1,v.currentTime/v.duration):0;
     progress.value=String(Math.round(ratio*1000));progress.style.setProperty("--progress",ratio*100+"%");
-    time.textContent=formatTime(v.currentTime)+" / "+formatTime(v.duration)
+    var bufferedEnd=v.buffered.length?v.buffered.end(v.buffered.length-1):0,bufferedRatio=v.duration?Math.max(ratio,Math.min(1,bufferedEnd/v.duration)):0;
+    progress.style.setProperty("--buffered",bufferedRatio*100+"%");
+    time.textContent=formatTime(v.currentTime)+" / "+formatTime(v.duration);progress.setAttribute("aria-valuetext",time.textContent)
   }
   v.addEventListener("timeupdate",updateProgress);v.addEventListener("durationchange",updateProgress);
   progress.addEventListener("input",function(){if(v.duration)v.currentTime=v.duration*Number(progress.value)/1000;showControls()});
-  fullscreen.addEventListener("click",function(){
-    if(document.fullscreenElement){document.exitFullscreen();return}
-    if(stage.requestFullscreen)stage.requestFullscreen();
-    else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()
+  progressWrap.appendChild(progress);progressWrap.appendChild(seekTooltip);
+  progressWrap.addEventListener("pointermove",function(event){
+    if(!v.duration)return;var rect=progressWrap.getBoundingClientRect(),ratio=Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width));
+    seekTooltip.textContent=formatTime(v.duration*ratio);seekTooltip.style.left=(ratio*100)+"%";progressWrap.classList.add("is-seeking")
   });
-  stage.addEventListener("pointermove",showControls);
-  stage.addEventListener("pointerleave",function(){if(!v.paused&&!v.ended)hideTimer=setTimeout(function(){stage.classList.remove("controls-visible")},2500)});
-  stage.addEventListener("click",function(e){if(v.paused||e.target.closest("button,.video-controls"))return;showControls()});
-  controls.appendChild(toggle);controls.appendChild(progress);controls.appendChild(time);controls.appendChild(audio);controls.appendChild(fullscreen);
-  stage.appendChild(v);stage.appendChild(playOverlay);stage.appendChild(controls);
-  b.appendChild(stage);
+  progressWrap.addEventListener("pointerleave",function(){progressWrap.classList.remove("is-seeking")});
+  audioWrap.appendChild(audio);audioWrap.appendChild(volume);
+  audio.addEventListener("click",function(){v.muted=!v.muted;audio.setAttribute("aria-pressed",String(v.muted));showControls()});
+  volume.addEventListener("input",function(){v.volume=Number(volume.value);v.muted=v.volume===0;showControls()});
+  v.addEventListener("volumechange",function(){volume.value=String(v.volume);audio.setAttribute("aria-pressed",String(v.muted))});
+  fullscreen.addEventListener("click",enterFullscreen);
+  stage.addEventListener("fullscreenchange",function(){fullscreen.setAttribute("aria-pressed",String(document.fullscreenElement===stage));localizeControls()});
+  stage.addEventListener("pointerenter",function(event){if(event.pointerType==="mouse"&&hoverCapable&&!reduceVideoMotion)stage.classList.add("is-tilting");showControls()});
+  stage.addEventListener("pointermove",function(event){
+    showControls();
+    if(event.pointerType==="mouse"&&hoverCapable){
+      if(event.target.closest(".video-controls,.video-play")){stage.classList.remove("cursor-visible");return}
+      if(reduceVideoMotion)return;
+      var rect=stage.getBoundingClientRect(),x=(event.clientX-rect.left)/rect.width-.5,y=(event.clientY-rect.top)/rect.height-.5;
+      stage.style.transform="perspective(1000px) rotateX("+(-y*12).toFixed(2)+"deg) rotateY("+(x*12).toFixed(2)+"deg) translateY(-6px) translateZ(0)";
+      cursor.style.left=event.clientX-rect.left+"px";cursor.style.top=event.clientY-rect.top+"px";stage.classList.add("cursor-visible")
+    }
+  });
+  stage.addEventListener("pointerleave",function(event){
+    stage.classList.remove("cursor-visible","is-tilting");stage.style.transform="";
+    if(!v.paused&&!v.ended)showControls()
+  });
+  var lastTouch=0,ignoreTouchClick=false,ignoreTouchClickTimer=null;
+  stage.addEventListener("pointerup",function(event){
+    if(event.pointerType!=="touch"||event.target!==v&&event.target!==playOverlay)return;
+    var now=Date.now();if(now-lastTouch<320){ignoreTouchClick=true;clearTimeout(ignoreTouchClickTimer);ignoreTouchClickTimer=setTimeout(function(){ignoreTouchClick=false},500);lastTouch=0;enterFullscreen()}else lastTouch=now
+  });
+  stage.addEventListener("click",function(event){
+    if(ignoreTouchClick){ignoreTouchClick=false;clearTimeout(ignoreTouchClickTimer);return}
+    if(event.target.closest("button,.video-controls"))return;
+    if(event.detail>1)return;
+    if(event.target===v){if(v.paused||v.ended)play();else v.pause();showControls();return}
+    showControls()
+  });
+  stage.addEventListener("dblclick",function(event){if(event.target.closest(".video-controls"))return;event.preventDefault();enterFullscreen()});
+  stage.addEventListener("keydown",function(event){
+    if(event.target.closest("button,input"))return;
+    if(event.code==="Space"){event.preventDefault();if(v.paused||v.ended)play();else v.pause();showControls()}
+    else if(event.key==="ArrowLeft"||event.key==="ArrowRight"){
+      event.preventDefault();if(v.duration)v.currentTime=Math.max(0,Math.min(v.duration,v.currentTime+(event.key==="ArrowRight"?5:-5)));showControls()
+    }
+  });
+  v.addEventListener("progress",updateProgress);
+  v.addEventListener("loadedmetadata",updateProgress);
+  controls.appendChild(toggle);controls.appendChild(progressWrap);controls.appendChild(time);controls.appendChild(audioWrap);controls.appendChild(fullscreen);
+  stage.appendChild(v);stage.appendChild(playOverlay);stage.appendChild(controls);stage.appendChild(cursor);
+  var posterImage=new Image();posterImage.onload=function(){var context=ambient.getContext("2d");if(context)context.drawImage(posterImage,0,0,ambient.width,ambient.height)};posterImage.src=v.poster;
+  b.appendChild(ambient);b.appendChild(stage);
   b.video=v;b.playVideo=play
 }
 (CONFIG.videos||[]).forEach(function(src,k){

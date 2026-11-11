@@ -135,6 +135,17 @@ if(gq&&CONFIG.guests&&CONFIG.guests[gq.toLowerCase()])to=CONFIG.guests[gq.toLowe
 else if(gq){try{to=new TextDecoder().decode(Uint8Array.from(atob(gq.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)}))}catch(e){to=""}}
 if(to){$("guestName").textContent=to;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
+/* Splash language toggle changes only the first-page copy. */
+var splashLanguage=$("splashLanguage");
+if(splashLanguage)splashLanguage.addEventListener("click",function(){
+  var language=this.dataset.language==="km"?"en":"km";
+  this.dataset.language=language;this.textContent=language==="km"?"EN":"ខ្មែរ";
+  this.setAttribute("aria-label",language==="km"?"Switch to English":"ប្ដូរទៅភាសាខ្មែរ");
+  document.querySelectorAll("#cover [data-km][data-en]").forEach(function(element){element.textContent=element.getAttribute("data-"+language)});
+  $("cover").lang=language;
+  $("coverCta").setAttribute("aria-label",language==="km"?"ចុចលើសំបុត្រ ដើម្បីបើក":"Tap the envelope to open")
+});
+
 /* ===== guest features ===== */
 function copyTxt(t,done){
   function fb(){var ta=document.createElement("textarea");ta.value=t;ta.style.cssText="position:fixed;opacity:0;top:0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done&&done()}catch(e){}ta.remove()}
@@ -277,7 +288,8 @@ if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
   function add(x,y,h){
     var a=Math.random()*6.283,v=h?1.5+Math.random()*3:.3+Math.random()*1.2,gold=["#b39b36","#d8c068","#e8c75a","#c9a44a"];
     ps.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(h?2:.3),l:1,h:h,s:h?10+Math.random()*12:3+Math.random()*4,r:Math.random()*3,
-      c:$("cover").classList.contains("open")?gold[Math.random()*4|0]:"#ffffff"});
+      c:$("cover").classList.contains("unseal")||$("cover").classList.contains("open")?gold[Math.random()*4|0]:"#ffffff"});
+    var maxParticles=innerWidth<=600?22:80;if(ps.length>maxParticles)ps.splice(0,ps.length-maxParticles);
     if(!raf)raf=requestAnimationFrame(loop)}
   function star(sz){cx.beginPath();cx.moveTo(0,-sz);cx.lineTo(sz*.3,0);cx.lineTo(0,sz);cx.lineTo(-sz*.3,0);cx.closePath();cx.fill()}
   function loop(){
@@ -291,6 +303,10 @@ if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
     cx.globalAlpha=1;raf=ps.length?requestAnimationFrame(loop):0}
   addEventListener("pointermove",function(e){if(e.pointerType==="touch")return;var n=Date.now();if(n-lastT<30)return;lastT=n;add(e.clientX,e.clientY,false)});
   addEventListener("click",function(e){if(e.target.closest("a,button,input,textarea,select,label,#lb"))return;for(var i=0;i<14;i++)add(e.clientX,e.clientY,true)});
+  document.addEventListener("cover:burst",function(){
+    var bounds=document.querySelector("#cover .env").getBoundingClientRect(),count=innerWidth<=600?20:24;
+    for(var i=0;i<count;i++)add(bounds.left+bounds.width/2,bounds.top+bounds.height/2,false)
+  });
 }
 
 /* gold ripple on buttons */
@@ -311,13 +327,15 @@ if(qt&&"IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion:re
 
 /* 3D tilt on the envelope (pointer + phone gyro) */
 var ev=document.querySelector("#cover .env");
-function tilt(x,y){ev.style.transform="perspective(700px) rotateY("+(x*12).toFixed(1)+"deg) rotateX("+(-y*10).toFixed(1)+"deg)"}
+function tilt(x,y){ev.style.transform="perspective(900px) rotateY("+(x*8).toFixed(1)+"deg) rotateX("+(-y*8).toFixed(1)+"deg)"}
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
-  $("cover").addEventListener("pointermove",function(e){tilt((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2)});
+  $("cover").addEventListener("pointermove",function(e){if($("cover").classList.contains("unseal"))return;tilt((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2)});
+  $("cover").addEventListener("pointerleave",function(){ev.style.transform=""});
   window.addEventListener("deviceorientation",function(e){if(e.gamma==null||$("cover").classList.contains("open"))return;
     tilt(Math.max(-1,Math.min(1,e.gamma/30)),Math.max(-1,Math.min(1,(e.beta-45)/30)))})}
 $("openBtn").addEventListener("click",function(){if(navigator.vibrate)navigator.vibrate(25)});
 document.querySelector("#cover .env").addEventListener("click",function(e){if(e.target===$("openBtn")||$("cover").classList.contains("unseal"))return;$("openBtn").click()});
+$("coverCta").addEventListener("click",function(){$("openBtn").click()});
 
 /* nav scroll-spy */
 var nv=$("nav"),nl=[].slice.call(nv.querySelectorAll("a"));
@@ -332,7 +350,7 @@ var secs=document.querySelectorAll("section:not(#hero)");
 if("IntersectionObserver" in window){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
   Array.prototype.forEach.call(secs,function(x){x.classList.add("rv");io.observe(x)})}
-var pt=$("petals");for(var q=0;q<14;q++){var pi=document.createElement("i");
+var pt=$("petals"),petalCount=innerWidth<=600?8:14;for(var q=0;q<petalCount;q++){var pi=document.createElement("i");
   pi.style.left=(Math.random()*100)+"%";pi.style.animationDuration=(9+Math.random()*9)+"s";pi.style.animationDelay=(-Math.random()*14)+"s";
   pi.style.transform="scale("+(.6+Math.random()*.8)+")";pt.appendChild(pi)}
 
@@ -362,7 +380,25 @@ function startMusic(){
 }
 function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq");$("mus").setAttribute("aria-label","Play music")}
 $("mus").onclick=function(){playing?stopMusic():startMusic();this.style.opacity=playing?1:.5};
-$("openBtn").addEventListener("click",function(){$("cover").classList.add("unseal");setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},900);try{startMusic()}catch(e){}});
+/* A short two-note chime shares the envelope tap gesture with music playback. */
+function playChime(){
+  var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  ac=ac||new AC();if(ac.state==="suspended")ac.resume();
+  [659.25,880].forEach(function(frequency,index){
+    var oscillator=ac.createOscillator(),gain=ac.createGain(),start=ac.currentTime+index*.13;
+    oscillator.type="sine";oscillator.frequency.setValueAtTime(frequency,start);
+    gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.045,start+.025);gain.gain.exponentialRampToValueAtTime(.0001,start+.48);
+    oscillator.connect(gain);gain.connect(ac.destination);oscillator.start(start);oscillator.stop(start+.5)
+  })
+}
+$("openBtn").addEventListener("click",function(){
+  if($("cover").classList.contains("unseal"))return;
+  $("cover").classList.add("unseal");
+  document.dispatchEvent(new Event("cover:burst"));
+  var reduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},reduced?250:1700);
+  try{playChime();startMusic()}catch(e){}
+});
 
 /* thank-you paragraph: written out slowly (like a song) when the guest scrolls to it.
    speed: 110 ms per letter, 170 ms at spaces, 700 ms at the end of a sentence – change the numbers below to adjust */

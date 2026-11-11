@@ -71,6 +71,17 @@ button{color:inherit}
 .photo-card img{display:block;width:100%;height:auto;min-height:80px;background:linear-gradient(110deg,#211c11 8%,#332a18 18%,#211c11 33%);background-size:200% 100%;animation:shimmer 1.5s linear infinite;filter:blur(14px) saturate(.9);opacity:.65;transition:filter .55s ease,opacity .55s ease,transform 800ms ease}
 .photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{filter:blur(0) saturate(1.08);transform:scale(1.07)}
 .photo-card img.is-loaded{filter:blur(0);opacity:1;animation:none}
+.photo-card.is-sample{cursor:default}
+.photo-card.is-sample:before,.photo-card.is-sample .photo-caption{display:none}
+.photo-card.is-sample img,.photo-card.is-sample img.is-loaded,.photo-card.is-sample:hover img,.photo-card.is-sample:focus-visible img{filter:blur(2px) brightness(.8);transform:none}
+.sample-overlay{position:absolute;z-index:2;inset:0;display:grid;place-items:center;background:rgba(26,22,8,.55);pointer-events:none}
+.coming-soon-badge{position:relative;display:flex;flex-direction:column;align-items:center;max-width:90%;overflow:hidden;padding:7px 22px 7px 12px;border:1px solid #C9A93F;border-radius:999px;background:rgba(201,169,63,.16);color:#E8D48B;text-align:center;box-shadow:0 0 16px rgba(201,169,63,.22);animation:sampleBadgeFade .3s ease both}
+.coming-soon-badge:after{content:"";position:absolute;inset:-20% auto -20% 0;width:38%;background:linear-gradient(90deg,transparent,rgba(232,212,139,.24),transparent);transform:translateX(-140%);animation:sampleBadgeShimmer 4s ease-in-out infinite;pointer-events:none}
+.coming-soon-kh{font:500 13px/1.35 'Noto Sans Khmer','Battambang',sans-serif;white-space:nowrap}
+.coming-soon-en{font:600 10px/1.2 'Cormorant Garamond',Georgia,serif;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.coming-soon-icon{position:absolute;top:50%;right:8px;z-index:1;color:#E8D48B;font-size:10px;line-height:1;transform:translateY(-50%)}
+@keyframes sampleBadgeFade{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes sampleBadgeShimmer{0%,12%{transform:translateX(-140%)}48%,100%{transform:translateX(360%)}}
 @keyframes shimmer{to{background-position:-200% 0}}
 .empty-state{margin:44px auto;text-align:center;color:var(--muted);font-size:.85rem}
 .site-footer{padding:0 16px 28px;text-align:center;color:var(--muted);font-size:.75rem}
@@ -109,7 +120,7 @@ button{color:inherit}
 @media (hover:none) and (pointer:coarse){.lightbox-nav{display:none}}
 @media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
 @media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
-@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.photo-card:before{transform:none;opacity:0;transition:opacity 200ms ease}.photo-card:hover:before,.photo-card:focus-visible:before,.photo-card.on:before{opacity:1}.photo-card:hover,.photo-card:focus-visible,.photo-card.on{transform:none}.photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{transform:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.photo-card:before{transform:none;opacity:0;transition:opacity 200ms ease}.photo-card:hover:before,.photo-card:focus-visible:before,.photo-card.on:before{opacity:1}.photo-card:hover,.photo-card:focus-visible,.photo-card.on{transform:none}.photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{transform:none}.photo-card.is-sample img,.photo-card.is-sample img.is-loaded,.photo-card.is-sample:hover img,.photo-card.is-sample:focus-visible img{filter:blur(2px) brightness(.8)}.coming-soon-badge,.coming-soon-badge:after{animation:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
 @media (max-width:639px){.categories{display:none}.group-picker{display:flex}.control-deck{top:calc(60px + var(--safe-top))}}
 @media (max-width:400px){.back-link{padding-left:9px;padding-right:9px;font-size:.7rem}.header-title{font-size:.85rem}.language-toggle button{padding-left:6px;padding-right:6px;font-size:.58rem}.control-deck{top:calc(56px + var(--safe-top))}}
 </style>
@@ -184,6 +195,8 @@ button{color:inherit}
 <script src="js/coming-soon.js"></script>
 <script>
 /* DATA: one bilingual source of truth for both album sides. */
+// Set false when real guest photos replace the sample album.
+const SHOW_COMING_SOON=true;
 const makePhotos=(folder,kh,en)=>Array.from({length:15},(_,index)=>{const number=index+1;return{src:folder+number+'.jpg',thumb:folder+number+'.jpg',w:720,h:960,alt:kh+' · '+en+' · រូបភាព '+number+' · Photo '+number}});
 const albums={
   groom:{label:['ខាងកូនកំលោះ','Groom'],groups:[
@@ -209,38 +222,61 @@ const albums={
 (() => {
   const $=id=>document.getElementById(id);
   const sideButtons=[$('tGroom'),$('tBride')];
-  let side='groom',category='all',photos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false,uiLanguage='both',sheetFocus=null,sheetStartY=0;
+  let side='groom',category='all',photos=[],viewerPhotos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false,uiLanguage='both',sheetFocus=null,sheetStartY=0;
   const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const listFor=group=>group?group.photos||[]:[];
   const entriesFor=group=>listFor(group).map(photo=>({photo,group}));
+  const isSamplePhoto=photo=>SHOW_COMING_SOON&&photo.isReal!==true;
+  const realPhotoCount=group=>listFor(group).filter(photo=>!isSamplePhoto(photo)).length;
+  const comingSoonLabel=()=>uiLanguage==='km'?'ឆាប់ៗនេះ':uiLanguage==='en'?'Coming Soon':'ឆាប់ៗនេះ · Coming Soon';
   const groups=()=>albums[side].groups||[];
   const availableGroups=()=>groups().filter(group=>group.photos&&group.photos.length);
   const allPhotos=()=>availableGroups().flatMap(entriesFor);
   const setHash=()=>history.replaceState(null,'',location.pathname+location.search+'#'+side+(category==='all'?'':'/'+category));
   const displayName=group=>{if(!group)return uiLanguage==='km'?'ទាំងអស់':uiLanguage==='en'?'All':'ទាំងអស់ · All';return uiLanguage==='km'?group.kh:uiLanguage==='en'?group.en:group.kh+' · '+group.en};
-  const chipMarkup=group=>'<span class="category-km">'+(uiLanguage==='en'?group.en:group.kh)+'</span><span class="category-en">'+(uiLanguage==='km'?'':uiLanguage==='en'?'':group.en)+'</span><small>'+listFor(group).length+'</small>';
+  const chipMarkup=group=>'<span class="category-km">'+(uiLanguage==='en'?group.en:group.kh)+'</span><span class="category-en">'+(uiLanguage==='km'?'':uiLanguage==='en'?'':group.en)+'</span>'+(realPhotoCount(group)?'<small>'+realPhotoCount(group)+'</small>':'');
 
   function renderCategories(){
     const nav=$('categories');nav.innerHTML='';const available=availableGroups();
-    const all=document.createElement('button');all.className='category-chip wipe-fill wipe-fill--inverse';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span><small>'+available.reduce((total,group)=>total+listFor(group).length,0)+'</small>';all.onclick=()=>selectCategory('all');nav.appendChild(all);
+    const allCount=available.reduce((total,group)=>total+realPhotoCount(group),0),all=document.createElement('button');all.className='category-chip wipe-fill wipe-fill--inverse';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span>'+(allCount?'<small>'+allCount+'</small>':'');all.onclick=()=>selectCategory('all');nav.appendChild(all);
     available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip wipe-fill wipe-fill--inverse';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=chipMarkup(group);chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
-    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option wipe-fill wipe-fill--inverse';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));option.innerHTML='<span class="sheet-km">'+(group?group.kh:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span><small>'+ (group?listFor(group).length:available.reduce((total,item)=>total+listFor(item).length,0))+'</small><span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
+    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option wipe-fill wipe-fill--inverse';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));const count=group?realPhotoCount(group):allCount;option.innerHTML='<span class="sheet-km">'+(group?group.kh:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span>'+(count?'<small>'+count+'</small>':'')+'<span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
     $('pickerValue').textContent=displayName(category==='all'?null:available.find(group=>group.id===category));
     const active=nav.querySelector('[aria-pressed="true"]');if(active&&window.matchMedia('(max-width:700px)').matches)active.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
   }
 
   function renderGrid(){
     const grid=$('photoGrid');grid.innerHTML='';photos=category==='all'?allPhotos():entriesFor(groups().find(group=>group.id===category));
+    viewerPhotos=photos.filter(entry=>!isSamplePhoto(entry.photo));
     if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
-    /* PHOTO CARD TOUCH JS: paste this renderer block inside the page's SCRIPT section. */
-    photos.forEach((entry,index)=>{const photo=entry.photo,group=entry.group,card=document.createElement('button');card.className='photo-card';card.type='button';card.tabIndex=0;card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');const image=document.createElement('img');image.src=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});const caption=document.createElement('span');caption.className='photo-caption';caption.innerHTML='<span class="heart" aria-hidden="true">♥</span><span><span class="caption-kh">'+group.kh+'</span><span class="caption-en">'+group.en+'</span></span>';card.appendChild(image);card.appendChild(caption);card.onclick=event=>{if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}openViewer(index)};grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))});
+    photos.forEach((entry,index)=>{
+      const photo=entry.photo,group=entry.group,sample=isSamplePhoto(photo),card=document.createElement('button');
+      card.className='photo-card'+(sample?' is-sample':'');card.type='button';card.disabled=sample;card.tabIndex=sample?-1:0;
+      card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');
+      const image=document.createElement('img');image.src=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';
+      image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});
+      const caption=document.createElement('span');caption.className='photo-caption';caption.innerHTML='<span class="heart" aria-hidden="true">♥</span><span><span class="caption-kh">'+group.kh+'</span><span class="caption-en">'+group.en+'</span></span>';
+      card.appendChild(image);card.appendChild(caption);
+      if(sample){
+        card.setAttribute('aria-label',comingSoonLabel());
+        const overlay=document.createElement('span');overlay.className='sample-overlay';overlay.setAttribute('aria-hidden','true');
+        const badge=document.createElement('span');badge.className='coming-soon-badge';
+        if(uiLanguage!=='en'){const khmer=document.createElement('span');khmer.className='coming-soon-kh';khmer.textContent='ឆាប់ៗនេះ';badge.appendChild(khmer)}
+        if(uiLanguage!=='km'){const english=document.createElement('span');english.className='coming-soon-en';english.textContent='Coming Soon';badge.appendChild(english)}
+        const icon=document.createElement('span');icon.className='coming-soon-icon';icon.textContent='✦';icon.setAttribute('aria-hidden','true');badge.appendChild(icon);
+        overlay.appendChild(badge);card.appendChild(overlay);
+      }else{
+        card.onclick=event=>{if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}openViewer(index)};
+      }
+      grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))
+    });
   }
 
   function render(){
     const valid=category==='all'||groups().some(group=>group.id===category&&listFor(group).length);if(!valid)category='all';
     $('sides').dataset.side=side;sideButtons.forEach(button=>button.setAttribute('aria-pressed',button.dataset.side===side));
-    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length;const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent='រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=count+' photos';
+    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length,hasSamples=photos.some(entry=>isSamplePhoto(entry.photo));const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent=hasSamples?sideLabel+' album · '+comingSoonLabel():'រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=hasSamples?comingSoonLabel():count+' photos';
   }
 
   function openSheet(){sheetFocus=document.activeElement;$('groupPicker').setAttribute('aria-expanded','true');$('groupSheet').hidden=false;requestAnimationFrame(()=>{$('groupSheet').classList.add('is-open');const selected=$('sheetOptions').querySelector('[aria-selected="true"]');if(selected)selected.focus()})}
@@ -248,16 +284,16 @@ const albums={
   function selectSide(next){side=next;category='all';closeSheet();closeViewer();setHash();render()}
   function selectCategory(next){category=next;closeSheet();closeViewer();setHash();render()}
   function applyTransform(){$('lightboxImage').style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
-  function preload(index){if(!photos.length)return;const image=new Image();image.src=photos[(index+photos.length)%photos.length].photo.src}
-  function showViewer(index,direction){if(!photos.length)return;viewerIndex=(index+photos.length)%photos.length;const photo=photos[viewerIndex].photo,image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photo.src;if(image.complete)image.classList.add('is-loaded');image.alt=photo.alt;$('lightboxCounter').textContent=(viewerIndex+1)+' / '+photos.length;$('downloadPhoto').href=photo.src;$('downloadPhoto').download=photo.src.split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
+  function preload(index){if(!viewerPhotos.length)return;const image=new Image();image.src=viewerPhotos[(index+viewerPhotos.length)%viewerPhotos.length].photo.src}
+  function showViewer(index,direction){if(!viewerPhotos.length)return;viewerIndex=(index+viewerPhotos.length)%viewerPhotos.length;const photo=viewerPhotos[viewerIndex].photo,image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photo.src;if(image.complete)image.classList.add('is-loaded');image.alt=photo.alt;$('lightboxCounter').textContent=(viewerIndex+1)+' / '+viewerPhotos.length;$('downloadPhoto').href=photo.src;$('downloadPhoto').download=photo.src.split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
   function rubberBand(direction){const stage=$('lightboxStage');stage.classList.remove('rubber-left','rubber-right');void stage.offsetWidth;stage.classList.add(direction<0?'rubber-left':'rubber-right')}
-  function navigate(direction){if(zoom>1){rubberBand(direction);return}const next=viewerIndex+direction;if(next<0||next>=photos.length){rubberBand(direction);return}showViewer(next,direction<0?-1:1)}
+  function navigate(direction){if(zoom>1){rubberBand(direction);return}const next=viewerIndex+direction;if(next<0||next>=viewerPhotos.length){rubberBand(direction);return}showViewer(next,direction<0?-1:1)}
   function animateFromThumbnail(){if(reduceMotion||!viewerFrom)return;const image=$('lightboxImage'),origin=viewerFrom.getBoundingClientRect(),target=image.getBoundingClientRect();if(!target.width||!target.height)return;image.style.setProperty('--flip-x',origin.left+origin.width/2-(target.left+target.width/2)+'px');image.style.setProperty('--flip-y',origin.top+origin.height/2-(target.top+target.height/2)+'px');image.style.setProperty('--flip-sx',Math.max(.05,origin.width/target.width));image.style.setProperty('--flip-sy',Math.max(.05,origin.height/target.height));image.classList.remove('flip-in');void image.offsetWidth;image.classList.add('flip-in')}
-  function openViewer(index){viewerFrom=document.activeElement;zoom=1;panX=0;panY=0;applyTransform();showViewer(index);$('lightbox').hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>{$('lightbox').classList.add('is-open');animateFromThumbnail()});$('closeLightbox').focus()}
+  function openViewer(index){const viewerIndexForPhoto=viewerPhotos.indexOf(photos[index]);if(viewerIndexForPhoto<0)return;viewerFrom=document.activeElement;zoom=1;panX=0;panY=0;applyTransform();showViewer(viewerIndexForPhoto);$('lightbox').hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>{$('lightbox').classList.add('is-open');animateFromThumbnail()});$('closeLightbox').focus()}
   function closeViewer(){if($('lightbox').hidden)return;$('lightbox').classList.remove('is-open');$('lightbox').hidden=true;document.body.style.overflow='';zoom=1;panX=0;panY=0;if(viewerFrom&&viewerFrom.focus)viewerFrom.focus();viewerFrom=null}
   function distance(touches){return Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)}
   function changeZoom(next){zoom=Math.max(1,Math.min(3,next));if(zoom===1){panX=0;panY=0}applyTransform()}
-  async function sharePhoto(){const url=new URL(photos[viewerIndex].photo.src,location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
+  async function sharePhoto(){if(!viewerPhotos.length)return;const url=new URL(viewerPhotos[viewerIndex].photo.src,location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
 
   sideButtons.forEach(button=>button.onclick=()=>selectSide(button.dataset.side));
   $('groupPicker').onclick=openSheet;$('closeSheet').onclick=closeSheet;$('groupSheet').onclick=event=>{if(event.target===$('groupSheet'))closeSheet()};

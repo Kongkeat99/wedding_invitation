@@ -39,36 +39,56 @@ function mountVideo(b,src,n){
   v.poster=src.replace(/\.[^./]+$/,".jpg");v.dataset.src=src;v.setAttribute("aria-label","Pre-wedding video "+n);
   var playOverlay=document.createElement("button");playOverlay.type="button";playOverlay.className="video-play";playOverlay.setAttribute("aria-label","Play pre-wedding video");
   playOverlay.innerHTML='<span aria-hidden="true">▶</span>';
-  var corners=document.createElement("span");corners.className="video-corners";corners.setAttribute("aria-hidden","true");
   var controls=document.createElement("div");controls.className="video-controls";controls.setAttribute("role","group");controls.setAttribute("aria-label","Video controls");
-  var toggle=document.createElement("button");toggle.type="button";toggle.className="video-control video-toggle";toggle.setAttribute("aria-label","Play video");toggle.textContent="▶";
+  var icons={
+    play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>',
+    pause:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>',
+    mute:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM17 9l5 6m0-6-5 6"/></svg>',
+    fullscreen:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3"/></svg>'
+  };
+  var toggle=document.createElement("button");toggle.type="button";toggle.className="video-control video-toggle";toggle.setAttribute("aria-label","Play video");toggle.innerHTML=icons.play;
   var progress=document.createElement("input");progress.className="video-progress";progress.type="range";progress.min="0";progress.max="1000";progress.value="0";progress.setAttribute("aria-label","Video progress");
-  var audio=document.createElement("button");audio.type="button";audio.className="video-control video-audio";audio.disabled=true;audio.setAttribute("aria-label","This video has no audio");audio.title="No audio track";audio.textContent="🔇";
-  var fullscreen=document.createElement("button");fullscreen.type="button";fullscreen.className="video-control video-fullscreen";fullscreen.setAttribute("aria-label","Enter fullscreen");fullscreen.textContent="⛶";
+  var time=document.createElement("span");time.className="video-time";time.textContent="0:00 / 0:00";
+  var audio=document.createElement("button");audio.type="button";audio.className="video-control video-audio";audio.disabled=true;audio.setAttribute("aria-label","This video has no audio");audio.title="No audio track";audio.innerHTML=icons.mute;
+  var fullscreen=document.createElement("button");fullscreen.type="button";fullscreen.className="video-control video-fullscreen";fullscreen.setAttribute("aria-label","Enter fullscreen");fullscreen.innerHTML=icons.fullscreen;
+  var hideTimer=null;
+  function showControls(){
+    stage.classList.add("controls-visible");clearTimeout(hideTimer);
+    if(!v.paused&&!v.ended)hideTimer=setTimeout(function(){stage.classList.remove("controls-visible")},2500)
+  }
+  function formatTime(seconds){
+    if(!isFinite(seconds)||seconds<0)return "0:00";
+    var mins=Math.floor(seconds/60),secs=Math.floor(seconds%60);
+    return mins+":"+(secs<10?"0":"")+secs
+  }
   var play=function(){
     if(!v.src){v.src=v.dataset.src;v.load()}
     var result=v.play();
-    if(result&&result.catch)result.catch(function(){playOverlay.hidden=false;toggle.textContent="▶";toggle.setAttribute("aria-label","Play video")})
+    if(result&&result.catch)result.catch(function(){stage.classList.remove("is-playing");playOverlay.disabled=false;playOverlay.setAttribute("aria-hidden","false");toggle.innerHTML=icons.play;toggle.setAttribute("aria-label","Play video")})
   };
   playOverlay.addEventListener("click",play);
-  toggle.addEventListener("click",function(){if(v.paused||v.ended)play();else v.pause()});
-  v.addEventListener("play",function(){playOverlay.hidden=true;toggle.textContent="Ⅱ";toggle.setAttribute("aria-label","Pause video")});
-  function showPlay(){playOverlay.hidden=false;toggle.textContent="▶";toggle.setAttribute("aria-label","Play video")}
+  toggle.addEventListener("click",function(){if(v.paused||v.ended)play();else v.pause();showControls()});
+  v.addEventListener("play",function(){stage.classList.add("is-playing");playOverlay.disabled=true;playOverlay.setAttribute("aria-hidden","true");toggle.innerHTML=icons.pause;toggle.setAttribute("aria-label","Pause video");showControls()});
+  function showPlay(){stage.classList.remove("is-playing");playOverlay.disabled=false;playOverlay.setAttribute("aria-hidden","false");toggle.innerHTML=icons.play;toggle.setAttribute("aria-label","Play video");stage.classList.add("controls-visible");clearTimeout(hideTimer)}
   v.addEventListener("pause",showPlay);v.addEventListener("ended",showPlay);
   function updateProgress(){
     var ratio=v.duration?Math.min(1,v.currentTime/v.duration):0;
     progress.value=String(Math.round(ratio*1000));progress.style.setProperty("--progress",ratio*100+"%");
+    time.textContent=formatTime(v.currentTime)+" / "+formatTime(v.duration)
   }
   v.addEventListener("timeupdate",updateProgress);v.addEventListener("durationchange",updateProgress);
-  progress.addEventListener("input",function(){if(v.duration)v.currentTime=v.duration*Number(progress.value)/1000});
+  progress.addEventListener("input",function(){if(v.duration)v.currentTime=v.duration*Number(progress.value)/1000;showControls()});
   fullscreen.addEventListener("click",function(){
     if(document.fullscreenElement){document.exitFullscreen();return}
     if(stage.requestFullscreen)stage.requestFullscreen();
     else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()
   });
-  stage.appendChild(v);stage.appendChild(corners);stage.appendChild(playOverlay);
-  controls.appendChild(toggle);controls.appendChild(progress);controls.appendChild(audio);controls.appendChild(fullscreen);
-  b.appendChild(stage);b.appendChild(controls);
+  stage.addEventListener("pointermove",showControls);
+  stage.addEventListener("pointerleave",function(){if(!v.paused&&!v.ended)hideTimer=setTimeout(function(){stage.classList.remove("controls-visible")},2500)});
+  stage.addEventListener("click",function(e){if(v.paused||e.target.closest("button,.video-controls"))return;showControls()});
+  controls.appendChild(toggle);controls.appendChild(progress);controls.appendChild(time);controls.appendChild(audio);controls.appendChild(fullscreen);
+  stage.appendChild(v);stage.appendChild(playOverlay);stage.appendChild(controls);
+  b.appendChild(stage);
   b.video=v;b.playVideo=play
 }
 (CONFIG.videos||[]).forEach(function(src,k){

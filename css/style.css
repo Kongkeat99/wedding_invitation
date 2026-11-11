@@ -423,7 +423,7 @@ body:not(.go) #mus .eqb i{background:#E8D48B}
 #cover .names{display:flex;align-items:center;justify-content:center;gap:10px;margin:1px 0 4px;color:#F3E7B8;font:italic 500 clamp(1.8rem,8vw,2.75rem)/1.05 'Cormorant Garamond',Georgia,serif;text-align:center;white-space:nowrap}
 #cover .cover-amp{color:#C9A93F;font-size:.82em}
 #cover .cover-invite{margin:6px 0 0;color:rgba(244,235,200,.88);font:500 clamp(.82rem,3.4vw,.98rem)/1.6 'Kantumruy Pro','Battambang',sans-serif;letter-spacing:.13em}
-#cover #guestName{min-height:0;margin:0;color:#E8D48B;font:400 clamp(.85rem,3.4vw,1.05rem)/1.5 'Moul','Battambang',serif}
+#cover #guestName{display:inline;margin:0 0 0 .35em;color:#E8D48B;font:500 .92em/1.5 'Kantumruy Pro','Battambang',sans-serif;letter-spacing:normal}
 .env-stage{display:grid;place-items:center;width:100%;margin:clamp(14px,2.5vh,24px) auto 0;perspective:1000px;animation:envelopeFloat 4s ease-in-out infinite}
 #cover .env{position:relative;width:min(78vw,400px);height:auto;aspect-ratio:1.68;margin:0;overflow:hidden;border:1px solid rgba(232,212,139,.9);border-radius:10px;
   background-color:#F4EBC8;background-image:repeating-linear-gradient(0deg,rgba(111,83,32,.018) 0,rgba(111,83,32,.018) 1px,transparent 1px,transparent 4px),linear-gradient(145deg,#fff9e6,#F4EBC8 48%,#e6d9aa);box-shadow:0 30px 60px rgba(0,0,0,.42),0 12px 24px rgba(0,0,0,.24),0 0 40px rgba(201,169,63,.17),inset 0 0 0 1px rgba(255,255,255,.8);

@@ -468,14 +468,13 @@ if(qt&&"IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion:re
     (function step(){qt.textContent=seg.slice(0,++i).join("");if(i<seg.length)setTimeout(step,38)})()},{threshold:.6});
   qo.observe(qt)}
 
-/* 3D tilt on the envelope (pointer + phone gyro) */
+/* Desktop-only 3D pointer tilt; touch and reduced-motion users stay still. */
 var ev=document.querySelector("#cover .env");
 function tilt(x,y){ev.style.transform="perspective(900px) rotateY("+(x*8).toFixed(1)+"deg) rotateX("+(-y*8).toFixed(1)+"deg)"}
-if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
-  $("cover").addEventListener("pointermove",function(e){if($("cover").classList.contains("unseal"))return;tilt((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2)});
+if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion:reduce)").matches){
+  $("cover").addEventListener("pointermove",function(e){if(e.pointerType!=="mouse"||$("cover").classList.contains("unseal"))return;tilt((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2)});
   $("cover").addEventListener("pointerleave",function(){ev.style.transform=""});
-  window.addEventListener("deviceorientation",function(e){if(e.gamma==null||$("cover").classList.contains("open"))return;
-    tilt(Math.max(-1,Math.min(1,e.gamma/30)),Math.max(-1,Math.min(1,(e.beta-45)/30)))})}
+}
 $("openBtn").addEventListener("click",function(){if(navigator.vibrate)navigator.vibrate(25)});
 document.querySelector("#cover .env").addEventListener("click",function(e){if(e.target===$("openBtn")||$("cover").classList.contains("unseal"))return;$("openBtn").click()});
 $("coverCta").addEventListener("click",function(){$("openBtn").click()});

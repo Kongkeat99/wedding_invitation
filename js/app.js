@@ -389,8 +389,8 @@ else $("s-dress").hidden=true;
 })();
 var sy=$("story");
 (CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("div");d.className="st";
-  var a=document.createElement("small");a.textContent=e.date||"";var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
-  var p=document.createElement("p");p.textContent=e.text||"";d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
+  var a=document.createElement("small"),dt=e.date==="wedding"?khDate(new Date(WD)).split("\n")[0].replace(/^ថ្ងៃ\S+\s/,""):(e.date||"");a.textContent=dt;var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
+  var p=document.createElement("p");p.textContent=e.text||"";if(dt)d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
 if(!sy.children.length)$("s-story").hidden=true;
 
 var ph=CONFIG.photos||[],li=0,lbFrom=null,lb=$("lb");

@@ -625,8 +625,9 @@ $("openBtn").addEventListener("click",function(){
       if(d>1.6||d<-1.6){kids[i].style.visibility="hidden";continue}
       kids[i].style.visibility="";
       var ad=Math.min(1,Math.abs(d));
-      kids[i].style.transform="rotateY("+(-d*38)+"deg) scale("+(1-.16*ad)+")";
-      kids[i].style.opacity=String(1-.4*ad);
+      kids[i].style.transform="rotateY("+(-d*38)+"deg) scale("+(1.08-.26*ad)+")";
+      kids[i].style.opacity=String(1-.35*ad);
+      kids[i].style.filter=ad>.12?"blur("+(ad*2.2).toFixed(2)+"px) brightness("+(1-.12*ad).toFixed(2)+")":"";
       kids[i].style.zIndex=String(10-Math.round(ad*9));
     }
   }

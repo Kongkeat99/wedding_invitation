@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="km">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17140c">
+  <meta name="description" content="Pre-wedding photo gallery">
+  <title>Pre-wedding Photos · Wedding Invitation</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --night: #17140c;
+      --night-soft: #211c10;
+      --gold: #d6bd69;
+      --gold-bright: #f0dda0;
+      --cream: #f7f0dc;
+      --muted: #d2c8a9;
+      --slide-width: min(78vw, 430px);
+      font-family: "Kantumruy Pro", "Noto Sans Khmer", system-ui, sans-serif;
+      background: var(--night);
+      color: var(--cream);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 360px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 50% 32%, rgba(181, 145, 54, .12), transparent 49%),
+        radial-gradient(rgba(240, 221, 160, .11) .7px, transparent .9px) 7px 9px / 39px 41px,
+        linear-gradient(160deg, var(--night-soft), var(--night) 64%);
+    }
+
+    button { font: inherit; }
+
+    .gallery-page {
+      width: min(100% - 32px, 1120px);
+      margin-inline: auto;
+      padding: clamp(52px, 9vh, 104px) 0 68px;
+      text-align: center;
+    }
+
+    .gallery-heading { margin: 0 auto 20px; }
+
+    .kicker {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--gold-bright);
+      font-family: "Moul", "Noto Serif Khmer", Georgia, serif;
+      font-size: clamp(1.7rem, 5vw, 2.45rem);
+      font-weight: 400;
+      line-height: 1.55;
+      text-wrap: balance;
+    }
+
+    .subtitle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 0;
+      color: var(--gold-bright);
+      font: 600 .78rem/1.6 Georgia, "Noto Sans Khmer", serif;
+      letter-spacing: .2em;
+    }
+
+    .subtitle-divider {
+      color: var(--gold);
+      font-size: .9rem;
+      letter-spacing: 0;
+    }
+
+    .carousel {
+      position: relative;
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+
+    .carousel-track {
+      position: relative;
+      display: flex;
+      gap: clamp(12px, 2vw, 20px);
+      overflow-x: auto;
+      padding: 18px max(0px, calc((100% - var(--slide-width)) / 2)) 20px;
+      scroll-padding-inline: max(0px, calc((100% - var(--slide-width)) / 2));
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      touch-action: pan-x pan-y;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel-track:focus-visible {
+      outline: 2px solid var(--gold-bright);
+      outline-offset: -2px;
+      border-radius: 28px;
+    }
+
+    .carousel-track.is-dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
+    }
+
+    .slide {
+      flex: 0 0 var(--slide-width);
+      min-width: 0;
+      margin: 0;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+      opacity: .7;
+      transform: scale(.965);
+      transition: opacity 240ms ease, transform 240ms ease;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .photo-frame {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      padding: 8px;
+      border: 1px solid rgba(240, 221, 160, .65);
+      border-radius: 24px;
+      background: linear-gradient(145deg, #f8edc8, #a88b3b 52%, #433819);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .18);
+    }
+
+    .photo-art,
+    .photo-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 17px;
+      object-fit: cover;
+      background: #312719;
+      -webkit-user-drag: none;
+    }
+
+    .photo-placeholder-label {
+      position: absolute;
+      right: 18px;
+      bottom: 17px;
+      left: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff8e6;
+      font: 600 .66rem/1.2 Georgia, serif;
+      letter-spacing: .16em;
+      text-shadow: 0 1px 8px #000;
+      pointer-events: none;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      display: none;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 1px solid rgba(240, 221, 160, .68);
+      border-radius: 50%;
+      background: rgba(23, 20, 12, .88);
+      color: var(--gold-bright);
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    .carousel-arrow:hover:not(:disabled) {
+      border-color: var(--gold-bright);
+      background: #302813;
+    }
+
+    .carousel-arrow:focus-visible,
+    .album-link:focus-visible {
+      outline: 2px solid var(--gold-bright);
+      outline-offset: 4px;
+    }
+
+    .carousel-arrow:disabled {
+      opacity: .38;
+      cursor: default;
+    }
+
+    .carousel-arrow svg { width: 19px; height: 19px; }
+    .carousel-arrow--previous { left: 12px; }
+    .carousel-arrow--next { right: 12px; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .carousel-arrow { display: flex; }
+    }
+
+    .carousel-meta {
+      display: flex;
+      min-height: 34px;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 0 auto 4px;
+      color: var(--gold-bright);
+    }
+
+    .photo-count {
+      min-width: 70px;
+      color: var(--gold-bright);
+      font: 600 .76rem/1 Georgia, serif;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .14em;
+    }
+
+    .count-rule {
+      width: 42px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .swipe-hint {
+      display: inline-flex;
+      min-height: 38px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.6;
+      transition: opacity 260ms ease, transform 260ms ease, visibility 260ms;
+    }
+
+    .swipe-hint svg { width: 18px; height: 18px; flex: none; color: var(--gold-bright); }
+    .swipe-hint .hint-arrow { animation: nudge 1.7s ease-in-out infinite; }
+
+    .swipe-hint.is-hidden {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+
+    .album-wrap { margin-top: 20px; }
+
+    .album-link {
+      display: inline-flex;
+      min-height: 48px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 22px;
+      border: 1px solid rgba(214, 189, 105, .62);
+      border-radius: 999px;
+      color: var(--gold-bright);
+      font-size: .83rem;
+      line-height: 1.5;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+
+    .album-link:hover {
+      border-color: var(--gold-bright);
+      background: rgba(214, 189, 105, .1);
+    }
+
+    .album-link svg { width: 17px; height: 17px; flex: none; }
+    .album-link .album-en { color: var(--cream); }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
+    @media (max-width: 520px) {
+      .gallery-page { padding-top: 44px; }
+      .gallery-heading { margin-bottom: 12px; }
+      .carousel-track { padding-top: 12px; padding-bottom: 15px; }
+      .photo-frame { padding: 6px; border-radius: 20px; }
+      .photo-art, .photo-image { border-radius: 14px; }
+      .photo-placeholder-label { right: 14px; bottom: 13px; left: 14px; }
+      .album-wrap { margin-top: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .slide { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="gallery-page">
+    <header class="gallery-heading">
+      <p class="kicker">Soem Kungkiet <span aria-hidden="true">·</span> Chham Chanthu</p>
+      <h1 lang="km">វិចិត្រសាល</h1>
+      <p class="subtitle">
+        <span lang="en">PRE-WEDDING PHOTOS</span>
+        <span class="subtitle-divider" aria-hidden="true">·</span>
+        <span lang="km">រូបថតមុនពិធីមង្គលការ</span>
+      </p>
+    </header>
+
+    <section class="carousel" aria-label="Pre-wedding photo gallery">
+      <button class="carousel-arrow carousel-arrow--previous" id="previousPhoto" type="button" aria-label="Previous photo" disabled>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="carousel-track" id="photoTrack" tabindex="0" role="region" aria-label="Photo carousel. Use left and right arrow keys to browse."></div>
+      <button class="carousel-arrow carousel-arrow--next" id="nextPhoto" type="button" aria-label="Next photo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </section>
+
+    <div class="carousel-meta">
+      <span class="count-rule" aria-hidden="true"></span>
+      <span class="photo-count" id="photoCount" role="status" aria-live="polite" aria-atomic="true">01 / 08</span>
+      <span class="count-rule" aria-hidden="true"></span>
+    </div>
+
+    <p class="swipe-hint" id="swipeHint">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 11V6a1.8 1.8 0 0 1 3.6 0v4-1a1.8 1.8 0 0 1 3.6 0v2-1a1.8 1.8 0 0 1 3.6 0v4.2c0 3.1-2.2 5.3-5.3 5.3h-1.2c-1.7 0-2.8-.7-3.8-2.1l-2.7-3.7a1.7 1.7 0 0 1 2.7-2l1.5 1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span lang="km">អូសដើម្បីមើលរូបបន្ថែម</span>
+      <span aria-hidden="true">·</span>
+      <span lang="en">Swipe to view more</span>
+      <svg class="hint-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </p>
+
+    <p class="album-wrap">
+      <a class="album-link" href="album.html">
+        <span lang="km">អាល់ប៊ុមរូបភាពភ្ញៀវ</span>
+        <span class="album-en">Guest Album</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </p>
+  </main>
+
+  <script>
+    (function () {
+      /* Replace an empty src with a local photo path when your images are ready. */
+      var photos = [
+        { title: "Garden portraits", src: "", colors: ["#263b31", "#947a43", "#d9c08a"] },
+        { title: "Golden hour", src: "", colors: ["#392c31", "#a05f48", "#e4bd7a"] },
+        { title: "Soft morning light", src: "", colors: ["#34464b", "#9d8b63", "#e8d8ae"] },
+        { title: "A quiet moment", src: "", colors: ["#343241", "#786348", "#d5b983"] },
+        { title: "By the flowers", src: "", colors: ["#263d35", "#7d7350", "#dec992"] },
+        { title: "Evening embrace", src: "", colors: ["#332c42", "#8d5b54", "#e5bd86"] },
+        { title: "Together", src: "", colors: ["#29384a", "#777048", "#dfc893"] },
+        { title: "The celebration", src: "", colors: ["#3b2a25", "#987040", "#ead29a"] }
+      ];
+
+      var track = document.getElementById("photoTrack");
+      var count = document.getElementById("photoCount");
+      var hint = document.getElementById("swipeHint");
+      var previous = document.getElementById("previousPhoto");
+      var next = document.getElementById("nextPhoto");
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var slides = [];
+      var activeIndex = 0;
+      var scrollFrame = 0;
+      var settleTimer = 0;
+      var drag = null;
+      var dragged = false;
+
+      function placeholder(photo, index) {
+        var id = "scene-" + index;
+        var colors = photo.colors;
+        return '<svg class="photo-art" viewBox="0 0 600 800" role="img" aria-label="Placeholder photo: ' + photo.title + '" xmlns="http://www.w3.org/2000/svg">' +
+          '<defs><linearGradient id="' + id + '-sky" x2="0" y2="1"><stop stop-color="' + colors[0] + '"/><stop offset="1" stop-color="' + colors[1] + '"/></linearGradient>' +
+          '<linearGradient id="' + id + '-dress" x2="0" y2="1"><stop stop-color="' + colors[2] + '"/><stop offset="1" stop-color="#83612f"/></linearGradient>' +
+          '<filter id="' + id + '-blur"><feGaussianBlur stdDeviation="25"/></filter></defs>' +
+          '<rect width="600" height="800" fill="url(#' + id + '-sky)"/>' +
+          '<circle cx="440" cy="176" r="115" fill="' + colors[2] + '" opacity=".2" filter="url(#' + id + '-blur)"/>' +
+          '<path d="M0 415Q110 330 230 414T600 390V800H0Z" fill="#17251e" opacity=".56"/>' +
+          '<path d="M0 535Q140 470 300 545T600 510V800H0Z" fill="#18221c" opacity=".72"/>' +
+          '<g fill="' + colors[2] + '" opacity=".36"><circle cx="95" cy="246" r="18"/><circle cx="514" cy="306" r="24"/><circle cx="160" cy="364" r="11"/><circle cx="440" cy="404" r="13"/></g>' +
+          '<path d="M0 570Q85 532 170 570T340 560T510 570T680 550" fill="none" stroke="' + colors[2] + '" stroke-opacity=".35" stroke-width="3"/>' +
+          '<g opacity=".95"><ellipse cx="274" cy="300" rx="42" ry="53" fill="#35271f"/><path d="M234 298q40-76 82 0v35h-82z" fill="#1e1b18"/>' +
+          '<path d="M214 355q60-37 120 0l44 268q-102 49-207 0z" fill="url(#' + id + '-dress)"/><path d="M216 378q-38 85-22 158" fill="none" stroke="' + colors[2] + '" stroke-opacity=".7" stroke-width="13"/>' +
+          '<ellipse cx="390" cy="328" rx="35" ry="45" fill="#4a3027"/><path d="M356 325q32-58 68 0v30h-68z" fill="#24201c"/>' +
+          '<path d="M351 376q40-23 80 0l30 242q-72 34-145 0z" fill="#463832"/><path d="M350 400q-26 72-15 128" fill="none" stroke="' + colors[2] + '" stroke-opacity=".5" stroke-width="9"/>' +
+          '<path d="M309 398q39 26 59 12" fill="none" stroke="' + colors[2] + '" stroke-width="7" stroke-linecap="round"/></g>' +
+          '<path d="M70 690h460" stroke="' + colors[2] + '" stroke-opacity=".3"/>' +
+          '<text x="300" y="748" text-anchor="middle" fill="#fff5da" fill-opacity=".72" font-family="Georgia,serif" font-size="16" letter-spacing="5">PRE-WEDDING</text>' +
+          '</svg>';
+      }
+
+      function render() {
+        track.innerHTML = photos.map(function (photo, index) {
+          var visual = photo.src
+            ? '<img class="photo-image" src="' + photo.src + '" alt="' + photo.title + '" draggable="false">'
+            : placeholder(photo, index + 1);
+          return '<figure class="slide' + (index === 0 ? ' is-active' : '') + '" data-index="' + index + '">' +
+            '<div class="photo-frame">' + visual +
+            '<figcaption class="photo-placeholder-label"><span>' + photo.title + '</span><span>' + String(index + 1).padStart(2, "0") + '</span></figcaption>' +
+            '</div></figure>';
+        }).join("");
+        slides = Array.prototype.slice.call(track.querySelectorAll(".slide"));
+        count.textContent = "01 / " + String(slides.length).padStart(2, "0");
+        previous.disabled = true;
+        next.disabled = slides.length < 2;
+      }
+
+      function dismissHint() {
+        if (hint.classList.contains("is-hidden")) return;
+        hint.classList.add("is-hidden");
+        hint.setAttribute("aria-hidden", "true");
+      }
+
+      function centeredIndex() {
+        var center = track.getBoundingClientRect().left + track.clientWidth / 2;
+        var closest = 0;
+        var distance = Infinity;
+        slides.forEach(function (slide, index) {
+          var rect = slide.getBoundingClientRect();
+          var delta = Math.abs(rect.left + rect.width / 2 - center);
+          if (delta < distance) {
+            distance = delta;
+            closest = index;
+          }
+        });
+        return closest;
+      }
+
+      function updateActive() {
+        scrollFrame = 0;
+        var index = centeredIndex();
+        if (index === activeIndex) return;
+        activeIndex = index;
+        slides.forEach(function (slide, slideIndex) {
+          slide.classList.toggle("is-active", slideIndex === activeIndex);
+        });
+        count.textContent = String(activeIndex + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+        previous.disabled = activeIndex === 0;
+        next.disabled = activeIndex === slides.length - 1;
+        window.clearTimeout(settleTimer);
+        settleTimer = window.setTimeout(function () {
+          count.textContent = "Photo " + (activeIndex + 1) + " of " + slides.length;
+          window.setTimeout(function () {
+            count.textContent = String(activeIndex + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+          }, 900);
+        }, 180);
+      }
+
+      function goTo(index) {
+        var bounded = Math.max(0, Math.min(slides.length - 1, index));
+        if (!slides[bounded]) return;
+        dismissHint();
+        track.scrollTo({
+          left: slides[bounded].offsetLeft - (track.clientWidth - slides[bounded].clientWidth) / 2,
+          behavior: reduceMotion.matches ? "auto" : "smooth"
+        });
+      }
+
+      track.addEventListener("scroll", function () {
+        dismissHint();
+        if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateActive);
+      }, { passive: true });
+
+      track.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          dismissHint();
+          goTo(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+        }
+      });
+
+      track.addEventListener("pointerdown", function (event) {
+        if (event.pointerType !== "mouse" || event.button !== 0) return;
+        drag = { x: event.clientX, scrollLeft: track.scrollLeft, pointerId: event.pointerId };
+        dragged = false;
+        track.setPointerCapture(event.pointerId);
+      });
+
+      track.addEventListener("pointermove", function (event) {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        var delta = event.clientX - drag.x;
+        if (Math.abs(delta) > 4) {
+          dragged = true;
+          dismissHint();
+          track.classList.add("is-dragging");
+          track.scrollLeft = drag.scrollLeft - delta;
+          event.preventDefault();
+        }
+      });
+
+      function endDrag(event) {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        if (track.hasPointerCapture(event.pointerId)) track.releasePointerCapture(event.pointerId);
+        drag = null;
+        track.classList.remove("is-dragging");
+      }
+
+      track.addEventListener("pointerup", endDrag);
+      track.addEventListener("pointercancel", endDrag);
+      track.addEventListener("click", function (event) {
+        if (!dragged) return;
+        event.preventDefault();
+        event.stopPropagation();
+        dragged = false;
+      }, true);
+
+      previous.addEventListener("click", function () { goTo(activeIndex - 1); });
+      next.addEventListener("click", function () { goTo(activeIndex + 1); });
+
+      render();
+    }());
+  </script>
+</body>
+</html>

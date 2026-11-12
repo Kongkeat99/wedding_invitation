@@ -350,6 +350,43 @@ if(dc&&dc.colors&&dc.colors.length){
   syncDressLanguage()
 }
 else $("s-dress").hidden=true;
+
+/* RSVP (Telegram / WhatsApp, prefilled message) and gift accounts. Each section hides itself when CONFIG has nothing to show. */
+(function(){
+  var ct=CONFIG.contact||{},tg=String(ct.telegram||"").replace(/^@/,"").trim(),wa=String(ct.whatsapp||"").replace(/\D/g,""),attend="yes";
+  function message(){
+    var who=to||"",couple=CONFIG.groom+" & "+CONFIG.bride;
+    return attend==="yes"
+      ?"សួស្តី! "+(who?who+" ":"")+"សូមឆ្លើយតបថា នឹងចូលរួមពិធីមង្គលការរបស់ "+couple+" ។"
+      :"សួស្តី! "+(who?who+" ":"")+"សូមអភ័យទោស មិនអាចចូលរួមពិធីមង្គលការរបស់ "+couple+" បានទេ។ សូមជូនពរ។"
+  }
+  function links(){
+    var m=encodeURIComponent(message());
+    if(tg){$("rsvpTg").href="https://t.me/"+encodeURIComponent(tg)+"?text="+m;$("rsvpTg").hidden=false}
+    if(wa){$("rsvpWa").href="https://wa.me/"+wa+"?text="+m;$("rsvpWa").hidden=false}
+  }
+  if(tg||wa){
+    $("s-rsvp").hidden=false;links();
+    Array.prototype.forEach.call(document.querySelectorAll(".rsvp-opt"),function(b){
+      b.addEventListener("click",function(){
+        attend=b.getAttribute("data-rsvp");
+        Array.prototype.forEach.call(document.querySelectorAll(".rsvp-opt"),function(o){var on=o===b;o.classList.toggle("on",on);o.setAttribute("aria-pressed",on)});
+        links()})})
+  }
+  /* an account made only of zeros/dashes is treated as the unedited placeholder and is not shown */
+  var gifts=(CONFIG.gifts||[]).filter(function(g){return g&&g.account&&!/^[\s0-]+$/.test(g.account)});
+  if(gifts.length){
+    $("s-gift").hidden=false;
+    gifts.forEach(function(g){
+      var card=document.createElement("div"),info=document.createElement("div"),bank=document.createElement("b"),name=document.createElement("div"),num=document.createElement("div"),btn=document.createElement("button");
+      card.className="gift-card";info.className="gift-info";
+      bank.textContent=g.bank||"";name.textContent=g.name||"";num.className="gift-num";num.textContent=g.account;
+      btn.type="button";btn.className="btn sm";btn.textContent="📋 Copy";
+      btn.setAttribute("aria-label","Copy account number "+(g.bank||""));
+      btn.addEventListener("click",function(){copyTxt(String(g.account).replace(/\s+/g,""),function(){flash(btn,"✓ Copied")})});
+      info.appendChild(bank);info.appendChild(name);info.appendChild(num);card.appendChild(info);card.appendChild(btn);$("giftList").appendChild(card)})
+  }
+})();
 var sy=$("story");
 (CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("div");d.className="st";
   var a=document.createElement("small");a.textContent=e.date||"";var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));

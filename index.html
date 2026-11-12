@@ -94,7 +94,7 @@
   <b>⏱ Countdown setup</b> <small>(owner only)</small>
   <label for="sd">Wedding date &amp; time — Cambodia time (UTC+7)</label>
   <input type="datetime-local" id="sd">
-  <div class="row" style="margin-top:0"><button class="btn sm" id="sSave" type="button">Save</button><button class="btn alt sm" id="sReset" type="button">Reset</button><button class="btn alt sm" id="sCopy" type="button">Copy CONFIG line</button><button class="btn sm" id="sGuests" type="button">👥 Guest links</button></div>
+  <div class="row" style="margin-top:0"><button class="btn sm" id="sSave" type="button">Save</button><button class="btn alt sm" id="sReset" type="button">Reset</button><button class="btn alt sm" id="sCopy" type="button">Copy CONFIG line</button><button class="btn sm" id="sGuests" type="button">👥 Guest links</button><button class="btn sm" id="sPhotos" type="button">📸 Photo links</button></div>
   <p class="hint" id="sInfo" style="text-align:left"></p>
 </div>
 <div id="gp" hidden><div class="in">
@@ -123,6 +123,28 @@
     <button class="btn alt sm" id="gSnipCopy" type="button">Copy snippet</button>
   </div>
   <div id="gList"></div>
+</div></div>
+
+<div id="pp" hidden><div class="in">
+  <button id="pX" type="button" aria-label="close">✕</button>
+  <b>📸 Photo links</b> <small>(owner only — name + photo preview card for each guest)</small>
+  <label for="pbase">Invitation address (your live site)</label>
+  <input id="pbase">
+  <details id="pgh"><summary>GitHub publishing (needed for the Publish button)</summary>
+    <label for="prepo">Repository (owner/name)</label><input id="prepo" value="Kongkeat99/wedding_invitation">
+    <label for="pbranch">Branch your live site publishes from</label><input id="pbranch" value="main">
+    <label for="ptoken">Access token (kept only in this browser tab, never saved)</label><input id="ptoken" type="password" autocomplete="off" placeholder="github_pat_...">
+    <p class="hint" style="text-align:left">Create it once: GitHub → Settings → Developer settings → Fine-grained tokens → Generate. Repository access: only this repo. Permission: Contents = Read and write. Expiry: 90 days.</p>
+  </details>
+  <p class="hint" style="text-align:left">Add a guest, type the name, choose a photo. The code is made for you (random, so links can't be guessed).</p>
+  <div id="prows"></div>
+  <div class="row" style="justify-content:flex-start;margin-top:10px"><button class="btn alt sm" id="pAdd" type="button">＋ Add guest</button></div>
+  <div class="row" style="justify-content:flex-start;margin-top:14px">
+    <button class="btn sm" id="pPub" type="button">🚀 Publish to GitHub</button>
+    <button class="btn alt sm" id="pZip" type="button">⬇ Download ZIP</button>
+  </div>
+  <p class="hint" id="pMsg" style="text-align:left"></p>
+  <div id="pList"></div>
 </div></div>
 
 <button id="thm" type="button" aria-label="Switch to dark theme">🌙</button>
@@ -227,5 +249,6 @@
 <script defer src="js/config.js"></script>
 <script defer src="js/coming-soon.js"></script>
 <script defer src="js/app.js"></script>
+<script defer src="js/setup-photos.js"></script>
 </body>
 </html>

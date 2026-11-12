@@ -676,3 +676,18 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 .grid#grid .ph{flex:0 0 min(66vw,330px);width:min(66vw,330px);height:auto;aspect-ratio:3/4;border-radius:22px;border:2px solid rgba(255,255,255,.92);
   box-shadow:0 4px 14px rgba(60,45,20,.1);animation:none;transition:none;-webkit-user-drag:none}
 .grid#grid .ph:hover,.grid#grid img.ph:hover,.grid#grid.playing .ph{box-shadow:0 4px 14px rgba(60,45,20,.1)}
+
+/* ===== owner tool: photo links panel (?setup) ===== */
+#pp{position:fixed;inset:0;z-index:96;overflow:auto;background:var(--bg);color:var(--ink);padding:calc(14px + env(safe-area-inset-top,0px)) 14px 40px;text-align:left;font-family:system-ui,sans-serif;line-height:1.5}
+#pp .in{max-width:520px;margin:0 auto;position:relative}
+#pp label{display:block;font-size:.8rem;margin:12px 0 4px}
+#pp small{display:block;padding-right:36px}
+#pp input[type=text],#pp input:not([type]),#pp input[type=password]{margin-bottom:4px}
+#pX{position:absolute;right:0;top:-4px;border:0;background:none;color:var(--ink);font-size:1.3rem;cursor:pointer}
+#pp details{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+#pp summary{cursor:pointer;font-weight:600;font-size:.9rem}
+.pr{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.pr .pt{width:64px;height:34px;border-radius:6px;background:var(--card) center/cover;border:1px solid var(--line);flex:none}
+.pr .pf{flex:1;min-width:0}.pr .pf input{margin:0 0 6px}.pr .pf input[type=file]{font-size:.75rem;border:0;padding:0;background:none}
+.pr .px{border:0;background:none;color:var(--ink);font-size:1.1rem;cursor:pointer}
+.pl{padding:10px 0;border-bottom:1px solid var(--line)}.pl b{display:block}.pl code{display:block;word-break:break-all;font-size:.78rem;margin:2px 0 6px}

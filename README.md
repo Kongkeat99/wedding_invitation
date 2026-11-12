@@ -21,7 +21,10 @@ In `js/config.js` set `contact: { telegram: "username", whatsapp: "855XXXXXXXX" 
 Open `https://YOUR-USERNAME.github.io/REPO-NAME/?setup` → "👥 Guest links" → enter names → "Make links".
 Each link like `.../?to=Sok Dara` shows the guest's name on the cover and the main page.
 
-## Personal links with guest name + preview photo
+## Personal links with guest name + preview photo (from your browser)
+Open `https://YOUR-SITE/?setup` → **📸 Photo links** → add each guest's name and photo → **🚀 Publish to GitHub** (or **⬇ Download ZIP** and upload it on GitHub by hand). One-time: create a fine-grained GitHub token (only this repo, Contents = Read and write) and paste it under "GitHub publishing". The token stays in that browser tab only. The command-line way below still works too.
+
+## Personal links with guest name + preview photo (command line)
 Telegram/Facebook/WhatsApp make the preview card from the page's meta tags, so every guest gets their own small page.
 1. Put each guest's photo in `tools/guest-photos/` (any size; it is cropped to 1200x630 automatically).
 2. Add one line per guest to `tools/guests.csv`: `code,name,photo` (example: `mai,ម៉ៃ ម៉ុំ,mai.jpg`; code = short, a-z 0-9 and -).

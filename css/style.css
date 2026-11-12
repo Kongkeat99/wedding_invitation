@@ -620,11 +620,6 @@ body.go>section,body.go>footer{position:relative;z-index:1}
 @keyframes closingHeart{50%{transform:scale(1.17);text-shadow:0 0 12px rgba(201,169,63,.55)}}
 .footer-love,.footer-year{margin:5px 0 0;color:rgba(244,235,200,.82);font:500 .78rem/1.6 'Cormorant Garamond','Kantumruy Pro',serif;letter-spacing:.07em}
 .footer-year{margin-top:0;font-size:.72rem}
-.footer-actions{display:flex;justify-content:center;gap:12px;margin:17px auto 0}
-.footer-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:44px;min-height:44px;padding:0 12px;border:1px solid rgba(201,169,63,.55);border-radius:999px;background:rgba(201,169,63,.08);color:#E8D48B;font:500 .85rem/1 'Kantumruy Pro',sans-serif;text-decoration:none;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}
-.footer-action#backToTop{width:44px;padding:0;font-size:1.35rem}
-.footer-action:hover,.footer-action:focus-visible{transform:translateY(-2px);border-color:#E8D48B;background:rgba(201,169,63,.18)}
-.footer-action:focus-visible{outline:2px solid #F4EBC8;outline-offset:3px}
 
 /* E — compact mobile layout and motion-safe fallbacks. */
 @media(max-width:600px){
@@ -639,7 +634,7 @@ body.go>section,body.go>footer{position:relative;z-index:1}
   #s-thanks .thanks-copy{font-size:.9rem}
 }
 @media(prefers-reduced-motion:reduce){
-  #s-dress .swatch-item,#s-dress .swatch-jewel,#s-dress .swatch-tooltip,#s-thanks .closing-lotus-wrap,#s-thanks .closing-lotus,#s-thanks .closing-lotus path,.closing-thanks b,.footer-action{animation:none!important;transition:none!important}
+  #s-dress .swatch-item,#s-dress .swatch-jewel,#s-dress .swatch-tooltip,#s-thanks .closing-lotus-wrap,#s-thanks .closing-lotus,#s-thanks .closing-lotus path,.closing-thanks b{animation:none!important;transition:none!important}
   #s-dress .swatch-item{opacity:1;transform:none}
   #s-thanks .closing-lotus{opacity:1;transform:none}
   #s-thanks .closing-lotus path{stroke-dashoffset:0}

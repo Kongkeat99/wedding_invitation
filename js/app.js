@@ -448,17 +448,6 @@ if(document.readyState==="complete")hidePre();else{addEventListener("load",hideP
 $("footerLove").textContent="With love · "+CONFIG.groom+" & "+CONFIG.bride;
 var weddingYear=new Date(CONFIG.date).getFullYear();
 $("closingYear").textContent=isFinite(weddingYear)?String(weddingYear):String(new Date().getFullYear());
-$("backToTop").addEventListener("click",function(){
-  window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})
-});
-$("shareInvitation").addEventListener("click",function(){
-  var button=this,url=location.href.split("#")[0],title=document.title;
-  if(navigator.share){
-    navigator.share({title:title,text:(CONFIG.groom||"")+" & "+(CONFIG.bride||"")+" · Wedding Invitation",url:url}).catch(function(error){
-      if(error&&error.name!=="AbortError")console.error("Could not share the wedding invitation.",error)
-    })
-  }else copyTxt(url,function(){var label=button.querySelector("span");if(label)flash(label,"✓ Copied");else flash(button,"✓ Copied")})
-});
 
 /* gold-dust cursor trail + heart bursts on tap */
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches){

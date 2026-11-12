@@ -32,7 +32,7 @@ var CONFIG = {
   },
   // guest album page (album.html) - one album for the groom's guests and one for the bride's guests.
   // Photos use <folder>1.jpg ... <folder>count.jpg unless list is provided.
-  // While both sides are empty the page shows the invitation gallery as a preview.
+  // The page shows its empty-state message when no photos are configured.
   album: {
     groom: { categories: [
       {id:"trax-team", km:"ក្រុមការងារ Trax Apparel", en:"Trax Apparel Team", folder:"assets/album/groom/trax-team/", count:15, list:[]},

@@ -668,14 +668,39 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 .gift-card .btn{flex:none;min-height:40px}
 
 
-/* ===== photos: endless 3D ring that turns slowly like the earth, in time with the song ===== */
-#s-photo .gal-title{font-size:clamp(1.9rem,8vw,2.6rem);line-height:1.5;margin:0;color:#c8946a;text-shadow:none}
-#s-photo .gal-label{margin:2px 0 8px;font-family:'Cormorant Garamond','Battambang',serif;font-weight:700;font-size:.95rem;letter-spacing:.22em;color:#c8946a}
-.grid#grid{display:block;overflow:hidden;padding:22px 0 26px;margin:0 -16px;perspective:900px;touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
-.grid#grid .track{display:flex;gap:14px;width:max-content;will-change:transform;transform-style:preserve-3d}
-.grid#grid .ph{flex:0 0 min(66vw,330px);width:min(66vw,330px);height:auto;aspect-ratio:3/4;border-radius:22px;border:2px solid rgba(255,255,255,.92);
-  box-shadow:0 4px 14px rgba(60,45,20,.1);animation:none;transition:none;-webkit-user-drag:none}
-.grid#grid .ph:hover,.grid#grid img.ph:hover,.grid#grid.playing .ph{box-shadow:0 4px 14px rgba(60,45,20,.1)}
+/* ===== pre-wedding photo carousel ===== */
+#s-photo{max-width:900px}
+#s-photo .gal-title{font-size:clamp(1.9rem,8vw,2.6rem);line-height:1.5;margin:0;color:#e8d27a;text-shadow:none}
+#s-photo .gal-label{margin:2px 0 8px;color:#f0dda0;font-family:'Cormorant Garamond','Battambang',serif;font-size:.76rem;font-weight:700;letter-spacing:.16em;line-height:1.8}
+.gallery-carousel{position:relative;width:min(100%,940px);margin:0 auto}
+.grid#grid{position:relative;display:block;width:auto;height:clamp(360px,calc(88vw + 44px),500px);overflow:hidden;padding:0;margin:0 -16px;
+  --gallery-gap:14px;touch-action:pan-y;overscroll-behavior-x:contain;cursor:grab;-webkit-user-select:none;user-select:none}
+.grid#grid:active{cursor:grabbing}
+.grid#grid:focus-visible{outline:2px solid #f0dda0;outline-offset:3px;border-radius:24px}
+.grid#grid .track{position:relative;width:100%;height:100%;perspective:1000px;transform-style:preserve-3d}
+.grid#grid .ph{position:absolute;top:50%;left:50%;display:block;width:min(66vw,330px);height:auto;aspect-ratio:3/4;margin:0;
+  border:1px solid rgba(232,210,138,.76);border-radius:20px;background:#211c10;object-fit:cover;opacity:0;visibility:hidden;
+  transform-origin:center;backface-visibility:hidden;-webkit-user-drag:none}
+.grid#grid .ph.is-near{will-change:transform,opacity}
+.grid#grid .ph:focus-visible{outline:2px solid #f0dda0;outline-offset:4px}
+.gallery-arrow{position:absolute;z-index:5;top:50%;display:none;width:48px;height:48px;place-items:center;padding:0;
+  border:1px solid rgba(240,221,160,.72);border-radius:50%;background:rgba(27,23,8,.9);color:#f0dda0;
+  cursor:pointer;transform:translateY(-50%)}
+.gallery-arrow svg{width:20px;height:20px}
+.gallery-arrow:hover{background:#332b15;border-color:#f0dda0}
+.gallery-arrow:focus-visible{outline:2px solid #f0dda0;outline-offset:4px}
+.gallery-arrow--previous{left:10px}
+.gallery-arrow--next{right:10px}
+@media (hover:hover) and (pointer:fine){.gallery-arrow{display:grid}}
+.gallery-counter{min-height:24px;margin:0;color:#f0dda0;font:600 .78rem/1.5 'Cormorant Garamond',Georgia,serif;font-variant-numeric:tabular-nums;letter-spacing:.16em}
+.gallery-swipe-hint{display:flex;min-height:44px;align-items:center;justify-content:center;gap:8px;margin:0;color:#e4dcc0;font-size:.74rem;line-height:1.6;
+  transition:opacity .32s ease,transform .32s ease,visibility 0s linear .32s}
+.gallery-swipe-hint span:first-child{color:#f0dda0;font-size:1.05rem}
+.gallery-swipe-hint.is-hidden{visibility:hidden;opacity:0;transform:translateY(-4px)}
+@media (prefers-reduced-motion:reduce){
+  .gallery-swipe-hint{transition:none}
+  .gallery-swipe-hint.is-hidden{transform:none}
+}
 
 /* ===== owner tool: photo links panel (?setup) ===== */
 #pp{position:fixed;inset:0;z-index:96;overflow:auto;background:var(--bg);color:var(--ink);padding:calc(14px + env(safe-area-inset-top,0px)) 14px 40px;text-align:left;font-family:system-ui,sans-serif;line-height:1.5}

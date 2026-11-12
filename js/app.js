@@ -400,9 +400,8 @@ function openLb(i){
 function closeLb(){lb.hidden=true;if(lbFrom&&lbFrom.focus)lbFrom.focus();lbFrom=null}
 if(ph.length){
   ph.forEach(function(u,i){
-    var im=document.createElement("img");im.src=u.replace(/\/([^/]+)$/,"/thumbs/$1");im.alt="Pre-wedding photo "+(i+1);im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
-    im.className="ph";im.tabIndex=0;im.setAttribute("role","button");
-    im.onclick=function(){openLb(i)};
+    var im=document.createElement("img");im.src=u.replace(/\/([^/]+)$/,"/thumbs/$1");im.alt="Pre-wedding photo "+(i+1)+" of "+ph.length;im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
+    im.className="ph";im.tabIndex=0;im.setAttribute("role","button");im.setAttribute("aria-label","View "+im.alt);
     im.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openLb(i)}};
     g.appendChild(im)})
 }else $("s-photo").hidden=true;
@@ -523,7 +522,7 @@ var pt=$("petals"),petalCount=innerWidth<=600?8:14;for(var q=0;q<petalCount;q++)
   pi.style.transform="scale("+(.6+Math.random()*.8)+")";pt.appendChild(pi)}
 
 /* music: built-in soft melody, or CONFIG.musicUrl */
-var ac,playing=false,timer,au,ti=0;
+var ac,playing=false,timer,au,ti=0,galleryMotionSync=null;
 var notes=[392,440,523,440,392,330,392,294,330,392,523,659,587,523,440,392];
 function label(t){$("mtl").textContent="♪ "+t;$("mtl").classList.add("on");setTimeout(function(){$("mtl").classList.remove("on")},4000)}
 function melody(){
@@ -539,6 +538,7 @@ function melody(){
 function startMusic(){
   var pl=CONFIG.playlist||[],tr=pl[ti%(pl.length||1)];
   playing=true;$("mus").classList.add("eq");$("mus").setAttribute("aria-label","Pause music");
+  if(galleryMotionSync)galleryMotionSync();
   var u=tr&&tr.url;
   if(u){
     if(!au){au=new Audio();au.addEventListener("ended",function(){ti++;startMusic()});
@@ -546,7 +546,7 @@ function startMusic(){
     au.src=u;au.play().catch(function(){});label(tr.title);return}
   label(tr?tr.title:"Wedding Melody");melody();
 }
-function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq");$("mus").setAttribute("aria-label","Play music")}
+function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq");$("mus").setAttribute("aria-label","Play music");if(galleryMotionSync)galleryMotionSync()}
 $("mus").onclick=function(){playing?stopMusic():startMusic();this.style.opacity=playing?1:.5};
 /* A short two-note chime shares the envelope tap gesture with music playback. */
 function playChime(){
@@ -591,61 +591,235 @@ $("openBtn").addEventListener("click",function(){
   },{threshold:.1}).observe(el);
 })();
 
-/* photo carousel: a continuous, endless ring that turns slowly like the earth.
-   Photos are copied three times so the loop never ends; the ones near the centre face you, the ones at the edges turn away (3D).
-   Speed = one full turn per song (song length), so it keeps time with the music. Runs only while the song plays and the gallery is on screen.
-   Pauses while the guest touches/drags it; guests can drag to turn it by hand. */
+/* photo carousel: one photo set, with only the edge copies needed to close the loop */
 (function(){
-  var g=$("grid");if(!g||!g.children.length)return;
-  var orig=Array.prototype.slice.call(g.children),n=orig.length,FALLBACK=200;
+  var g=$("grid"),carousel=$("photoCarousel"),counter=$("photoCounter"),hint=$("photoHint");
+  if(!g||!g.children.length||!carousel)return;
+  var originals=Array.prototype.slice.call(g.children),n=originals.length,FALLBACK=200;
   var track=document.createElement("div");track.className="track";
-  function openAt(i){return function(){if(!moved)openLb(i)}}
-  var moved=false;
-  [0,1,2].forEach(function(c){orig.forEach(function(im,i){
-    var el=c===1?im:im.cloneNode(true);
-    el.classList.remove("hide");
-    if(c!==1){el.setAttribute("aria-hidden","true");el.tabIndex=-1;el.removeAttribute("role")}
-    el.onclick=openAt(i);
-    if(c===1)el.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openLb(i)}};
-    track.appendChild(el)})});
-  g.innerHTML="";g.appendChild(track);
-  var kids=Array.prototype.slice.call(track.children);
-  var pos=0,L=1,sw=1,cw=1,onScreen=false,hold=false,last=0,reduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  function measure(){
-    var a=kids[0],b=kids[1];cw=g.clientWidth;sw=a.offsetWidth;
-    var gap=b.offsetLeft-a.offsetLeft-sw;L=(sw+gap)*n;
-    sw=sw+gap}
-  function speed(){var d=(au&&isFinite(au.duration)&&au.duration>0)?au.duration:FALLBACK;return L/d}
+  var items=[],cloneCount=0,viewportWidth=0,cardWidth=0,step=1,cycleLength=1,pos=0;
+  var frameId=null,lastFrame=0,onScreen=false,hovered=false,focused=false,dragging=false,moved=false;
+  var dragStartX=0,dragStartPos=0,dragPos=0,lastPointerX=0,lastPointerTime=0,dragVelocity=0,inertiaVelocity=0,targetPos=null;
+  var resumeAt=0,resumeTimer=0,resizeTimer=0,activeIndex=-1,lastStackIndex=-1;
+  var reduceQuery=window.matchMedia("(prefers-reduced-motion: reduce)"),reduced=reduceQuery.matches;
+
+  function wrap(value,length){return ((value%length)+length)%length}
+  function dismissHint(){
+    if(!hint||hint.classList.contains("is-hidden"))return;
+    hint.classList.add("is-hidden");hint.setAttribute("aria-hidden","true")
+  }
   function render(){
-    var base=cw/2-kids[0].offsetWidth/2-(L+pos);
-    track.style.transform="translate3d("+base+"px,0,0)";
-    for(var i=0;i<kids.length;i++){
-      var c=i*sw+kids[0].offsetWidth/2+base+0;  /* slide centre x inside the viewport */
-      var d=(c-cw/2)/(cw*.62);                  /* -1..1 at the edges */
-      if(d>1.6||d<-1.6){kids[i].style.visibility="hidden";continue}
-      kids[i].style.visibility="";
-      var ad=Math.min(1,Math.abs(d));
-      kids[i].style.transform="rotateY("+(-d*38)+"deg) scale("+(1.08-.26*ad)+")";
-      kids[i].style.opacity=String(1-.35*ad);
-      kids[i].style.filter=ad>.12?"blur("+(ad*2.2).toFixed(2)+"px) brightness("+(1-.12*ad).toFixed(2)+")":"";
-      kids[i].style.zIndex=String(10-Math.round(ad*9));
+    var visibleLimit=viewportWidth/2+cardWidth*1.35,visible=[],stackDirty=false;
+    items.forEach(function(item){
+      var offset=item.sequence*step-pos,distance=Math.abs(offset);
+      if(distance>visibleLimit){
+        if(item.near){item.near=false;stackDirty=true;item.el.classList.remove("is-near");item.el.style.visibility="hidden"}
+        return
+      }
+      if(!item.near){item.near=true;stackDirty=true;item.el.classList.add("is-near");item.el.style.visibility="visible"}
+      item.distance=distance;visible.push(item);
+      var t=Math.min(1,distance/step),smooth=t*t*(3-2*t);
+      var scale=1-.18*smooth,opacity=1-.22*smooth;
+      var tilt=Math.max(-8,Math.min(8,offset/step*8));
+      item.el.style.transform="translate3d(calc(-50% + "+offset.toFixed(2)+"px),-50%,0) rotateY("+tilt.toFixed(2)+"deg) scale("+scale.toFixed(3)+")";
+      item.el.style.opacity=opacity.toFixed(3)
+    });
+    var index=wrap(Math.round(pos/step),n);
+    if(index!==activeIndex){
+      activeIndex=index;
+      counter.textContent=String(index+1).padStart(2,"0")+" / "+String(n).padStart(2,"0");
+      counter.setAttribute("aria-label","Photo "+(index+1)+" of "+n)
+    }
+    if(index!==lastStackIndex||stackDirty){
+      visible.sort(function(a,b){return a.distance-b.distance});
+      visible.forEach(function(item,order){item.el.style.zIndex=String(100-order)});
+      lastStackIndex=index
     }
   }
-  function frame(t){
-    var dt=last?Math.min(80,t-last):0;last=t;
-    if(playing&&onScreen&&!hold&&!reduced){pos+=speed()*dt/1000;if(pos>=L)pos-=L}
-    render();requestAnimationFrame(frame)}
-  /* drag to turn by hand */
-  var down=false,sx=0,sp=0,rt=0;
-  g.addEventListener("pointerdown",function(e){down=true;moved=false;sx=e.clientX;sp=pos;hold=true;clearTimeout(rt)});
-  window.addEventListener("pointermove",function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>6)moved=true;if(moved){pos=((sp-dx)%L+L)%L}});
-  window.addEventListener("pointerup",function(){if(!down)return;down=false;rt=setTimeout(function(){hold=false;moved=false},2500);setTimeout(function(){moved=false},50)});
-  g.addEventListener("mouseenter",function(){hold=true;clearTimeout(rt)});
-  g.addEventListener("mouseleave",function(){if(!down)hold=false});
-  if("IntersectionObserver" in window)new IntersectionObserver(function(en){en.forEach(function(e){onScreen=e.isIntersecting})},{threshold:.25}).observe(g);else onScreen=true;
-  window.addEventListener("resize",measure);
-  function start(){measure();render();requestAnimationFrame(frame)}
-  if(document.readyState==="complete")start();else window.addEventListener("load",start);
+  function makeItem(el,sequence,photoIndex,clone){
+    el.loading="lazy";el.decoding="async";el.width=720;el.height=960;
+    if(clone){
+      el.alt="";el.tabIndex=-1;el.setAttribute("aria-hidden","true");el.removeAttribute("role")
+    }else{
+      el.alt="Pre-wedding photo "+(photoIndex+1)+" of "+n;el.tabIndex=0;
+      el.setAttribute("role","button");el.setAttribute("aria-label","View "+el.alt);el.removeAttribute("aria-hidden")
+    }
+    el.style.visibility="hidden";el.classList.remove("is-near");
+    el.onclick=function(){if(moved)return;dismissHint();openLb(photoIndex)};
+    items.push({el:el,sequence:sequence,photoIndex:photoIndex,near:false,distance:Infinity})
+  }
+  function rebuildTrack(){
+    while(track.firstChild)track.removeChild(track.firstChild);
+    items=[];
+    for(var i=cloneCount;i>0;i--){
+      var tailIndex=wrap(n-i,n),tail=originals[tailIndex].cloneNode(true);
+      track.appendChild(tail);makeItem(tail,-i,tailIndex,true)
+    }
+    originals.forEach(function(image,index){
+      track.appendChild(image);makeItem(image,index,index,false)
+    });
+    for(var j=0;j<cloneCount;j++){
+      var head=originals[j%n].cloneNode(true);
+      track.appendChild(head);makeItem(head,n+j,j%n,true)
+    }
+    lastStackIndex=-1
+  }
+  function measure(){
+    var oldProgress=cycleLength>0?pos/cycleLength:0;
+    viewportWidth=g.clientWidth;cardWidth=originals[0].offsetWidth;
+    if(!viewportWidth||!cardWidth)return false;
+    var gap=parseFloat(window.getComputedStyle(g).getPropertyValue("--gallery-gap"))||14;
+    step=cardWidth+gap;cycleLength=step*n;pos=wrap(oldProgress*cycleLength,cycleLength);
+    cloneCount=Math.ceil((viewportWidth/2+cardWidth*1.35)/step)+1;
+    rebuildTrack();render();
+    return true
+  }
+  function speed(){
+    var duration=(au&&isFinite(au.duration)&&au.duration>0)?au.duration:FALLBACK;
+    return cycleLength/duration
+  }
+  function needsFrame(now){
+    return !document.hidden&&onScreen&&!reduced&&
+      (dragging||Math.abs(inertiaVelocity)>.015||targetPos!==null||
+        (!hovered&&!focused&&now>=resumeAt))
+  }
+  function stopFrame(){
+    if(frameId!==null){cancelAnimationFrame(frameId);frameId=null}
+    lastFrame=0
+  }
+  function syncFrame(){
+    if(needsFrame(performance.now())){
+      if(frameId===null){lastFrame=0;frameId=requestAnimationFrame(frame)}
+    }else stopFrame()
+  }
+  function scheduleResume(){
+    window.clearTimeout(resumeTimer);
+    if(reduced||hovered||focused)return;
+    resumeAt=performance.now()+2000;
+    resumeTimer=window.setTimeout(function(){resumeTimer=0;syncFrame()},2000)
+  }
+  function shortestDelta(target,current){
+    var delta=target-current;
+    if(delta>cycleLength/2)delta-=cycleLength;
+    if(delta<-cycleLength/2)delta+=cycleLength;
+    return delta
+  }
+  function frame(time){
+    frameId=null;
+    if(!needsFrame(time)){lastFrame=0;return}
+    var dt=lastFrame?Math.min(64,time-lastFrame):0;lastFrame=time;
+    if(dragging)pos=dragPos;
+    else if(targetPos!==null){
+      var remaining=shortestDelta(targetPos,pos);
+      if(Math.abs(remaining)<.6){pos=targetPos;targetPos=null}
+      else pos=wrap(pos+remaining*(1-Math.exp(-dt/110)),cycleLength)
+    }else if(Math.abs(inertiaVelocity)>.015){
+      pos=wrap(pos+inertiaVelocity*dt,cycleLength);
+      inertiaVelocity*=Math.exp(-dt/230);
+      if(Math.abs(inertiaVelocity)<=.015)inertiaVelocity=0
+    }else if(!hovered&&!focused&&time>=resumeAt){
+      pos=wrap(pos+speed()*dt/1000,cycleLength)
+    }
+    render();
+    if(needsFrame(time))frameId=requestAnimationFrame(frame);
+    else lastFrame=0
+  }
+  function goBy(direction){
+    if(!n)return;
+    dismissHint();scheduleResume();inertiaVelocity=0;
+    var target=wrap(pos+direction*step,cycleLength);
+    if(reduced){pos=target;targetPos=null;render();return}
+    targetPos=target;syncFrame()
+  }
+  function updateDrag(event){
+    var now=event.timeStamp||performance.now(),delta=event.clientX-lastPointerX,elapsed=now-lastPointerTime;
+    if(Math.abs(event.clientX-dragStartX)>5)moved=true;
+    dragPos=wrap(dragStartPos-(event.clientX-dragStartX),cycleLength);
+    if(elapsed>0)dragVelocity=Math.max(-1.05,Math.min(1.05,-delta/elapsed));
+    lastPointerX=event.clientX;lastPointerTime=now;
+    if(reduced){pos=dragPos;render()}
+    else syncFrame()
+  }
+  function finishDrag(event,cancelled){
+    if(!dragging||event.pointerId!==activePointer)return;
+    var movedSinceLast=Math.abs(event.clientX-lastPointerX)>1;
+    if(!cancelled&&movedSinceLast)updateDrag(event);
+    var recentMove=movedSinceLast||event.timeStamp-lastPointerTime<90;
+    dragging=false;activePointer=null;
+    if(reduced){
+      pos=wrap(Math.round(dragPos/step)*step,cycleLength);inertiaVelocity=0;render()
+    }else{
+      pos=dragPos;inertiaVelocity=!cancelled&&moved&&recentMove?dragVelocity:0;
+      if(Math.abs(inertiaVelocity)<=.015)inertiaVelocity=0;
+      render();
+      scheduleResume();syncFrame()
+    }
+    window.setTimeout(function(){moved=false},60)
+  }
+  var activePointer=null;
+
+  originals.forEach(function(image,index){
+    image.onkeydown=function(event){
+      if(event.key==="Enter"||event.key===" "){event.preventDefault();dismissHint();openLb(index)}
+    }
+  });
+  g.innerHTML="";g.appendChild(track);
+  originals.forEach(function(image,index){track.appendChild(image);makeItem(image,index,index,false)});
+  g.addEventListener("keydown",function(event){
+    if(event.key==="ArrowLeft"||event.key==="ArrowRight"){
+      event.preventDefault();dismissHint();goBy(event.key==="ArrowRight"?1:-1)
+    }
+  });
+  g.addEventListener("pointerdown",function(event){
+    if(event.pointerType==="mouse"&&event.button!==0)return;
+    activePointer=event.pointerId;dragging=true;moved=false;dragStartX=event.clientX;dragStartPos=pos;dragPos=pos;
+    lastPointerX=event.clientX;lastPointerTime=event.timeStamp;dragVelocity=0;inertiaVelocity=0;targetPos=null;
+    window.clearTimeout(resumeTimer);dismissHint();syncFrame()
+  });
+  window.addEventListener("pointermove",function(event){if(dragging&&event.pointerId===activePointer)updateDrag(event)});
+  window.addEventListener("pointerup",function(event){finishDrag(event,false)});
+  window.addEventListener("pointercancel",function(event){finishDrag(event,true)});
+  $("photoPrev").addEventListener("click",function(){goBy(-1)});
+  $("photoNext").addEventListener("click",function(){goBy(1)});
+  g.addEventListener("pointerenter",function(event){
+    if(event.pointerType!=="mouse")return;
+    hovered=true;window.clearTimeout(resumeTimer);syncFrame()
+  });
+  g.addEventListener("pointerleave",function(event){
+    if(event.pointerType!=="mouse")return;
+    hovered=false;if(!dragging)scheduleResume();syncFrame()
+  });
+  carousel.addEventListener("focusin",function(){focused=true;window.clearTimeout(resumeTimer);dismissHint();syncFrame()});
+  carousel.addEventListener("focusout",function(event){
+    if(!carousel.contains(event.relatedTarget)){focused=false;scheduleResume();syncFrame()}
+  });
+  galleryMotionSync=syncFrame;
+
+  var observer=null;
+  if("IntersectionObserver" in window){
+    observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){onScreen=entry.isIntersecting;syncFrame()})
+    },{threshold:.25});
+    observer.observe(g)
+  }else onScreen=true;
+  document.addEventListener("visibilitychange",function(){lastFrame=0;syncFrame()});
+  function onMotionChange(event){
+    reduced=event.matches;
+    if(reduced){
+      inertiaVelocity=0;targetPos=null;
+      if(dragging){pos=dragPos;dragging=false;activePointer=null}
+      pos=wrap(Math.round(pos/step)*step,cycleLength);render()
+    }
+    syncFrame()
+  }
+  if(reduceQuery.addEventListener)reduceQuery.addEventListener("change",onMotionChange);
+  else if(reduceQuery.addListener)reduceQuery.addListener(onMotionChange);
+  window.addEventListener("resize",function(){
+    window.clearTimeout(resizeTimer);
+    resizeTimer=window.setTimeout(function(){if(measure())syncFrame()},140)
+  });
+  function start(){if(measure())syncFrame()}
+  if(document.readyState==="complete")start();else window.addEventListener("load",start)
 })();
 
 /* love story: cards slide in one by one, dots pop, gold line grows while scrolling */

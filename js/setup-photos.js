@@ -8,7 +8,7 @@
   var openBtn=$("sPhotos");if(!openBtn)return;
   var CFG=window.CONFIG||{},W=1200,H=630,rows=[],busy=false;
   var BASE=location.href.split("?")[0].split("#")[0].replace(/index\.html$/,"").replace(/\/$/,"");
-  var PERM="https://weddinginvitation-keat.vercel.app",BUILD=/^https?:\/\/[^\/]*-[a-z0-9]{8,10}-[a-z0-9-]+\.vercel\.app/i;
+  var PERM="https://weddinginvitation-peach-omega.vercel.app",BUILD=/^https?:\/\/[^\/]*-[a-z0-9]{8,10}-[a-z0-9-]+\.vercel\.app/i;
   BASE=BUILD.test(BASE)?PERM:BASE;   /* one-time Vercel build addresses give 404 later -> use the permanent address */
   $("pbase").value=BASE;
   try{var sv=JSON.parse(localStorage.getItem("pcfg")||"{}");if(sv.repo)$("prepo").value=sv.repo;if(sv.branch)$("pbranch").value=sv.branch;if(sv.base&&!BUILD.test(sv.base))$("pbase").value=sv.base}catch(e){}

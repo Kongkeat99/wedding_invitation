@@ -573,9 +573,10 @@ function playChime(){
 $("openBtn").addEventListener("click",function(){
   if($("cover").classList.contains("unseal"))return;
   $("cover").classList.add("unseal");
+  ev.style.transform="";
   document.dispatchEvent(new Event("cover:burst"));
   var reduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},reduced?250:1700);
+  setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},reduced?250:2400);
   try{playChime();startMusic()}catch(e){}
 });
 

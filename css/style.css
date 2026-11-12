@@ -667,3 +667,12 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 .gift-num{font:600 1.15rem/1.4 'Cormorant Garamond',Georgia,serif;letter-spacing:.08em;word-break:break-all}
 .gift-card .btn{flex:none;min-height:40px}
 
+
+/* ===== photos: endless 3D ring that turns slowly like the earth, in time with the song ===== */
+#s-photo .gal-title{font-size:clamp(1.9rem,8vw,2.6rem);line-height:1.5;margin:0;color:#c8946a;text-shadow:none}
+#s-photo .gal-label{margin:2px 0 8px;font-family:'Cormorant Garamond','Battambang',serif;font-weight:700;font-size:.95rem;letter-spacing:.22em;color:#c8946a}
+.grid#grid{display:block;overflow:hidden;padding:22px 0 26px;margin:0 -16px;perspective:900px;touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
+.grid#grid .track{display:flex;gap:14px;width:max-content;will-change:transform;transform-style:preserve-3d}
+.grid#grid .ph{flex:0 0 min(66vw,330px);width:min(66vw,330px);height:auto;aspect-ratio:3/4;border-radius:22px;border:2px solid rgba(255,255,255,.92);
+  box-shadow:0 4px 14px rgba(60,45,20,.1);animation:none;transition:none;-webkit-user-drag:none}
+.grid#grid .ph:hover,.grid#grid img.ph:hover,.grid#grid.playing .ph{box-shadow:0 4px 14px rgba(60,45,20,.1)}

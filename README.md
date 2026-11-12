@@ -21,6 +21,15 @@ In `js/config.js` set `contact: { telegram: "username", whatsapp: "855XXXXXXXX" 
 Open `https://YOUR-USERNAME.github.io/REPO-NAME/?setup` → "👥 Guest links" → enter names → "Make links".
 Each link like `.../?to=Sok Dara` shows the guest's name on the cover and the main page.
 
+## Personal links with guest name + preview photo
+Telegram/Facebook/WhatsApp make the preview card from the page's meta tags, so every guest gets their own small page.
+1. Put each guest's photo in `tools/guest-photos/` (any size; it is cropped to 1200x630 automatically).
+2. Add one line per guest to `tools/guests.csv`: `code,name,photo` (example: `mai,ម៉ៃ ម៉ុំ,mai.jpg`; code = short, a-z 0-9 and -).
+3. Run `python3 tools/make_guest_links.py --base https://YOUR-SITE` (needs `pip install pillow`).
+4. Commit and push (or redeploy). Send each link from `tools/guest-links.txt`, e.g. `https://YOUR-SITE/g/mai/`.
+The guest sees the card with their name and photo, and the invitation opens with their name on it. A missing photo falls back to `assets/og.jpg`.
+Tip: guest photos are public files; only add photos guests would be fine with others seeing if the link is forwarded.
+
 ## Publish on GitHub Pages
 1. Create a repository and upload everything in this folder (keep the folders).
 2. Settings → Pages → Deploy from a branch → `main` / `(root)` → Save.

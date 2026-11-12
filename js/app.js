@@ -619,3 +619,15 @@ $("openBtn").addEventListener("click",function(){
   window.addEventListener("scroll",function(){if(!tk){tk=true;requestAnimationFrame(function(){line();tk=false})}},{passive:true});
   window.addEventListener("resize",line);line();
 })();
+
+/* slide the floating buttons aside while scrolling, bring them back when scrolling stops */
+(function(){
+  var idle=0,away=false;
+  addEventListener("scroll",function(){
+    if(!document.body.classList.contains("go"))return;
+    if(!away){away=true;document.body.classList.add("fab-away")}
+    clearTimeout(idle);
+    idle=setTimeout(function(){away=false;document.body.classList.remove("fab-away")},700)
+  },{passive:true})
+})();
+

@@ -389,8 +389,8 @@ else $("s-dress").hidden=true;
 })();
 var sy=$("story");
 (CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("div");d.className="st";
-  var a=document.createElement("small");a.textContent=e.date||"";var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
-  var p=document.createElement("p");p.textContent=e.text||"";d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
+  var a=document.createElement("small"),dt=e.date==="wedding"?khDate(new Date(WD)).split("\n")[0].replace(/^ថ្ងៃ\S+\s/,""):(e.date||"");a.textContent=dt;var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
+  var p=document.createElement("p");p.textContent=e.text||"";if(dt)d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
 if(!sy.children.length)$("s-story").hidden=true;
 
 var ph=CONFIG.photos||[],li=0,lbFrom=null,lb=$("lb");
@@ -454,10 +454,10 @@ $("backToTop").addEventListener("click",function(){
 $("shareInvitation").addEventListener("click",function(){
   var button=this,url=location.href.split("#")[0],title=document.title;
   if(navigator.share){
-    navigator.share({title:title,text:"Soem Kungkiet & Chham Chanthu · Wedding Invitation",url:url}).catch(function(error){
+    navigator.share({title:title,text:(CONFIG.groom||"")+" & "+(CONFIG.bride||"")+" · Wedding Invitation",url:url}).catch(function(error){
       if(error&&error.name!=="AbortError")console.error("Could not share the wedding invitation.",error)
     })
-  }else copyTxt(url,function(){flash(button,"✓ Copied")})
+  }else copyTxt(url,function(){var label=button.querySelector("span");if(label)flash(label,"✓ Copied");else flash(button,"✓ Copied")})
 });
 
 /* gold-dust cursor trail + heart bursts on tap */
@@ -657,3 +657,15 @@ $("openBtn").addEventListener("click",function(){
   window.addEventListener("scroll",function(){if(!tk){tk=true;requestAnimationFrame(function(){line();tk=false})}},{passive:true});
   window.addEventListener("resize",line);line();
 })();
+
+/* slide the floating buttons aside while scrolling, bring them back when scrolling stops */
+(function(){
+  var idle=0,away=false;
+  addEventListener("scroll",function(){
+    if(!document.body.classList.contains("go"))return;
+    if(!away){away=true;document.body.classList.add("fab-away")}
+    clearTimeout(idle);
+    idle=setTimeout(function(){away=false;document.body.classList.remove("fab-away")},700)
+  },{passive:true})
+})();
+

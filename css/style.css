@@ -53,7 +53,7 @@ input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--card);b
 .btn.alt{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none}
 #mtl{position:fixed;right:68px;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:40;max-width:60vw;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:3px 12px;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .4s}
 #mtl.on{opacity:1}
-footer{padding:30px 0 60px;font-size:.85rem;opacity:.7}
+footer{font-size:.85rem}
 
 /* ===== guest features ===== */
 [hidden]{display:none!important}
@@ -191,7 +191,6 @@ img.ph:active{transform:scale(.97)}
 .btn,.seg button{position:relative;overflow:hidden}
 .rp{position:absolute;border-radius:50%;background:#fff7;transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}
 @keyframes rp{to{transform:scale(3.5);opacity:0}}
-footer .lotus{margin-bottom:14px;opacity:.8}
 @media (prefers-reduced-motion:reduce){.lotus path{stroke-dashoffset:0;fill-opacity:.14;animation:none}.aur i,.go .nm{animation:none}#pre circle,#pre text{animation:none;stroke-dashoffset:0}}
 
 /* ===== owner guest-link tool ===== */
@@ -619,12 +618,13 @@ body.go>section,body.go>footer{position:relative;z-index:1}
 .closing-thanks span{font:500 .9em/1 'Cormorant Garamond',serif;letter-spacing:.08em}
 .closing-thanks b{display:inline-block;color:#C9A93F;font:normal 1em/1 'Cormorant Garamond',serif;animation:closingHeart 2.4s ease-in-out infinite}
 @keyframes closingHeart{50%{transform:scale(1.17);text-shadow:0 0 12px rgba(201,169,63,.55)}}
-.footer-love,.footer-year{margin:5px 0 0;color:rgba(244,235,200,.66);font:500 .78rem/1.6 'Cormorant Garamond','Kantumruy Pro',serif;letter-spacing:.07em}
-.footer-year{margin-top:0;font-size:.7rem;opacity:.8}
+.footer-love,.footer-year{margin:5px 0 0;color:rgba(244,235,200,.82);font:500 .78rem/1.6 'Cormorant Garamond','Kantumruy Pro',serif;letter-spacing:.07em}
+.footer-year{margin-top:0;font-size:.72rem}
 .footer-actions{display:flex;justify-content:center;gap:12px;margin:17px auto 0}
 .footer-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:44px;min-height:44px;padding:0 12px;border:1px solid rgba(201,169,63,.55);border-radius:999px;background:rgba(201,169,63,.08);color:#E8D48B;font:500 .85rem/1 'Kantumruy Pro',sans-serif;text-decoration:none;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}
 .footer-action#backToTop{width:44px;padding:0;font-size:1.35rem}
-.footer-action:hover,.footer-action:focus-visible{transform:translateY(-2px);border-color:#E8D48B;background:rgba(201,169,63,.18);outline:2px solid transparent}
+.footer-action:hover,.footer-action:focus-visible{transform:translateY(-2px);border-color:#E8D48B;background:rgba(201,169,63,.18)}
+.footer-action:focus-visible{outline:2px solid #F4EBC8;outline-offset:3px}
 
 /* E — compact mobile layout and motion-safe fallbacks. */
 @media(max-width:600px){
@@ -652,6 +652,11 @@ body.go>section,body.go>footer{position:relative;z-index:1}
 #cover .names{flex-wrap:wrap;row-gap:0;white-space:normal;max-width:94vw;font-size:clamp(1.5rem,7vw,2.75rem)}
 #cover .names span{white-space:nowrap}
 @media (max-width:600px){#cover .names{font-size:clamp(1.5rem,7vw,1.95rem)}}
+
+/* Floating music/theme buttons slide to the edge while the page scrolls so they never cover content */
+body.go #mus,body.go #thm{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background-color .25s ease,color .25s ease,translate .3s ease}
+body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
+@media (prefers-reduced-motion:reduce){body.go #mus,body.go #thm{transition:none}}
 
 /* RSVP + gift sections */
 #s-rsvp .rsvp-choice,#s-rsvp .rsvp-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px auto 0}

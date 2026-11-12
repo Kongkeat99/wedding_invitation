@@ -48,6 +48,7 @@
   function build(){
     var base=$("pbase").value.trim().replace(/[?#].*$/,"").replace(/\/$/,""),list=rows.filter(function(r){return r.getName()});
     if(!base)throw new Error("Type the invitation address first.");
+    if(/^https?:\/\/[^\/]*-[a-z0-9]{8,10}-[a-z0-9-]+\.vercel\.app/i.test(base))throw new Error("This address ("+base.replace(/^https?:\/\//,"")+") is a one-time Vercel build address — links made with it will show 404 later. Type your permanent address instead (Vercel → your project → Settings → Domains), then press Publish again.");
     if(!list.length)throw new Error("Add at least one guest with a name.");
     var files=[],links=[];
     return list.reduce(function(p,r){return p.then(function(){

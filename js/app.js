@@ -264,7 +264,7 @@ if(new URLSearchParams(location.search).has("setup")){
   $("sCopy").onclick=function(){var b=this;copyTxt('date: "'+$("sd").value+':00+07:00",',function(){flash(b,"✓ Copied")})};
   $("sX").onclick=function(){pn.hidden=true};
   /* guest-link tool: names -> personal links -> send by Telegram / WhatsApp / SMS */
-  var DM="សូមគោរពអញ្ជើញ {name} ចូលរួមពិធីមង្គលការរបស់ {couple} 💛 សូមបើកសំបុត្រអញ្ជើញតាម Link នេះ៖ {link}",sent={};
+  var DM="សូមគោរពអញ្ជើញ {name} ចូលរួមពិធីមង្គលការរបស់ {couple} 💛 សូមបើកសំបុត្រអញ្ជើញតាម Link នេះ៖\n\nDear {name}, you are cordially invited to the wedding of {couple} 💛 Please open your invitation here: {link}",sent={};
   try{sent=JSON.parse(localStorage.getItem("gsent")||"{}");$("gnames").value=localStorage.getItem("glist")||""}catch(e){}
   $("gbase").value=base;$("gmsg").value=DM;
   function enc(t){return encodeURIComponent(t)}

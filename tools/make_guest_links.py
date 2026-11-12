@@ -75,8 +75,8 @@ def main():
             print(f"WARN  {code}: photo '{photo}' not found in tools/guest-photos/ -> using the default preview photo")
             cover = "assets/og.jpg"
         url = f"{base}/g/{code}/"
-        title = f"សូមគោរពអញ្ជើញ {name} · Soem Kungkiet & Chham Chanthu"
-        page = PAGE.format(title=html.escape(title), desc=html.escape("សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ"),
+        title = f"សូមគោរពអញ្ជើញ {name} · Dear {name}, you are invited · Soem Kungkiet & Chham Chanthu"
+        page = PAGE.format(title=html.escape(title), desc=html.escape("សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ · Join us to celebrate our wedding"),
                            image=html.escape(f"{base}/{cover}"), url=html.escape(url),
                            target=html.escape("../../?to=" + quote(name)))
         d = ROOT / "g" / code; d.mkdir(parents=True, exist_ok=True)

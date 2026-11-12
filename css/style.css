@@ -652,3 +652,18 @@ body.go>section,body.go>footer{position:relative;z-index:1}
 #cover .names{flex-wrap:wrap;row-gap:0;white-space:normal;max-width:94vw;font-size:clamp(1.5rem,7vw,2.75rem)}
 #cover .names span{white-space:nowrap}
 @media (max-width:600px){#cover .names{font-size:clamp(1.5rem,7vw,1.95rem)}}
+
+/* RSVP + gift sections */
+#s-rsvp .rsvp-choice,#s-rsvp .rsvp-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px auto 0}
+#s-rsvp .rsvp-actions{margin-top:16px}
+#s-rsvp .rsvp-opt.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+#s-rsvp .rsvp-opt{min-height:44px}
+#s-rsvp .rsvp-actions .btn{min-height:44px;display:inline-flex;align-items:center}
+#s-rsvp .rsvp-actions[hidden],#s-rsvp .btn[hidden]{display:none}
+.gift-list{display:grid;gap:12px;max-width:420px;margin:0 auto}
+.gift-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 18px rgba(63,47,19,.08)}
+.gift-info{min-width:0}
+.gift-info b{display:block;color:var(--gold);font-family:'Kantumruy Pro',sans-serif;letter-spacing:.02em}
+.gift-num{font:600 1.15rem/1.4 'Cormorant Garamond',Georgia,serif;letter-spacing:.08em;word-break:break-all}
+.gift-card .btn{flex:none;min-height:40px}
+

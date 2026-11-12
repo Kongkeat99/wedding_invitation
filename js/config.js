@@ -6,7 +6,7 @@ var CONFIG = {
   VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",
   bride: "Chham Chanthu",
-  date: "2026-11-22T15:00:00+07:00",          // wedding date/time (placeholder)
+  date: "2026-11-22T15:00:00+07:00",          // wedding date/time (Cambodia time, UTC+7)
   venue: "គេហដ្ឋានខាងស្រី",
   mapUrl: "https://maps.app.goo.gl/ZqvGd8Px3T6WwukE9?g_st=ic",
   playlist: [                            // add songs: {title:"Song – Artist", url:"assets/music/file.mp3"} · empty url = built-in soft melody
@@ -85,11 +85,11 @@ var CONFIG = {
     "assets/photos/DSC_5527.jpg",
     "assets/photos/DSC_5533.jpg"
   ],
-  story: [                                     // love story timeline — edit the text; delete all entries to hide the section
-    { date: "២០២៦", title: "ជួបគ្នាលើកដំបូង", text: "ពេលយើងទៅដើរលេងនៅកោះទន្សាយ" },
-    { date: "២០២៦", title: "ក្លាយជាគូស្នេហ៍", text: "ពេលយើងយល់ពីចិត្តគ្នាកាន់តែច្បាស់" },
-    { date: "២០២៦", title: "ស្នើសុំរៀបការ", text: "ព្រោះយើងបានច្បាស់លាស់ជាមួយគ្នា" },
-    { date: "២០២៦", title: "ថ្ងៃមង្គលការ", text: "ថ្ងៃដែលយើងចាប់ដៃគ្នាចូលក្នុងជីវិតថ្មី" }
+  story: [                                     // love story timeline — edit the text; delete all entries to hide the section. date is optional ("wedding" = the wedding date above)
+    { title: "ជួបគ្នាលើកដំបូង", text: "ពេលយើងទៅដើរលេងនៅកោះទន្សាយ" },
+    { title: "ក្លាយជាគូស្នេហ៍", text: "ពេលយើងយល់ពីចិត្តគ្នាកាន់តែច្បាស់" },
+    { title: "ស្នើសុំរៀបការ", text: "ព្រោះយើងបានច្បាស់លាស់ជាមួយគ្នា" },
+    { date: "wedding", title: "ថ្ងៃមង្គលការ", text: "ថ្ងៃដែលយើងចាប់ដៃគ្នាចូលក្នុងជីវិតថ្មី" }
   ],
   videos: ["assets/videos/prewedding_merged_silent.mp4"],   // upload videos to assets/videos/ and add a matching .jpg poster
   khqr: "",                                    // optional: link to your KHQR image

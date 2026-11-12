@@ -14,6 +14,9 @@ assets/music/beautiful-in-white.mp3
 ## Edit
 Open `js/config.js` – change names, date, venue, map link, program, love story, dress colors, photos, music playlist. Set `ALBUM_COMING_SOON` to show or hide the Coming Soon notice on the guest photo album page.
 
+## RSVP and gifts
+In `js/config.js` set `contact: { telegram: "username", whatsapp: "855XXXXXXXX" }` to show the RSVP section (guests pick attending / not attending and a prefilled message opens in Telegram or WhatsApp, including their name from a personal link). Fill `gifts` with real bank accounts to show the gift section. Each section stays hidden until it has real content; an account made only of zeros (the placeholder) is not shown.
+
 ## Personal guest links
 Open `https://YOUR-USERNAME.github.io/REPO-NAME/?setup` → "👥 Guest links" → enter names → "Make links".
 Each link like `.../?to=Sok Dara` shows the guest's name on the cover and the main page.

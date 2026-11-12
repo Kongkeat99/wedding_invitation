@@ -454,10 +454,10 @@ $("backToTop").addEventListener("click",function(){
 $("shareInvitation").addEventListener("click",function(){
   var button=this,url=location.href.split("#")[0],title=document.title;
   if(navigator.share){
-    navigator.share({title:title,text:"Soem Kungkiet & Chham Chanthu · Wedding Invitation",url:url}).catch(function(error){
+    navigator.share({title:title,text:(CONFIG.groom||"")+" & "+(CONFIG.bride||"")+" · Wedding Invitation",url:url}).catch(function(error){
       if(error&&error.name!=="AbortError")console.error("Could not share the wedding invitation.",error)
     })
-  }else copyTxt(url,function(){flash(button,"✓ Copied")})
+  }else copyTxt(url,function(){var label=button.querySelector("span");if(label)flash(label,"✓ Copied");else flash(button,"✓ Copied")})
 });
 
 /* gold-dust cursor trail + heart bursts on tap */

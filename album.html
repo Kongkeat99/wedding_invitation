@@ -196,8 +196,8 @@ button{color:inherit}
 <script src="js/coming-soon.js"></script>
 <script>
 /* DATA: one bilingual source of truth for both album sides. */
-// Set false when real guest photos replace the sample album.
-const SHOW_COMING_SOON=true;
+// Controlled by ALBUM_COMING_SOON in js/config.js: true = photos stay blurred with a Coming Soon badge, false = open album.
+const SHOW_COMING_SOON=typeof CONFIG!=='undefined'&&CONFIG.ALBUM_COMING_SOON===true;
 const makePhotos=(folder,kh,en)=>Array.from({length:15},(_,index)=>{const number=index+1;return{src:folder+number+'.jpg',thumb:folder+number+'.jpg',w:720,h:960,alt:kh+' · '+en+' · រូបភាព '+number+' · Photo '+number}});
 const albums={
   groom:{label:['ខាងកូនកំលោះ','Groom'],groups:[

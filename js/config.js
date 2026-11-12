@@ -1,7 +1,7 @@
 /* ===== EDIT THESE ===== */
 var CONFIG = {
   COMING_SOON: false,
-  ALBUM_COMING_SOON: false,
+  ALBUM_COMING_SOON: true,                     // guest album page: true = photos blurred with a Coming Soon badge, false = open album
   PHOTO_COMING_SOON: false,
   VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",

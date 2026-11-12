@@ -591,41 +591,40 @@ $("openBtn").addEventListener("click",function(){
   },{threshold:.1}).observe(el);
 })();
 
-/* photo autoplay:
-   1) all photos start hidden
-   2) when the gallery comes on screen they appear ONE BY ONE (every 500 ms)
-   3) then a golden spotlight moves from photo to photo (zoom + glow, 1.5 s each) while the gallery is on screen
-   Pauses while the guest touches or hovers the gallery. */
+/* photo carousel: one big photo centred, neighbours peeking at the sides.
+   While the song plays and the gallery is on screen, it glides slowly to the next photo (left to right through the set).
+   The pace follows the song: song length / number of photos (kept between MIN and MAX ms), so the whole set lasts about one song.
+   Pauses while the guest touches or hovers it, and when the music is paused. */
 (function(){
-  var g=$("grid");if(!g||!("IntersectionObserver" in window))return;
-  var REVEAL=500,LIFT=1500;
-  var idx=-1,timer=null,paused=false,last=null,revealed=false,started=false;
-  Array.prototype.forEach.call(g.children,function(n){n.classList.add("hide")});
-  function reveal(){
-    var items=Array.prototype.slice.call(g.children),i=0;
-    var t=setInterval(function(){
-      if(i<items.length){items[i].classList.remove("hide");i++}
-      if(i>=items.length){clearInterval(t);setTimeout(function(){revealed=true;if(onScreen)play()},700)}
-    },REVEAL);
-  }
-  function tick(){
-    if(paused)return;
-    var items=g.children;if(!items.length)return;
-    if(last)last.classList.remove("auto");
-    idx=(idx+1)%items.length;
-    last=items[idx];last.classList.add("auto");
-  }
-  var onScreen=false;
-  function play(){if(!timer&&revealed){g.classList.add("playing");tick();timer=setInterval(tick,LIFT)}}
-  function stop(){clearInterval(timer);timer=null;g.classList.remove("playing");if(last){last.classList.remove("auto");last=null}idx=-1}
-  g.addEventListener("mouseenter",function(){paused=true;g.classList.remove("playing");if(last)last.classList.remove("auto")});
-  g.addEventListener("mouseleave",function(){paused=false;if(timer)g.classList.add("playing")});
-  g.addEventListener("touchstart",function(){paused=true;g.classList.remove("playing");if(last)last.classList.remove("auto")},{passive:true});
-  g.addEventListener("touchend",function(){setTimeout(function(){paused=false;if(timer)g.classList.add("playing")},2500)},{passive:true});
-  new IntersectionObserver(function(en){en.forEach(function(e){
-    onScreen=e.isIntersecting;
-    if(onScreen){if(!started){started=true;reveal()}else play()}else stop();
-  })},{threshold:.2}).observe(g);
+  var g=$("grid");if(!g||!g.children.length)return;
+  var MIN=3500,MAX=7000,FALLBACK=5000;
+  var onScreen=false,paused=false,t=null,resumeT=0;
+  function slides(){return g.children}
+  function step(){
+    var d=(au&&isFinite(au.duration)&&au.duration>0)?au.duration*1000/slides().length:FALLBACK;
+    return Math.max(MIN,Math.min(MAX,d))}
+  function active(){
+    var c=g.scrollLeft+g.clientWidth/2,best=0,bd=1e9;
+    Array.prototype.forEach.call(slides(),function(n,i){var d=Math.abs(n.offsetLeft+n.offsetWidth/2-c);if(d<bd){bd=d;best=i}});
+    return best}
+  function mark(){var a=active();Array.prototype.forEach.call(slides(),function(n,i){n.classList.toggle("cur",i===a)})}
+  function goTo(i){
+    var n=slides()[i];if(!n)return;
+    g.scrollTo({left:n.offsetLeft+n.offsetWidth/2-g.clientWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
+  function next(){
+    if(paused||!playing||!onScreen)return;
+    var i=active()+1;if(i>=slides().length)i=0;goTo(i)}
+  function loop(){clearTimeout(t);t=setTimeout(function(){next();loop()},step())}
+  function hold(ms){paused=true;clearTimeout(resumeT);resumeT=setTimeout(function(){paused=false},ms)}
+  g.addEventListener("mouseenter",function(){paused=true;clearTimeout(resumeT)});
+  g.addEventListener("mouseleave",function(){paused=false});
+  g.addEventListener("touchstart",function(){paused=true;clearTimeout(resumeT)},{passive:true});
+  g.addEventListener("touchend",function(){hold(3500)},{passive:true});
+  g.addEventListener("scroll",function(){mark()},{passive:true});
+  Array.prototype.forEach.call(slides(),function(n){n.classList.remove("hide")});
+  if("IntersectionObserver" in window)new IntersectionObserver(function(en){en.forEach(function(e){onScreen=e.isIntersecting})},{threshold:.35}).observe(g);
+  else onScreen=true;
+  window.addEventListener("load",function(){goTo(0);mark()});mark();loop();
 })();
 
 /* love story: cards slide in one by one, dots pop, gold line grows while scrolling */

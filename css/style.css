@@ -667,3 +667,15 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 .gift-num{font:600 1.15rem/1.4 'Cormorant Garamond',Georgia,serif;letter-spacing:.08em;word-break:break-all}
 .gift-card .btn{flex:none;min-height:40px}
 
+
+/* ===== photos: horizontal carousel (centred photo, neighbours peeking), glides in time with the song ===== */
+.grid#grid{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:22px calc((100% - min(72%,340px))/2) 26px;margin:0 -16px}
+.grid#grid::-webkit-scrollbar{display:none}
+.grid#grid .ph{flex:0 0 min(72%,340px);aspect-ratio:3/4;height:auto;scroll-snap-align:center;border-radius:18px;
+  transform:scale(.92);opacity:.78;filter:none;
+  box-shadow:0 8px 22px rgba(179,155,54,.2);animation:none;transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s ease,box-shadow .9s ease}
+.grid#grid .ph.cur{transform:scale(1);opacity:1;box-shadow:0 14px 30px rgba(110,92,18,.3);z-index:2}
+.grid#grid.playing .ph:not(.cur):not(.hide){filter:none}
+@media (hover:hover){.grid#grid .ph:hover,.grid#grid img.ph:hover{transform:scale(.95);filter:none;box-shadow:0 8px 22px rgba(179,155,54,.2)}.grid#grid .ph.cur:hover{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.grid#grid .ph,.grid#grid .ph.cur{transition:none}}

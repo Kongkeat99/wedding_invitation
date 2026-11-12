@@ -37,12 +37,11 @@
   }
   function init(){
     var enabled=typeof CONFIG!=="undefined"&&CONFIG.COMING_SOON===true;
-    var albumEnabled=typeof CONFIG!=="undefined"&&CONFIG.ALBUM_COMING_SOON===true;
     var photoEnabled=typeof CONFIG!=="undefined"&&CONFIG.PHOTO_COMING_SOON===true;
     var videoEnabled=typeof CONFIG!=="undefined"&&CONFIG.VIDEO_COMING_SOON===true;
     document.querySelectorAll("#s-photo,#s-video,.album-gallery-section").forEach(function(section){
       var content=section.querySelector(".coming-soon-content");if(!content)return;
-      if(section.classList.contains("album-gallery-section")?!albumEnabled:!enabled)return;
+      if(section.classList.contains("album-gallery-section")||!enabled)return; /* the album page shows its own per-photo Coming Soon badges (ALBUM_COMING_SOON) */
       content.setAttribute("aria-hidden","true");content.inert=true;content.classList.add("coming-soon-blurred");
       var overlay=makeOverlay();section.appendChild(overlay);update(section)
     })

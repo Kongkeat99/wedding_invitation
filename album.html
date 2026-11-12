@@ -7,10 +7,20 @@
 <meta name="theme-color" content="#14110A">
 <meta name="description" content="អាល់ប៊ុមរូបភាព · Soem Kungkiet &amp; Chham Chanthu">
 <title>អាល់ប៊ុមរូបភាព · Soem Kungkiet &amp; Chham Chanthu</title>
+<style>
+html,body{min-height:100%;margin:0;background:#14110A;color:#F3EBD8}
+#albumLoading{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#14110A;color:#F3EBD8;font:500 14px/1.6 system-ui,sans-serif;transition:opacity .3s ease,visibility .3s ease}
+#albumLoading[hidden]{display:none}
+#albumLoading.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.album-loading-spinner{width:26px;height:26px;border:2px solid rgba(201,166,58,.28);border-top-color:#C9A63A;border-radius:50%;animation:albumLoadingSpin .8s linear infinite}
+@keyframes albumLoadingSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){#albumLoading{transition:none}.album-loading-spinner{animation:none}}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Moul&amp;family=Noto+Sans+Khmer:wght@400;500;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/coming-soon.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Moul&amp;family=Noto+Sans+Khmer:wght@400;500;700&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" id="albumPageStyles" href="css/coming-soon.css" media="print" onload="this.media='all';this.dataset.loaded='true'">
+<noscript><style>#albumLoading{display:none!important}</style><link rel="stylesheet" href="css/coming-soon.css"></noscript>
 <!-- STYLES -->
 <style>
 :root{--ink:#14110A;--gold:#C9A63A;--ivory:#F3EBD8;--wine:#7A1F2B;--muted:#b9ae98;--line:#c9a63a55;--card:#211c11;--header-height:60px;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;color-scheme:dark}
@@ -33,7 +43,7 @@ button{color:inherit}
 .back-link{justify-self:start;display:inline-flex;align-items:center;min-height:44px;padding:7px 12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.78rem;white-space:nowrap}
 .back-link:hover,.back-link:focus-visible{border-color:var(--gold);color:var(--ivory)}
 .header-title{grid-column:2;margin:0;color:var(--gold);font:400 1rem/1.3 'Moul','Noto Sans Khmer',sans-serif;text-align:center;white-space:nowrap}
-.language-toggle{justify-self:end;display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:999px;background:#1e180d}.language-toggle button{min-height:32px;padding:4px 8px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:.65rem;white-space:nowrap;cursor:pointer}.language-toggle button[aria-pressed="true"]{background:var(--gold);color:var(--ink);font-weight:700}.language-toggle button:focus-visible,.sheet-close:focus-visible,.group-picker:focus-visible,.sheet-option:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.language-toggle{justify-self:end;display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:999px;background:#1e180d}.language-toggle button{min-width:44px;min-height:44px;padding:6px 8px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:.72rem;white-space:nowrap;cursor:pointer}.language-toggle button[aria-pressed="true"]{background:var(--gold);color:var(--ink);font-weight:700}.language-toggle button:focus-visible,.sheet-close:focus-visible,.group-picker:focus-visible,.sheet-option:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .page{width:min(1100px,100%);margin:0 auto;padding:30px 16px calc(58px + var(--safe-bottom))}
 .hero{text-align:center;padding:18px 0 28px}
 .hero-kicker{margin:0;color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
@@ -58,7 +68,7 @@ button{color:inherit}
 .gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px;color:var(--muted);font-size:.78rem}
 .gallery-meta strong{color:var(--ivory);font-weight:500}
 .photo-grid{columns:2 160px;column-gap:10px}
-.photo-card{display:block;position:relative;width:100%;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:2px solid transparent;border-radius:14px;background:#211c11;cursor:pointer;text-align:left;opacity:0;transform:translateY(12px);transition:opacity .55s ease var(--delay),transform .55s ease var(--delay),border-color .25s ease,box-shadow .25s ease}
+.photo-card{display:block;position:relative;width:100%;aspect-ratio:3/4;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:2px solid transparent;border-radius:14px;background:linear-gradient(110deg,#211c11 8%,#332a18 28%,rgba(201,166,58,.2) 44%,#332a18 56%,#211c11 100%);cursor:pointer;text-align:left;opacity:1;transform:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
 .photo-card.is-ready{opacity:1;transform:none}
 /* PHOTO CARD WIPE CSS: paste these rules inside the page's STYLES section. */
 .photo-card:before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(90,20,32,.94),rgba(200,32,58,.88));transform:scaleX(0);transform-origin:right;transition:transform 550ms cubic-bezier(.77,0,.18,1)}
@@ -68,9 +78,14 @@ button{color:inherit}
 .photo-card:hover,.photo-card:focus-visible,.photo-card.on{border-color:var(--gold);box-shadow:0 0 26px #c9a63a4d;transform:translateY(-4px)}
 .photo-card:hover:before,.photo-card:focus-visible:before,.photo-card.on:before{transform:scaleX(1);transform-origin:left}
 .photo-card:hover .photo-caption,.photo-card:focus-visible .photo-caption,.photo-card.on .photo-caption{opacity:1;transform:translateY(0)}
-.photo-card img{display:block;width:100%;height:auto;min-height:80px;background:linear-gradient(110deg,#211c11 8%,#332a18 18%,#211c11 33%);background-size:200% 100%;animation:shimmer 1.5s linear infinite;filter:blur(14px) saturate(.9);opacity:.65;transition:filter .55s ease,opacity .55s ease,transform 800ms ease}
+.photo-card img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;background:linear-gradient(110deg,#211c11 8%,#332a18 28%,rgba(201,166,58,.2) 44%,#332a18 56%,#211c11 100%);filter:blur(14px) saturate(.9);opacity:.65;transition:opacity .55s ease,transform 800ms ease}
 .photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{filter:blur(0) saturate(1.08);transform:scale(1.07)}
 .photo-card img.is-loaded{filter:blur(0);opacity:1;animation:none}
+.photo-card.is-error{cursor:pointer;border-color:var(--gold)}
+.photo-card.is-error img,.photo-card.is-error .sample-overlay{display:none}
+.photo-error{position:absolute;inset:0;z-index:3;display:grid;place-content:center;gap:8px;padding:16px;background:rgba(20,17,10,.88);color:var(--ivory);font-size:.76rem;line-height:1.55;text-align:center}
+.photo-error[hidden]{display:none}
+.photo-error strong{color:#E8D48B;font-size:.75rem;font-weight:600}
 .photo-card.is-sample{cursor:default}
 .photo-card.is-sample:before,.photo-card.is-sample .photo-caption{display:none}
 .photo-card.is-sample img,.photo-card.is-sample img.is-loaded,.photo-card.is-sample:hover img,.photo-card.is-sample:focus-visible img{filter:blur(2px) brightness(.8);transform:none}
@@ -121,10 +136,15 @@ button{color:inherit}
 @media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
 @media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.photo-card:before{transform:none;opacity:0;transition:opacity 200ms ease}.photo-card:hover:before,.photo-card:focus-visible:before,.photo-card.on:before{opacity:1}.photo-card:hover,.photo-card:focus-visible,.photo-card.on{transform:none}.photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{transform:none}.photo-card.is-sample img,.photo-card.is-sample img.is-loaded,.photo-card.is-sample:hover img,.photo-card.is-sample:focus-visible img{filter:blur(2px) brightness(.8)}.coming-soon-badge,.coming-soon-badge:after{animation:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
-@media (max-width:639px){:root{--header-height:88px}.site-header{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:4px 8px}.back-link{grid-row:1;grid-column:1;justify-self:start;padding-left:9px;padding-right:9px;font-size:.7rem}.header-title{grid-row:2;grid-column:1/-1;justify-self:center;font-size:.85rem}.language-toggle{grid-row:1;grid-column:2}.language-toggle button{padding-left:6px;padding-right:6px;font-size:.58rem}.categories{display:none}.group-picker{display:grid}}
+@media (max-width:639px){:root{--header-height:88px}.site-header{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:4px 8px}.back-link{grid-row:1;grid-column:1;justify-self:start;padding-left:9px;padding-right:9px;font-size:.7rem}.header-title{grid-row:2;grid-column:1/-1;justify-self:center;font-size:.85rem}.language-toggle{grid-row:1;grid-column:2}.language-toggle button{padding-left:6px;padding-right:6px;font-size:.7rem}.categories{display:none}.group-picker{display:grid}}
 </style>
 </head>
 <body>
+<div id="albumLoading" role="status" aria-live="polite">
+  <span class="album-loading-spinner" aria-hidden="true"></span>
+  <span lang="km">កំពុងផ្ទុកអាល់ប៊ុម...</span>
+  <span lang="en">Loading album...</span>
+</div>
 <header class="site-header">
   <a class="back-link wipe-fill" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
   <p class="header-title">អាល់ប៊ុមរូបភាព</p>
@@ -135,7 +155,7 @@ button{color:inherit}
   </div>
 </header>
 
-<main class="page">
+<main class="page" id="albumMain" aria-busy="true">
   <section class="hero" aria-labelledby="page-title">
     <p class="hero-kicker">Guest photo album</p>
     <h1 id="page-title">អាល់ប៊ុមរូបភាព</h1>
@@ -213,7 +233,11 @@ const albums={
   const $=id=>document.getElementById(id);
   const sideButtons=[$('tGroom'),$('tBride')];
   let side='groom',category='all',photos=[],viewerPhotos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false,uiLanguage='both',sheetFocus=null,sheetStartY=0;
-  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reduceMotion=reduceMotionQuery.matches;
+  const onMotionChange=event=>{reduceMotion=event.matches};
+  if(reduceMotionQuery.addEventListener)reduceMotionQuery.addEventListener('change',onMotionChange);
+  else if(reduceMotionQuery.addListener)reduceMotionQuery.addListener(onMotionChange);
 
   const listFor=group=>group?group.photos||[]:[];
   const entriesFor=group=>listFor(group).map(photo=>({photo,group}));
@@ -244,10 +268,17 @@ const albums={
       const photo=entry.photo,group=entry.group,sample=isSamplePhoto(photo),card=document.createElement('button');
       card.className='photo-card'+(sample?' is-sample':'');card.type='button';card.disabled=sample;card.tabIndex=sample?-1:0;
       card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');
-      const image=document.createElement('img');image.src=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';
-      image.addEventListener('load',()=>{image.classList.add('is-loaded');card.classList.add('is-ready')},{once:true});image.addEventListener('error',()=>{card.remove()},{once:true});
+      const image=document.createElement('img');const imageSource=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';
+      const errorMessage=document.createElement('span');errorMessage.className='photo-error';errorMessage.hidden=true;
+      const errorKhmer=document.createElement('span');errorKhmer.lang='km';errorKhmer.textContent='មិនអាចផ្ទុករូបភាពបាន';
+      const errorEnglish=document.createElement('span');errorEnglish.lang='en';errorEnglish.textContent='This photo could not be loaded.';
+      const retryLabel=document.createElement('strong');retryLabel.lang='en';retryLabel.textContent='ព្យាយាមម្តងទៀត · Tap to retry';
+      errorMessage.append(errorKhmer,errorEnglish,retryLabel);
+      function imageLoaded(){image.hidden=false;image.classList.add('is-loaded');card.classList.add('is-ready','is-loaded');card.disabled=sample;card.tabIndex=sample?-1:0;card.setAttribute('aria-label',sample?comingSoonLabel():photo.alt)}
+      function imageFailed(){image.hidden=true;card.classList.remove('is-ready','is-loaded');card.classList.add('is-error');card.disabled=false;card.tabIndex=0;card.setAttribute('aria-label','Image failed to load. Activate to retry. · មិនអាចផ្ទុករូបភាពបាន។ ចុចដើម្បីព្យាយាមម្តងទៀត។');errorMessage.hidden=false}
+      image.addEventListener('load',imageLoaded);image.addEventListener('error',imageFailed);
       const caption=document.createElement('span');caption.className='photo-caption';caption.innerHTML='<span class="heart" aria-hidden="true">♥</span><span><span class="caption-kh">'+group.kh+'</span><span class="caption-en">'+group.en+'</span></span>';
-      card.appendChild(image);card.appendChild(caption);
+      card.append(image,caption,errorMessage);
       if(sample){
         card.setAttribute('aria-label',comingSoonLabel());
         const overlay=document.createElement('span');overlay.className='sample-overlay';overlay.setAttribute('aria-hidden','true');
@@ -256,10 +287,18 @@ const albums={
         if(uiLanguage!=='km'){const english=document.createElement('span');english.className='coming-soon-en';english.textContent='Coming Soon';badge.appendChild(english)}
         const icon=document.createElement('span');icon.className='coming-soon-icon';icon.textContent='✦';icon.setAttribute('aria-hidden','true');badge.appendChild(icon);
         overlay.appendChild(badge);card.appendChild(overlay);
-      }else{
-        card.onclick=event=>{if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}openViewer(index)};
       }
-      grid.appendChild(card);if(image.complete)image.dispatchEvent(new Event('load'))
+      card.onclick=event=>{
+        if(card.classList.contains('is-error')){
+          errorMessage.hidden=true;image.hidden=false;card.classList.remove('is-error');
+          const retryUrl=new URL(imageSource,location.href);retryUrl.searchParams.set('_retry',String(Date.now()));image.src=retryUrl.href;
+          return
+        }
+        if(sample)return;
+        if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}
+        openViewer(index)
+      };
+      grid.appendChild(card);image.src=imageSource;if(image.complete){if(image.naturalWidth)imageLoaded();else imageFailed()}
     });
   }
 
@@ -299,7 +338,22 @@ const albums={
   $('lightboxImage').ondblclick=()=>changeZoom(zoom===1?2:1);
   document.addEventListener('keydown',event=>{if(!$('groupSheet').hidden){if(event.key==='Escape'){event.preventDefault();closeSheet();return}if(event.key==='Tab'){const focusable=[$('closeSheet'),...$('sheetOptions').querySelectorAll('button')],current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}return}if($('lightbox').hidden)return;if(event.key==='Escape'){event.preventDefault();closeViewer();return}if(event.key==='ArrowRight'){event.preventDefault();navigate(1)}if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1)}if(event.key==='Tab'){const focusable=[$('closeLightbox'),$('previousPhoto'),$('nextPhoto'),$('downloadPhoto'),$('sharePhoto'),$('zoomPhoto')].filter(element=>getComputedStyle(element).display!=='none'),current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}});
   function readHash(){const hash=location.hash.slice(1).split('/'),requested=hash[1]||'all';side=hash[0]==='bride'?'bride':'groom';category=requested;render();if(requested!==category)setHash()}
-  readHash();window.addEventListener('hashchange',()=>{closeViewer();readHash()});
+  function hideLoading(){
+    const loading=$('albumLoading');$('albumMain').setAttribute('aria-busy','false');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      loading.classList.add('is-hidden');
+      window.setTimeout(()=>{loading.hidden=true},320)
+    }))
+  }
+  function revealAlbum(){
+    const styles=$('albumPageStyles');
+    if(!styles||styles.dataset.loaded){hideLoading();return}
+    let fallback=window.setTimeout(()=>{styles.removeEventListener('load',onStylesReady);styles.removeEventListener('error',onStylesError);hideLoading()},3000);
+    function onStylesReady(){window.clearTimeout(fallback);hideLoading()}
+    function onStylesError(){window.clearTimeout(fallback);console.error('Could not load the album stylesheet.');hideLoading()}
+    styles.addEventListener('load',onStylesReady,{once:true});styles.addEventListener('error',onStylesError,{once:true})
+  }
+  readHash();revealAlbum();window.addEventListener('hashchange',()=>{closeViewer();readHash()});
 })();
 </script>
 </body>

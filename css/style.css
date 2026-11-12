@@ -645,6 +645,11 @@ body.go>section,body.go>footer{position:relative;z-index:1}
   #s-thanks .closing-lotus path{stroke-dashoffset:0}
 }
 
+/* Floating music/theme buttons slide to the edge while the page scrolls so they never cover content */
+body.go #mus,body.go #thm{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background-color .25s ease,color .25s ease,translate .3s ease}
+body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
+@media (prefers-reduced-motion:reduce){body.go #mus,body.go #thm{transition:none}}
+
 /* RSVP + gift sections */
 #s-rsvp .rsvp-choice,#s-rsvp .rsvp-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px auto 0}
 #s-rsvp .rsvp-actions{margin-top:16px}

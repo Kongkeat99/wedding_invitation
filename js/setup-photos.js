@@ -69,7 +69,21 @@
   /* ---- GitHub: one commit with every file (Git Data API) ---- */
   function gh(token,repo,path,method,body){
     return fetch("https://api.github.com/repos/"+repo+path,{method:method||"GET",headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json","Content-Type":"application/json"},body:body?JSON.stringify(body):undefined})
-      .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error((j&&j.message)||("GitHub error "+r.status));return j})})}
+      .then(function(r){return r.json().then(function(j){
+        if(!r.ok){
+          var m=(j&&j.message)||("GitHub error "+r.status),e=new Error(m+" ["+r.status+" "+(method||"GET")+" "+path.replace(/\/git\//,"")+"]");
+          if(r.status===401)e.message="GitHub does not accept this token (typed wrong, expired or revoked). Make a new one. ["+r.status+"]";
+          else if(r.status===403||r.status===404)e.message+="\nFix: the token needs repository access to THIS repo and Contents = Read and write. Make a new token (see steps) or edit it, then paste it again.";
+          throw e}
+        return j})})}
+  function check(){
+    var tk=$("ptoken").value.trim(),repo=$("prepo").value.trim();
+    if(!tk||!repo){$("pgh").open=true;return msg("Fill the repository and the token first.",true)}
+    msg("Checking …");
+    gh(tk,repo,"").then(function(r){
+      if(r.permissions&&r.permissions.push)msg("✓ Token can write to "+r.full_name+". You can publish.");
+      else msg("✗ Token can only READ "+r.full_name+". It must have access to this repo with Contents = Read and write. (If you chose “Public repositories (read-only)”, choose “Only select repositories” instead.)",true)})
+    .catch(function(e){msg(e.message,true)})}
   function publish(res,token,repo,branch){
     var head,tree;
     return gh(token,repo,"/git/ref/heads/"+encodeURIComponent(branch)).then(function(ref){head=ref.object.sha;return gh(token,repo,"/git/commits/"+head)})
@@ -106,7 +120,7 @@
     try{localStorage.setItem("pcfg",JSON.stringify({repo:$("prepo").value.trim(),branch:$("pbranch").value.trim(),base:$("pbase").value.trim()}))}catch(e){}
     build().then(fn).catch(function(e){msg(e.message||String(e),true)}).then(function(){busy=false})}
 
-  $("pAdd").onclick=addRow;
+  $("pAdd").onclick=addRow;$("pChk").onclick=check;
   $("pPub").onclick=function(){run(function(res){
     var tk=$("ptoken").value.trim(),repo=$("prepo").value.trim(),br=$("pbranch").value.trim()||"main";
     if(!tk||!repo){$("pgh").open=true;throw new Error("Open “GitHub publishing” and fill the repository and access token.")}

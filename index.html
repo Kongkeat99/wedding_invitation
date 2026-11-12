@@ -134,7 +134,8 @@
     <label for="prepo">Repository (owner/name)</label><input id="prepo" value="Kongkeat99/wedding_invitation">
     <label for="pbranch">Branch your live site publishes from</label><input id="pbranch" value="main">
     <label for="ptoken">Access token (kept only in this browser tab, never saved)</label><input id="ptoken" type="password" autocomplete="off" placeholder="github_pat_...">
-    <p class="hint" style="text-align:left">Create it once: GitHub → Settings → Developer settings → Fine-grained tokens → Generate. Repository access: only this repo. Permission: Contents = Read and write. Expiry: 90 days.</p>
+    <button class="btn alt sm" id="pChk" type="button" style="margin-top:6px">✔ Check token</button>
+    <p class="hint" style="text-align:left">Create it once: GitHub → Settings → Developer settings → Fine-grained tokens → Generate. Repository access: <b>Only select repositories</b> → this repo (not “Public repositories”). Permissions → Repository permissions → <b>Contents = Read and write</b>. Expiry: 90 days.</p>
   </details>
   <p class="hint" style="text-align:left">Add a guest, type the name, choose a photo. The code is made for you (random, so links can't be guessed).</p>
   <div id="prows"></div>

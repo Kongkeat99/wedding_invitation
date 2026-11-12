@@ -8,8 +8,10 @@
   var openBtn=$("sPhotos");if(!openBtn)return;
   var CFG=window.CONFIG||{},W=1200,H=630,rows=[],busy=false;
   var BASE=location.href.split("?")[0].split("#")[0].replace(/index\.html$/,"").replace(/\/$/,"");
+  var PERM="https://weddinginvitation-keat.vercel.app",BUILD=/^https?:\/\/[^\/]*-[a-z0-9]{8,10}-[a-z0-9-]+\.vercel\.app/i;
+  BASE=BUILD.test(BASE)?PERM:BASE;   /* one-time Vercel build addresses give 404 later -> use the permanent address */
   $("pbase").value=BASE;
-  try{var sv=JSON.parse(localStorage.getItem("pcfg")||"{}");if(sv.repo)$("prepo").value=sv.repo;if(sv.branch)$("pbranch").value=sv.branch;if(sv.base)$("pbase").value=sv.base}catch(e){}
+  try{var sv=JSON.parse(localStorage.getItem("pcfg")||"{}");if(sv.repo)$("prepo").value=sv.repo;if(sv.branch)$("pbranch").value=sv.branch;if(sv.base&&!BUILD.test(sv.base))$("pbase").value=sv.base}catch(e){}
   function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x)e.textContent=x;return e}
   function msg(t,bad){var m=$("pMsg");m.textContent=t;m.style.color=bad?"#b3261e":""}
   function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}

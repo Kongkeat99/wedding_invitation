@@ -496,14 +496,14 @@ function confetti(){if(navigator.vibrate)navigator.vibrate([30,40,30]);var c=["#
 var thm=$("thm"),root=document.documentElement;
 function isDark(){var a=root.getAttribute("data-theme");return a?a==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
 function syncThm(){thm.setAttribute("aria-label",isDark()?"Switch to light theme":"Switch to dark theme")}
-function setTheme(t){root.setAttribute("data-theme",t);thm.textContent=t==="dark"?"☀":"🌙";syncThm();try{localStorage.setItem("theme",t)}catch(e){}}
+function setTheme(t){root.setAttribute("data-theme",t);thm.dataset.state=t;syncThm();try{localStorage.setItem("theme",t)}catch(e){}}
 thm.onclick=function(){
   var t=isDark()?"light":"dark";
   if(!document.startViewTransition||matchMedia("(prefers-reduced-motion:reduce)").matches){setTheme(t);return}
   var r=thm.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
   document.startViewTransition(function(){setTheme(t)}).ready.then(function(){
     document.documentElement.animate({clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"]},{duration:650,easing:"ease-in-out",pseudoElement:"::view-transition-new(root)"})})};
-try{var sv=localStorage.getItem("theme");if(sv)setTheme(sv);else{thm.textContent=isDark()?"☀":"🌙";syncThm()}}catch(e){thm.textContent=isDark()?"☀":"🌙";syncThm()}
+try{var sv=localStorage.getItem("theme");if(sv)setTheme(sv);else{thm.dataset.state=isDark()?"dark":"light";syncThm()}}catch(e){thm.dataset.state=isDark()?"dark":"light";syncThm()}
 
 /* ===== magic pack ===== */
 /* monogram preloader */
@@ -622,7 +622,7 @@ function startMusic(){
   label(tr?tr.title:"Wedding Melody");melody();
 }
 function stopMusic(){if(au)au.pause();clearInterval(timer);playing=false;$("mus").classList.remove("eq");$("mus").setAttribute("aria-label","Play music");if(galleryMotionSync)galleryMotionSync()}
-$("mus").onclick=function(){playing?stopMusic():startMusic();this.style.opacity=playing?1:.5};
+$("mus").onclick=function(){playing?stopMusic():startMusic();};
 /* A short two-note chime shares the envelope tap gesture with music playback. */
 function playChime(){
   var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
@@ -963,13 +963,15 @@ $("openBtn").addEventListener("click",function(){
   window.addEventListener("resize",line);line();
 })();
 
-/* slide the floating buttons aside while scrolling, bring them back when scrolling stops */
+/* hide the control pill while scrolling down, bring it back as soon as the visitor scrolls up */
 (function(){
-  var idle=0,away=false;
+  var lastY=window.pageYOffset||0,away=false;
   addEventListener("scroll",function(){
     if(!document.body.classList.contains("go"))return;
-    if(!away){away=true;document.body.classList.add("fab-away")}
-    clearTimeout(idle);
-    idle=setTimeout(function(){away=false;document.body.classList.remove("fab-away")},700)
+    var y=window.pageYOffset||0,d=y-lastY;
+    if(Math.abs(d)<8)return;
+    var hide=d>0&&y>160;
+    if(hide!==away){away=hide;document.body.classList.toggle("fab-away",hide)}
+    lastY=y
   },{passive:true})
 })();

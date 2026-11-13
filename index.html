@@ -29,7 +29,17 @@
 <!-- First-page luxury redesign: controls, ornaments and envelope retain the existing openBtn flow. -->
 <div id="cover" role="dialog" aria-modal="true" aria-labelledby="coverTitle" aria-describedby="coverInvite coverDate">
   <div class="cover-art" aria-hidden="true">
-    <img class="cover-lotus" src="assets/art/lotus-flowers.webp" alt="" width="422" height="1024" decoding="async">
+    <svg class="cover-lotus" viewBox="0 0 160 92" preserveAspectRatio="xMidYMax meet" focusable="false">
+      <defs><linearGradient id="cvLotusGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F4EBC8"/><stop offset=".5" stop-color="#C9A93F"/><stop offset="1" stop-color="#8F7524"/></linearGradient></defs>
+      <g fill="none" stroke="url(#cvLotusGold)" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+        <path d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/><path d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+        <path d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/><path d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+        <path d="M80 14C74 30 74 48 80 64M80 14C86 30 86 48 80 64" stroke-width=".35"/>
+        <path d="M34 82Q80 94 126 82" />
+      </g>
+    </svg>
+    <span class="cover-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
   </div>
   <svg class="cover-pattern" viewBox="0 0 120 120" aria-hidden="true">
     <defs><pattern id="lotusPattern" width="120" height="120" patternUnits="userSpaceOnUse">
@@ -47,8 +57,8 @@
     <div class="env-stage">
       <div class="env">
         <div class="letter" aria-hidden="true"><span class="letter-rule"></span><span class="letter-monogram">S <i>&amp;</i> C</span><span class="letter-rule"></span></div>
-        <div class="flap" aria-hidden="true"></div><div class="pocket" aria-hidden="true"></div>
-        <div class="env-to" id="envTo"><span data-km="ជូន" data-en="To">ជូន</span><b id="envName" data-km="ភ្ញៀវកិត្តិយស" data-en="Honoured Guest">ភ្ញៀវកិត្តិយស</b></div>
+        <div class="flap" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="0,0 50,100 100,0" vector-effect="non-scaling-stroke"/></svg></div><div class="pocket" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="0,100 50,57 100,100" vector-effect="non-scaling-stroke"/></svg></div>
+        <div class="env-to" id="envTo"><span data-km="ជូន" data-en="To">ជូន</span><b id="envName" data-km="ភ្ញៀវកិត្តិយស" data-en="Honoured Guest">ភ្ញៀវកិត្តិយស</b><em class="env-to-rule" aria-hidden="true"></em></div>
         <span class="light-burst" aria-hidden="true"></span>
         <button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ"><span class="seal-mono" aria-hidden="true">S<i>&amp;</i>C</span><span class="seal-crack" aria-hidden="true"></span></button>
       </div>

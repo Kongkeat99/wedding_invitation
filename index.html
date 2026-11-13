@@ -61,16 +61,16 @@
 <section id="hero">
   <div class="aur"><i></i><i></i><i></i></div>
   <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"/></svg></div>
-  <h2>សិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
+  <h2 data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
   <div class="orn"></div>
   <div id="heroGuest" hidden style="margin:4px 0 18px"><p class="sub" style="margin:0 0 4px;opacity:.85">សូមគោរពអញ្ជើញ<br><span style="font-size:.85em">You are cordially invited</span></p><p class="moul" id="heroGuestName" style="font-size:1.2rem;margin:0"></p></div>
-  <p class="role">កូនកំលោះ</p>
+  <p class="role" data-en="Groom">កូនកំលោះ</p>
   <p class="nm" id="n1"></p>
   <div class="amp">&amp;</div>
-  <p class="role">កូនក្រមុំ</p>
+  <p class="role" data-en="Bride">កូនក្រមុំ</p>
   <p class="nm" id="n2"></p>
   <p class="date" id="dateTxt"></p>
-  <p class="cdl" id="cdLbl">រាប់ថយក្រោយដល់ថ្ងៃមង្គលការ</p>
+  <p class="cdl" id="cdLbl" data-en="Countdown to our wedding day">រាប់ថយក្រោយដល់ថ្ងៃមង្គលការ</p>
   <div id="cd" style="margin-top:8px"></div>
   <p class="sub" id="cdMsg" style="margin-top:12px"></p>
   <svg class="lotus" viewBox="0 0 160 92" aria-hidden="true">
@@ -84,9 +84,9 @@
 </section>
 
 <nav id="nav">
-  <a href="#s-prog">កម្មវិធី</a>
-  <a href="#s-photo">រូបភាព</a>
-  <a href="#s-map">ទីតាំង</a>
+  <a href="#s-prog" data-en="Program">កម្មវិធី</a>
+  <a href="#s-photo" data-en="Photos">រូបភាព</a>
+  <a href="#s-map" data-en="Location">ទីតាំង</a>
 </nav>
 <div id="petals" aria-hidden="true"></div>
 <div id="bar"></div>
@@ -149,28 +149,30 @@
   <div id="pList"></div>
 </div></div>
 
+<button id="langBtn" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
 <button id="thm" type="button" aria-label="Switch to dark theme">🌙</button>
 <div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden><button id="lbx" type="button" aria-label="Close photo viewer">✕</button><button id="lbp" type="button" aria-label="Previous photo">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="Next photo">›</button></div>
 
 <section id="s-prog">
-  <h2>ព័ត៌មានកម្មវិធី</h2><div class="orn"></div>
+  <h2 data-en="Program">ព័ត៌មានកម្មវិធី</h2><div class="orn"></div>
   <div id="prog"></div>
-  <a class="btn" id="liveBtn" target="_blank" rel="noopener" hidden style="margin-top:12px">🔴 មើលការផ្សាយផ្ទាល់</a>
+  <a class="btn" id="liveBtn" target="_blank" rel="noopener" hidden style="margin-top:12px" data-en="🔴 Watch live">🔴 មើលការផ្សាយផ្ទាល់</a>
 </section>
 
 <section id="s-quote">
-  <div class="quote">ស្នេហាពិតមិនមែនជារឿងដែលយើងស្វែងរកឃើញនោះទេ តែជារឿងដែលយើងកសាងជាមួយគ្នារាល់ថ្ងៃ។</div>
-  <p class="hint">Love is not found, it is built together every day.</p>
+  <div class="quote lang-km">ស្នេហាពិតមិនមែនជារឿងដែលយើងស្វែងរកឃើញនោះទេ តែជារឿងដែលយើងកសាងជាមួយគ្នារាល់ថ្ងៃ។</div>
+  <div class="quote lang-en" lang="en" hidden>True love is not something we find; it is something we build together, every day.</div>
+  <p class="hint lang-km">Love is not found, it is built together every day.</p>
 </section>
 
 <section id="s-story">
-  <h2>រឿងរ៉ាវស្នេហារបស់យើង</h2><div class="orn"></div>
+  <h2 data-en="Our Love Story">រឿងរ៉ាវស្នេហារបស់យើង</h2><div class="orn"></div>
   <div id="story"></div>
 </section>
 
 <section id="s-photo">
   <div class="coming-soon-content">
-    <h2 class="gal-title">វិចិត្រសាល</h2>
+    <h2 class="gal-title" data-en="Gallery">វិចិត្រសាល</h2>
     <p class="gal-label"><span lang="en">PRE-WEDDING PHOTOS</span><span aria-hidden="true"> · </span><span lang="km">រូបថតមុនពិធីមង្គលការ</span></p>
     <div class="gallery-carousel" id="photoCarousel" role="region" aria-roledescription="carousel" aria-label="Pre-wedding photos">
       <button class="gallery-arrow gallery-arrow--previous" id="photoPrev" type="button" aria-label="Previous pre-wedding photo">
@@ -194,27 +196,27 @@
 
 <section id="s-video">
   <div class="coming-soon-content">
-    <h2>វីដេអូ Pre Wedding</h2>
+    <h2 data-en="Pre-Wedding Video">វីដេអូ Pre Wedding</h2>
     <div class="orn video-orn" aria-hidden="true"></div>
-    <p class="video-subtitle">ខ្សែភាពយន្តមុនអាពាហ៍ពិពាហ៍</p>
+    <p class="video-subtitle" data-en="Our pre-wedding film">ខ្សែភាពយន្តមុនអាពាហ៍ពិពាហ៍</p>
     <div class="vids" id="vids"></div>
   </div>
 </section>
 
 <section id="s-map">
-  <h2>ទីតាំងពិធី</h2><div class="orn"></div>
+  <h2 data-en="Venue">ទីតាំងពិធី</h2><div class="orn"></div>
   <p id="venue"></p>
-  <a class="btn" id="mapBtn" target="_blank" rel="noopener">📍 បើក Google Map</a>
+  <a class="btn" id="mapBtn" target="_blank" rel="noopener" data-en="📍 Open Google Map">📍 បើក Google Map</a>
   <div><div id="qr"></div></div>
-  <p class="sub">ស្កេន QR Code ដើម្បីបើកទីតាំងក្នុង Google Map</p>
+  <p class="sub" data-en="Scan the QR code to open the location in Google Maps">ស្កេន QR Code ដើម្បីបើកទីតាំងក្នុង Google Map</p>
 </section>
 
 <section id="s-rsvp" hidden>
-  <h2>ការឆ្លើយតបចូលរួម</h2><div class="orn"></div>
+  <h2 data-en="RSVP">ការឆ្លើយតបចូលរួម</h2><div class="orn"></div>
   <p class="sub">សូមជួយជម្រាបការចូលរួមរបស់លោកអ្នក · RSVP</p>
   <div class="rsvp-choice" role="group" aria-label="RSVP">
-    <button type="button" class="btn alt rsvp-opt on" data-rsvp="yes" aria-pressed="true">✓ ចូលរួម</button>
-    <button type="button" class="btn alt rsvp-opt" data-rsvp="no" aria-pressed="false">✗ មិនអាចចូលរួម</button>
+    <button type="button" class="btn alt rsvp-opt on" data-rsvp="yes" aria-pressed="true" data-en="✓ Attending">✓ ចូលរួម</button>
+    <button type="button" class="btn alt rsvp-opt" data-rsvp="no" aria-pressed="false" data-en="✗ Unable to attend">✗ មិនអាចចូលរួម</button>
   </div>
   <div class="rsvp-actions">
     <a class="btn" id="rsvpTg" target="_blank" rel="noopener" hidden>✈ Telegram</a>
@@ -223,13 +225,13 @@
 </section>
 
 <section id="s-gift" hidden>
-  <h2>កាដូមង្គលការ</h2><div class="orn"></div>
+  <h2 data-en="Wedding Gift">កាដូមង្គលការ</h2><div class="orn"></div>
   <p class="sub">ការអញ្ជើញចូលរួមរបស់លោកអ្នកគឺជាកាដូដ៏មានតម្លៃបំផុត · Gift</p>
   <div class="gift-list" id="giftList"></div>
 </section>
 
 <section id="s-dress">
-  <h2>ពណ៌សម្លៀកបំពាក់</h2><div class="orn"></div>
+  <h2 data-en="Dress Code">ពណ៌សម្លៀកបំពាក់</h2><div class="orn"></div>
   <p class="sub" id="dtxt"></p>
   <div class="dress-card">
     <div class="dress-swatch-row" id="sws" aria-label="Dress code colors"></div>
@@ -237,11 +239,12 @@
 </section>
 
 <section id="s-thanks">
-  <h2>សេចក្ដីថ្លែងអំណរគុណដល់ភ្ញៀវកិត្តិយស</h2><div class="orn"></div>
+  <h2 data-en="Our Thanks to Our Honoured Guests">សេចក្ដីថ្លែងអំណរគុណដល់ភ្ញៀវកិត្តិយស</h2><div class="orn"></div>
   <div class="thanks-card">
     <span class="thanks-quote" aria-hidden="true">“</span>
-    <p class="thanks-copy" id="thanksText">ក្នុងនាមគ្រួសារទាំងសងខាង និងកូនកំលោះ កូនក្រមុំ យើងខ្ញុំសូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ ចំពោះភ្ញៀវកិត្តិយសទាំងអស់ ដែលបានអញ្ជើញមកចូលរួមជាអធិបតី និងជាសក្ខីភាព ក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ។ ការអញ្ជើញមកដល់របស់លោក លោកស្រី អ្នកនាង កញ្ញា គឺជាកិត្តិយស និងក្តីរីករាយដ៏ខ្ពង់ខ្ពស់សម្រាប់យើងខ្ញុំ។ សូមឱ្យលោកអ្នកទាំងអស់ប្រកបដោយសុខភាពល្អ សុភមង្គល និងសេចក្តីចម្រើនគ្រប់ប្រការ។</p>
-    <p class="thanks-signature"><span class="signature-orn" aria-hidden="true"></span>ក្រុមគ្រួសារទាំងសងខាង<span class="signature-orn" aria-hidden="true"></span></p>
+    <p class="thanks-copy lang-en" lang="en" hidden>On behalf of both families, the bride and the groom, we thank every honoured guest who joins us as our presiding guests and witnesses at our wedding. Your presence is a great honour and joy to us. May you all enjoy good health, happiness and every blessing.</p>
+    <p class="thanks-copy lang-km" id="thanksText">ក្នុងនាមគ្រួសារទាំងសងខាង និងកូនកំលោះ កូនក្រមុំ យើងខ្ញុំសូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ ចំពោះភ្ញៀវកិត្តិយសទាំងអស់ ដែលបានអញ្ជើញមកចូលរួមជាអធិបតី និងជាសក្ខីភាព ក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ។ ការអញ្ជើញមកដល់របស់លោក លោកស្រី អ្នកនាង កញ្ញា គឺជាកិត្តិយស និងក្តីរីករាយដ៏ខ្ពង់ខ្ពស់សម្រាប់យើងខ្ញុំ។ សូមឱ្យលោកអ្នកទាំងអស់ប្រកបដោយសុខភាពល្អ សុភមង្គល និងសេចក្តីចម្រើនគ្រប់ប្រការ។</p>
+    <p class="thanks-signature"><span class="signature-orn" aria-hidden="true"></span><span data-en="Both Families">ក្រុមគ្រួសារទាំងសងខាង</span><span class="signature-orn" aria-hidden="true"></span></p>
   </div>
   <div class="closing-lotus-wrap" aria-hidden="true">
     <svg class="closing-lotus" viewBox="0 0 160 92">
@@ -267,6 +270,7 @@
 <script defer src="js/config.js"></script>
 <script defer src="js/coming-soon.js"></script>
 <script defer src="js/app.js"></script>
+<script defer src="js/lang.js"></script>
 <script defer src="js/setup-photos.js"></script>
 </body>
 </html>

@@ -19,6 +19,18 @@ var CONFIG = {
     ["១៨:០០","ពិសាភោជនាហាពេលល្ងាច"]
   ],
   /* RSVP replies go to you through these (leave "" to hide a button) */
+  /* English version shown when a guest taps EN. Keep the SAME order/length as the Khmer lists above. Empty = Khmer is kept. */
+  en: {
+    venue: "The bride's family home",
+    program: ["Groom's procession (Hae Chamnoun)", "Hair-cutting ceremony", "Lunch reception", "Dinner reception"],
+    story: [
+      { title: "Our first meeting", text: "When we went on a trip to Koh Tonsay (Rabbit Island)" },
+      { title: "Becoming a couple", text: "When we understood each other's hearts more clearly" },
+      { title: "The proposal", text: "Because we had become certain about each other" },
+      { title: "Our wedding day", text: "The day we take each other's hand into a new life" }
+    ],
+    dressText: "Please dress in the colours below to add beauty to our special day"
+  },
   contact: { telegram: "", whatsapp: "" },   // telegram: username without @ · whatsapp: number with country code, e.g. 855XXXXXXXX
   /* gift accounts: entries with an empty account are not shown; the whole section hides if none */
   gifts: [

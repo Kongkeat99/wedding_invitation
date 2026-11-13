@@ -26,7 +26,8 @@ function tick(){
   if(!cdEls){$("cd").innerHTML=v.map(function(x){return '<div><b></b><span>'+x[1]+'</span></div>'}).join("");cdEls=$("cd").querySelectorAll("b")}
   vals.forEach(function(t,i){var e=cdEls[i];if(e.textContent!==t){var first=e.textContent==="";e.textContent=t;if(!first){e.classList.remove("fl");void e.offsetWidth;e.classList.add("fl")}}});
   $("cdLbl").hidden=done;
-  $("cdMsg").textContent=done?(-diff<86400000?"🎉 ថ្ងៃនេះជាថ្ងៃមង្គលការរបស់យើងខ្ញុំ!":"សូមអរគុណចំពោះការចូលរួម និងក្តីស្រឡាញ់ពីលោកអ្នក 💛"):"";
+  var en=document.documentElement.dataset.language==="en";
+  $("cdMsg").textContent=done?(-diff<86400000?(en?"🎉 Today is our wedding day!":"🎉 ថ្ងៃនេះជាថ្ងៃមង្គលការរបស់យើងខ្ញុំ!"):(en?"Thank you for joining us and for your love 💛":"សូមអរគុណចំពោះការចូលរួម និងក្តីស្រឡាញ់ពីលោកអ្នក 💛")):"";
 }
 tick();setInterval(tick,1000);
 

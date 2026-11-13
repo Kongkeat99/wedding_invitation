@@ -726,3 +726,10 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 .pr .pf{flex:1;min-width:0}.pr .pf input{margin:0 0 6px}.pr .pf input[type=file]{font-size:.75rem;border:0;padding:0;background:none}
 .pr .px{border:0;background:none;color:var(--ink);font-size:1.1rem;cursor:pointer}
 .pl{padding:10px 0;border-bottom:1px solid var(--line)}.pl b{display:block}.pl code{display:block;word-break:break-all;font-size:.78rem;margin:2px 0 6px}
+
+/* Khmer / English switch */
+.lang-km[hidden],.lang-en[hidden]{display:none!important}
+#langBtn{position:fixed;right:14px;bottom:calc(122px + env(safe-area-inset-bottom,0px));z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);background:var(--card);color:var(--gold);font:600 .78rem/1 'Battambang',system-ui,sans-serif;box-shadow:0 4px 14px #0003;cursor:pointer}
+#langBtn:active{transform:scale(.97)}
+body:not(.go) #langBtn{display:none}
+body.video-section-active #langBtn{visibility:hidden;pointer-events:none}

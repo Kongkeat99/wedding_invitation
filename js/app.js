@@ -742,7 +742,7 @@ $("openBtn").addEventListener("click",function(){
   }
   function needsFrame(now){
     return !document.hidden&&onScreen&&!reduced&&
-      (dragging||Math.abs(inertiaVelocity)>.015||targetPos!==null)
+      true   /* continuous glide: always running while the gallery is on screen */
   }
   function stopFrame(){
     if(frameId!==null){cancelAnimationFrame(frameId);frameId=null}
@@ -778,6 +778,8 @@ $("openBtn").addEventListener("click",function(){
       pos=wrap(pos+inertiaVelocity*dt,cycleLength);
       inertiaVelocity*=Math.exp(-dt/230);
       if(Math.abs(inertiaVelocity)<=.015)inertiaVelocity=0
+    }else{
+      pos=wrap(pos+speed()*dt/1000,cycleLength)   /* slow continuous glide, never rests on a photo */
     }
     render();
     if(needsFrame(time))frameId=requestAnimationFrame(frame);
@@ -856,16 +858,13 @@ $("openBtn").addEventListener("click",function(){
   });
   galleryMotionSync=syncFrame;
 
-  /* Slideshow: each photo stays centered for SLIDE_MS, then slides to the next one (loops forever).
-     Mouse hover does not pause it; dragging, keyboard focus and a guest's own click/swipe do (it resumes ~2 s later).
-     Guests with "reduce motion" get the same timing but the photo changes without the slide. */
+  /* Normal motion: the photos glide continuously and slowly (see speed()), forever. Nothing pauses it except a
+     finger/mouse physically dragging the photos (and the gallery being off screen / tab hidden).
+     "Reduce motion" guests get no gliding, so for them the photo simply changes every SLIDE_MS. */
   var SLIDE_MS=3500;
   window.setInterval(function(){
-    if(!onScreen||document.hidden||focused||dragging||targetPos!==null||performance.now()<resumeAt)return;
-    var target=wrap(Math.round(pos/step)*step+step,cycleLength);
-    inertiaVelocity=0;
-    if(reduced){pos=target;render();return}
-    targetPos=target;syncFrame()
+    if(!reduced||!onScreen||document.hidden||dragging)return;
+    pos=wrap(Math.round(pos/step)*step+step,cycleLength);render()
   },SLIDE_MS);
 
   var observer=null;

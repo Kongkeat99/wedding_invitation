@@ -852,11 +852,25 @@ $("openBtn").addEventListener("click",function(){
     if(event.pointerType!=="mouse")return;
     hovered=false;if(!dragging)scheduleResume();syncFrame()
   });
-  carousel.addEventListener("focusin",function(){focused=true;window.clearTimeout(resumeTimer);syncFrame()});
+  /* Only keyboard focus pauses the auto display. Clicking/tapping an arrow also focuses the button,
+     which used to stop the slideshow for good; now it keeps going ~2 s after the guest's last click. */
+  carousel.addEventListener("focusin",function(event){
+    var keyboard=true;try{keyboard=event.target.matches(":focus-visible")}catch(error){}
+    if(keyboard){focused=true;window.clearTimeout(resumeTimer);syncFrame()}
+    else{focused=false;scheduleResume();syncFrame()}
+  });
   carousel.addEventListener("focusout",function(event){
     if(!carousel.contains(event.relatedTarget)){focused=false;scheduleResume();syncFrame()}
   });
   galleryMotionSync=syncFrame;
+
+  /* Guests with "reduce motion" turned on get no gliding, but the photos still change by themselves:
+     one photo every SLIDE_MS while the gallery is on screen (paused on hover / keyboard focus / drag). */
+  var SLIDE_MS=4000;
+  window.setInterval(function(){
+    if(!reduced||!onScreen||document.hidden||hovered||focused||dragging)return;
+    pos=wrap(Math.round(pos/step)*step+step,cycleLength);render()
+  },SLIDE_MS);
 
   var observer=null;
   if("IntersectionObserver" in window){

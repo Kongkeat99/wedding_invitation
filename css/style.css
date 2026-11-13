@@ -761,3 +761,16 @@ body.video-section-active #langBtn{visibility:hidden;pointer-events:none}
   .pf-wrap{flex-direction:row;align-items:center;justify-content:center;gap:14px}
   .pf-card{flex:1 1 0;max-width:320px}
 }
+
+/* ===== Guest photo album section (after pre-wedding video) ===== */
+#s-guest-album .sub{margin:0 0 22px;opacity:.85}
+.ga-wrap{display:flex;flex-direction:column;gap:12px;max-width:420px;margin:0 auto}
+.ga-card{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"ico t go" "ico s go";align-items:center;column-gap:14px;min-height:72px;padding:14px 18px;text-align:left;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(179,155,54,.14);transition:transform .2s ease,border-color .2s ease}
+.ga-card b{grid-area:t;color:var(--gold);font-family:'Moul','Battambang',serif;font-weight:400;font-size:1.05rem}
+.ga-card small{grid-area:s;opacity:.8;letter-spacing:.06em}
+.ga-ico{grid-area:ico;font-size:1.6rem}
+.ga-go{grid-area:go;color:var(--gold);font-size:1.3rem}
+.ga-card:hover{border-color:var(--gold)}
+.ga-card:active{transform:scale(.98)}
+.ga-card:focus-visible{outline:2px solid #f0dda0;outline-offset:3px}
+@media (min-width:640px){.ga-wrap{flex-direction:row;max-width:640px}.ga-card{flex:1 1 0}}

@@ -445,9 +445,20 @@ else $("s-dress").hidden=true;
       info.appendChild(bank);info.appendChild(name);info.appendChild(num);card.appendChild(info);card.appendChild(btn);$("giftList").appendChild(card)})
   }
 })();
+/* love story icon: the hero lotus, one stage per chapter (bud -> fully open on the last one) */
+function lotusSvg(n,total){
+  var st=total>1?Math.round(n*3/(total-1)):3;
+  var P=[["M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z",0],
+    ["M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z",1],["M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z",1],
+    ["M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z",2],["M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z",2],
+    ["M34 84Q80 98 126 84",3]];
+  var vb=st===0?"50 2 60 82":st===1?"24 2 112 82":"0 2 160 100",k=0,out="";
+  P.forEach(function(x){if(x[1]<=st)out+='<path class="pt" pathLength="1" style="--i:'+(k++)+'" d="'+x[0]+'"/>'});
+  return '<svg viewBox="'+vb+'" aria-hidden="true" focusable="false">'+out+'</svg>';
+}
 var sy=$("story");
 (CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("li");d.className="st";
-  var a=document.createElement("small"),dt=e.date==="wedding"?khDate(new Date(WD)).split("\n")[0].replace(/^ថ្ងៃ\S+\s/,""):(e.date||"");a.textContent=dt;var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.setAttribute("aria-hidden","true");ic.textContent=e.icon||["🏝️","💞","💍","🎊"][n%4]||"♥";h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
+  var a=document.createElement("small"),dt=e.date==="wedding"?khDate(new Date(WD)).split("\n")[0].replace(/^ថ្ងៃ\S+\s/,""):(e.date||"");a.textContent=dt;var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.setAttribute("aria-hidden","true");if(e.icon)ic.textContent=e.icon;else ic.innerHTML=lotusSvg(n,CONFIG.story.length);h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
   var p=document.createElement("p");p.textContent=e.text||"";if(dt)d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
 if(!sy.children.length)$("s-story").hidden=true;
 

@@ -844,14 +844,9 @@ $("openBtn").addEventListener("click",function(){
   window.addEventListener("pointercancel",function(event){finishDrag(event,true)});
   $("photoPrev").addEventListener("click",function(){goBy(-1)});
   $("photoNext").addEventListener("click",function(){goBy(1)});
-  g.addEventListener("pointerenter",function(event){
-    if(event.pointerType!=="mouse")return;
-    hovered=true;window.clearTimeout(resumeTimer);syncFrame()
-  });
-  g.addEventListener("pointerleave",function(event){
-    if(event.pointerType!=="mouse")return;
-    hovered=false;if(!dragging)scheduleResume();syncFrame()
-  });
+  /* Hovering with a mouse does NOT pause the photos any more: they keep auto-displaying (only dragging / keyboard focus pause). */
+
+
   /* Only keyboard focus pauses the auto display. Clicking/tapping an arrow also focuses the button,
      which used to stop the slideshow for good; now it keeps going ~2 s after the guest's last click. */
   carousel.addEventListener("focusin",function(event){

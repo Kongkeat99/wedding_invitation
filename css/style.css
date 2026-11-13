@@ -887,3 +887,11 @@ h2{line-height:1.6;letter-spacing:.01em}
 .cover-cta{min-height:46px;margin-top:clamp(18px,3vh,26px);padding:9px 22px;border:1px solid rgba(255,244,200,.7);background:linear-gradient(180deg,#EBD98F,#C9A93F);color:#2b2208;font-weight:600;font-size:.92rem;box-shadow:0 10px 24px -8px rgba(201,169,63,.65),0 0 0 0 rgba(232,212,139,.5);animation:ctaGlow 2.6s ease-in-out infinite}
 .cover-cta .tap-icon{stroke:#2b2208}
 @keyframes ctaGlow{0%,100%{box-shadow:0 10px 24px -8px rgba(201,169,63,.65),0 0 0 0 rgba(232,212,139,.45)}50%{box-shadow:0 10px 24px -8px rgba(201,169,63,.65),0 0 0 9px rgba(232,212,139,0)}}
+
+/* ===== quote section polish: centred mark, hairline divider, quieter translation ===== */
+#s-quote{padding-block:clamp(44px,9vw,70px);background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(216,192,104,.22),transparent 72%)}
+#s-quote .quote{max-width:520px;padding:0 22px 4px;font-size:clamp(1.08rem,4.6vw,1.3rem);line-height:2.05;letter-spacing:normal;color:var(--ink)}
+#s-quote .quote:before{position:static;display:block;height:44px;margin-bottom:4px;font:400 4.6rem/1.05 'Cormorant Garamond',Georgia,serif;text-align:center;color:var(--gold2)}
+#s-quote .quote:after{content:"";display:block;width:140px;height:1px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+#s-quote .quote + .hint,#s-quote .quote.lang-en + .hint{max-width:340px;margin:14px auto 0;font:italic 400 1rem/1.7 'Cormorant Garamond',Georgia,serif;letter-spacing:.02em;color:var(--gold);opacity:1}
+#s-quote .quote.lang-en{font-family:'Cormorant Garamond',Georgia,serif}

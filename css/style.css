@@ -1094,3 +1094,50 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
 .orn{width:min(240px,70vw);height:30px;margin:6px auto 18px;background:url(../assets/art/divider.svg) center/contain no-repeat}
 .orn:before,.orn:after{display:none}
 #s-dress .orn,#s-thanks .orn{margin-bottom:16px}
+
+/* ===== cover redesign v4: framed invitation, defined envelope, inline lotus art ===== */
+#cover{background:
+  radial-gradient(ellipse 62% 40% at 50% 60%,rgba(201,169,63,.22),transparent 70%),
+  radial-gradient(ellipse at 50% 38%,#2E2511 0,#211b0d 48%,#14110a 100%)}
+.cover-lotus{display:block!important;position:absolute;left:50%;right:auto;bottom:-3%;top:auto;height:auto;width:min(135vw,980px);transform:translateX(-50%);opacity:.2;filter:drop-shadow(0 0 18px rgba(201,169,63,.25))}
+@media (min-width:900px){.cover-lotus{right:auto;top:auto;height:auto;width:min(70vw,980px);opacity:.22}}
+.cover-frame{position:absolute;inset:max(10px,env(safe-area-inset-top,0px)) 10px 10px;border:1px solid rgba(232,212,139,.38);border-radius:4px;pointer-events:none}
+.cover-frame:before{content:"";position:absolute;inset:5px;border:1px solid rgba(201,169,63,.2);border-radius:2px}
+.cover-frame i{position:absolute;width:9px;height:9px;background:#14110a;border:1px solid #E8D48B;transform:rotate(45deg)}
+.cover-frame i:nth-child(1){left:-5px;top:-5px}.cover-frame i:nth-child(2){right:-5px;top:-5px}
+.cover-frame i:nth-child(3){left:-5px;bottom:-5px}.cover-frame i:nth-child(4){right:-5px;bottom:-5px}
+
+#cover .cover-invite{order:-1}
+#cover h2{font-size:clamp(1.45rem,5.8vw,2.3rem);line-height:1.6;filter:drop-shadow(0 2px 12px rgba(201,169,63,.28))}
+#cover .names{font-size:clamp(2rem,9.5vw,3.1rem);margin:4px 0 2px;text-shadow:0 2px 18px rgba(201,169,63,.28);letter-spacing:.01em}
+#cover .cover-amp{font-size:.5em;margin:4px 0;opacity:1;display:flex;align-items:center;gap:10px;color:#E8D48B}
+#cover .cover-amp:before,#cover .cover-amp:after{content:"";width:28px;height:1px;background:linear-gradient(90deg,transparent,#C9A93F)}
+#cover .cover-amp:after{transform:scaleX(-1)}
+#cover .cover-date{margin-top:14px;padding:6px 18px;border:1px solid rgba(232,212,139,.35);border-radius:999px;background:rgba(232,212,139,.06);font-size:clamp(1.05rem,4.4vw,1.3rem)}
+#cover .cover-date:before,#cover .cover-date:after{display:none}
+#cover .cover-invite{margin-top:14px;font-size:clamp(.85rem,3.4vw,1rem);color:rgba(244,235,200,.78)}
+
+/* envelope: visible flap edge, deeper pocket, bigger label & seal */
+#cover .flap svg,#cover .pocket svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none}
+#cover .flap svg polyline{stroke:rgba(143,117,36,.7);stroke-width:3;stroke-linejoin:round}
+#cover .pocket svg polyline{stroke:rgba(143,117,36,.35);stroke-width:1}
+#cover .flap{background:linear-gradient(165deg,#FBF3D6,#EBDDAE 60%,#D4BF7C)}
+#cover .pocket{background:linear-gradient(180deg,#EFE2B3,#E2D09B 55%,#D3BE82)}
+#cover .env{border-radius:12px;box-shadow:0 34px 60px rgba(0,0,0,.5),0 10px 22px rgba(0,0,0,.3),0 0 60px rgba(201,169,63,.22),inset 0 0 0 1px rgba(255,255,255,.85)}
+#cover .env-to{top:13%}
+#cover .env-to span{font-size:.8rem;color:#6e5b17;opacity:.9}
+#cover .env-to b{font-size:clamp(1.3rem,5.8vw,1.7rem);color:#4d3e0b}
+#cover .env-to-rule{display:block;width:34px;height:1px;margin:7px auto 0;background:linear-gradient(90deg,transparent,#8F7524,transparent)}
+#cover .seal{width:68px;height:68px;top:63%;box-shadow:0 8px 16px rgba(52,12,16,.55),inset 0 2px 4px rgba(255,215,198,.45),inset 0 -5px 9px rgba(56,7,13,.45),0 0 0 5px rgba(201,169,63,.2),0 0 0 6px rgba(143,117,36,.35)}
+#cover .seal-mono{font-size:1.15rem}
+
+/* call to action: solid gold, clearly the one thing to tap */
+#cover .cover-cta{min-height:48px;padding:10px 26px;margin-top:clamp(20px,3.2vh,30px);border:1px solid rgba(255,244,200,.75);background:linear-gradient(180deg,#F0DF98,#C9A93F);color:#2b2208;font-weight:600;font-size:.92rem;box-shadow:0 12px 26px -8px rgba(201,169,63,.7);animation:ctaGlow 2.6s ease-in-out infinite}
+#cover .cover-cta .tap-icon{stroke:#2b2208}
+.splash-language{top:calc(14px + env(safe-area-inset-top,0px))}
+@media (max-width:600px){
+  #cover{padding:calc(52px + env(safe-area-inset-top,0px)) 20px calc(34px + env(safe-area-inset-bottom,0px))}
+  #cover .env{width:min(84vw,360px)}
+}
+@media (max-height:700px){#cover .cover-date{margin-top:8px}#cover .cover-invite{margin-top:8px}}
+@media (prefers-reduced-motion:reduce){#cover .cover-cta{animation:none}}

@@ -1081,3 +1081,25 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
 #s-giftqr .sub,#s-giftqr .gq-note,#s-giftqr .gq-thanks,#s-giftqr .gq-or{letter-spacing:0}
 /* one hero button left (Add to Calendar): keep it a normal width, centred */
 .hero-actions .hero-btn:only-child{flex:0 1 auto;min-width:200px}
+
+/* ===== Khmer artwork: Apsara + frangipani on the cover, lotus-and-frangipani section dividers ===== */
+.cover-art{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.cover-apsara{position:absolute;left:50%;top:50%;height:min(88%,760px);width:auto;transform:translate(-50%,-50%);opacity:.11;filter:drop-shadow(0 0 18px rgba(232,212,139,.35))}
+.cover-sprig{position:absolute;width:clamp(150px,42vw,260px);height:auto;opacity:.5}
+.cover-sprig--tl{top:-6px;left:-6px}
+.cover-sprig--br{right:-6px;bottom:-6px;transform:rotate(180deg)}
+@media (min-width:900px){
+  .cover-apsara{opacity:.09}
+  /* a mirrored pair of dancers frames the centre on wide screens */
+  .cover-art:before,.cover-art:after{content:"";position:absolute;top:50%;height:min(80%,700px);aspect-ratio:240/420;transform:translateY(-50%);background:url(../assets/art/apsara.svg) center/contain no-repeat;opacity:.09}
+  .cover-art:before{left:6vw}
+  .cover-art:after{right:6vw;transform:translateY(-50%) scaleX(-1)}
+}
+@media (prefers-reduced-motion:no-preference){.cover-apsara{animation:apsaraSway 9s ease-in-out infinite alternate}}
+@keyframes apsaraSway{from{transform:translate(-50%,-50%) rotate(-1.2deg)}to{transform:translate(-50%,-50.6%) rotate(1.2deg)}}
+.cover-pattern{opacity:.035}
+/* section dividers: replace the plain gold dot with a lotus + frangipani garland */
+.orn{width:min(240px,70vw);height:30px;margin:6px auto 18px;background:url(../assets/art/divider.svg) center/contain no-repeat}
+.orn:before,.orn:after{display:none}
+#s-dress .orn,#s-thanks .orn{margin-bottom:16px}
+@media (max-width:899px){.cover-apsara{opacity:.08}}

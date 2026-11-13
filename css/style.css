@@ -829,3 +829,24 @@ h2{line-height:1.6;letter-spacing:.01em}
 .hero-actions{width:min(100%,340px);margin-left:auto;margin-right:auto;gap:8px;flex-wrap:nowrap}
 .hero-btn{flex:1 1 0;max-width:none;min-width:0;font-size:.82rem;gap:6px;padding:10px 8px}
 .hero-btn svg{width:16px;height:16px}
+
+/* ===== profile polish: stacked framed cards on phones, side-by-side from tablet up ===== */
+#s-profile .pf-wrap{display:flex;flex-direction:column;align-items:center;gap:0}
+#s-profile .pf-card{position:relative;width:min(100%,340px);padding:26px 22px 22px;border:1px solid var(--gold2);border-radius:22px;background:var(--card);box-shadow:0 16px 30px -20px rgba(110,91,23,.55)}
+#s-profile .pf-card:before{content:"";position:absolute;inset:6px;border:1px dashed var(--line);border-radius:17px;pointer-events:none}
+/* arch-shaped portrait (a nod to temple doorways) */
+#s-profile .pf-photo{width:150px;height:190px;margin:0 auto 16px;border-radius:75px 75px 16px 16px}
+#s-profile .pf-photo:before{inset:-7px;border-radius:82px 82px 22px 22px}
+#s-profile .pf-photo img,#s-profile .pf-initial{border-radius:72px 72px 13px 13px;object-position:50% 25%}
+#s-profile .pf-role{margin:0;font-size:.82rem;color:var(--gold);opacity:1}
+#s-profile .pf-name{margin:4px 0 10px;font-size:1.55rem}
+#s-profile .pf-bio{margin:0 0 14px;font-size:.9rem;line-height:1.9}
+#s-profile .pf-parents{max-width:none;font-size:.85rem;padding-top:12px}
+/* the "&" sits between the two cards as a small gold medallion */
+#s-profile .pf-amp{margin:-14px 0;position:relative;z-index:2;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:var(--bg,#f8f1dc);border:1px solid var(--gold2);font-size:1.6rem;box-shadow:0 6px 14px -8px rgba(110,91,23,.6)}
+@media (min-width:720px){
+  #s-profile{max-width:780px}
+  #s-profile .pf-wrap{flex-direction:row;align-items:stretch;gap:34px}
+  #s-profile .pf-card{flex:1 1 0;width:auto;max-width:none}
+  #s-profile .pf-amp{align-self:center;margin:0 -40px}
+}

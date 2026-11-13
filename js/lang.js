@@ -66,7 +66,7 @@
     /* both toggle buttons show the language you would switch TO */
     [$("splashLanguage"),$("langBtn")].forEach(function(b){
       if(!b)return;
-      b.dataset.language=cur;b.textContent=cur==="km"?"EN":"ខ្មែរ";
+      b.dataset.language=cur;b.dataset.cur=cur;if(b.id!=="langBtn")b.textContent=cur==="km"?"EN":"ខ្មែរ";
       b.setAttribute("aria-label",cur==="km"?"Switch to English":"ប្ដូរទៅភាសាខ្មែរ");
       b.lang=cur==="km"?"en":"km"
     });

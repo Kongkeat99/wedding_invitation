@@ -1013,3 +1013,36 @@ html[lang="en"] .gallery-swipe-hint [lang="km"]{display:none}
 
 /* envelope already opened in this tab (e.g. coming back from the album): no cover flash */
 html.skip-cover #cover{display:none!important}
+
+/* ===== control pill: language, theme and music share one glass dock ===== */
+body:not(.go) #dock{display:contents}
+body:not(.go) #thm,body:not(.go) #langBtn{display:none}
+body:not(.go) #mus{width:44px;height:44px}
+body.go #dock{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px;border:1px solid rgba(201,169,63,.55);border-radius:26px;background:rgba(26,22,8,.72);background:color-mix(in srgb,var(--card) 78%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(0,0,0,.22);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease}
+body.go.fab-away #dock{transform:translateY(calc(100% + 28px));opacity:0;pointer-events:none}
+body.go.fab-away #dock:focus-within{transform:none;opacity:1;pointer-events:auto}
+body.video-section-active #dock{visibility:hidden;pointer-events:none}
+body.go #dock #langBtn,body.go #dock #thm,body.go #dock #mus{position:relative;inset:auto;translate:none;display:grid;place-items:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:var(--gold);box-shadow:none;opacity:1;visibility:visible}
+body.go #dock button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+body.go #dock button:active{transform:scale(.93)}
+/* language: both options visible, current one highlighted */
+#langBtn{font:600 .66rem/1.15 'Battambang',system-ui,sans-serif}
+#langBtn span{display:block;opacity:.5;transition:opacity .2s,color .2s}
+#langBtn[data-cur="km"] [data-l="km"],#langBtn[data-cur="en"] [data-l="en"]{opacity:1;color:var(--ink,currentColor);font-weight:700}
+body.go #dock #langBtn[data-cur] span{color:var(--gold)}
+body.go #dock #langBtn[data-cur="km"] [data-l="km"],body.go #dock #langBtn[data-cur="en"] [data-l="en"]{color:var(--ink,var(--gold))}
+/* theme: line sun/moon that swap with a turn */
+#thm svg{grid-area:1/1;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s}
+#thm .i-sun{opacity:0;transform:rotate(-90deg) scale(.6)}
+#thm .i-moon{opacity:1;transform:none}
+#thm[data-state="dark"] .i-sun{opacity:1;transform:none}
+#thm[data-state="dark"] .i-moon{opacity:0;transform:rotate(90deg) scale(.6)}
+/* music: filled gold only while playing, slashed when paused */
+body.go #dock #mus .eqb i{background:var(--gold)}
+body.go #dock #mus.eq{background:var(--gold)}
+body.go #dock #mus.eq .eqb i{background:#fff}
+body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height:1.5px;border-radius:1px;background:var(--gold);transform:rotate(-45deg);box-shadow:0 0 0 1.5px rgba(26,22,8,.35)}
+@media (prefers-reduced-motion:reduce){body.go #dock,#thm svg,#langBtn span{transition:none}}
+#langBtn [data-l="km"]{font-size:.62rem;line-height:1.8}
+#langBtn [data-l="en"]{font-size:.66rem;line-height:1.1}
+#langBtn{letter-spacing:0}

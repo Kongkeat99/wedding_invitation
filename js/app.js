@@ -640,6 +640,7 @@ function setBackdrop(off){Array.prototype.forEach.call(backdrop,function(e){e.in
 setBackdrop(true);
 $("openBtn").addEventListener("click",function(){
   if($("cover").classList.contains("unseal"))return;
+  try{sessionStorage.setItem("invOpened","1")}catch(e){}
   $("cover").classList.add("unseal");
   ev.style.transform="";
   document.dispatchEvent(new Event("cover:burst"));
@@ -647,6 +648,11 @@ $("openBtn").addEventListener("click",function(){
   setTimeout(function(){var c=$("cover");c.classList.add("open");document.body.classList.add("go");c.setAttribute("aria-hidden","true");c.inert=true;setBackdrop(false);var h=$("heroTitle");if(h)try{h.focus({preventScroll:true})}catch(e){}},reduced?250:2400);
   try{playChime();startMusic()}catch(e){}
 });
+
+/* coming back from the album (or reloading): the envelope was already opened in this tab, so skip the cover */
+(function(){var seen=false;try{seen=sessionStorage.getItem("invOpened")==="1"}catch(e){}if(!seen)return;
+  var c=$("cover");if(!c)return;c.classList.add("unseal","open");document.body.classList.add("go");c.setAttribute("aria-hidden","true");c.inert=true;try{setBackdrop(false)}catch(e){}
+  if(location.hash){var t=document.getElementById(location.hash.slice(1));if(t)setTimeout(function(){t.scrollIntoView()},60)}})();
 
 /* thank-you paragraph: written out slowly (like a song) when the guest scrolls to it.
    speed: 110 ms per letter, 170 ms at spaces, 700 ms at the end of a sentence – change the numbers below to adjust */

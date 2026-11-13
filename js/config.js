@@ -3,6 +3,7 @@ var CONFIG = {
   COMING_SOON: false,
   ALBUM_COMING_SOON: true,                     // guest album page: true = photos blurred with a Coming Soon badge, false = open album
   PHOTO_COMING_SOON: false,
+  VIDEO_AUTOPLAY: true,                         // pre-wedding video starts by itself (muted) when scrolled into view; false = guest taps play
   VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",
   bride: "Chham Chanthu",

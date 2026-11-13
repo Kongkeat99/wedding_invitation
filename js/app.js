@@ -217,6 +217,31 @@ if(!$("vids").children.length)$("vids").parentNode.hidden=true;
   document.addEventListener("visibilitychange",function(){if(document.hidden)pauseAll()});
 })();
 
+/* Pre-wedding video auto display: starts (muted, as browsers require) when the video is mostly on screen,
+   pauses when it leaves (handled above). A guest who pauses it by hand is not forced to watch: it only
+   auto-plays again the next time the video scrolls back into view. Turn off with VIDEO_AUTOPLAY:false in js/config.js. */
+(function(){
+  if(CONFIG.VIDEO_AUTOPLAY===false||!("IntersectionObserver" in window))return;
+  var still=matchMedia("(prefers-reduced-motion:reduce)"),conn=navigator.connection||{};
+  if(still.matches||conn.saveData)return;
+  Array.prototype.slice.call($("vids").children).forEach(function(card){
+    var v=card.video;if(!v)return;
+    var inView=false,userPaused=false;
+    v.addEventListener("pause",function(){if(inView&&!v.ended&&!document.hidden)userPaused=true});
+    new IntersectionObserver(function(es){
+      var r=es[es.length-1].intersectionRatio;
+      if(r>=.6){
+        inView=true;
+        if(userPaused||!v.paused)return;
+        if(v.ended)v.currentTime=0;
+        v.muted=true;
+        if(!v.src){v.src=v.dataset.src;v.load()}
+        var p=v.play();if(p&&p.catch)p.catch(function(){})
+      }else if(r<.3){inView=false;userPaused=false}
+    },{threshold:[0,.3,.6]}).observe(card)
+  })
+})();
+
 /* QR code for the map link */
 try{new QRCode($("qr"),{text:CONFIG.mapUrl,width:170,height:170,colorDark:"#6e5c12",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M})}
 catch(e){$("qr").textContent=CONFIG.mapUrl}

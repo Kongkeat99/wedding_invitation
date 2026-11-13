@@ -278,7 +278,9 @@ function copyTxt(t,done){
 function flash(b,txt){var o=b.dataset.o||b.textContent;b.dataset.o=o;b.textContent=txt;setTimeout(function(){b.textContent=o},1800)}
 
 /* guest album page: keep the personal guest link when opening it */
-$("albumLink").href="album.html"+location.search;document.querySelectorAll("#s-guest-album .ga-card").forEach(function(a){a.href="album.html"+location.search+"#"+a.dataset.album});
+document.querySelectorAll("#s-guest-album .ga-card").forEach(function(a){a.href="album.html"+location.search+"#"+a.dataset.album;
+  var side=CONFIG.album&&CONFIG.album[a.dataset.album],n=side&&side.categories?side.categories.length:0,c=a.querySelector(".ga-count");
+  if(c&&n){c.textContent=n+" albums";c.hidden=false}});
 
 /* live stream (optional) */
 if(CONFIG.live){$("liveBtn").href=CONFIG.live;$("liveBtn").hidden=false}

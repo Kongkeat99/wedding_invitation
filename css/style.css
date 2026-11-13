@@ -1091,8 +1091,7 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
   .cover-apsara{left:max(3vw,24px);bottom:5%;height:min(86%,800px);transform:none;opacity:.92;filter:drop-shadow(0 10px 30px rgba(0,0,0,.45)) drop-shadow(0 0 26px rgba(232,212,139,.22))}
   .cover-lotus{display:block;right:max(4vw,32px);top:6%;height:min(88%,820px);opacity:.78}
 }
-@media (prefers-reduced-motion:no-preference){.cover-apsara{animation:apsaraFloat 7s ease-in-out infinite alternate}}
-@keyframes apsaraFloat{from{translate:0 0}to{translate:0 -8px}}
+/* dancer animates inside assets/art/apsara-dancer.svg; feet stay planted, so no CSS float */
 .cover-pattern{opacity:.035}
 /* section dividers: replace the plain gold dot with a lotus + frangipani garland */
 .orn{width:min(240px,70vw);height:30px;margin:6px auto 18px;background:url(../assets/art/divider.svg) center/contain no-repeat}

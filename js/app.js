@@ -12,7 +12,20 @@ function khDate(t){var c=new Date(t.getTime()+7*3600000),
   return "ថ្ងៃ"+wd[c.getUTCDay()]+" ទី"+kd(c.getUTCDate())+" ខែ"+mo[c.getUTCMonth()]+" ឆ្នាំ"+kd(c.getUTCFullYear())+"\nម៉ោង "+tm}
 $("dateTxt").textContent=khDate(new Date(WD));
 $("venue").textContent=CONFIG.venue;
-$("mapBtn").href=CONFIG.mapUrl;
+$("mapBtn").href=CONFIG.mapUrl;$("heroMap").href=CONFIG.mapUrl;
+/* hero "Add to Calendar": builds an all-day .ics event for the wedding date (Cambodia time) */
+$("calBtn").onclick=function(){
+  var d=new Date(getDate());if(isNaN(d))return;
+  var p=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Phnom_Penh",year:"numeric",month:"2-digit",day:"2-digit"}).format(d).replace(/-/g,"");
+  var n=new Date(Date.UTC(+p.slice(0,4),+p.slice(4,6)-1,+p.slice(6,8)+1)),e=n.getUTCFullYear()+("0"+(n.getUTCMonth()+1)).slice(-2)+("0"+n.getUTCDate()).slice(-2);
+  var esc=function(t){return String(t).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n")};
+  var ev=CONFIG.en&&CONFIG.en.program||[],pr=(CONFIG.program||[]).map(function(r,i){return r[0]+" "+(ev[i]||r[1])}).join("\n");
+  var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Wedding Invitation//EN","CALSCALE:GREGORIAN","BEGIN:VEVENT","UID:wedding-"+p+"@invitation","DTSTAMP:"+new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+/,""),"DTSTART;VALUE=DATE:"+p,"DTEND;VALUE=DATE:"+e,
+    "SUMMARY:"+esc("Wedding of "+CONFIG.groom+" & "+CONFIG.bride),"LOCATION:"+esc(((CONFIG.en&&CONFIG.en.venue)||CONFIG.venue||"")),"DESCRIPTION:"+esc(pr+"\nMap: "+CONFIG.mapUrl),"URL:"+CONFIG.mapUrl,
+    "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:Wedding tomorrow","END:VALARM","END:VEVENT","END:VCALENDAR"];
+  var blob=new Blob([L.join("\r\n")],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=u;a.download="wedding-invitation.ics";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)
+};
 var ic=["🙏","🎁","💍","🍽️","🌙"];
 $("prog").innerHTML='<div class="tl">'+CONFIG.program.map(function(p,i){return '<div class="ti"><div class="td">'+(ic[i]||"✦")+'</div><div class="tt"><b>'+p[0]+'</b><span>'+p[1]+'</span></div></div>'}).join("")+'</div>';
 

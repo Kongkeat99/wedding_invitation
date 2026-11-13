@@ -221,33 +221,39 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
 .lightbox-hint.is-on{opacity:1;transform:translate(-50%,0)}
 </style>
 <style id="albumDonut">
-/* Donut group picker: one wedge per group, Groom / Bride flips the ring. The old chip row is replaced by it. */
+/* Donut group picker: chunky ivory wedges (one per photo group) on the dark page. Groom / Bride flips the ring over.
+   The old chip row is replaced by it. */
 .control-deck .categories-wrap{display:none}
 .control-deck .segmented{margin-bottom:0}
-.donut-section{margin:22px auto 10px;text-align:center}
-.donut{position:relative;width:min(360px,88vw);aspect-ratio:1;margin:0 auto}
-.donut.flip{animation:donutFlip .5s cubic-bezier(.22,1,.36,1)}
-@keyframes donutFlip{from{transform:perspective(900px) rotateY(90deg);opacity:0}to{transform:perspective(900px) rotateY(0);opacity:1}}
-.donut-svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 16px 24px rgba(0,0,0,.6)) drop-shadow(0 0 22px rgba(201,166,58,.12))}
-.donut-g{cursor:pointer;outline:none}
-.donut-edge{fill:none;stroke:rgba(201,166,58,.4);stroke-width:15.5;stroke-linejoin:round;transition:stroke .25s}
-.donut-face{fill:#211c11;stroke:#211c11;stroke-width:14;stroke-linejoin:round;transition:fill .25s,stroke .25s}
-@media (hover:hover){.donut-g:hover .donut-face{fill:#2e2616;stroke:#2e2616}.donut-g:hover .donut-edge{stroke:rgba(233,207,122,.7)}}
-.donut-g:focus-visible .donut-edge{stroke:#E9CF7A;stroke-width:17}
+.seg-count{display:inline-grid;place-items:center;min-width:1.45em;height:1.45em;margin-left:6px;padding:0 6px;border-radius:999px;background:rgba(233,207,122,.16);color:var(--gold2);font:700 .72rem/1 'Cormorant Garamond',Georgia,serif;transition:background .25s,color .25s}
+.segmented button[aria-pressed="true"] .seg-count{background:rgba(20,17,10,.2);color:var(--ink)}
+.donut-section{margin:26px auto 12px;text-align:center}
+.donut-stage{position:relative;width:min(400px,92vw);aspect-ratio:1;margin:0 auto;touch-action:pan-y}
+.donut{position:relative;width:100%;height:100%}
+.donut.flip{animation:donutIn .42s cubic-bezier(.22,1,.36,1) .14s both}
+.donut-ghost{position:absolute;inset:0;pointer-events:none;animation:donutOut .2s ease-in both}
+@keyframes donutOut{to{transform:perspective(900px) rotateY(calc(var(--dir,1)*90deg));opacity:0}}
+@keyframes donutIn{from{transform:perspective(900px) rotateY(calc(var(--dir,1)*-90deg));opacity:0}to{transform:perspective(900px) rotateY(0);opacity:1}}
+.donut-svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 16px 22px rgba(0,0,0,.65)) drop-shadow(0 0 26px rgba(233,207,122,.16))}
+.donut-g{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.donut-edge{fill:none;stroke:rgba(201,166,58,.55);stroke-width:19.5;stroke-linejoin:round;transition:stroke .25s}
+.donut-face{fill:url(#donutIvory);stroke:url(#donutIvory);stroke-width:18;stroke-linejoin:round;transition:fill .25s,stroke .25s}
+@media (hover:hover){.donut-g:hover .donut-face{fill:url(#donutIvoryHi);stroke:url(#donutIvoryHi)}.donut-g:hover .donut-edge{stroke:#E9CF7A}}
+.donut-g:focus-visible .donut-edge{stroke:#fff;stroke-width:23}
 .donut-g[aria-pressed="true"] .donut-face{fill:url(#donutGold);stroke:url(#donutGold)}
-.donut-g[aria-pressed="true"] .donut-edge{stroke:#E9CF7A}
-.donut-label{position:absolute;width:25%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center;pointer-events:none;color:var(--ivory);transition:color .25s}
-.donut-label .dl-kh{font:600 clamp(.66rem,2.9vw,.8rem)/1.4 'Noto Sans Khmer','Battambang',sans-serif;overflow-wrap:anywhere}
-.donut-label .dl-en{font:600 clamp(.6rem,2.6vw,.74rem)/1.2 'Cormorant Garamond','Noto Sans Khmer',serif;opacity:.72;overflow-wrap:anywhere}
-.donut-label small{margin-top:2px;font:700 .68rem/1 'Cormorant Garamond',serif;opacity:.8}
-.donut.dense .donut-label{width:23%}.donut.dense .dl-kh{font-size:clamp(.58rem,2.5vw,.7rem);line-height:1.3}.donut.dense .dl-en{font-size:clamp(.54rem,2.3vw,.64rem)}
-.donut-label.is-on{color:#1a1405}.donut-label.is-on .dl-en{opacity:.85}
-.donut-center{position:absolute;left:50%;top:50%;width:41%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-content:center;gap:3px;padding:12px;border:1px solid rgba(201,166,58,.5);border-radius:50%;background:radial-gradient(circle at 50% 30%,#2b2416,#15110a);box-shadow:inset 0 0 0 6px #14110A,inset 0 0 0 7px rgba(201,166,58,.28);color:var(--ivory);text-align:center;cursor:pointer;transition:border-color .25s}
+.donut-g[aria-pressed="true"] .donut-edge{stroke:#F6E7A8}
+.donut-label{position:absolute;width:24%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;pointer-events:none;color:#1b150a;transition:color .25s}
+.donut-label .dl-kh{font:700 clamp(.64rem,2.8vw,.8rem)/1.35 'Noto Sans Khmer','Battambang',sans-serif;overflow-wrap:anywhere}
+.donut-label .dl-en{color:#5d5030;font:600 clamp(.58rem,2.5vw,.72rem)/1.2 'Cormorant Garamond','Noto Sans Khmer',serif;overflow-wrap:anywhere}
+.donut-label small{margin-top:2px;color:#7a5f12;font:700 .68rem/1 'Cormorant Garamond',serif}
+.donut.dense .donut-label{width:22.5%}.donut.dense .dl-kh{font-size:clamp(.56rem,2.45vw,.7rem);line-height:1.3}.donut.dense .dl-en{font-size:clamp(.52rem,2.25vw,.64rem)}
+.donut-label.is-on,.donut-label.is-on .dl-en,.donut-label.is-on small{color:#1a1405}.donut-label.is-on .dl-en{opacity:.82}
+.donut-center{position:absolute;left:50%;top:50%;width:40%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-content:center;gap:3px;padding:12px;border:1px solid rgba(201,166,58,.55);border-radius:50%;background:radial-gradient(circle at 50% 30%,#2b2416,#15110a);box-shadow:inset 0 0 0 6px #14110A,inset 0 0 0 7px rgba(201,166,58,.3),0 0 0 7px rgba(20,17,10,.9);color:var(--ivory);text-align:center;cursor:pointer;transition:border-color .25s}
 .donut-center:hover,.donut-center:focus-visible{border-color:#E9CF7A;outline:none}
-.donut-center .dc-name{font:700 clamp(.75rem,3.3vw,.95rem)/1.3 'Noto Sans Khmer','Battambang',sans-serif;color:#E9CF7A;overflow-wrap:anywhere}
+.donut-center .dc-name{font:700 clamp(.74rem,3.2vw,.95rem)/1.3 'Noto Sans Khmer','Battambang',sans-serif;color:#E9CF7A;overflow-wrap:anywhere}
 .donut-center .dc-sub{font:500 .74rem/1.3 'Noto Sans Khmer','Cormorant Garamond',serif;opacity:.75}
-.donut-hint{margin:14px 0 0;color:var(--muted);font-size:.8rem}
-@media (prefers-reduced-motion:reduce){.donut.flip{animation:none}.donut-edge,.donut-face,.donut-label{transition:none}}
+.donut-hint{margin:18px 0 0;color:var(--muted);font-size:.8rem}
+@media (prefers-reduced-motion:reduce){.donut.flip,.donut-ghost{animation:none}.donut-ghost{display:none}.donut-edge,.donut-face,.donut-label{transition:none}}
 </style>
 </head>
 <body>
@@ -280,8 +286,8 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
       <section class="control-deck" aria-label="Album filters">
         <div class="segmented" id="sides" data-side="groom" role="group" aria-label="Choose album side">
           <span class="seg-indicator" aria-hidden="true"></span>
-          <button class="wipe-fill wipe-fill--inverse" id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
-          <button class="wipe-fill wipe-fill--inverse" id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
+          <button class="wipe-fill wipe-fill--inverse" id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom<span class="seg-count" id="cGroom" aria-hidden="true"></span></button>
+          <button class="wipe-fill wipe-fill--inverse" id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride<span class="seg-count" id="cBride" aria-hidden="true"></span></button>
         </div>
         <div class="categories-wrap">
           <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
@@ -292,7 +298,7 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
       </section>
 
       <section class="donut-section" id="donutSection" aria-label="Choose a photo group" hidden>
-        <div class="donut" id="donut"></div>
+        <div class="donut-stage" id="donutStage"><div class="donut" id="donut"></div></div>
         <p class="donut-hint" id="donutHint"></p>
       </section>
 
@@ -425,16 +431,21 @@ const albums={
   }
 
   let donutSide=null;
+  const sideCount=key=>albums[key].groups.filter(group=>group.photos&&group.photos.length).length;
   function renderDonut(){
-    const host=$('donut'),section=$('donutSection'),available=availableGroups(),n=available.length;
+    const host=$('donut'),stage=$('donutStage'),section=$('donutSection'),available=availableGroups(),n=available.length;
     if(!host)return;
+    $('cGroom').textContent=sideCount('groom');$('cBride').textContent=sideCount('bride');
     if(!n){section.hidden=true;return}
     section.hidden=false;
-    const NS='http://www.w3.org/2000/svg',C=200,R=188,r=100,GAP=7,S=7,ro=R-S,ri=r+S,TAU=Math.PI*2;
+    const NS='http://www.w3.org/2000/svg',C=200,R=192,r=94,GAP=8,S=9,ro=R-S,ri=r+S,TAU=Math.PI*2;
     const pt=(rad,a)=>(C+rad*Math.cos(a)).toFixed(2)+' '+(C+rad*Math.sin(a)).toFixed(2);
     const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 400 400');svg.setAttribute('class','donut-svg');svg.setAttribute('role','group');
     svg.setAttribute('aria-label',(side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride')+' groups');
-    svg.innerHTML='<defs><linearGradient id="donutGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9CF7A"/><stop offset="1" stop-color="#C9A63A"/></linearGradient></defs>';
+    svg.innerHTML='<defs>'
+      +'<linearGradient id="donutGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0D98A"/><stop offset="1" stop-color="#C9A63A"/></linearGradient>'
+      +'<linearGradient id="donutIvory" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#FFFBEE"/><stop offset="1" stop-color="#E9DDBE"/></linearGradient>'
+      +'<linearGradient id="donutIvoryHi" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F6E9C0"/></linearGradient></defs>';
     const labels=document.createDocumentFragment();
     const nameHtml=group=>(uiLanguage==='en'?'':'<span class="dl-kh">'+group.kh+'</span>')+(uiLanguage==='km'?'':'<span class="dl-en">'+group.en+'</span>');
     available.forEach((group,i)=>{
@@ -468,10 +479,18 @@ const albums={
     center.innerHTML='<span class="dc-name">'+(current?(uiLanguage==='en'?current.en:current.kh):(uiLanguage==='en'?'All':'ទាំងអស់'))+'</span>'
       +'<span class="dc-sub">'+(total?total+' '+unit:comingSoonLabel())+'</span>';
     center.onclick=()=>{if(category!=='all')selectCategory('all')};
+    const flipping=donutSide!==null&&donutSide!==side&&!reduceMotion;
+    if(flipping){
+      stage.querySelectorAll('.donut-ghost').forEach(el=>el.remove());
+      stage.style.setProperty('--dir',side==='bride'?1:-1);
+      const ghost=document.createElement('div');ghost.className='donut donut-ghost'+(host.classList.contains('dense')?' dense':'');
+      ghost.setAttribute('aria-hidden','true');ghost.inert=true;ghost.innerHTML=host.innerHTML;stage.appendChild(ghost);
+      ghost.addEventListener('animationend',()=>ghost.remove(),{once:true});setTimeout(()=>ghost.remove(),500);
+    }
     host.classList.toggle('dense',n>6);
     host.innerHTML='';host.append(svg,labels,center);
-    $('donutHint').textContent=uiLanguage==='km'?'ចុចលើក្រុម ដើម្បីមើលរូបភាព':uiLanguage==='en'?'Tap a group to view its photos':'ចុចលើក្រុម ដើម្បីមើលរូបភាព · Tap a group to view photos';
-    if(donutSide!==null&&donutSide!==side&&!reduceMotion){host.classList.remove('flip');void host.offsetWidth;host.classList.add('flip');host.addEventListener('animationend',()=>host.classList.remove('flip'),{once:true})}
+    $('donutHint').textContent=uiLanguage==='km'?'ចុចលើក្រុម ដើម្បីមើលរូបភាព · អូសទៅចំហៀង ដើម្បីប្តូរខាង':uiLanguage==='en'?'Tap a group to view its photos · swipe sideways to switch side':'ចុចលើក្រុម ដើម្បីមើលរូបភាព · Tap a group to view photos. អូសទៅចំហៀង · Swipe sideways to switch side.';
+    if(flipping){host.classList.remove('flip');void host.offsetWidth;host.classList.add('flip');host.addEventListener('animationend',()=>host.classList.remove('flip'),{once:true})}
     donutSide=side;
   }
 
@@ -495,6 +514,13 @@ const albums={
   async function sharePhoto(){if(!viewerPhotos.length)return;const url=new URL(viewerPhotos[viewerIndex].photo.src,location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
 
   sideButtons.forEach(button=>button.onclick=()=>selectSide(button.dataset.side));
+  (()=>{const stage=$('donutStage');if(!stage)return;let x0=0,y0=0,wheelLock=0;
+    const flipTo=next=>{if(next!==side)selectSide(next)};
+    stage.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+    stage.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)flipTo(dx<0?'bride':'groom')},{passive:true});
+    /* only sideways gestures (trackpad swipe, Shift+wheel) flip the ring, so a normal scroll never gets trapped on it */
+    stage.addEventListener('wheel',e=>{const dx=e.shiftKey&&!e.deltaX?e.deltaY:e.deltaX;if(Math.abs(dx)<=Math.abs(e.deltaY)&&!e.shiftKey)return;e.preventDefault();const now=Date.now();if(now<wheelLock||Math.abs(dx)<24)return;wheelLock=now+700;flipTo(dx>0?'bride':'groom')},{passive:false});
+  })();
   $('groupPicker').onclick=openSheet;$('closeSheet').onclick=closeSheet;$('groupSheet').onclick=event=>{if(event.target===$('groupSheet'))closeSheet()};
   $('groupSheet').addEventListener('touchstart',event=>{sheetStartY=event.touches[0].clientY},{passive:true});
   $('groupSheet').addEventListener('touchend',event=>{if(event.changedTouches[0].clientY-sheetStartY>60)closeSheet()},{passive:true});

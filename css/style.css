@@ -804,3 +804,28 @@ h2{line-height:1.6;letter-spacing:.01em}
 .hero-btn svg{width:18px;height:18px;flex:none}
 .hero-btn:not(.alt){box-shadow:0 8px 18px -8px rgba(140,118,32,.7)}
 @media (min-width:640px){.hero-photo{height:560px;object-position:50% 25%}}
+
+/* ===== hero polish ===== */
+/* photo a little shorter so the names, date and venue show on the first phone screen */
+.hero-photo{height:min(50vh,440px)}
+#hero .nm{font-size:clamp(1.35rem,6.4vw,1.7rem);line-height:1.5}
+#hero .role{letter-spacing:.04em;margin:14px 0 2px}
+#hero .amp{margin:2px 0}
+/* date + venue as one framed "when / where" card; no letter-spacing so Khmer clusters stay intact */
+.hero-when{width:min(100%,340px);margin:22px auto 0;padding:14px 18px;border:1px solid var(--gold2);border-radius:16px;background:rgba(255,255,255,.55);box-shadow:0 10px 24px -14px rgba(140,118,32,.55)}
+.hero-when .date{margin:0;font-size:clamp(.98rem,4.2vw,1.1rem);line-height:1.7;letter-spacing:normal;white-space:pre-line;font-weight:600;color:#6e5b17}
+.hero-venue{margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-size:.92rem;letter-spacing:normal}
+.hero-venue:before{content:"\1F4CD\00a0"}
+.hero-actions{margin:16px 0 4px}
+.hero-btn{flex:1 1 150px;max-width:190px;padding:10px 12px;white-space:nowrap}
+/* countdown tiles: centred numbers + labels */
+#cd{gap:8px}
+#cd div{flex:1 1 0;max-width:76px;min-width:0;text-align:center;padding:10px 4px 8px}
+#cd b{font-size:1.6rem;line-height:1.1}
+#cd span{display:block;margin-top:2px;font-size:.7rem;letter-spacing:normal}
+/* guest name on the envelope cover */
+#cover #guestName{display:block;margin:6px 0 0;font-size:1.15em}
+#cover #guestName[hidden]{display:none}
+.hero-actions{width:min(100%,340px);margin-left:auto;margin-right:auto;gap:8px;flex-wrap:nowrap}
+.hero-btn{flex:1 1 0;max-width:none;min-width:0;font-size:.82rem;gap:6px;padding:10px 8px}
+.hero-btn svg{width:16px;height:16px}

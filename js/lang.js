@@ -20,7 +20,7 @@
 
   function swapText(root){
     Array.prototype.forEach.call(root.querySelectorAll("[data-en]:not([data-km])"),function(el){el.setAttribute("data-km",el.textContent)});
-    Array.prototype.forEach.call(root.querySelectorAll("[data-en][data-km]"),function(el){el.textContent=el.getAttribute("data-"+cur)})
+    Array.prototype.forEach.call(root.querySelectorAll("[data-en][data-km]"),function(el){el.textContent=el.getAttribute("data-"+cur);el.lang=cur})
   }
 
   function renderProgram(){
@@ -59,14 +59,16 @@
 
     /* cover (first page) */
     Array.prototype.forEach.call(document.querySelectorAll("#cover [data-km][data-en]"),function(el){el.textContent=el.getAttribute("data-"+cur)});
-    var cta=$("coverCta");if(cta)cta.setAttribute("aria-label",cur==="km"?"ចុចលើសំបុត្រ ដើម្បីបើក":"Tap the envelope to open");
+    var seal=$("openBtn");if(seal)seal.setAttribute("aria-label",cur==="km"?"បើកសំបុត្រ":"Open invitation");
+    var qrBox=$("qr");if(qrBox)qrBox.setAttribute("aria-label",cur==="km"?"QR Code ទីតាំងពិធី":"QR code for the venue location");
+    var nv=$("nav");if(nv)nv.setAttribute("aria-label",cur==="km"?"ផ្នែកក្នុងទំព័រ":"Page sections");
 
     /* both toggle buttons show the language you would switch TO */
     [$("splashLanguage"),$("langBtn")].forEach(function(b){
       if(!b)return;
       b.dataset.language=cur;b.textContent=cur==="km"?"EN":"ខ្មែរ";
       b.setAttribute("aria-label",cur==="km"?"Switch to English":"ប្ដូរទៅភាសាខ្មែរ");
-      b.setAttribute("aria-pressed",String(cur==="en"))
+      b.lang=cur==="km"?"en":"km"
     });
 
     /* inner page */

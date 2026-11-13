@@ -870,3 +870,20 @@ h2{line-height:1.6;letter-spacing:.01em}
 #cover .env-to span{display:block;font:500 .78rem/1.2 'Kantumruy Pro','Battambang',sans-serif;letter-spacing:.2em;opacity:.8}
 #cover .env-to b{display:block;margin-top:3px;font:italic 600 clamp(1.15rem,5.4vw,1.55rem)/1.2 'Cormorant Garamond','Battambang',Georgia,serif;color:#5a4a10;overflow-wrap:anywhere}
 #cover.unseal .env-to{opacity:0}
+
+/* ===== cover polish 2: balanced vertical rhythm + one clear call to action ===== */
+@media (max-width:600px){
+  /* equal space above and below so the whole group sits in the optical centre (top controls stay clear) */
+  #cover{padding:calc(56px + env(safe-area-inset-top,0px)) 12px calc(56px + env(safe-area-inset-bottom,0px))}
+  .cover-content{transform:none}
+  .env-stage{margin-top:18px}
+}
+@media (max-width:600px) and (max-height:700px){
+  #cover{padding-top:52px;padding-bottom:18px}
+  .cover-content{transform:scale(.9)}
+}
+/* a single filled pill; the extra English caption and bouncing arrow are redundant with it */
+.cover-cta-en,.cta-arrow{display:none}
+.cover-cta{min-height:46px;margin-top:clamp(18px,3vh,26px);padding:9px 22px;border:1px solid rgba(255,244,200,.7);background:linear-gradient(180deg,#EBD98F,#C9A93F);color:#2b2208;font-weight:600;font-size:.92rem;box-shadow:0 10px 24px -8px rgba(201,169,63,.65),0 0 0 0 rgba(232,212,139,.5);animation:ctaGlow 2.6s ease-in-out infinite}
+.cover-cta .tap-icon{stroke:#2b2208}
+@keyframes ctaGlow{0%,100%{box-shadow:0 10px 24px -8px rgba(201,169,63,.65),0 0 0 0 rgba(232,212,139,.45)}50%{box-shadow:0 10px 24px -8px rgba(201,169,63,.65),0 0 0 9px rgba(232,212,139,0)}}

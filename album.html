@@ -220,6 +220,35 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
 .lightbox-hint[hidden]{display:none}
 .lightbox-hint.is-on{opacity:1;transform:translate(-50%,0)}
 </style>
+<style id="albumDonut">
+/* Donut group picker: one wedge per group, Groom / Bride flips the ring. The old chip row is replaced by it. */
+.control-deck .categories-wrap{display:none}
+.control-deck .segmented{margin-bottom:0}
+.donut-section{margin:22px auto 10px;text-align:center}
+.donut{position:relative;width:min(360px,88vw);aspect-ratio:1;margin:0 auto}
+.donut.flip{animation:donutFlip .5s cubic-bezier(.22,1,.36,1)}
+@keyframes donutFlip{from{transform:perspective(900px) rotateY(90deg);opacity:0}to{transform:perspective(900px) rotateY(0);opacity:1}}
+.donut-svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 16px 24px rgba(0,0,0,.6)) drop-shadow(0 0 22px rgba(201,166,58,.12))}
+.donut-g{cursor:pointer;outline:none}
+.donut-edge{fill:none;stroke:rgba(201,166,58,.4);stroke-width:15.5;stroke-linejoin:round;transition:stroke .25s}
+.donut-face{fill:#211c11;stroke:#211c11;stroke-width:14;stroke-linejoin:round;transition:fill .25s,stroke .25s}
+@media (hover:hover){.donut-g:hover .donut-face{fill:#2e2616;stroke:#2e2616}.donut-g:hover .donut-edge{stroke:rgba(233,207,122,.7)}}
+.donut-g:focus-visible .donut-edge{stroke:#E9CF7A;stroke-width:17}
+.donut-g[aria-pressed="true"] .donut-face{fill:url(#donutGold);stroke:url(#donutGold)}
+.donut-g[aria-pressed="true"] .donut-edge{stroke:#E9CF7A}
+.donut-label{position:absolute;width:25%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center;pointer-events:none;color:var(--ivory);transition:color .25s}
+.donut-label .dl-kh{font:600 clamp(.66rem,2.9vw,.8rem)/1.4 'Noto Sans Khmer','Battambang',sans-serif;overflow-wrap:anywhere}
+.donut-label .dl-en{font:600 clamp(.6rem,2.6vw,.74rem)/1.2 'Cormorant Garamond','Noto Sans Khmer',serif;opacity:.72;overflow-wrap:anywhere}
+.donut-label small{margin-top:2px;font:700 .68rem/1 'Cormorant Garamond',serif;opacity:.8}
+.donut.dense .donut-label{width:23%}.donut.dense .dl-kh{font-size:clamp(.58rem,2.5vw,.7rem);line-height:1.3}.donut.dense .dl-en{font-size:clamp(.54rem,2.3vw,.64rem)}
+.donut-label.is-on{color:#1a1405}.donut-label.is-on .dl-en{opacity:.85}
+.donut-center{position:absolute;left:50%;top:50%;width:41%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-content:center;gap:3px;padding:12px;border:1px solid rgba(201,166,58,.5);border-radius:50%;background:radial-gradient(circle at 50% 30%,#2b2416,#15110a);box-shadow:inset 0 0 0 6px #14110A,inset 0 0 0 7px rgba(201,166,58,.28);color:var(--ivory);text-align:center;cursor:pointer;transition:border-color .25s}
+.donut-center:hover,.donut-center:focus-visible{border-color:#E9CF7A;outline:none}
+.donut-center .dc-name{font:700 clamp(.75rem,3.3vw,.95rem)/1.3 'Noto Sans Khmer','Battambang',sans-serif;color:#E9CF7A;overflow-wrap:anywhere}
+.donut-center .dc-sub{font:500 .74rem/1.3 'Noto Sans Khmer','Cormorant Garamond',serif;opacity:.75}
+.donut-hint{margin:14px 0 0;color:var(--muted);font-size:.8rem}
+@media (prefers-reduced-motion:reduce){.donut.flip{animation:none}.donut-edge,.donut-face,.donut-label{transition:none}}
+</style>
 </head>
 <body>
 <div id="albumLoading" role="status" aria-live="polite">
@@ -260,6 +289,11 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
             <span class="group-picker-label">ជ្រើសរើសក្រុម · Choose group</span><strong id="pickerValue"></strong><span class="group-picker-chevron" aria-hidden="true">⌄</span>
           </button>
         </div>
+      </section>
+
+      <section class="donut-section" id="donutSection" aria-label="Choose a photo group" hidden>
+        <div class="donut" id="donut"></div>
+        <p class="donut-hint" id="donutHint"></p>
       </section>
 
       <div class="gallery-meta"><strong id="galleryTitle">Groom · All</strong><span id="galleryCount"></span></div>
@@ -387,7 +421,58 @@ const albums={
   function render(){
     const valid=category==='all'||groups().some(group=>group.id===category&&listFor(group).length);if(!valid)category='all';
     $('sides').dataset.side=side;sideButtons.forEach(button=>button.setAttribute('aria-pressed',button.dataset.side===side));
-    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length,hasSamples=photos.some(entry=>isSamplePhoto(entry.photo));const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent=hasSamples?sideLabel+' album · '+comingSoonLabel():'រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=hasSamples?comingSoonLabel():count+' photos';
+    renderCategories();renderDonut();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length,hasSamples=photos.some(entry=>isSamplePhoto(entry.photo));const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent=hasSamples?sideLabel+' album · '+comingSoonLabel():'រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=hasSamples?comingSoonLabel():count+' photos';
+  }
+
+  let donutSide=null;
+  function renderDonut(){
+    const host=$('donut'),section=$('donutSection'),available=availableGroups(),n=available.length;
+    if(!host)return;
+    if(!n){section.hidden=true;return}
+    section.hidden=false;
+    const NS='http://www.w3.org/2000/svg',C=200,R=188,r=100,GAP=7,S=7,ro=R-S,ri=r+S,TAU=Math.PI*2;
+    const pt=(rad,a)=>(C+rad*Math.cos(a)).toFixed(2)+' '+(C+rad*Math.sin(a)).toFixed(2);
+    const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 400 400');svg.setAttribute('class','donut-svg');svg.setAttribute('role','group');
+    svg.setAttribute('aria-label',(side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride')+' groups');
+    svg.innerHTML='<defs><linearGradient id="donutGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9CF7A"/><stop offset="1" stop-color="#C9A63A"/></linearGradient></defs>';
+    const labels=document.createDocumentFragment();
+    const nameHtml=group=>(uiLanguage==='en'?'':'<span class="dl-kh">'+group.kh+'</span>')+(uiLanguage==='km'?'':'<span class="dl-en">'+group.en+'</span>');
+    available.forEach((group,i)=>{
+      const mid=-Math.PI/2+i*TAU/n,half=Math.PI/n,oOff=(GAP/2+S)/ro,iOff=(GAP/2+S)/ri;
+      const a1=mid-half+oOff,a2=mid+half-oOff,b1=mid-half+iOff,b2=mid+half-iOff,large=(a2-a1)>Math.PI?1:0;
+      const d='M'+pt(ro,a1)+' A'+ro+' '+ro+' 0 '+large+' 1 '+pt(ro,a2)+' L'+pt(ri,b2)+' A'+ri+' '+ri+' 0 '+large+' 0 '+pt(ri,b1)+' Z';
+      const g=document.createElementNS(NS,'g');g.setAttribute('class','donut-g');g.setAttribute('role','button');g.setAttribute('tabindex','0');g.dataset.category=group.id;
+      g.setAttribute('aria-pressed',String(category===group.id));g.setAttribute('aria-label',group.kh+' · '+group.en);
+      const edge=document.createElementNS(NS,'path');edge.setAttribute('class','donut-edge');edge.setAttribute('d',d);
+      const face=document.createElementNS(NS,'path');face.setAttribute('class','donut-face');face.setAttribute('d',d);
+      g.append(edge,face);
+      const pick=()=>selectCategory(category===group.id?'all':group.id);
+      g.addEventListener('click',pick);
+      g.addEventListener('keydown',event=>{
+        if(event.key==='Enter'||event.key===' '){event.preventDefault();pick();return}
+        const step=event.key==='ArrowRight'||event.key==='ArrowDown'?1:event.key==='ArrowLeft'||event.key==='ArrowUp'?-1:0;
+        if(step){event.preventDefault();const all=svg.querySelectorAll('.donut-g');all[(i+step+n)%n].focus()}
+      });
+      svg.appendChild(g);
+      const label=document.createElement('span'),mr=(R+r)/2;
+      label.className='donut-label'+(category===group.id?' is-on':'');label.setAttribute('aria-hidden','true');
+      label.style.left=((C+mr*Math.cos(mid))/4)+'%';label.style.top=((C+mr*Math.sin(mid))/4)+'%';
+      const real=realPhotoCount(group);label.innerHTML=nameHtml(group)+(real?'<small>'+real+'</small>':'');
+      labels.appendChild(label);
+    });
+    const current=category==='all'?null:available.find(group=>group.id===category);
+    const total=(current?[current]:available).reduce((sum,group)=>sum+realPhotoCount(group),0);
+    const unit=uiLanguage==='km'?'រូប':uiLanguage==='en'?'photos':'រូប · photos';
+    const center=document.createElement('button');center.type='button';center.className='donut-center';
+    center.setAttribute('aria-label',uiLanguage==='en'?'Show all groups':'បង្ហាញក្រុមទាំងអស់ · Show all groups');
+    center.innerHTML='<span class="dc-name">'+(current?(uiLanguage==='en'?current.en:current.kh):(uiLanguage==='en'?'All':'ទាំងអស់'))+'</span>'
+      +'<span class="dc-sub">'+(total?total+' '+unit:comingSoonLabel())+'</span>';
+    center.onclick=()=>{if(category!=='all')selectCategory('all')};
+    host.classList.toggle('dense',n>6);
+    host.innerHTML='';host.append(svg,labels,center);
+    $('donutHint').textContent=uiLanguage==='km'?'ចុចលើក្រុម ដើម្បីមើលរូបភាព':uiLanguage==='en'?'Tap a group to view its photos':'ចុចលើក្រុម ដើម្បីមើលរូបភាព · Tap a group to view photos';
+    if(donutSide!==null&&donutSide!==side&&!reduceMotion){host.classList.remove('flip');void host.offsetWidth;host.classList.add('flip');host.addEventListener('animationend',()=>host.classList.remove('flip'),{once:true})}
+    donutSide=side;
   }
 
   function openSheet(){sheetFocus=document.activeElement;$('groupPicker').setAttribute('aria-expanded','true');$('groupSheet').hidden=false;requestAnimationFrame(()=>{$('groupSheet').classList.add('is-open');const selected=$('sheetOptions').querySelector('[aria-selected="true"]');if(selected)selected.focus()})}

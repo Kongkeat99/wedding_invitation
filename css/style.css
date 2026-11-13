@@ -860,3 +860,13 @@ h2{line-height:1.6;letter-spacing:.01em}
 #prog .tt{padding-top:0;min-width:0}
 #prog .tt b{display:inline-block;padding:1px 12px;border-radius:12px;background:rgba(179,155,54,.16);font-size:1.05rem;letter-spacing:.03em;line-height:1.6}
 #prog .tt span{display:block;margin-top:4px;font-size:1rem;line-height:1.7;letter-spacing:normal}
+
+/* ===== cover polish: names stacked, date teaser, guest addressed on the envelope ===== */
+#cover .names{flex-direction:column;gap:0;white-space:normal;line-height:1.08}
+#cover .cover-amp{font-size:.55em;line-height:1;margin:2px 0 1px;opacity:.9}
+#cover .cover-date{margin:8px 0 0;color:#E8D48B;font:500 .95rem/1.4 'Cormorant Garamond','Battambang',serif;letter-spacing:.28em;opacity:.95}
+#cover .cover-date:before,#cover .cover-date:after{content:"";display:inline-block;width:22px;height:1px;background:rgba(232,212,139,.6);vertical-align:middle;margin:0 10px}
+#cover .env-to{position:absolute;z-index:6;left:12%;right:12%;top:15%;text-align:center;pointer-events:none;color:#6e5b17;transition:opacity .3s}
+#cover .env-to span{display:block;font:500 .78rem/1.2 'Kantumruy Pro','Battambang',sans-serif;letter-spacing:.2em;opacity:.8}
+#cover .env-to b{display:block;margin-top:3px;font:italic 600 clamp(1.15rem,5.4vw,1.55rem)/1.2 'Cormorant Garamond','Battambang',Georgia,serif;color:#5a4a10;overflow-wrap:anywhere}
+#cover.unseal .env-to{opacity:0}

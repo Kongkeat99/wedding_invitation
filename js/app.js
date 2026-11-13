@@ -15,7 +15,9 @@ $("venue").textContent=CONFIG.venue;
 /* hero: date + venue follow the page language (Khmer by default, English when a guest taps EN) */
 function enDate(t){var c=new Date(t.getTime()+7*3600000),H=c.getUTCHours(),M=c.getUTCMinutes();
   return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][c.getUTCDay()]+", "+c.getUTCDate()+" "+["January","February","March","April","May","June","July","August","September","October","November","December"][c.getUTCMonth()]+" "+c.getUTCFullYear()+"\n"+(H%12||12)+":"+("0"+M).slice(-2)+" "+(H<12?"AM":"PM")}
+function coverDateTxt(en){var c=new Date(new Date(WD).getTime()+7*3600000),t=("0"+c.getUTCDate()).slice(-2)+" · "+("0"+(c.getUTCMonth()+1)).slice(-2)+" · "+c.getUTCFullYear();return en?t:kd(t)}
 function syncHero(){var en=document.documentElement.dataset.language==="en";
+  $("coverDate").textContent=coverDateTxt(en);
   $("dateTxt").textContent=en?enDate(new Date(WD)):khDate(new Date(WD));
   $("heroVenue").textContent=(en&&CONFIG.en&&CONFIG.en.venue)||CONFIG.venue||"";
   $("heroVenue").hidden=!$("heroVenue").textContent}
@@ -277,7 +279,7 @@ if(/^\?=/.test(location.search)){var rw=location.search.slice(2).split("#")[0];t
 var gq=qp.get("g");
 if(gq&&CONFIG.guests&&CONFIG.guests[gq.toLowerCase()])to=CONFIG.guests[gq.toLowerCase()];
 else if(gq){try{to=new TextDecoder().decode(Uint8Array.from(atob(gq.replace(/-/g,"+").replace(/_/g,"/")),function(c){return c.charCodeAt(0)}))}catch(e){to=""}}
-if(to){$("guestName").textContent=to;$("guestName").hidden=false;$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
+if(to){$("guestName").textContent=to;$("envName").textContent=to;$("envName").removeAttribute("data-km");$("envName").removeAttribute("data-en");$("heroGuestName").textContent=to;$("heroGuest").hidden=false}
 
 /* Splash language toggle changes only the first-page copy. */
 var splashLanguage=$("splashLanguage");

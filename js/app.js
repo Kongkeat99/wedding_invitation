@@ -742,8 +742,7 @@ $("openBtn").addEventListener("click",function(){
   }
   function needsFrame(now){
     return !document.hidden&&onScreen&&!reduced&&
-      (dragging||Math.abs(inertiaVelocity)>.015||targetPos!==null||
-        (!hovered&&!focused&&now>=resumeAt))
+      (dragging||Math.abs(inertiaVelocity)>.015||targetPos!==null)
   }
   function stopFrame(){
     if(frameId!==null){cancelAnimationFrame(frameId);frameId=null}
@@ -774,13 +773,11 @@ $("openBtn").addEventListener("click",function(){
     else if(targetPos!==null){
       var remaining=shortestDelta(targetPos,pos);
       if(Math.abs(remaining)<.6){pos=targetPos;targetPos=null}
-      else pos=wrap(pos+remaining*(1-Math.exp(-dt/110)),cycleLength)
+      else pos=wrap(pos+remaining*(1-Math.exp(-dt/170)),cycleLength)
     }else if(Math.abs(inertiaVelocity)>.015){
       pos=wrap(pos+inertiaVelocity*dt,cycleLength);
       inertiaVelocity*=Math.exp(-dt/230);
       if(Math.abs(inertiaVelocity)<=.015)inertiaVelocity=0
-    }else if(!hovered&&!focused&&time>=resumeAt){
-      pos=wrap(pos+speed()*dt/1000,cycleLength)
     }
     render();
     if(needsFrame(time))frameId=requestAnimationFrame(frame);
@@ -859,12 +856,16 @@ $("openBtn").addEventListener("click",function(){
   });
   galleryMotionSync=syncFrame;
 
-  /* Guests with "reduce motion" turned on get no gliding, but the photos still change by themselves:
-     one photo every SLIDE_MS while the gallery is on screen (paused on hover / keyboard focus / drag). */
-  var SLIDE_MS=4000;
+  /* Slideshow: each photo stays centered for SLIDE_MS, then slides to the next one (loops forever).
+     Mouse hover does not pause it; dragging, keyboard focus and a guest's own click/swipe do (it resumes ~2 s later).
+     Guests with "reduce motion" get the same timing but the photo changes without the slide. */
+  var SLIDE_MS=3500;
   window.setInterval(function(){
-    if(!reduced||!onScreen||document.hidden||hovered||focused||dragging)return;
-    pos=wrap(Math.round(pos/step)*step+step,cycleLength);render()
+    if(!onScreen||document.hidden||focused||dragging||targetPos!==null||performance.now()<resumeAt)return;
+    var target=wrap(Math.round(pos/step)*step+step,cycleLength);
+    inertiaVelocity=0;
+    if(reduced){pos=target;render();return}
+    targetPos=target;syncFrame()
   },SLIDE_MS);
 
   var observer=null;

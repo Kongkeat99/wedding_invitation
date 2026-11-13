@@ -733,3 +733,6 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 #langBtn:active{transform:scale(.97)}
 body:not(.go) #langBtn{display:none}
 body.video-section-active #langBtn{visibility:hidden;pointer-events:none}
+
+/* soft fade at the left/right edge of the photo gallery instead of a hard cut */
+.grid#grid{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}

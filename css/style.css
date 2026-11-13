@@ -1079,3 +1079,5 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
 .gq-thanks{max-width:440px;margin:14px auto 0;padding-top:14px;border-top:1px solid var(--line);font-size:.9rem;line-height:1.9}
 @media (max-width:520px){.gq-wrap{flex-direction:column}.gq-card{width:100%;max-width:280px}}
 #s-giftqr .sub,#s-giftqr .gq-note,#s-giftqr .gq-thanks,#s-giftqr .gq-or{letter-spacing:0}
+/* one hero button left (Add to Calendar): keep it a normal width, centred */
+.hero-actions .hero-btn:only-child{flex:0 1 auto;min-width:200px}

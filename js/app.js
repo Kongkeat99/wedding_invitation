@@ -17,7 +17,7 @@ function enDate(t){var c=new Date(t.getTime()+7*3600000),H=c.getUTCHours(),M=c.g
   return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][c.getUTCDay()]+", "+c.getUTCDate()+" "+["January","February","March","April","May","June","July","August","September","October","November","December"][c.getUTCMonth()]+" "+c.getUTCFullYear()+"\n"+(H%12||12)+":"+("0"+M).slice(-2)+" "+(H<12?"AM":"PM")}
 function coverDateTxt(en){var c=new Date(new Date(WD).getTime()+7*3600000),t=("0"+c.getUTCDate()).slice(-2)+" · "+("0"+(c.getUTCMonth()+1)).slice(-2)+" · "+c.getUTCFullYear();return en?t:kd(t)}
 function syncHero(){var en=document.documentElement.dataset.language==="en";
-  $("coverDate").textContent=coverDateTxt(en);
+  $("coverDate").textContent=coverDateTxt(en);var wdIso=new Date(WD);if(!isNaN(wdIso))$("coverDate").setAttribute("datetime",wdIso.toISOString());
   $("dateTxt").textContent=en?enDate(new Date(WD)):khDate(new Date(WD));
   $("heroVenue").textContent=(en&&CONFIG.en&&CONFIG.en.venue)||CONFIG.venue||"";
   $("heroVenue").hidden=!$("heroVenue").textContent}
@@ -287,12 +287,13 @@ if(splashLanguage)splashLanguage.addEventListener("click",function(){
   var language=this.dataset.language==="km"?"en":"km";
   this.dataset.language=language;this.textContent=language==="km"?"EN":"ខ្មែរ";
   this.setAttribute("aria-label",language==="km"?"Switch to English":"ប្ដូរទៅភាសាខ្មែរ");
-  this.setAttribute("aria-pressed",String(language==="en"));
+  this.lang=language==="km"?"en":"km";
+  $("openBtn").setAttribute("aria-label",language==="km"?"បើកសំបុត្រ":"Open invitation");
+  $("nav").setAttribute("aria-label",language==="km"?"ផ្នែកក្នុងទំព័រ":"Page sections");
   document.querySelectorAll("#cover [data-km][data-en]").forEach(function(element){element.textContent=element.getAttribute("data-"+language)});
   $("cover").lang=language;
   document.documentElement.dataset.language=language;
-  syncDressLanguage(language);
-  $("coverCta").setAttribute("aria-label",language==="km"?"ចុចលើសំបុត្រ ដើម្បីបើក":"Tap the envelope to open")
+  syncDressLanguage(language)
 });
 
 /* ===== guest features ===== */
@@ -621,13 +622,17 @@ function playChime(){
     oscillator.connect(gain);gain.connect(ac.destination);oscillator.start(start);oscillator.stop(start+.5)
   })
 }
+/* While the cover is up, the page behind it is inert (no Tab stops, hidden from screen readers). */
+var backdrop=document.querySelectorAll("#main > section, #main > nav, .wedding-footer");
+function setBackdrop(off){Array.prototype.forEach.call(backdrop,function(e){e.inert=off})}
+setBackdrop(true);
 $("openBtn").addEventListener("click",function(){
   if($("cover").classList.contains("unseal"))return;
   $("cover").classList.add("unseal");
   ev.style.transform="";
   document.dispatchEvent(new Event("cover:burst"));
   var reduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  setTimeout(function(){$("cover").classList.add("open");document.body.classList.add("go")},reduced?250:2400);
+  setTimeout(function(){var c=$("cover");c.classList.add("open");document.body.classList.add("go");c.setAttribute("aria-hidden","true");c.inert=true;setBackdrop(false);var h=$("heroTitle");if(h)try{h.focus({preventScroll:true})}catch(e){}},reduced?250:2400);
   try{playChime();startMusic()}catch(e){}
 });
 

@@ -3,424 +3,336 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex">
-<meta name="theme-color" content="#14110A">
-<meta name="description" content="អាល់ប៊ុមរូបភាព · Soem Kungkiet &amp; Chham Chanthu">
-<title>អាល់ប៊ុមរូបភាព · Soem Kungkiet &amp; Chham Chanthu</title>
-<style>
-html,body{min-height:100%;margin:0;background:#14110A;color:#F3EBD8}
-#albumLoading{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#14110A;color:#F3EBD8;font:500 14px/1.6 system-ui,sans-serif;transition:opacity .3s ease,visibility .3s ease}
-#albumLoading[hidden]{display:none}
-#albumLoading.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
-.album-loading-spinner{width:26px;height:26px;border:2px solid rgba(201,166,58,.28);border-top-color:#C9A63A;border-radius:50%;animation:albumLoadingSpin .8s linear infinite}
-@keyframes albumLoadingSpin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){#albumLoading{transition:none}.album-loading-spinner{animation:none}}
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Moul&amp;family=Noto+Sans+Khmer:wght@400;500;700&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<link rel="stylesheet" id="albumPageStyles" href="css/coming-soon.css" media="print" onload="this.media='all';this.dataset.loaded='true'">
-<noscript><style>#albumLoading{display:none!important}</style><link rel="stylesheet" href="css/coming-soon.css"></noscript>
-<!-- STYLES -->
-<style>
-:root{--ink:#14110A;--gold:#C9A63A;--ivory:#F3EBD8;--wine:#7A1F2B;--muted:#b9ae98;--line:#c9a63a55;--card:#211c11;--header-height:60px;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;color-scheme:dark}
-*,*:before,*:after{box-sizing:inherit}
-html,body{min-height:100dvh;margin:0;background:var(--ink);color:var(--ivory)}
-body{font-family:'Noto Sans Khmer','Battambang',sans-serif;line-height:1.6;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 20%,#3b2d1018,transparent 58%),radial-gradient(ellipse at 50% 110%,#7a1f2b18,transparent 52%)}
-button,a{font:inherit}
-button{color:inherit}
-/* CENTER-PINCH WIPE UTILITY: shared by primary, tab, chip, sheet, and lightbox controls. */
-.wipe-fill{--wipe-ease:cubic-bezier(.4,0,.2,1);--wipe-duration:450ms;--wipe-fill:var(--gold);--wipe-base:#c9a63a14;--wipe-text-rest:#1a1405;--wipe-text-hover:#E9CF7A;position:relative;isolation:isolate;overflow:hidden;background:var(--wipe-base);color:var(--wipe-text-rest);transition:color var(--wipe-duration) var(--wipe-ease)}
-.wipe-fill:before{content:"";position:absolute;inset:0;z-index:-1;background:var(--wipe-fill);clip-path:inset(0 0 0 0 round 999px);transition:clip-path var(--wipe-duration) var(--wipe-ease)}
-.wipe-fill>*{position:relative;z-index:1}
-.wipe-fill--inverse{--wipe-text-rest:var(--gold);--wipe-text-hover:#1a1405}.wipe-fill--inverse:before{clip-path:inset(0 50% 0 50% round 999px)}
-@media (hover:hover){.wipe-fill:not([aria-pressed="true"]):not([aria-selected="true"]):hover{color:var(--wipe-text-hover)}.wipe-fill:not([aria-pressed="true"]):not([aria-selected="true"]):hover:before{clip-path:inset(0 50% 0 50% round 999px)}.wipe-fill--inverse:not([aria-pressed="true"]):not([aria-selected="true"]):hover{color:var(--wipe-text-hover)}.wipe-fill--inverse:not([aria-pressed="true"]):not([aria-selected="true"]):hover:before{clip-path:inset(0 0 0 0 round 999px)}}
-.wipe-fill:focus-visible{color:var(--wipe-text-hover);outline:2px solid var(--gold);outline-offset:2px}.wipe-fill:focus-visible:before{clip-path:inset(0 50% 0 50% round 999px)}.wipe-fill--inverse:focus-visible{color:var(--wipe-text-hover)}.wipe-fill--inverse:focus-visible:before{clip-path:inset(0 0 0 0 round 999px)}
-.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"]{background:var(--gold);color:var(--wipe-text-rest)}.wipe-fill[aria-pressed="true"]:before,.wipe-fill[aria-selected="true"]:before{clip-path:inset(0 0 0 0 round 999px)}.wipe-fill:active{filter:brightness(.92)}
-@media (prefers-reduced-motion:reduce){.wipe-fill,.wipe-fill:before{transition-duration:1ms}}
-.site-header{position:sticky;top:0;z-index:30;min-height:var(--header-height);padding:calc(8px + var(--safe-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:#14110Aee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.back-link{justify-self:start;display:inline-flex;align-items:center;min-height:44px;padding:7px 12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.78rem;white-space:nowrap}
-.back-link:hover,.back-link:focus-visible{border-color:var(--gold);color:var(--ivory)}
-.header-title{grid-column:2;margin:0;color:var(--gold);font:400 1rem/1.3 'Moul','Noto Sans Khmer',sans-serif;text-align:center;white-space:nowrap}
-.language-toggle{justify-self:end;display:flex;gap:2px;padding:2px;border:1px solid var(--line);border-radius:999px;background:#1e180d}.language-toggle button{min-width:44px;min-height:44px;padding:6px 8px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:.72rem;white-space:nowrap;cursor:pointer}.language-toggle button[aria-pressed="true"]{background:var(--gold);color:var(--ink);font-weight:700}.language-toggle button:focus-visible,.sheet-close:focus-visible,.group-picker:focus-visible,.sheet-option:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.page{width:min(1100px,100%);margin:0 auto;padding:30px 16px calc(58px + var(--safe-bottom))}
-.hero{text-align:center;padding:18px 0 28px}
-.hero-kicker{margin:0;color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
-.hero h1{margin:8px 0 0;font:400 clamp(1.45rem,5vw,2.2rem)/1.45 'Moul','Noto Sans Khmer',sans-serif;color:var(--ivory)}
-.names{margin:7px 0 8px;font:italic 600 clamp(1.5rem,5vw,2.5rem)/1.05 'Cormorant Garamond',Georgia,serif;color:var(--gold)}
-.hero-count{margin:0;color:var(--muted);font-size:.82rem}
-.rule{width:min(180px,45%);height:1px;margin:18px auto 0;background:var(--gold)}
-.control-deck{position:sticky;top:calc(var(--header-height,60px) + var(--safe-top));z-index:20;margin:0 -16px;padding:10px 16px 12px;background:#14110Aee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.segmented{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(440px,100%);min-height:52px;margin:0 auto 12px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#1e180d;isolation:isolate}
-.seg-indicator{position:absolute;z-index:-1;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--gold);transition:transform .25s ease}
-.segmented[data-side="bride"] .seg-indicator{transform:translateX(100%)}
-.segmented button{min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--gold);font-size:.78rem;cursor:pointer;transition:color .25s ease}
-.segmented button[aria-pressed="true"]{color:var(--ink);font-weight:700}
-.categories-wrap{max-width:900px;margin:0 auto;overflow:hidden}
-.categories{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;max-height:116px;overflow:hidden;padding:0}
-.category-chip{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"kh count" "en count";align-items:center;column-gap:12px;flex:0 1 auto;min-width:145px;min-height:48px;padding:10px 16px;border:1px solid #c9a63a59;border-radius:14px;background:transparent;color:var(--ivory);cursor:pointer;text-align:left;transition:background .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease}
-.category-km{grid-area:kh;font:500 15px/1.35 'Noto Sans Khmer','Battambang',sans-serif;white-space:nowrap}.category-en{grid-area:en;color:var(--ivory);font:500 11px/1.2 'Cormorant Garamond','Noto Sans Khmer',serif;opacity:.6;white-space:nowrap}.category-chip small{grid-area:count;align-self:center;padding:2px 7px;border-radius:999px;background:#c9a63a2b;color:var(--gold);font:600 .85rem/1.3 'Cormorant Garamond',Georgia,serif}
-.category-chip:hover,.category-chip:focus-visible{border-color:#c9a63ab3;transform:translateY(-1px)}
-.category-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink);box-shadow:0 0 20px #c9a63a35}.category-chip[aria-pressed="true"] .category-en{color:var(--ink);opacity:.7}.category-chip[aria-pressed="true"] small{background:#14110a33;color:var(--ink)}
-.group-picker{display:none;width:100%;min-height:64px;padding:8px 14px;border:1px solid #c9a63a59;border-radius:14px;background:var(--card);color:var(--ivory);text-align:left;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"label chevron" "value chevron";align-items:center;gap:2px 10px;cursor:pointer}.group-picker-label{grid-area:label;min-width:0;overflow:hidden;color:var(--muted);font-size:.68rem;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}.group-picker strong{grid-area:value;min-width:0;overflow-wrap:anywhere;color:var(--gold);font-size:.8rem;font-weight:500;line-height:1.3}.group-picker-chevron{grid-area:chevron;color:var(--gold);font-size:1.2rem}
-.sheet-backdrop{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;background:#0009;opacity:0;transition:opacity .2s ease}.sheet-backdrop.is-open{opacity:1}.sheet-backdrop[hidden]{display:none}.group-sheet{width:100%;max-height:min(80dvh,640px);padding:10px 16px calc(16px + var(--safe-bottom));border-top:1px solid var(--line);border-radius:20px 20px 0 0;background:#211c11;transform:translateY(100%);transition:transform .25s ease}.sheet-backdrop.is-open .group-sheet{transform:none}.sheet-handle{width:42px;height:4px;margin:0 auto 12px;border-radius:999px;background:var(--gold)}.sheet-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:10px}.sheet-heading h2{margin:0;color:var(--ivory);font:500 1rem/1.4 'Noto Sans Khmer','Battambang',sans-serif}.sheet-close{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--gold);cursor:pointer}.sheet-options{overflow:auto;padding-top:6px}.sheet-option{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;width:100%;min-height:48px;padding:8px 4px;border:0;border-bottom:1px solid #c9a63a26;background:transparent;color:var(--ivory);text-align:left;cursor:pointer}.sheet-option .sheet-km{font-size:.9rem}.sheet-option .sheet-en{color:var(--muted);font:500 .9rem 'Cormorant Garamond','Noto Sans Khmer',serif}.sheet-option small{color:var(--gold);font:600 .95rem 'Cormorant Garamond',Georgia,serif}.sheet-option .check{width:22px;color:var(--gold);font-size:1.1rem;opacity:0}.sheet-option[aria-selected="true"] .check{opacity:1}
-.gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px;color:var(--muted);font-size:.78rem}
-.gallery-meta strong{color:var(--ivory);font-weight:500}
-.photo-grid{columns:2 160px;column-gap:10px}
-.photo-card{display:block;position:relative;width:100%;aspect-ratio:3/4;margin:0 0 10px;padding:0;overflow:hidden;break-inside:avoid;border:2px solid transparent;border-radius:14px;background:linear-gradient(110deg,#211c11 8%,#332a18 28%,rgba(201,166,58,.2) 44%,#332a18 56%,#211c11 100%);cursor:pointer;text-align:left;opacity:1;transform:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
-.photo-card.is-ready{opacity:1;transform:none}
-/* PHOTO CARD WIPE CSS: paste these rules inside the page's STYLES section. */
-.photo-card:before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(90,20,32,.94),rgba(200,32,58,.88));transform:scaleX(0);transform-origin:right;transition:transform 550ms cubic-bezier(.77,0,.18,1)}
-.photo-caption{position:absolute;z-index:2;right:12px;bottom:12px;left:12px;display:flex;align-items:center;gap:10px;color:var(--ivory);opacity:0;transform:translateY(12px);transition:opacity 250ms ease 180ms,transform 250ms ease 180ms;pointer-events:none}
-.photo-caption .heart{display:grid;flex:0 0 36px;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--ivory);color:var(--wine);font-size:1.15rem;line-height:1}
-.photo-caption .caption-kh{display:block;font:700 15px/1.35 'Noto Sans Khmer','Battambang',sans-serif}.photo-caption .caption-en{display:block;font:500 12px/1.25 'Cormorant Garamond','Noto Sans Khmer',serif;opacity:.8}
-.photo-card:hover,.photo-card:focus-visible,.photo-card.on{border-color:var(--gold);box-shadow:0 0 26px #c9a63a4d;transform:translateY(-4px)}
-.photo-card:hover:before,.photo-card:focus-visible:before,.photo-card.on:before{transform:scaleX(1);transform-origin:left}
-.photo-card:hover .photo-caption,.photo-card:focus-visible .photo-caption,.photo-card.on .photo-caption{opacity:1;transform:translateY(0)}
-.photo-card img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;background:linear-gradient(110deg,#211c11 8%,#332a18 28%,rgba(201,166,58,.2) 44%,#332a18 56%,#211c11 100%);filter:blur(14px) saturate(.9);opacity:.65;transition:opacity .55s ease,transform 800ms ease}
-.photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{filter:blur(0) saturate(1.08);transform:scale(1.07)}
-.photo-card img.is-loaded{filter:blur(0);opacity:1;animation:none}
-.photo-card.is-error{cursor:pointer;border-color:var(--gold)}
-.photo-card.is-error img,.photo-card.is-error .sample-overlay{display:none}
-.photo-error{position:absolute;inset:0;z-index:3;display:grid;place-content:center;gap:8px;padding:16px;background:rgba(20,17,10,.88);color:var(--ivory);font-size:.76rem;line-height:1.55;text-align:center}
-.photo-error[hidden]{display:none}
-.photo-error strong{color:#E8D48B;font-size:.75rem;font-weight:600}
-.photo-card.is-sample{cursor:default}
-.photo-card.is-sample:before,.photo-card.is-sample .photo-caption{display:none}
-.photo-card.is-sample img,.photo-card.is-sample img.is-loaded,.photo-card.is-sample:hover img,.photo-card.is-sample:focus-visible img{filter:blur(2px) brightness(.8);transform:none}
-.sample-overlay{position:absolute;z-index:2;inset:0;display:grid;place-items:center;background:rgba(26,22,8,.55);pointer-events:none}
-.coming-soon-badge{position:relative;display:flex;flex-direction:column;align-items:center;max-width:90%;overflow:hidden;padding:7px 22px 7px 12px;border:1px solid #C9A93F;border-radius:999px;background:rgba(201,169,63,.16);color:#E8D48B;text-align:center;box-shadow:0 0 16px rgba(201,169,63,.22);animation:sampleBadgeFade .3s ease both}
-.coming-soon-badge:after{content:"";position:absolute;inset:-20% auto -20% 0;width:38%;background:linear-gradient(90deg,transparent,rgba(232,212,139,.24),transparent);transform:translateX(-140%);animation:sampleBadgeShimmer 4s ease-in-out infinite;pointer-events:none}
-.coming-soon-kh{font:500 13px/1.35 'Noto Sans Khmer','Battambang',sans-serif;white-space:nowrap}
-.coming-soon-en{font:600 10px/1.2 'Cormorant Garamond',Georgia,serif;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
-.coming-soon-icon{position:absolute;top:50%;right:8px;z-index:1;color:#E8D48B;font-size:10px;line-height:1;transform:translateY(-50%)}
-@keyframes sampleBadgeFade{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-@keyframes sampleBadgeShimmer{0%,12%{transform:translateX(-140%)}48%,100%{transform:translateX(360%)}}
-@keyframes shimmer{to{background-position:-200% 0}}
-.empty-state{margin:44px auto;text-align:center;color:var(--muted);font-size:.85rem}
-.site-footer{padding:0 16px 28px;text-align:center;color:var(--muted);font-size:.75rem}
-.lightbox{position:fixed;inset:0;z-index:60;display:grid;grid-template-rows:auto 1fr auto;padding:calc(12px + var(--safe-top)) max(16px,env(safe-area-inset-right)) calc(14px + var(--safe-bottom)) max(16px,env(safe-area-inset-left));background:#000000eb;backdrop-filter:blur(16px);opacity:0;transition:opacity .2s ease}
-.lightbox.is-open{opacity:1}
-.lightbox[hidden]{display:none}
-.lightbox-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.lightbox-spacer{width:44px;height:44px}
-.lightbox-action{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:#211c11;color:var(--ivory);text-decoration:none;cursor:pointer}
-.lightbox-action:hover,.lightbox-action:focus-visible{border-color:var(--gold);color:var(--gold)}
-.lightbox-counter{color:var(--gold);font:600 1rem 'Cormorant Garamond',Georgia,serif}
-.lightbox-stage{position:relative;display:grid;place-items:center;min-height:0;overflow:hidden}
-.lightbox-image{max-width:calc(100vw - 32px);max-height:calc(100dvh - 150px);width:auto;height:auto;object-fit:contain;touch-action:none;user-select:none;border-radius:10px;box-shadow:0 16px 60px #0008;background:linear-gradient(110deg,#211c11 8%,#332a18 18%,#211c11 33%);background-size:200% 100%;filter:blur(16px);opacity:.65;transition:transform .25s ease,filter .25s ease,opacity .25s ease}
-.lightbox-image.is-loaded{filter:blur(0);opacity:1;background:none}
-.lightbox-image.slide-left{animation:slideLeft .25s ease-out}.lightbox-image.slide-right{animation:slideRight .25s ease-out}
-@keyframes slideLeft{from{opacity:.35;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes slideRight{from{opacity:.35;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes flipIn{from{opacity:.5;transform:translate(var(--flip-x),var(--flip-y)) scale(var(--flip-sx),var(--flip-sy))}to{opacity:1;transform:translate(0,0) scale(1,1)}}
-@keyframes rubberLeft{50%{transform:translateX(-16px)}}
-@keyframes rubberRight{50%{transform:translateX(16px)}}
-.lightbox-image.flip-in{animation:flipIn .42s cubic-bezier(.2,.8,.2,1)}
-.lightbox-stage.rubber-left{animation:rubberLeft .22s ease-out}.lightbox-stage.rubber-right{animation:rubberRight .22s ease-out}
-.lightbox-nav{position:absolute;top:50%;display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:#211c11cc;color:var(--ivory);font-size:1.8rem;cursor:pointer;transform:translateY(-50%)}
-.lightbox-nav:hover,.lightbox-nav:focus-visible{border-color:var(--gold);color:var(--gold)}
-.lightbox-prev{left:0}.lightbox-next{right:0}
-.lightbox-bottom{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.lightbox-bottom .lightbox-action{min-width:120px;color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:700}
-/* Keep the utility layer visible above each control's existing background rules. */
-.wipe-fill{background:var(--wipe-base)!important}.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"]{background:var(--gold)!important}
-/* Fix: component colors (.back-link gold, .group-picker ivory, lightbox/sheet buttons) were beating the wipe text color,
-   giving gold-on-gold or low-contrast text. Filled buttons always use the dark rest color; selected items use dark ink. */
-.wipe-fill:not(.wipe-fill--inverse),.wipe-fill:not(.wipe-fill--inverse) strong,.wipe-fill:not(.wipe-fill--inverse) span{color:var(--wipe-text-rest)}
-.wipe-fill:not(.wipe-fill--inverse):focus-visible,.wipe-fill:not(.wipe-fill--inverse):focus-visible strong,.wipe-fill:not(.wipe-fill--inverse):focus-visible span{color:var(--wipe-text-hover)}
-@media (hover:hover){.wipe-fill:not(.wipe-fill--inverse):hover,.wipe-fill:not(.wipe-fill--inverse):hover strong,.wipe-fill:not(.wipe-fill--inverse):hover span{color:var(--wipe-text-hover)}}
-.wipe-fill[aria-pressed="true"],.wipe-fill[aria-selected="true"],.wipe-fill[aria-pressed="true"] strong,.wipe-fill[aria-selected="true"] strong,.wipe-fill[aria-selected="true"] span{color:#14110a!important}
-@media (hover:none) and (pointer:coarse){.lightbox-nav{display:none}}
-@media (min-width:600px){.photo-grid{columns:3 190px;column-gap:14px}.photo-card{margin-bottom:14px}.page{padding-left:24px;padding-right:24px}.control-deck{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}}
-@media (min-width:1000px){.photo-grid{columns:4 210px}.control-deck{border-radius:0 0 14px 14px}}
-@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.photo-card{opacity:1;transform:none}.photo-card img{filter:none;animation:none}.photo-card:before{transform:none;opacity:0;transition:opacity 200ms ease}.photo-card:hover:before,.photo-card:focus-visible:before,.photo-card.on:before{opacity:1}.photo-card:hover,.photo-card:focus-visible,.photo-card.on{transform:none}.photo-card:hover img,.photo-card:focus-visible img,.photo-card.on img{transform:none}.photo-card.is-sample img,.photo-card.is-sample img.is-loaded,.photo-card.is-sample:hover img,.photo-card.is-sample:focus-visible img{filter:blur(2px) brightness(.8)}.coming-soon-badge,.coming-soon-badge:after{animation:none}.lightbox-image{filter:none;opacity:1}.lightbox{opacity:1}}
-@media (max-width:639px){:root{--header-height:88px}.site-header{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:4px 8px}.back-link{grid-row:1;grid-column:1;justify-self:start;padding-left:9px;padding-right:9px;font-size:.7rem}.header-title{grid-row:2;grid-column:1/-1;justify-self:center;font-size:.85rem}.language-toggle{grid-row:1;grid-column:2}.language-toggle button{padding-left:6px;padding-right:6px;font-size:.7rem}.categories{display:none}.group-picker{display:grid}}
-</style>
-<style id="albumModern">
-/* ===== Modern restyle: matches the invitation's Guest Album cards (gold hairline frames, glass pills, soft photo overlays) ===== */
-:root{--gold2:#E9CF7A;--cream:#f6e7a8;--r-card:22px;--glass:rgba(20,15,4,.42)}
-body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 55%),radial-gradient(ellipse at 50% 110%,#7a1f2b22,transparent 52%)}
-
-/* header */
-.site-header{background:rgba(20,17,10,.72);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);border-bottom:1px solid rgba(233,207,122,.22)}
-.back-link,.language-toggle{border-color:rgba(233,207,122,.35)}
-.language-toggle{background:var(--glass)}
-.header-title{color:var(--gold2);text-shadow:0 2px 12px rgba(0,0,0,.5)}
-
-/* hero */
-.hero{padding:26px 0 30px}
-.hero-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid rgba(233,207,122,.4);border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--gold2);font-size:.68rem;letter-spacing:.16em}
-.hero-kicker:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold2)}
-.hero h1{margin-top:14px;color:var(--cream);text-shadow:0 2px 14px rgba(0,0,0,.5)}
-.names{color:var(--gold2)}
-.hero-count{display:inline-block;margin-top:2px;padding:3px 14px;border-radius:999px;background:rgba(255,255,255,.08);color:#e9dfc6}
-.hero-count:empty{display:none}
-.rule{display:flex;align-items:center;justify-content:space-between;width:150px;height:10px;margin-top:20px;background:radial-gradient(circle,var(--gold2) 0 3px,transparent 4px) center/10px 10px no-repeat}
-.rule:before,.rule:after{content:"";width:58px;height:1px;background:linear-gradient(90deg,transparent,var(--gold2))}
-.rule:after{transform:scaleX(-1)}
-
-/* sticky filter deck: glass panel */
-.control-deck{padding:12px 16px 14px;background:rgba(20,17,10,.78);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);border-bottom:1px solid rgba(233,207,122,.22);border-radius:0 0 24px 24px;box-shadow:0 18px 30px -22px rgba(0,0,0,.8)}
-.segmented{border-color:rgba(233,207,122,.35);background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-.seg-indicator{background:linear-gradient(135deg,var(--gold2),var(--gold));box-shadow:0 8px 18px -8px rgba(201,166,58,.9)}
-.category-chip{border-radius:18px;border-color:rgba(233,207,122,.35)}
-.category-chip:hover,.category-chip:focus-visible{border-color:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 22px -14px rgba(201,166,58,.8)}
-.category-chip[aria-pressed="true"]{box-shadow:0 10px 24px -10px rgba(201,166,58,.8)}
-.group-picker{border-radius:18px;border-color:rgba(233,207,122,.35)}
-
-/* gallery meta */
-.gallery-meta{margin:26px 0 14px;padding:0 2px}
-.gallery-meta strong{color:var(--cream);font:400 .95rem/1.5 'Moul','Noto Sans Khmer',sans-serif}
-.gallery-meta span{padding:3px 12px;border-radius:999px;background:rgba(255,255,255,.09);color:#e9dfc6;font-size:.72rem}
-
-/* photo cards: same language as the invitation's album cards */
-.photo-grid{column-gap:12px}
-.photo-card{margin-bottom:12px;border:1px solid rgba(233,207,122,.3);border-radius:var(--r-card);box-shadow:0 18px 32px -20px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.1)}
-.photo-card:after{content:"";position:absolute;z-index:2;inset:7px;border:1px solid transparent;border-radius:16px;pointer-events:none;transition:border-color .35s ease,inset .35s ease}
-.photo-card:before{background:linear-gradient(to top,rgba(20,15,4,.92) 0%,rgba(20,15,4,.35) 45%,rgba(20,15,4,0) 75%)}
-.photo-card:hover,.photo-card:focus-visible,.photo-card.on{border-color:var(--gold2);box-shadow:0 26px 40px -20px rgba(201,166,58,.55),inset 0 1px 0 rgba(255,255,255,.18)}
-.photo-card:hover:after,.photo-card:focus-visible:after,.photo-card.on:after{inset:10px;border-color:rgba(246,231,168,.7)}
-.photo-card:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
-.photo-card.is-sample:after,.photo-card.is-error:after{display:none}
-.photo-caption{right:16px;bottom:16px;left:16px}
-.photo-caption .heart{flex-basis:34px;width:34px;height:34px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;font-size:1rem;box-shadow:0 8px 16px -8px rgba(201,166,58,.9)}
-.photo-caption .caption-kh{color:var(--cream);font-size:14px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
-.photo-caption .caption-en{color:#fff}
-.coming-soon-badge{background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-
-/* empty + footer */
-.empty-state{padding:26px 18px;max-width:420px;border:1px solid rgba(233,207,122,.3);border-radius:var(--r-card);background:var(--glass)}
-.site-footer{padding-top:8px;color:var(--gold2);letter-spacing:.04em}
-
-/* lightbox + sheet */
-.lightbox{background:rgba(10,8,3,.92)}
-.lightbox-image{border-radius:var(--r-card);box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 0 1px rgba(233,207,122,.35)}
-.lightbox-action,.lightbox-nav{border-color:rgba(233,207,122,.4)}
-.lightbox-counter{color:var(--gold2)}
-.group-sheet{border-radius:28px 28px 0 0;border-top:1px solid rgba(233,207,122,.35)}
-
-@media (min-width:600px){.photo-grid{column-gap:16px}.photo-card{margin-bottom:16px}}
-@media (prefers-reduced-motion:reduce){.photo-card:after{transition:none}}
-</style>
+<meta name="description" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu · Wedding Invitation">
+<meta name="theme-color" content="#1A1608">
+<meta property="og:type" content="website">
+<meta property="og:title" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu">
+<meta property="og:description" content="សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ">
+<meta property="og:image" content="https://wedding-ten-self.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💍%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="prefetch" href="album.html" as="document">
+<title>សំបុត្រអញ្ជើញអាពាហ៍ពិពាហ៍ | Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Moul&family=Battambang:wght@400;700&family=Kantumruy+Pro:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/coming-soon.css">
+<noscript><style>#pre,#cover{display:none!important}</style></noscript>
 </head>
 <body>
-<div id="albumLoading" role="status" aria-live="polite">
-  <span class="album-loading-spinner" aria-hidden="true"></span>
-  <span lang="km">កំពុងផ្ទុកអាល់ប៊ុម...</span>
-  <span lang="en">Loading album...</span>
-</div>
-<header class="site-header">
-  <a class="back-link wipe-fill" id="back" href="index.html">← សំបុត្រអញ្ជើញ</a>
-  <p class="header-title">អាល់ប៊ុមរូបភាព</p>
-  <div class="language-toggle" id="languageToggle" role="group" aria-label="Language / ភាសា">
-    <button class="wipe-fill wipe-fill--inverse" type="button" data-language="both" aria-pressed="true">ខ្មែរ · EN</button>
-    <button class="wipe-fill wipe-fill--inverse" type="button" data-language="km" aria-pressed="false">ខ្មែរ</button>
-    <button class="wipe-fill wipe-fill--inverse" type="button" data-language="en" aria-pressed="false">EN</button>
-  </div>
-</header>
+<div id="pre" role="status"><span class="sr-only"><span lang="km">កំពុងផ្ទុក</span> · <span lang="en">Loading</span></span><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="45" style="stroke-width:.6;animation-delay:.3s"/><text id="pm" x="60" y="68">S &amp; C</text></svg></div>
+<noscript><p class="noscript-msg"><span lang="km">សិរីមង្គលអាពាហ៍ពិពាហ៍</span><br>Soem Kungkiet &amp; Chham Chanthu · 22 · 11 · 2026<br><span lang="en">Please enable JavaScript to view the full invitation.</span></p></noscript>
+<canvas id="fx" aria-hidden="true"></canvas>
 
-<main class="page" id="albumMain" aria-busy="true">
-  <section class="hero" aria-labelledby="page-title">
-    <p class="hero-kicker">Guest photo album</p>
-    <h1 id="page-title">អាល់ប៊ុមរូបភាព</h1>
-    <p class="names">Soem Kungkiet &amp; Chham Chanthu</p>
-    <p class="hero-count" id="heroCount" aria-live="polite"></p>
-    <div class="rule" aria-hidden="true"></div>
-  </section>
-
-  <section class="album-gallery-section">
-    <div class="coming-soon-content">
-      <section class="control-deck" aria-label="Album filters">
-        <div class="segmented" id="sides" data-side="groom" role="group" aria-label="Choose album side">
-          <span class="seg-indicator" aria-hidden="true"></span>
-          <button class="wipe-fill wipe-fill--inverse" id="tGroom" type="button" data-side="groom" aria-pressed="true">ខាងកូនកំលោះ · Groom</button>
-          <button class="wipe-fill wipe-fill--inverse" id="tBride" type="button" data-side="bride" aria-pressed="false">ខាងកូនក្រមុំ · Bride</button>
-        </div>
-        <div class="categories-wrap">
-          <nav class="categories" id="categories" aria-label="Choose a photo category"></nav>
-          <button class="group-picker wipe-fill" id="groupPicker" type="button" aria-haspopup="dialog" aria-expanded="false">
-            <span class="group-picker-label">ជ្រើសរើសក្រុម · Choose group</span><strong id="pickerValue"></strong><span class="group-picker-chevron" aria-hidden="true">⌄</span>
-          </button>
-        </div>
-      </section>
-
-      <div class="gallery-meta"><strong id="galleryTitle">Groom · All</strong><span id="galleryCount"></span></div>
-      <section class="photo-grid" id="photoGrid" aria-live="polite"></section>
-      <p class="empty-state" id="empty" hidden>រូបភាពនឹងត្រូវបានបន្ថែមក្រោយពិធី<br><span>Photos will be added after the wedding.</span></p>
+<!-- First-page luxury redesign: controls, ornaments and envelope retain the existing openBtn flow. -->
+<div id="cover" role="dialog" aria-modal="true" aria-labelledby="coverTitle" aria-describedby="coverInvite coverDate">
+  <svg class="cover-pattern" viewBox="0 0 120 120" aria-hidden="true">
+    <defs><pattern id="lotusPattern" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M60 18C47 35 48 48 60 59C72 48 73 35 60 18ZM60 58C43 48 33 37 34 25C47 32 56 44 60 58ZM60 58C77 48 87 37 86 25C73 32 64 44 60 58ZM23 77C39 72 51 65 60 58C69 65 81 72 97 77M29 83Q60 96 91 83" fill="none" stroke="#E8D48B" stroke-width="1"/>
+    </pattern></defs><rect width="100%" height="100%" fill="url(#lotusPattern)"/>
+  </svg>
+  <button class="splash-language" id="splashLanguage" type="button" lang="en" data-language="km" aria-label="Switch to English">EN</button>
+  <div class="cover-content">
+    <div class="heart cover-heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg></div>
+    <div class="cover-divider" aria-hidden="true"><i></i></div>
+    <h2 id="coverTitle" data-km="សិរីមង្គលអាពាហ៍ពិពាហ៍" data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
+    <div class="cover-divider cover-divider--title" aria-hidden="true"><i></i></div>
+    <p class="names"><span id="cn1" lang="en"></span><span class="cover-amp">&amp;</span><span id="cn2" lang="en"></span></p>
+    <p class="cover-date"><time id="coverDate"></time></p>
+    <p class="cover-invite" id="coverInvite"><span data-km="សូមគោរពអញ្ជើញ" data-en="You are cordially invited">សូមគោរពអញ្ជើញ</span><span class="moul" id="guestName" hidden></span></p>
+    <div class="env-stage">
+      <div class="env">
+        <div class="letter" aria-hidden="true"><span class="letter-rule"></span><span class="letter-monogram">S <i>&amp;</i> C</span><span class="letter-rule"></span></div>
+        <div class="flap" aria-hidden="true"></div><div class="pocket" aria-hidden="true"></div>
+        <div class="env-to" id="envTo"><span data-km="ជូន" data-en="To">ជូន</span><b id="envName" data-km="ភ្ញៀវកិត្តិយស" data-en="Honoured Guest">ភ្ញៀវកិត្តិយស</b></div>
+        <span class="light-burst" aria-hidden="true"></span>
+        <button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg><span class="seal-crack" aria-hidden="true"></span></button>
+      </div>
     </div>
-  </section>
+    <button class="cover-cta" id="coverCta" type="button" tabindex="-1" aria-hidden="true">
+      <svg class="tap-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V5a2 2 0 0 1 4 0v5-2a2 2 0 0 1 4 0v3-1a2 2 0 0 1 4 0v5c0 4-2.5 7-7 7h-1c-2.2 0-3.5-1-4.8-2.8L4 15a2 2 0 0 1 3-2.5l2 2"/></svg>
+      <span data-km="ចុចលើសំបុត្រ ដើម្បីបើក" data-en="Tap the envelope to open">ចុចលើសំបុត្រ ដើម្បីបើក</span><span class="cta-arrow" aria-hidden="true">⌄</span>
+    </button>
+    <span class="cover-cta-en" aria-hidden="true">TAP TO OPEN</span>
+  </div>
+</div>
+
+<div id="mtl"></div>
+<button id="mus" type="button" aria-label="Play music"><span class="eqb"><i></i><i></i><i></i><i></i></span></button>
+
+<main id="main">
+<section id="hero" aria-labelledby="heroTitle">
+  <div class="aur"><i></i><i></i><i></i></div>
+  <img class="hero-photo" src="assets/hero.jpg" alt="Soem Kungkiet and Chham Chanthu" fetchpriority="high" decoding="async">
+  <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"/></svg></div>
+  <h1 id="heroTitle" tabindex="-1" data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
+  <div class="orn"></div>
+  <div id="heroGuest" hidden style="margin:4px 0 18px"><p class="sub" style="margin:0 0 4px;opacity:.85">សូមគោរពអញ្ជើញ<br><span style="font-size:.85em">You are cordially invited</span></p><p class="moul" id="heroGuestName" style="font-size:1.2rem;margin:0"></p></div>
+  <p class="role" data-en="Groom">កូនកំលោះ</p>
+  <p class="nm" id="n1" lang="en"></p>
+  <div class="amp">&amp;</div>
+  <p class="role" data-en="Bride">កូនក្រមុំ</p>
+  <p class="nm" id="n2" lang="en"></p>
+  <div class="hero-when">
+    <p class="date"><time id="dateTxt"></time></p>
+    <p class="hero-venue" id="heroVenue"></p>
+  </div>
+  <div class="hero-actions">
+    <button class="btn hero-btn" id="calBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v3M17 2v3M3.5 9h17M5 4h14a1.5 1.5 0 0 1 1.5 1.5v13A1.5 1.5 0 0 1 19 20H5a1.5 1.5 0 0 1-1.5-1.5v-13A1.5 1.5 0 0 1 5 4zM12 12v5M9.5 14.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Add to Calendar">បន្ថែមទៅប្រតិទិន</span></button>
+    <a class="btn alt hero-btn" id="heroMap" href="#s-map" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.400-6.500 11-6.500 11zM12 12.500a2.500 2.500 0 1 0 0-5 2.500 2.500 0 0 0 0 5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span data-en="Open Map">មើលទីតាំង</span></a>
+  </div>
+  <p class="cdl" id="cdLbl" data-en="Countdown to our wedding day">រាប់ថយក្រោយដល់ថ្ងៃមង្គលការ</p>
+  <div id="cd" role="timer" aria-labelledby="cdLbl" style="margin-top:8px"></div>
+  <p class="sub" id="cdMsg" style="margin-top:12px"></p>
+  <svg class="lotus" viewBox="0 0 160 92" aria-hidden="true">
+    <path pathLength="1" style="--d:0s" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+    <path pathLength="1" style="--d:.3s" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+    <path pathLength="1" style="--d:.3s" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+    <path pathLength="1" style="--d:.6s" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+    <path pathLength="1" style="--d:.6s" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+    <path pathLength="1" style="--d:.9s" d="M34 82Q80 94 126 82"/>
+  </svg>
+</section>
+
+<nav id="nav" aria-label="ផ្នែកក្នុងទំព័រ">
+  <a href="#s-profile" data-en="Couple">គូស្វាមីភរិយា</a>
+  <a href="#s-prog" data-en="Program">កម្មវិធី</a>
+  <a href="#s-photo" data-en="Photos">រូបភាព</a>
+  <a href="#s-map" data-en="Location">ទីតាំង</a>
+</nav>
+<div id="petals" aria-hidden="true"></div>
+<div id="bar" aria-hidden="true"></div>
+<div id="setup" hidden>
+  <button id="sX" type="button" aria-label="close">✕</button>
+  <b>⏱ Countdown setup</b> <small>(owner only)</small>
+  <label for="sd">Wedding date &amp; time — Cambodia time (UTC+7)</label>
+  <input type="datetime-local" id="sd">
+  <div class="row" style="margin-top:0"><button class="btn sm" id="sSave" type="button">Save</button><button class="btn alt sm" id="sReset" type="button">Reset</button><button class="btn alt sm" id="sCopy" type="button">Copy CONFIG line</button><button class="btn sm" id="sGuests" type="button">👥 Guest links</button><button class="btn sm" id="sPhotos" type="button">📸 Photo links</button></div>
+  <p class="hint" id="sInfo" style="text-align:left"></p>
+</div>
+<div id="gp" hidden><div class="in">
+  <button id="gX" type="button" aria-label="close">✕</button>
+  <b>👥 Guest links</b> <small>(owner only — guests never see this)</small>
+  <label for="gnames">Guest names — one per line</label>
+  <textarea id="gnames" rows="5" placeholder="Sok Dara&#10;Chan Sreyneang&#10;mai = ម៉ៃ ម៉ុំ និង កញ្ញា ឆេង សុខឃីម"></textarea>
+  <p class="hint" style="text-align:left">Very short link: write <b>code = Full name</b> (example: <b>mai = ម៉ៃ ម៉ុំ</b>) to get <b>?g=mai</b>. Then paste the snippet shown below into <b>guests</b> in js/config.js once.</p>
+  <label for="gbase">Invitation link (use your short domain if you have one)</label>
+  <input id="gbase">
+  <label for="gshort" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="gshort" checked style="width:auto;margin:0"> Short links (recommended — the name is packed into a few characters)</label>
+  <label for="glt">Clickable text (used by "Copy clickable")</label>
+  <input id="glt" value="សូមចុចទីនេះដើម្បីបើកសំបុត្រ">
+  <p class="hint" style="text-align:left">"Copy clickable" copies the message with the link hidden behind that text. Paste it in <b>Telegram Desktop</b> and it stays clickable. On a phone, paste, then select the text → <b>Link</b>, or just use the short link.</p>
+  <label for="gmsg">Message — you can use {name} {couple} {link}</label>
+  <textarea id="gmsg" rows="3"></textarea>
+  <div class="row" style="justify-content:flex-start;margin-top:12px">
+    <button class="btn sm" id="gGen" type="button">Make links</button>
+    <button class="btn alt sm" id="gCsv" type="button">Copy CSV</button>
+    <button class="btn alt sm" id="gQr" type="button">QR for print</button>
+  </div>
+  <div id="gQrBox" style="text-align:center;margin:14px 0"></div>
+  <div id="gSnipBox" hidden>
+    <label for="gSnip">Paste inside <b>guests: { ... }</b> in js/config.js, then redeploy</label>
+    <textarea id="gSnip" rows="4" readonly></textarea>
+    <button class="btn alt sm" id="gSnipCopy" type="button">Copy snippet</button>
+  </div>
+  <div id="gList"></div>
+</div></div>
+
+<div id="pp" hidden><div class="in">
+  <button id="pX" type="button" aria-label="close">✕</button>
+  <b>📸 Photo links</b> <small>(owner only — name + photo preview card for each guest)</small>
+  <label for="pbase">Invitation address (your live site)</label>
+  <input id="pbase">
+  <details id="pgh"><summary>GitHub publishing (needed for the Publish button)</summary>
+    <label for="prepo">Repository (owner/name)</label><input id="prepo" value="Kongkeat99/wedding_invitation">
+    <label for="pbranch">Branch your live site publishes from</label><input id="pbranch" value="main">
+    <label for="ptoken">Access token (kept only in this browser tab, never saved)</label><input id="ptoken" type="password" autocomplete="off" placeholder="github_pat_...">
+    <button class="btn alt sm" id="pChk" type="button" style="margin-top:6px">✔ Check token</button>
+    <p class="hint" style="text-align:left">Create it once: GitHub → Settings → Developer settings → Fine-grained tokens → Generate. Repository access: <b>Only select repositories</b> → this repo (not “Public repositories”). Permissions → Repository permissions → <b>Contents = Read and write</b>. Expiry: 90 days.</p>
+  </details>
+  <p class="hint" style="text-align:left">Add a guest, type the name, choose a photo. The code is made for you (random, so links can't be guessed).</p>
+  <div id="prows"></div>
+  <div class="row" style="justify-content:flex-start;margin-top:10px"><button class="btn alt sm" id="pAdd" type="button">＋ Add guest</button></div>
+  <div class="row" style="justify-content:flex-start;margin-top:14px">
+    <button class="btn sm" id="pPub" type="button">🚀 Publish to GitHub</button>
+    <button class="btn alt sm" id="pZip" type="button">⬇ Download ZIP</button>
+  </div>
+  <p class="hint" id="pMsg" style="text-align:left"></p>
+  <div id="pList"></div>
+</div></div>
+
+<button id="langBtn" type="button" lang="en" aria-label="Switch to English">EN</button>
+<button id="thm" type="button" aria-label="Switch to dark theme">🌙</button>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden><button id="lbx" type="button" aria-label="Close photo viewer">✕</button><button id="lbp" type="button" aria-label="Previous photo">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="Next photo">›</button></div>
+
+<section id="s-profile" aria-labelledby="s-profile-h">
+  <h2 id="s-profile-h" data-en="Groom &amp; Bride">កូនកំលោះ &amp; កូនក្រមុំ</h2><div class="orn"></div>
+  <p class="sub" data-en="The two hearts behind this celebration">បេះដូងទាំងពីរ នៅពីក្រោយពិធីមង្គលការនេះ</p>
+  <div class="pf-wrap">
+    <article class="pf-card" id="pfGroom">
+      <div class="pf-photo"><span class="pf-initial" aria-hidden="true">S</span><img src="assets/profile/groom.jpg" alt="Soem Kungkiet" loading="lazy" onerror="this.remove()"></div>
+      <p class="pf-role" data-en="Groom">កូនកំលោះ</p>
+      <h3 class="pf-name" lang="en">Soem Kungkiet</h3>
+      <p class="pf-bio" data-en="A calm and hard-working man who loves his family.">បុរសស្ងប់ស្ងាត់ ឧស្សាហ៍ព្យាយាម និងស្រឡាញ់គ្រួសារ។</p>
+      <p class="pf-parents"><span data-en="Son of">កូនប្រុសរបស់</span><br><b data-en="Mr. Soem Po &amp; Mrs. Nget Sokha">លោក ស៊ឹម ពោ និង លោកស្រី ង៉ែត សុខា</b></p>
+    </article>
+    <div class="pf-amp" aria-hidden="true">&amp;</div>
+    <article class="pf-card" id="pfBride">
+      <div class="pf-photo"><span class="pf-initial" aria-hidden="true">C</span><img src="assets/profile/bride.jpg" alt="Chham Chanthu" loading="lazy" onerror="this.remove()"></div>
+      <p class="pf-role" data-en="Bride">កូនក្រមុំ</p>
+      <h3 class="pf-name" lang="en">Chham Chanthu</h3>
+      <p class="pf-bio" data-en="A kind and cheerful woman with a warm heart.">នារីស្លូតបូត រួសរាយរាក់ទាក់ និងមានចិត្តស្មោះស្ម័គ្រ។</p>
+      <p class="pf-parents"><span data-en="Daughter of">កូនស្រីរបស់</span><br><b data-en="Mrs. Chan Ly">លោកស្រី ចាន់ លី</b></p>
+    </article>
+  </div>
+</section>
+
+<section id="s-prog" aria-labelledby="s-prog-h">
+  <h2 id="s-prog-h" data-en="Program">ព័ត៌មានកម្មវិធី</h2><div class="orn"></div>
+  <div id="prog"></div>
+  <a class="btn" id="liveBtn" target="_blank" rel="noopener" hidden style="margin-top:12px" data-en="🔴 Watch live">🔴 មើលការផ្សាយផ្ទាល់</a>
+</section>
+
+<section id="s-quote">
+  <blockquote class="quote lang-km">ស្នេហាពិតមិនមែនជារឿងដែលយើងស្វែងរកឃើញនោះទេ តែជារឿងដែលយើងកសាងជាមួយគ្នារាល់ថ្ងៃ។</blockquote>
+  <blockquote class="quote lang-en" lang="en" hidden>True love is not something we find; it is something we build together, every day.</blockquote>
+  <p class="hint lang-km" lang="en">Love is not found, it is built together every day.</p>
+</section>
+
+<section id="s-story" aria-labelledby="s-story-h">
+  <h2 id="s-story-h" data-en="Our Love Story">រឿងរ៉ាវស្នេហារបស់យើង</h2><div class="orn"></div>
+  <ol id="story"></ol>
+</section>
+
+<section id="s-photo" aria-labelledby="s-photo-h">
+  <div class="coming-soon-content">
+    <h2 class="gal-title" id="s-photo-h" data-en="Gallery">វិចិត្រសាល</h2>
+    <p class="gal-label"><span lang="en">Pre-wedding photos</span><span aria-hidden="true"> · </span><span lang="km">រូបថតមុនពិធីមង្គលការ</span></p>
+    <div class="gallery-carousel" id="photoCarousel" role="region" aria-roledescription="carousel" aria-label="Pre-wedding photos">
+      <button class="gallery-arrow gallery-arrow--previous" id="photoPrev" type="button" aria-label="Previous pre-wedding photo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span id="photoKeys" class="sr-only" lang="en">Use the left and right arrow keys to browse photos.</span>
+      <div class="grid" id="grid" tabindex="0" role="group" aria-label="Photos" aria-describedby="photoKeys"></div>
+      <button class="gallery-arrow gallery-arrow--next" id="photoNext" type="button" aria-label="Next pre-wedding photo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <p class="gallery-counter" id="photoCounter" aria-live="off"></p>
+    <p class="gallery-swipe-hint" id="photoHint">
+      <span aria-hidden="true">↔</span>
+      <span lang="km">អូសដើម្បីមើលរូបបន្ថែម</span>
+      <span aria-hidden="true">·</span>
+      <span lang="en">Swipe to view more</span>
+    </p>
+  </div>
+</section>
+
+<section id="s-video" aria-labelledby="s-video-h">
+  <div class="coming-soon-content">
+    <h2 id="s-video-h" data-en="Pre-Wedding Video">វីដេអូ Pre Wedding</h2>
+    <div class="orn video-orn" aria-hidden="true"></div>
+    <p class="video-subtitle" data-en="Our pre-wedding film">ខ្សែភាពយន្តមុនអាពាហ៍ពិពាហ៍</p>
+    <div class="vids" id="vids"></div>
+  </div>
+</section>
+
+<section id="s-guest-album" aria-labelledby="s-guest-album-h">
+  <h2 id="s-guest-album-h" data-en="Guest Photo Album">អាល់ប៊ុមរូបភាពភ្ញៀវ</h2><div class="orn"></div>
+  <p class="sub" data-en="Moments shared with our dear guests. Choose a side to view the album.">ខណៈពេលដ៏ស្រស់ស្អាតជាមួយភ្ញៀវជាទីគោរព។ សូមជ្រើសរើសខាង ដើម្បីមើលអាល់ប៊ុម។</p>
+  <div class="ga-wrap">
+    <a class="ga-card" href="album.html#groom" data-album="groom">
+      <span class="ga-corner" aria-hidden="true"></span>
+      <small class="ga-en" lang="en">Groom Side</small>
+      <span class="ga-info">
+        <b data-en="Groom's Guests">ភ្ញៀវខាងកូនកំលោះ</b>
+        <span class="ga-count" data-count="groom" hidden></span>
+        <span class="ga-btn"><span data-en="View album">មើលអាល់ប៊ុម</span> <i aria-hidden="true">→</i></span>
+      </span>
+    </a>
+    <a class="ga-card" href="album.html#bride" data-album="bride">
+      <span class="ga-corner" aria-hidden="true"></span>
+      <small class="ga-en" lang="en">Bride Side</small>
+      <span class="ga-info">
+        <b data-en="Bride's Guests">ភ្ញៀវខាងកូនក្រមុំ</b>
+        <span class="ga-count" data-count="bride" hidden></span>
+        <span class="ga-btn"><span data-en="View album">មើលអាល់ប៊ុម</span> <i aria-hidden="true">→</i></span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section id="s-map" aria-labelledby="s-map-h">
+  <h2 id="s-map-h" data-en="Venue">ទីតាំងពិធី</h2><div class="orn"></div>
+  <address id="venue"></address>
+  <a class="btn" id="mapBtn" target="_blank" rel="noopener" data-en="📍 Open Google Map">📍 បើក Google Map</a>
+  <div><div id="qr" role="img" aria-label="QR Code ទីតាំងពិធី"></div></div>
+  <p class="sub" data-en="Scan the QR code to open the location in Google Maps">ស្កេន QR Code ដើម្បីបើកទីតាំងក្នុង Google Map</p>
+</section>
+
+<section id="s-rsvp" aria-labelledby="s-rsvp-h" hidden>
+  <h2 id="s-rsvp-h" data-en="RSVP">ការឆ្លើយតបចូលរួម</h2><div class="orn"></div>
+  <p class="sub">សូមជួយជម្រាបការចូលរួមរបស់លោកអ្នក · RSVP</p>
+  <div class="rsvp-choice" role="group" aria-label="RSVP">
+    <button type="button" class="btn alt rsvp-opt on" data-rsvp="yes" aria-pressed="true" data-en="✓ Attending">✓ ចូលរួម</button>
+    <button type="button" class="btn alt rsvp-opt" data-rsvp="no" aria-pressed="false" data-en="✗ Unable to attend">✗ មិនអាចចូលរួម</button>
+  </div>
+  <div class="rsvp-actions">
+    <a class="btn" id="rsvpTg" target="_blank" rel="noopener" hidden>✈ Telegram</a>
+    <a class="btn" id="rsvpWa" target="_blank" rel="noopener" hidden>💬 WhatsApp</a>
+  </div>
+</section>
+
+<section id="s-gift" aria-labelledby="s-gift-h" hidden>
+  <h2 id="s-gift-h" data-en="Wedding Gift">កាដូមង្គលការ</h2><div class="orn"></div>
+  <p class="sub">ការអញ្ជើញចូលរួមរបស់លោកអ្នកគឺជាកាដូដ៏មានតម្លៃបំផុត · Gift</p>
+  <ul class="gift-list" id="giftList"></ul>
+</section>
+
+<section id="s-dress" aria-labelledby="s-dress-h">
+  <h2 id="s-dress-h" data-en="Dress Code">ពណ៌សម្លៀកបំពាក់</h2><div class="orn"></div>
+  <p class="sub" id="dtxt"></p>
+  <div class="dress-card">
+    <div class="dress-swatch-row" id="sws" aria-label="Dress code colors"></div>
+  </div>
+</section>
+
+<section id="s-thanks" aria-labelledby="s-thanks-h">
+  <h2 id="s-thanks-h" data-en="Our Thanks to Our Honoured Guests">សេចក្ដីថ្លែងអំណរគុណដល់ភ្ញៀវកិត្តិយស</h2><div class="orn"></div>
+  <div class="thanks-card">
+    <span class="thanks-quote" aria-hidden="true">“</span>
+    <p class="thanks-copy lang-en" lang="en" hidden>On behalf of both families, the bride and the groom, we thank every honoured guest who joins us as our presiding guests and witnesses at our wedding. Your presence is a great honour and joy to us. May you all enjoy good health, happiness and every blessing.</p>
+    <p class="thanks-copy lang-km" id="thanksText">ក្នុងនាមគ្រួសារទាំងសងខាង និងកូនកំលោះ កូនក្រមុំ យើងខ្ញុំសូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ ចំពោះភ្ញៀវកិត្តិយសទាំងអស់ ដែលបានអញ្ជើញមកចូលរួមជាអធិបតី និងជាសក្ខីភាព ក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ។ ការអញ្ជើញមកដល់របស់លោក លោកស្រី អ្នកនាង កញ្ញា គឺជាកិត្តិយស និងក្តីរីករាយដ៏ខ្ពង់ខ្ពស់សម្រាប់យើងខ្ញុំ។ សូមឱ្យលោកអ្នកទាំងអស់ប្រកបដោយសុខភាពល្អ សុភមង្គល និងសេចក្តីចម្រើនគ្រប់ប្រការ។</p>
+    <p class="thanks-signature"><span class="signature-orn" aria-hidden="true"></span><span data-en="Both Families">ក្រុមគ្រួសារទាំងសងខាង</span><span class="signature-orn" aria-hidden="true"></span></p>
+  </div>
+  <div class="closing-lotus-wrap" aria-hidden="true">
+    <svg class="closing-lotus" viewBox="0 0 160 92">
+      <defs><linearGradient id="closingLotusGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8D48B"/><stop offset=".52" stop-color="#C9A93F"/><stop offset="1" stop-color="#8F7524"/></linearGradient></defs>
+      <path pathLength="1" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+      <path pathLength="1" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+      <path pathLength="1" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+      <path pathLength="1" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+      <path pathLength="1" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+      <path pathLength="1" d="M34 82Q80 94 126 82"/>
+    </svg>
+  </div>
+</section>
+
 </main>
-<footer class="site-footer">សូមអរគុណ · Thank you ♥</footer>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
-  <div class="lightbox-top">
-    <button class="lightbox-action wipe-fill" id="closeLightbox" type="button" aria-label="បិទ · Close photo viewer">✕ <span>បិទ · Close</span></button>
-    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
-    <span class="lightbox-spacer" aria-hidden="true"></span>
-  </div>
-  <div class="lightbox-stage" id="lightboxStage">
-    <button class="lightbox-nav wipe-fill" id="previousPhoto" type="button" aria-label="រូបមុន · Previous photo">‹</button>
-    <img class="lightbox-image" id="lightboxImage" alt="" draggable="false">
-    <button class="lightbox-nav wipe-fill" id="nextPhoto" type="button" aria-label="រូបបន្ទាប់ · Next photo">›</button>
-  </div>
-  <div class="lightbox-bottom"><a class="lightbox-action wipe-fill" id="downloadPhoto" download>⬇ រក្សាទុក · Save</a><button class="lightbox-action wipe-fill" id="sharePhoto" type="button">↗ ចែករំលែក · Share</button><button class="lightbox-action wipe-fill" id="zoomPhoto" type="button">＋ ពង្រីក · Zoom</button></div>
-</div>
+<footer class="wedding-footer">
+  <div class="closing-divider" aria-hidden="true"><i></i></div>
+  <p class="closing-thanks">សូមអរគុណ <span lang="en">· Thank you</span> <b aria-hidden="true">♥</b></p>
+  <p class="footer-love" id="footerLove"></p>
+  <p class="footer-year">Wedding · <span id="closingYear"></span></p>
+</footer>
 
-<div class="sheet-backdrop" id="groupSheet" hidden>
-  <section class="group-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
-    <div class="sheet-handle" aria-hidden="true"></div>
-    <div class="sheet-heading"><h2 id="sheetTitle">ជ្រើសរើសក្រុម · Choose group</h2><button class="sheet-close wipe-fill" id="closeSheet" type="button" aria-label="បិទ · Close">✕</button></div>
-    <div class="sheet-options" id="sheetOptions" role="listbox"></div>
-  </section>
-</div>
-
-<script src="js/config.js"></script>
-<script src="js/coming-soon.js"></script>
-<script>
-/* DATA: one bilingual source of truth for both album sides. */
-// Controlled by ALBUM_COMING_SOON in js/config.js: true = photos stay blurred with a Coming Soon badge, false = open album.
-const SHOW_COMING_SOON=typeof CONFIG!=='undefined'&&CONFIG.ALBUM_COMING_SOON===true;
-const makePhotos=group=>{
-  const paths=group.list&&group.list.length?group.list:Array.from({length:group.count||0},(_,index)=>(group.folder||'')+(index+1)+'.jpg');
-  return paths.map((path,index)=>{
-    const source=typeof path==='string'?{src:path}:path;
-    return{src:source.src,thumb:'assets/album-placeholder.svg',w:source.w||720,h:source.h||960,alt:source.alt||group.km+' · '+group.en+' · រូបភាព '+(index+1)+' · Photo '+(index+1),isReal:source.isReal===true};
-  });
-};
-const albums={
-  groom:{label:['ខាងកូនកំលោះ','Groom'],groups:(CONFIG.album.groom.categories||[]).map(group=>({id:group.id,kh:group.km,en:group.en,photos:makePhotos(group)}))},
-  bride:{label:['ខាងកូនក្រមុំ','Bride'],groups:(CONFIG.album.bride.categories||[]).map(group=>({id:group.id,kh:group.km,en:group.en,photos:makePhotos(group)}))}
-};
-
-/* SCRIPT */
-(() => {
-  const $=id=>document.getElementById(id);
-  const sideButtons=[$('tGroom'),$('tBride')];
-  let side='groom',category='all',photos=[],viewerPhotos=[],viewerIndex=0,viewerFrom=null,swipeX=0,swipeY=0,panX=0,panY=0,panStartX=0,panStartY=0,pinchDistance=0,zoom=1,pinching=false,dragging=false,uiLanguage='both',sheetFocus=null,sheetStartY=0;
-  const reduceMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
-  let reduceMotion=reduceMotionQuery.matches;
-  const onMotionChange=event=>{reduceMotion=event.matches};
-  if(reduceMotionQuery.addEventListener)reduceMotionQuery.addEventListener('change',onMotionChange);
-  else if(reduceMotionQuery.addListener)reduceMotionQuery.addListener(onMotionChange);
-
-  const listFor=group=>group?group.photos||[]:[];
-  const entriesFor=group=>listFor(group).map(photo=>({photo,group}));
-  const isSamplePhoto=photo=>SHOW_COMING_SOON&&photo.isReal!==true;
-  const realPhotoCount=group=>listFor(group).filter(photo=>!isSamplePhoto(photo)).length;
-  const comingSoonLabel=()=>uiLanguage==='km'?'ឆាប់ៗនេះ':uiLanguage==='en'?'Coming Soon':'ឆាប់ៗនេះ · Coming Soon';
-  const groups=()=>albums[side].groups||[];
-  const availableGroups=()=>groups().filter(group=>group.photos&&group.photos.length);
-  const allPhotos=()=>availableGroups().flatMap(entriesFor);
-  const setHash=()=>history.replaceState(null,'',location.pathname+location.search+'#'+side+(category==='all'?'':'/'+category));
-  const displayName=group=>{if(!group)return uiLanguage==='km'?'ទាំងអស់':uiLanguage==='en'?'All':'ទាំងអស់ · All';return uiLanguage==='km'?group.kh:uiLanguage==='en'?group.en:group.kh+' · '+group.en};
-  const chipMarkup=group=>'<span class="category-km">'+(uiLanguage==='en'?group.en:group.kh)+'</span><span class="category-en">'+(uiLanguage==='km'?'':uiLanguage==='en'?'':group.en)+'</span>'+(realPhotoCount(group)?'<small>'+realPhotoCount(group)+'</small>':'');
-
-  function renderCategories(){
-    const nav=$('categories');nav.innerHTML='';const available=availableGroups();
-    const allCount=available.reduce((total,group)=>total+realPhotoCount(group),0),all=document.createElement('button');all.className='category-chip wipe-fill wipe-fill--inverse';all.type='button';all.dataset.category='all';all.setAttribute('aria-pressed',category==='all');all.innerHTML='<span class="category-km">'+(uiLanguage==='en'?'All':'ទាំងអស់')+'</span><span class="category-en">'+(uiLanguage==='both'?'All':'')+'</span>'+(allCount?'<small>'+allCount+'</small>':'');all.onclick=()=>selectCategory('all');nav.appendChild(all);
-    available.forEach(group=>{const chip=document.createElement('button');chip.className='category-chip wipe-fill wipe-fill--inverse';chip.type='button';chip.dataset.category=group.id;chip.setAttribute('aria-pressed',category===group.id);chip.title=group.en;chip.innerHTML=chipMarkup(group);chip.onclick=()=>selectCategory(group.id);nav.appendChild(chip)});
-    const sheet=$('sheetOptions');sheet.innerHTML='';const sheetGroups=[null,...available];sheetGroups.forEach(group=>{const option=document.createElement('button');option.className='sheet-option wipe-fill wipe-fill--inverse';option.type='button';option.dataset.category=group?group.id:'all';option.setAttribute('role','option');option.setAttribute('aria-selected',String(group?category===group.id:category==='all'));const count=group?realPhotoCount(group):allCount;option.innerHTML='<span class="sheet-km">'+(group?group.kh:'ទាំងអស់')+'</span><span class="sheet-en">'+(group?group.en:'All')+'</span>'+(count?'<small>'+count+'</small>':'')+'<span class="check" aria-hidden="true">✓</span>';option.onclick=()=>selectCategory(group?group.id:'all');sheet.appendChild(option)});
-    $('pickerValue').textContent=displayName(category==='all'?null:available.find(group=>group.id===category));
-    const active=nav.querySelector('[aria-pressed="true"]');if(active&&window.matchMedia('(max-width:700px)').matches)active.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
-  }
-
-  function renderGrid(){
-    const grid=$('photoGrid');grid.innerHTML='';photos=category==='all'?allPhotos():entriesFor(groups().find(group=>group.id===category));
-    viewerPhotos=photos.filter(entry=>!isSamplePhoto(entry.photo));
-    if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
-    photos.forEach((entry,index)=>{
-      const photo=entry.photo,group=entry.group,sample=isSamplePhoto(photo),card=document.createElement('button');
-      card.className='photo-card'+(sample?' is-sample':'');card.type='button';card.disabled=sample;card.tabIndex=sample?-1:0;
-      card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');
-      const image=document.createElement('img');const imageSource=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';
-      const errorMessage=document.createElement('span');errorMessage.className='photo-error';errorMessage.hidden=true;
-      const errorKhmer=document.createElement('span');errorKhmer.lang='km';errorKhmer.textContent='មិនអាចផ្ទុករូបភាពបាន';
-      const errorEnglish=document.createElement('span');errorEnglish.lang='en';errorEnglish.textContent='This photo could not be loaded.';
-      const retryLabel=document.createElement('strong');retryLabel.lang='en';retryLabel.textContent='ព្យាយាមម្តងទៀត · Tap to retry';
-      errorMessage.append(errorKhmer,errorEnglish,retryLabel);
-      function imageLoaded(){image.hidden=false;image.classList.add('is-loaded');card.classList.add('is-ready','is-loaded');card.disabled=sample;card.tabIndex=sample?-1:0;card.setAttribute('aria-label',sample?comingSoonLabel():photo.alt)}
-      function imageFailed(){image.hidden=true;card.classList.remove('is-ready','is-loaded');card.classList.add('is-error');card.disabled=false;card.tabIndex=0;card.setAttribute('aria-label','Image failed to load. Activate to retry. · មិនអាចផ្ទុករូបភាពបាន។ ចុចដើម្បីព្យាយាមម្តងទៀត។');errorMessage.hidden=false}
-      image.addEventListener('load',imageLoaded);image.addEventListener('error',imageFailed);
-      const caption=document.createElement('span');caption.className='photo-caption';caption.innerHTML='<span class="heart" aria-hidden="true">♥</span><span><span class="caption-kh">'+group.kh+'</span><span class="caption-en">'+group.en+'</span></span>';
-      card.append(image,caption,errorMessage);
-      if(sample){
-        card.setAttribute('aria-label',comingSoonLabel());
-        const overlay=document.createElement('span');overlay.className='sample-overlay';overlay.setAttribute('aria-hidden','true');
-        const badge=document.createElement('span');badge.className='coming-soon-badge';
-        if(uiLanguage!=='en'){const khmer=document.createElement('span');khmer.className='coming-soon-kh';khmer.textContent='ឆាប់ៗនេះ';badge.appendChild(khmer)}
-        if(uiLanguage!=='km'){const english=document.createElement('span');english.className='coming-soon-en';english.textContent='Coming Soon';badge.appendChild(english)}
-        const icon=document.createElement('span');icon.className='coming-soon-icon';icon.textContent='✦';icon.setAttribute('aria-hidden','true');badge.appendChild(icon);
-        overlay.appendChild(badge);card.appendChild(overlay);
-      }
-      card.onclick=event=>{
-        if(card.classList.contains('is-error')){
-          errorMessage.hidden=true;image.hidden=false;card.classList.remove('is-error');
-          const retryUrl=new URL(imageSource,location.href);retryUrl.searchParams.set('_retry',String(Date.now()));image.src=retryUrl.href;
-          return
-        }
-        if(sample)return;
-        if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}
-        openViewer(index)
-      };
-      grid.appendChild(card);image.src=imageSource;if(image.complete){if(image.naturalWidth)imageLoaded();else imageFailed()}
-    });
-  }
-
-  function render(){
-    const valid=category==='all'||groups().some(group=>group.id===category&&listFor(group).length);if(!valid)category='all';
-    $('sides').dataset.side=side;sideButtons.forEach(button=>button.setAttribute('aria-pressed',button.dataset.side===side));
-    renderCategories();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length,hasSamples=photos.some(entry=>isSamplePhoto(entry.photo));const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent=hasSamples?sideLabel+' album · '+comingSoonLabel():'រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=hasSamples?comingSoonLabel():count+' photos';
-  }
-
-  function openSheet(){sheetFocus=document.activeElement;$('groupPicker').setAttribute('aria-expanded','true');$('groupSheet').hidden=false;requestAnimationFrame(()=>{$('groupSheet').classList.add('is-open');const selected=$('sheetOptions').querySelector('[aria-selected="true"]');if(selected)selected.focus()})}
-  function closeSheet(){if($('groupSheet').hidden)return;$('groupSheet').classList.remove('is-open');$('groupSheet').hidden=true;$('groupPicker').setAttribute('aria-expanded','false');if(sheetFocus&&sheetFocus.focus)sheetFocus.focus();sheetFocus=null}
-  function selectSide(next){side=next;category='all';closeSheet();closeViewer();setHash();render()}
-  function selectCategory(next){category=next;closeSheet();closeViewer();setHash();render()}
-  function applyTransform(){$('lightboxImage').style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
-  function preload(index){if(!viewerPhotos.length)return;const image=new Image();image.src=viewerPhotos[(index+viewerPhotos.length)%viewerPhotos.length].photo.src}
-  function showViewer(index,direction){if(!viewerPhotos.length)return;viewerIndex=(index+viewerPhotos.length)%viewerPhotos.length;const photo=viewerPhotos[viewerIndex].photo,image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photo.src;if(image.complete)image.classList.add('is-loaded');image.alt=photo.alt;$('lightboxCounter').textContent=(viewerIndex+1)+' / '+viewerPhotos.length;$('downloadPhoto').href=photo.src;$('downloadPhoto').download=photo.src.split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
-  function rubberBand(direction){const stage=$('lightboxStage');stage.classList.remove('rubber-left','rubber-right');void stage.offsetWidth;stage.classList.add(direction<0?'rubber-left':'rubber-right')}
-  function navigate(direction){if(zoom>1){rubberBand(direction);return}const next=viewerIndex+direction;if(next<0||next>=viewerPhotos.length){rubberBand(direction);return}showViewer(next,direction<0?-1:1)}
-  function animateFromThumbnail(){if(reduceMotion||!viewerFrom)return;const image=$('lightboxImage'),origin=viewerFrom.getBoundingClientRect(),target=image.getBoundingClientRect();if(!target.width||!target.height)return;image.style.setProperty('--flip-x',origin.left+origin.width/2-(target.left+target.width/2)+'px');image.style.setProperty('--flip-y',origin.top+origin.height/2-(target.top+target.height/2)+'px');image.style.setProperty('--flip-sx',Math.max(.05,origin.width/target.width));image.style.setProperty('--flip-sy',Math.max(.05,origin.height/target.height));image.classList.remove('flip-in');void image.offsetWidth;image.classList.add('flip-in')}
-  function openViewer(index){const viewerIndexForPhoto=viewerPhotos.indexOf(photos[index]);if(viewerIndexForPhoto<0)return;viewerFrom=document.activeElement;zoom=1;panX=0;panY=0;applyTransform();showViewer(viewerIndexForPhoto);$('lightbox').hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>{$('lightbox').classList.add('is-open');animateFromThumbnail()});$('closeLightbox').focus()}
-  function closeViewer(){if($('lightbox').hidden)return;$('lightbox').classList.remove('is-open');$('lightbox').hidden=true;document.body.style.overflow='';zoom=1;panX=0;panY=0;if(viewerFrom&&viewerFrom.focus)viewerFrom.focus();viewerFrom=null}
-  function distance(touches){return Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)}
-  function changeZoom(next){zoom=Math.max(1,Math.min(3,next));if(zoom===1){panX=0;panY=0}applyTransform()}
-  async function sharePhoto(){if(!viewerPhotos.length)return;const url=new URL(viewerPhotos[viewerIndex].photo.src,location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
-
-  sideButtons.forEach(button=>button.onclick=()=>selectSide(button.dataset.side));
-  $('groupPicker').onclick=openSheet;$('closeSheet').onclick=closeSheet;$('groupSheet').onclick=event=>{if(event.target===$('groupSheet'))closeSheet()};
-  $('groupSheet').addEventListener('touchstart',event=>{sheetStartY=event.touches[0].clientY},{passive:true});
-  $('groupSheet').addEventListener('touchend',event=>{if(event.changedTouches[0].clientY-sheetStartY>60)closeSheet()},{passive:true});
-  $('languageToggle').querySelectorAll('button').forEach(button=>button.onclick=()=>{uiLanguage=button.dataset.language;$('languageToggle').querySelectorAll('button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));if(window.updateComingSoonLanguage)window.updateComingSoonLanguage(uiLanguage);render()});
-  $('back').href='index.html'+location.search;
-  $('closeLightbox').onclick=closeViewer;$('previousPhoto').onclick=()=>navigate(-1);$('nextPhoto').onclick=()=>navigate(1);$('zoomPhoto').onclick=()=>changeZoom(zoom===1?2:1);$('sharePhoto').onclick=sharePhoto;
-  $('lightbox').onclick=event=>{if(event.target===$('lightbox'))closeViewer()};
-  $('lightboxImage').addEventListener('touchstart',event=>{if(event.touches.length===2){pinching=true;dragging=false;pinchDistance=distance(event.touches);return}swipeX=event.touches[0].clientX;swipeY=event.touches[0].clientY;if(zoom>1){dragging=true;panStartX=panX;panStartY=panY}},{passive:true});
-  $('lightboxImage').addEventListener('touchmove',event=>{if(pinching&&event.touches.length===2){changeZoom(zoom*distance(event.touches)/pinchDistance);pinchDistance=distance(event.touches);event.preventDefault();return}if(dragging&&zoom>1){panX=panStartX+event.touches[0].clientX-swipeX;panY=panStartY+event.touches[0].clientY-swipeY;applyTransform();event.preventDefault()}},{passive:false});
-  $('lightboxImage').addEventListener('touchend',event=>{if(pinching){if(event.touches.length<2)pinching=false;return}const dx=event.changedTouches[0].clientX-swipeX,dy=event.changedTouches[0].clientY-swipeY;dragging=false;if(zoom>1)return;if(dy>80&&Math.abs(dy)>Math.abs(dx)){closeViewer();return}if(Math.abs(dx)>45)navigate(dx<0?1:-1)},{passive:true});
-  $('lightboxImage').ondblclick=()=>changeZoom(zoom===1?2:1);
-  document.addEventListener('keydown',event=>{if(!$('groupSheet').hidden){if(event.key==='Escape'){event.preventDefault();closeSheet();return}if(event.key==='Tab'){const focusable=[$('closeSheet'),...$('sheetOptions').querySelectorAll('button')],current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}return}if($('lightbox').hidden)return;if(event.key==='Escape'){event.preventDefault();closeViewer();return}if(event.key==='ArrowRight'){event.preventDefault();navigate(1)}if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1)}if(event.key==='Tab'){const focusable=[$('closeLightbox'),$('previousPhoto'),$('nextPhoto'),$('downloadPhoto'),$('sharePhoto'),$('zoomPhoto')].filter(element=>getComputedStyle(element).display!=='none'),current=focusable.indexOf(document.activeElement);event.preventDefault();focusable[(current+(event.shiftKey?focusable.length-1:1))%focusable.length].focus()}});
-  function readHash(){const hash=location.hash.slice(1).split('/'),requested=hash[1]||'all';side=hash[0]==='bride'?'bride':'groom';category=requested;render();if(requested!==category)setHash()}
-  function hideLoading(){
-    const loading=$('albumLoading');$('albumMain').setAttribute('aria-busy','false');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      loading.classList.add('is-hidden');
-      window.setTimeout(()=>{loading.hidden=true},320)
-    }))
-  }
-  function revealAlbum(){
-    const styles=$('albumPageStyles');
-    if(!styles||styles.dataset.loaded){hideLoading();return}
-    let fallback=window.setTimeout(()=>{styles.removeEventListener('load',onStylesReady);styles.removeEventListener('error',onStylesError);hideLoading()},3000);
-    function onStylesReady(){window.clearTimeout(fallback);hideLoading()}
-    function onStylesError(){window.clearTimeout(fallback);console.error('Could not load the album stylesheet.');hideLoading()}
-    styles.addEventListener('load',onStylesReady,{once:true});styles.addEventListener('error',onStylesError,{once:true})
-  }
-  readHash();revealAlbum();window.addEventListener('hashchange',()=>{closeViewer();readHash()});
-})();
-</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script defer src="js/config.js"></script>
+<script defer src="js/coming-soon.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/lang.js"></script>
+<script defer src="js/setup-photos.js"></script>
 </body>
 </html>

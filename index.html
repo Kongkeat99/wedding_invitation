@@ -1,99 +1,338 @@
-/* Khmer / English switch for the whole invitation (inner page + cover).
-   - Static text: elements with data-en="..." (the Khmer original is remembered automatically).
-   - Pairs of blocks: .lang-km / .lang-en (one is shown, the other hidden).
-   - Dynamic text (program, story, venue, date, countdown labels, dress text) comes from CONFIG.en in js/config.js.
-   The guest's choice is remembered in this browser. Default = Khmer. */
-(function(){
-  var html=document.documentElement,KH="០១២៣៤៥៦៧៨៩",cur="km";
-  function $(i){return document.getElementById(i)}
-  function arabic(s){return String(s).replace(/[០-៩]/g,function(c){return KH.indexOf(c)})}
-  function E(){return (window.CONFIG&&CONFIG.en)||{}}
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu · Wedding Invitation">
+<meta name="theme-color" content="#1A1608">
+<meta property="og:type" content="website">
+<meta property="og:title" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu">
+<meta property="og:description" content="សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ">
+<meta property="og:image" content="https://wedding-ten-self.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💍%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="prefetch" href="album.html" as="document">
+<title>សំបុត្រអញ្ជើញអាពាហ៍ពិពាហ៍ | Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Moul&family=Battambang:wght@400;700&family=Kantumruy+Pro:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/coming-soon.css">
+<noscript><style>#pre,#cover{display:none!important}</style></noscript>
+</head>
+<body>
+<div id="pre" role="status"><span class="sr-only"><span lang="km">កំពុងផ្ទុក</span> · <span lang="en">Loading</span></span><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="45" style="stroke-width:.6;animation-delay:.3s"/><text id="pm" x="60" y="68">S &amp; C</text></svg></div>
+<noscript><p class="noscript-msg"><span lang="km">សិរីមង្គលអាពាហ៍ពិពាហ៍</span><br>Soem Kungkiet &amp; Chham Chanthu · 22 · 11 · 2026<br><span lang="en">Please enable JavaScript to view the full invitation.</span></p></noscript>
+<canvas id="fx" aria-hidden="true"></canvas>
 
-  /* English wedding date, always in Cambodia time (UTC+7) */
-  function enDate(){
-    var c=new Date(new Date(window.WD||CONFIG.date).getTime()+7*3600000);
-    var wd=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-        mo=["January","February","March","April","May","June","July","August","September","October","November","December"],
-        H=c.getUTCHours(),M=c.getUTCMinutes(),h=H%12||12;
-    return wd[c.getUTCDay()]+", "+c.getUTCDate()+" "+mo[c.getUTCMonth()]+" "+c.getUTCFullYear()+"\n"+h+(M?":"+("0"+M).slice(-2):":00")+" "+(H<12?"AM":"PM")
-  }
+<!-- First-page luxury redesign: controls, ornaments and envelope retain the existing openBtn flow. -->
+<div id="cover" role="dialog" aria-modal="true" aria-labelledby="coverTitle" aria-describedby="coverInvite coverDate">
+  <svg class="cover-pattern" viewBox="0 0 120 120" aria-hidden="true">
+    <defs><pattern id="lotusPattern" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M60 18C47 35 48 48 60 59C72 48 73 35 60 18ZM60 58C43 48 33 37 34 25C47 32 56 44 60 58ZM60 58C77 48 87 37 86 25C73 32 64 44 60 58ZM23 77C39 72 51 65 60 58C69 65 81 72 97 77M29 83Q60 96 91 83" fill="none" stroke="#E8D48B" stroke-width="1"/>
+    </pattern></defs><rect width="100%" height="100%" fill="url(#lotusPattern)"/>
+  </svg>
+  <button class="splash-language" id="splashLanguage" type="button" lang="en" data-language="km" aria-label="Switch to English">EN</button>
+  <div class="cover-content">
+    <div class="heart cover-heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg></div>
+    <div class="cover-divider" aria-hidden="true"><i></i></div>
+    <h2 id="coverTitle" data-km="សិរីមង្គលអាពាហ៍ពិពាហ៍" data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h2>
+    <div class="cover-divider cover-divider--title" aria-hidden="true"><i></i></div>
+    <p class="names"><span id="cn1" lang="en"></span><span class="cover-amp">&amp;</span><span id="cn2" lang="en"></span></p>
+    <p class="cover-date"><time id="coverDate"></time></p>
+    <p class="cover-invite" id="coverInvite"><span data-km="សូមគោរពអញ្ជើញ" data-en="You are cordially invited">សូមគោរពអញ្ជើញ</span><span class="moul" id="guestName" hidden></span></p>
+    <div class="env-stage">
+      <div class="env">
+        <div class="letter" aria-hidden="true"><span class="letter-rule"></span><span class="letter-monogram">S <i>&amp;</i> C</span><span class="letter-rule"></span></div>
+        <div class="flap" aria-hidden="true"></div><div class="pocket" aria-hidden="true"></div>
+        <div class="env-to" id="envTo"><span data-km="ជូន" data-en="To">ជូន</span><b id="envName" data-km="ភ្ញៀវកិត្តិយស" data-en="Honoured Guest">ភ្ញៀវកិត្តិយស</b></div>
+        <span class="light-burst" aria-hidden="true"></span>
+        <button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg><span class="seal-crack" aria-hidden="true"></span></button>
+      </div>
+    </div>
+    <button class="cover-cta" id="coverCta" type="button" tabindex="-1" aria-hidden="true">
+      <svg class="tap-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V5a2 2 0 0 1 4 0v5-2a2 2 0 0 1 4 0v3-1a2 2 0 0 1 4 0v5c0 4-2.5 7-7 7h-1c-2.2 0-3.5-1-4.8-2.8L4 15a2 2 0 0 1 3-2.5l2 2"/></svg>
+      <span data-km="ចុចលើសំបុត្រ ដើម្បីបើក" data-en="Tap the envelope to open">ចុចលើសំបុត្រ ដើម្បីបើក</span><span class="cta-arrow" aria-hidden="true">⌄</span>
+    </button>
+    <span class="cover-cta-en" aria-hidden="true">TAP TO OPEN</span>
+  </div>
+</div>
 
-  function swapText(root){
-    Array.prototype.forEach.call(root.querySelectorAll("[data-en]:not([data-km])"),function(el){el.setAttribute("data-km",el.textContent)});
-    Array.prototype.forEach.call(root.querySelectorAll("[data-en][data-km]"),function(el){el.textContent=el.getAttribute("data-"+cur)})
-  }
+<div id="mtl"></div>
+<button id="mus" type="button" aria-label="Play music"><span class="eqb"><i></i><i></i><i></i><i></i></span></button>
 
-  function renderProgram(){
-    var items=document.querySelectorAll("#prog .tt"),en=E().program||[];
-    Array.prototype.forEach.call(items,function(tt,i){
-      var b=tt.querySelector("b"),s=tt.querySelector("span");if(!b||!s)return;
-      if(!b.hasAttribute("data-km")){b.setAttribute("data-km",b.textContent);s.setAttribute("data-km",s.textContent)}
-      if(cur==="en"){b.textContent=arabic(b.getAttribute("data-km"));if(en[i])s.textContent=en[i]}
-      else{b.textContent=b.getAttribute("data-km");s.textContent=s.getAttribute("data-km")}
-    })
-  }
-  function renderStory(){
-    var en=E().story||[];
-    Array.prototype.forEach.call(document.querySelectorAll("#story .st"),function(st,i){
-      var h=st.querySelector("h3"),p=st.querySelector("p"),small=st.querySelector("small");if(!h||!p)return;
-      var tn=h.lastChild;
-      if(!st.hasAttribute("data-km-t")){st.setAttribute("data-km-t",tn.textContent);st.setAttribute("data-km-p",p.textContent);if(small)st.setAttribute("data-km-d",small.textContent)}
-      if(cur==="en"){
-        if(en[i]&&en[i].title)tn.textContent=en[i].title;if(en[i]&&en[i].text)p.textContent=en[i].text;
-        if(small){var d=new Date(new Date(window.WD||CONFIG.date).getTime()+7*3600000),
-          mo=["January","February","March","April","May","June","July","August","September","October","November","December"];
-          if(CONFIG.story[i]&&CONFIG.story[i].date==="wedding")small.textContent=d.getUTCDate()+" "+mo[d.getUTCMonth()]+" "+d.getUTCFullYear()}
-      }else{tn.textContent=st.getAttribute("data-km-t");p.textContent=st.getAttribute("data-km-p");if(small)small.textContent=st.getAttribute("data-km-d")}
-    })
-  }
-  function setKept(el,key,enText){
-    if(!el)return;
-    if(!el.hasAttribute(key))el.setAttribute(key,el.textContent);
-    el.textContent=(cur==="en"&&enText)?enText:el.getAttribute(key)
-  }
+<main id="main">
+<section id="hero" aria-labelledby="heroTitle">
+  <div class="aur"><i></i><i></i><i></i></div>
+  <img class="hero-photo" src="assets/hero.jpg" alt="Soem Kungkiet and Chham Chanthu" fetchpriority="high" decoding="async">
+  <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"/></svg></div>
+  <h1 id="heroTitle" tabindex="-1" data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
+  <div class="orn"></div>
+  <div id="heroGuest" hidden style="margin:4px 0 18px"><p class="sub" style="margin:0 0 4px;opacity:.85">សូមគោរពអញ្ជើញ<br><span style="font-size:.85em">You are cordially invited</span></p><p class="moul" id="heroGuestName" style="font-size:1.2rem;margin:0"></p></div>
+  <p class="role" data-en="Groom">កូនកំលោះ</p>
+  <p class="nm" id="n1" lang="en"></p>
+  <div class="amp">&amp;</div>
+  <p class="role" data-en="Bride">កូនក្រមុំ</p>
+  <p class="nm" id="n2" lang="en"></p>
+  <div class="hero-when">
+    <p class="date"><time id="dateTxt"></time></p>
+    <p class="hero-venue" id="heroVenue"></p>
+  </div>
+  <div class="hero-actions">
+    <button class="btn hero-btn" id="calBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v3M17 2v3M3.5 9h17M5 4h14a1.5 1.5 0 0 1 1.5 1.5v13A1.5 1.5 0 0 1 19 20H5a1.5 1.5 0 0 1-1.5-1.5v-13A1.5 1.5 0 0 1 5 4zM12 12v5M9.5 14.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Add to Calendar">បន្ថែមទៅប្រតិទិន</span></button>
+    <a class="btn alt hero-btn" id="heroMap" href="#s-map" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.400-6.500 11-6.500 11zM12 12.500a2.500 2.500 0 1 0 0-5 2.500 2.500 0 0 0 0 5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span data-en="Open Map">មើលទីតាំង</span></a>
+  </div>
+  <p class="cdl" id="cdLbl" data-en="Countdown to our wedding day">រាប់ថយក្រោយដល់ថ្ងៃមង្គលការ</p>
+  <div id="cd" role="timer" aria-labelledby="cdLbl" style="margin-top:8px"></div>
+  <p class="sub" id="cdMsg" style="margin-top:12px"></p>
+  <svg class="lotus" viewBox="0 0 160 92" aria-hidden="true">
+    <path pathLength="1" style="--d:0s" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+    <path pathLength="1" style="--d:.3s" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+    <path pathLength="1" style="--d:.3s" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+    <path pathLength="1" style="--d:.6s" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+    <path pathLength="1" style="--d:.6s" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+    <path pathLength="1" style="--d:.9s" d="M34 82Q80 94 126 82"/>
+  </svg>
+</section>
 
-  function apply(lang){
-    cur=lang==="en"?"en":"km";
-    html.dataset.language=cur;html.lang=cur;
-    var cover=$("cover");if(cover)cover.lang=cur;
+<nav id="nav" aria-label="ផ្នែកក្នុងទំព័រ">
+  <a href="#s-profile" data-en="Couple">គូស្វាមីភរិយា</a>
+  <a href="#s-prog" data-en="Program">កម្មវិធី</a>
+  <a href="#s-photo" data-en="Photos">រូបភាព</a>
+  <a href="#s-map" data-en="Location">ទីតាំង</a>
+</nav>
+<div id="petals" aria-hidden="true"></div>
+<div id="bar" aria-hidden="true"></div>
+<div id="setup" hidden>
+  <button id="sX" type="button" aria-label="close">✕</button>
+  <b>⏱ Countdown setup</b> <small>(owner only)</small>
+  <label for="sd">Wedding date &amp; time — Cambodia time (UTC+7)</label>
+  <input type="datetime-local" id="sd">
+  <div class="row" style="margin-top:0"><button class="btn sm" id="sSave" type="button">Save</button><button class="btn alt sm" id="sReset" type="button">Reset</button><button class="btn alt sm" id="sCopy" type="button">Copy CONFIG line</button><button class="btn sm" id="sGuests" type="button">👥 Guest links</button><button class="btn sm" id="sPhotos" type="button">📸 Photo links</button></div>
+  <p class="hint" id="sInfo" style="text-align:left"></p>
+</div>
+<div id="gp" hidden><div class="in">
+  <button id="gX" type="button" aria-label="close">✕</button>
+  <b>👥 Guest links</b> <small>(owner only — guests never see this)</small>
+  <label for="gnames">Guest names — one per line</label>
+  <textarea id="gnames" rows="5" placeholder="Sok Dara&#10;Chan Sreyneang&#10;mai = ម៉ៃ ម៉ុំ និង កញ្ញា ឆេង សុខឃីម"></textarea>
+  <p class="hint" style="text-align:left">Very short link: write <b>code = Full name</b> (example: <b>mai = ម៉ៃ ម៉ុំ</b>) to get <b>?g=mai</b>. Then paste the snippet shown below into <b>guests</b> in js/config.js once.</p>
+  <label for="gbase">Invitation link (use your short domain if you have one)</label>
+  <input id="gbase">
+  <label for="gshort" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="gshort" checked style="width:auto;margin:0"> Short links (recommended — the name is packed into a few characters)</label>
+  <label for="glt">Clickable text (used by "Copy clickable")</label>
+  <input id="glt" value="សូមចុចទីនេះដើម្បីបើកសំបុត្រ">
+  <p class="hint" style="text-align:left">"Copy clickable" copies the message with the link hidden behind that text. Paste it in <b>Telegram Desktop</b> and it stays clickable. On a phone, paste, then select the text → <b>Link</b>, or just use the short link.</p>
+  <label for="gmsg">Message — you can use {name} {couple} {link}</label>
+  <textarea id="gmsg" rows="3"></textarea>
+  <div class="row" style="justify-content:flex-start;margin-top:12px">
+    <button class="btn sm" id="gGen" type="button">Make links</button>
+    <button class="btn alt sm" id="gCsv" type="button">Copy CSV</button>
+    <button class="btn alt sm" id="gQr" type="button">QR for print</button>
+  </div>
+  <div id="gQrBox" style="text-align:center;margin:14px 0"></div>
+  <div id="gSnipBox" hidden>
+    <label for="gSnip">Paste inside <b>guests: { ... }</b> in js/config.js, then redeploy</label>
+    <textarea id="gSnip" rows="4" readonly></textarea>
+    <button class="btn alt sm" id="gSnipCopy" type="button">Copy snippet</button>
+  </div>
+  <div id="gList"></div>
+</div></div>
 
-    /* cover (first page) */
-    Array.prototype.forEach.call(document.querySelectorAll("#cover [data-km][data-en]"),function(el){el.textContent=el.getAttribute("data-"+cur)});
-    var seal=$("openBtn");if(seal)seal.setAttribute("aria-label",cur==="km"?"បើកសំបុត្រ":"Open invitation");
-    var nv=$("nav");if(nv)nv.setAttribute("aria-label",cur==="km"?"ផ្នែកក្នុងទំព័រ":"Page sections");
+<div id="pp" hidden><div class="in">
+  <button id="pX" type="button" aria-label="close">✕</button>
+  <b>📸 Photo links</b> <small>(owner only — name + photo preview card for each guest)</small>
+  <label for="pbase">Invitation address (your live site)</label>
+  <input id="pbase">
+  <details id="pgh"><summary>GitHub publishing (needed for the Publish button)</summary>
+    <label for="prepo">Repository (owner/name)</label><input id="prepo" value="Kongkeat99/wedding_invitation">
+    <label for="pbranch">Branch your live site publishes from</label><input id="pbranch" value="main">
+    <label for="ptoken">Access token (kept only in this browser tab, never saved)</label><input id="ptoken" type="password" autocomplete="off" placeholder="github_pat_...">
+    <button class="btn alt sm" id="pChk" type="button" style="margin-top:6px">✔ Check token</button>
+    <p class="hint" style="text-align:left">Create it once: GitHub → Settings → Developer settings → Fine-grained tokens → Generate. Repository access: <b>Only select repositories</b> → this repo (not “Public repositories”). Permissions → Repository permissions → <b>Contents = Read and write</b>. Expiry: 90 days.</p>
+  </details>
+  <p class="hint" style="text-align:left">Add a guest, type the name, choose a photo. The code is made for you (random, so links can't be guessed).</p>
+  <div id="prows"></div>
+  <div class="row" style="justify-content:flex-start;margin-top:10px"><button class="btn alt sm" id="pAdd" type="button">＋ Add guest</button></div>
+  <div class="row" style="justify-content:flex-start;margin-top:14px">
+    <button class="btn sm" id="pPub" type="button">🚀 Publish to GitHub</button>
+    <button class="btn alt sm" id="pZip" type="button">⬇ Download ZIP</button>
+  </div>
+  <p class="hint" id="pMsg" style="text-align:left"></p>
+  <div id="pList"></div>
+</div></div>
 
-    /* both toggle buttons show the language you would switch TO */
-    [$("splashLanguage"),$("langBtn")].forEach(function(b){
-      if(!b)return;
-      b.dataset.language=cur;b.textContent=cur==="km"?"EN":"ខ្មែរ";
-      b.setAttribute("aria-label",cur==="km"?"Switch to English":"ប្ដូរទៅភាសាខ្មែរ");
-      b.lang=cur==="km"?"en":"km"
-    });
+<button id="langBtn" type="button" lang="en" aria-label="Switch to English">EN</button>
+<button id="thm" type="button" aria-label="Switch to dark theme">🌙</button>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden><button id="lbx" type="button" aria-label="Close photo viewer">✕</button><button id="lbp" type="button" aria-label="Previous photo">‹</button><img id="lbi" alt=""><button id="lbn" type="button" aria-label="Next photo">›</button></div>
 
-    /* inner page */
-    swapText(document);
-    Array.prototype.forEach.call(document.querySelectorAll(".lang-km"),function(e){e.hidden=cur!=="km"});
-    Array.prototype.forEach.call(document.querySelectorAll(".lang-en"),function(e){e.hidden=cur!=="en"});
-    var en=E();
-    setKept($("venue"),"data-km",en.venue);
-    setKept($("dtxt"),"data-km",en.dressText);
-    var dt=$("dateTxt");if(dt){if(!dt.hasAttribute("data-km"))dt.setAttribute("data-km",dt.textContent);dt.textContent=cur==="en"?enDate():dt.getAttribute("data-km")}
-    var lbl=cur==="en"?["Days","Hours","Minutes","Seconds"]:["ថ្ងៃ","ម៉ោង","នាទី","វិនាទី"];
-    Array.prototype.forEach.call(document.querySelectorAll("#cd span"),function(s,i){s.textContent=lbl[i]});
-    renderProgram();renderStory();
-    if(typeof syncDressLanguage==="function")syncDressLanguage(cur);
-    var tgt=$("langBtn");if(tgt)tgt.title=cur==="km"?"English":"ភាសាខ្មែរ";
-    try{localStorage.setItem("lang",cur)}catch(e){}
-  }
+<section id="s-profile" aria-labelledby="s-profile-h">
+  <h2 id="s-profile-h" data-en="Groom &amp; Bride">កូនកំលោះ &amp; កូនក្រមុំ</h2><div class="orn"></div>
+  <p class="sub" data-en="The two hearts behind this celebration">បេះដូងទាំងពីរ នៅពីក្រោយពិធីមង្គលការនេះ</p>
+  <div class="pf-wrap">
+    <article class="pf-card" id="pfGroom">
+      <div class="pf-photo"><span class="pf-initial" aria-hidden="true">S</span><img src="assets/profile/groom.jpg" alt="Soem Kungkiet" loading="lazy" onerror="this.remove()"></div>
+      <p class="pf-role" data-en="Groom">កូនកំលោះ</p>
+      <h3 class="pf-name" lang="en">Soem Kungkiet</h3>
+      <p class="pf-bio" data-en="A calm and hard-working man who loves his family.">បុរសស្ងប់ស្ងាត់ ឧស្សាហ៍ព្យាយាម និងស្រឡាញ់គ្រួសារ។</p>
+      <p class="pf-parents"><span data-en="Son of">កូនប្រុសរបស់</span><br><b data-en="Mr. Soem Po &amp; Mrs. Nget Sokha">លោក ស៊ឹម ពោ និង លោកស្រី ង៉ែត សុខា</b></p>
+    </article>
+    <div class="pf-amp" aria-hidden="true">&amp;</div>
+    <article class="pf-card" id="pfBride">
+      <div class="pf-photo"><span class="pf-initial" aria-hidden="true">C</span><img src="assets/profile/bride.jpg" alt="Chham Chanthu" loading="lazy" onerror="this.remove()"></div>
+      <p class="pf-role" data-en="Bride">កូនក្រមុំ</p>
+      <h3 class="pf-name" lang="en">Chham Chanthu</h3>
+      <p class="pf-bio" data-en="A kind and cheerful woman with a warm heart.">នារីស្លូតបូត រួសរាយរាក់ទាក់ និងមានចិត្តស្មោះស្ម័គ្រ។</p>
+      <p class="pf-parents"><span data-en="Daughter of">កូនស្រីរបស់</span><br><b data-en="Mrs. Chan Ly">លោកស្រី ចាន់ លី</b></p>
+    </article>
+  </div>
+</section>
 
-  /* keep in step if the cover button (handled in app.js) changes the language */
-  new MutationObserver(function(){var l=html.dataset.language;if(l&&l!==cur)apply(l)}).observe(html,{attributes:true,attributeFilter:["data-language"]});
+<section id="s-prog" aria-labelledby="s-prog-h">
+  <h2 id="s-prog-h" data-en="Program">ព័ត៌មានកម្មវិធី</h2><div class="orn"></div>
+  <div id="prog"></div>
+  <a class="btn" id="liveBtn" target="_blank" rel="noopener" hidden style="margin-top:12px" data-en="🔴 Watch live">🔴 មើលការផ្សាយផ្ទាល់</a>
+</section>
 
-  var lb=$("langBtn");
-  if(lb)lb.addEventListener("click",function(){apply(cur==="km"?"en":"km")});
+<section id="s-quote">
+  <blockquote class="quote lang-km">ស្នេហាពិតមិនមែនជារឿងដែលយើងស្វែងរកឃើញនោះទេ តែជារឿងដែលយើងកសាងជាមួយគ្នារាល់ថ្ងៃ។</blockquote>
+  <blockquote class="quote lang-en" lang="en" hidden>True love is not something we find; it is something we build together, every day.</blockquote>
+  <p class="hint lang-km" lang="en">Love is not found, it is built together every day.</p>
+</section>
 
-  var saved="km";try{saved=localStorage.getItem("lang")||"km"}catch(e){}
-  var q=new URLSearchParams(location.search).get("lang");   /* ?lang=en opens the English version */
-  if(q==="en"||q==="km")saved=q;
-  if(saved==="en")apply("en");else{html.dataset.language="km";apply("km")}
-})();
+<section id="s-story" aria-labelledby="s-story-h">
+  <h2 id="s-story-h" data-en="Our Love Story">រឿងរ៉ាវស្នេហារបស់យើង</h2><div class="orn"></div>
+  <ol id="story"></ol>
+</section>
+
+<section id="s-photo" aria-labelledby="s-photo-h">
+  <div class="coming-soon-content">
+    <h2 class="gal-title" id="s-photo-h" data-en="Gallery">វិចិត្រសាល</h2>
+    <p class="gal-label"><span lang="en">PRE-WEDDING PHOTOS</span><span aria-hidden="true"> · </span><span lang="km">រូបថតមុនពិធីមង្គលការ</span></p>
+    <div class="gallery-carousel" id="photoCarousel" role="region" aria-roledescription="carousel" aria-label="Pre-wedding photos">
+      <button class="gallery-arrow gallery-arrow--previous" id="photoPrev" type="button" aria-label="Previous pre-wedding photo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span id="photoKeys" class="sr-only" lang="en">Use the left and right arrow keys to browse photos.</span>
+      <div class="grid" id="grid" tabindex="0" role="group" aria-label="Photos" aria-describedby="photoKeys"></div>
+      <button class="gallery-arrow gallery-arrow--next" id="photoNext" type="button" aria-label="Next pre-wedding photo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <p class="gallery-counter" id="photoCounter" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p class="gallery-swipe-hint" id="photoHint">
+      <span aria-hidden="true">↔</span>
+      <span lang="km">អូសដើម្បីមើលរូបបន្ថែម</span>
+      <span aria-hidden="true">·</span>
+      <span lang="en">Swipe to view more</span>
+    </p>
+  </div>
+</section>
+
+<section id="s-video" aria-labelledby="s-video-h">
+  <div class="coming-soon-content">
+    <h2 id="s-video-h" data-en="Pre-Wedding Video">វីដេអូ Pre Wedding</h2>
+    <div class="orn video-orn" aria-hidden="true"></div>
+    <p class="video-subtitle" data-en="Our pre-wedding film">ខ្សែភាពយន្តមុនអាពាហ៍ពិពាហ៍</p>
+    <div class="vids" id="vids"></div>
+  </div>
+</section>
+
+<section id="s-guest-album" aria-labelledby="s-guest-album-h">
+  <h2 id="s-guest-album-h" data-en="Guest Photo Album">អាល់ប៊ុមរូបភាពភ្ញៀវ</h2><div class="orn"></div>
+  <p class="sub" data-en="Moments shared with our dear guests. Choose a side to view the album.">ខណៈពេលដ៏ស្រស់ស្អាតជាមួយភ្ញៀវជាទីគោរព។ សូមជ្រើសរើសខាង ដើម្បីមើលអាល់ប៊ុម។</p>
+  <div class="ga-wrap">
+    <a class="ga-card" href="album.html#groom" data-album="groom">
+      <span class="ga-corner" aria-hidden="true"></span>
+      <span class="ga-info">
+        <small class="ga-en" lang="en">Groom Side</small>
+        <b data-en="Groom's Guests">ភ្ញៀវខាងកូនកំលោះ</b>
+        <span class="ga-count" data-count="groom" hidden></span>
+        <span class="ga-btn"><span data-en="View album">មើលអាល់ប៊ុម</span> <i aria-hidden="true">→</i></span>
+      </span>
+    </a>
+    <a class="ga-card" href="album.html#bride" data-album="bride">
+      <span class="ga-corner" aria-hidden="true"></span>
+      <span class="ga-info">
+        <small class="ga-en" lang="en">Bride Side</small>
+        <b data-en="Bride's Guests">ភ្ញៀវខាងកូនក្រមុំ</b>
+        <span class="ga-count" data-count="bride" hidden></span>
+        <span class="ga-btn"><span data-en="View album">មើលអាល់ប៊ុម</span> <i aria-hidden="true">→</i></span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section id="s-map" aria-labelledby="s-map-h">
+  <h2 id="s-map-h" data-en="Venue">ទីតាំងពិធី</h2><div class="orn"></div>
+  <address id="venue"></address>
+  <a class="btn" id="mapBtn" target="_blank" rel="noopener" data-en="📍 Open Google Map">📍 បើក Google Map</a>
+  <div><div id="qr" role="img" aria-label="QR Code ទីតាំងពិធី"></div></div>
+  <p class="sub" data-en="Scan the QR code to open the location in Google Maps">ស្កេន QR Code ដើម្បីបើកទីតាំងក្នុង Google Map</p>
+</section>
+
+<section id="s-rsvp" aria-labelledby="s-rsvp-h" hidden>
+  <h2 id="s-rsvp-h" data-en="RSVP">ការឆ្លើយតបចូលរួម</h2><div class="orn"></div>
+  <p class="sub">សូមជួយជម្រាបការចូលរួមរបស់លោកអ្នក · RSVP</p>
+  <div class="rsvp-choice" role="group" aria-label="RSVP">
+    <button type="button" class="btn alt rsvp-opt on" data-rsvp="yes" aria-pressed="true" data-en="✓ Attending">✓ ចូលរួម</button>
+    <button type="button" class="btn alt rsvp-opt" data-rsvp="no" aria-pressed="false" data-en="✗ Unable to attend">✗ មិនអាចចូលរួម</button>
+  </div>
+  <div class="rsvp-actions">
+    <a class="btn" id="rsvpTg" target="_blank" rel="noopener" hidden>✈ Telegram</a>
+    <a class="btn" id="rsvpWa" target="_blank" rel="noopener" hidden>💬 WhatsApp</a>
+  </div>
+</section>
+
+<section id="s-gift" aria-labelledby="s-gift-h" hidden>
+  <h2 id="s-gift-h" data-en="Wedding Gift">កាដូមង្គលការ</h2><div class="orn"></div>
+  <p class="sub">ការអញ្ជើញចូលរួមរបស់លោកអ្នកគឺជាកាដូដ៏មានតម្លៃបំផុត · Gift</p>
+  <ul class="gift-list" id="giftList"></ul>
+</section>
+
+<section id="s-dress" aria-labelledby="s-dress-h">
+  <h2 id="s-dress-h" data-en="Dress Code">ពណ៌សម្លៀកបំពាក់</h2><div class="orn"></div>
+  <p class="sub" id="dtxt"></p>
+  <div class="dress-card">
+    <div class="dress-swatch-row" id="sws" aria-label="Dress code colors"></div>
+  </div>
+</section>
+
+<section id="s-thanks" aria-labelledby="s-thanks-h">
+  <h2 id="s-thanks-h" data-en="Our Thanks to Our Honoured Guests">សេចក្ដីថ្លែងអំណរគុណដល់ភ្ញៀវកិត្តិយស</h2><div class="orn"></div>
+  <div class="thanks-card">
+    <span class="thanks-quote" aria-hidden="true">“</span>
+    <p class="thanks-copy lang-en" lang="en" hidden>On behalf of both families, the bride and the groom, we thank every honoured guest who joins us as our presiding guests and witnesses at our wedding. Your presence is a great honour and joy to us. May you all enjoy good health, happiness and every blessing.</p>
+    <p class="thanks-copy lang-km" id="thanksText">ក្នុងនាមគ្រួសារទាំងសងខាង និងកូនកំលោះ កូនក្រមុំ យើងខ្ញុំសូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ ចំពោះភ្ញៀវកិត្តិយសទាំងអស់ ដែលបានអញ្ជើញមកចូលរួមជាអធិបតី និងជាសក្ខីភាព ក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ។ ការអញ្ជើញមកដល់របស់លោក លោកស្រី អ្នកនាង កញ្ញា គឺជាកិត្តិយស និងក្តីរីករាយដ៏ខ្ពង់ខ្ពស់សម្រាប់យើងខ្ញុំ។ សូមឱ្យលោកអ្នកទាំងអស់ប្រកបដោយសុខភាពល្អ សុភមង្គល និងសេចក្តីចម្រើនគ្រប់ប្រការ។</p>
+    <p class="thanks-signature"><span class="signature-orn" aria-hidden="true"></span><span data-en="Both Families">ក្រុមគ្រួសារទាំងសងខាង</span><span class="signature-orn" aria-hidden="true"></span></p>
+  </div>
+  <div class="closing-lotus-wrap" aria-hidden="true">
+    <svg class="closing-lotus" viewBox="0 0 160 92">
+      <defs><linearGradient id="closingLotusGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8D48B"/><stop offset=".52" stop-color="#C9A93F"/><stop offset="1" stop-color="#8F7524"/></linearGradient></defs>
+      <path pathLength="1" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
+      <path pathLength="1" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
+      <path pathLength="1" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
+      <path pathLength="1" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
+      <path pathLength="1" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
+      <path pathLength="1" d="M34 82Q80 94 126 82"/>
+    </svg>
+  </div>
+</section>
+
+</main>
+
+<footer class="wedding-footer">
+  <div class="closing-divider" aria-hidden="true"><i></i></div>
+  <p class="closing-thanks">សូមអរគុណ <span lang="en">· Thank you</span> <b aria-hidden="true">♥</b></p>
+  <p class="footer-love" id="footerLove"></p>
+  <p class="footer-year">Wedding · <span id="closingYear"></span></p>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script defer src="js/config.js"></script>
+<script defer src="js/coming-soon.js"></script>
+<script defer src="js/app.js"></script>
+<script defer src="js/lang.js"></script>
+<script defer src="js/setup-photos.js"></script>
+</body>
+</html>

@@ -1010,3 +1010,6 @@ html[lang="en"] .gallery-swipe-hint [lang="km"]{display:none}
 /* ===== inner-page semantic pass: lists/address keep their old look ===== */
 :where(ol.tl,ol#story,ul.gift-list){list-style:none;margin:0;padding:0}
 :where(address#venue){font-style:normal;margin-block:1em}
+
+/* envelope already opened in this tab (e.g. coming back from the album): no cover flash */
+html.skip-cover #cover{display:none!important}

@@ -35,7 +35,7 @@ $("calBtn").onclick=function(){
   var blob=new Blob([L.join("\r\n")],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=u;a.download="wedding-invitation.ics";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)
 };
-var ic=["🙏","🎁","💍","🍽️","🌙"];
+var ic=["🙏","✂️","🍽️","🥂","🌙"];
 $("prog").innerHTML='<div class="tl">'+CONFIG.program.map(function(p,i){return '<div class="ti"><div class="td">'+(ic[i]||"✦")+'</div><div class="tt"><b>'+p[0]+'</b><span>'+p[1]+'</span></div></div>'}).join("")+'</div>';
 
 /* countdown */

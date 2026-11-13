@@ -850,3 +850,13 @@ h2{line-height:1.6;letter-spacing:.01em}
   #s-profile .pf-card{flex:1 1 0;width:auto;max-width:none}
   #s-profile .pf-amp{align-self:center;margin:0 -40px}
 }
+
+/* ===== program polish: centred framed timeline, time as a pill ===== */
+#prog .tl{position:relative;width:min(100%,340px);margin:0 auto;padding:24px 20px 8px;border:1px solid var(--gold2);border-radius:22px;background:var(--card);box-shadow:0 16px 30px -20px rgba(110,91,23,.55)}
+#prog .tl:before{content:"";position:absolute;inset:6px;border:1px dashed var(--line);border-radius:17px;pointer-events:none}
+#prog .ti{gap:16px;align-items:center;padding-bottom:22px}
+#prog .ti:last-child{padding-bottom:14px}
+#prog .ti:not(:last-child):before{top:50px;bottom:-4px}
+#prog .tt{padding-top:0;min-width:0}
+#prog .tt b{display:inline-block;padding:1px 12px;border-radius:12px;background:rgba(179,155,54,.16);font-size:1.05rem;letter-spacing:.03em;line-height:1.6}
+#prog .tt span{display:block;margin-top:4px;font-size:1rem;line-height:1.7;letter-spacing:normal}

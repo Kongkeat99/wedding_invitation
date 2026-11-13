@@ -654,14 +654,14 @@ $("openBtn").addEventListener("click",function(){
   var c=$("cover");if(!c)return;c.classList.add("unseal","open");document.body.classList.add("go");c.setAttribute("aria-hidden","true");c.inert=true;try{setBackdrop(false)}catch(e){}
   if(location.hash){var t=document.getElementById(location.hash.slice(1));if(t)setTimeout(function(){t.scrollIntoView()},60)}})();
 
-/* thank-you paragraph: written out slowly (like a song) when the guest scrolls to it.
-   speed: 110 ms per letter, 170 ms at spaces, 700 ms at the end of a sentence – change the numbers below to adjust */
-(function(){
-  var el=$("thanksText");if(!el)return;
+/* thank-you paragraph (Khmer and English): written out slowly (like a song) when the guest scrolls to it.
+   speed: change the numbers in the two thanksWriter(...) calls below to adjust */
+function thanksWriter(el,locale,pace){
+  if(!el)return;
   var full=el.textContent.trim();
   var motionQuery=matchMedia("(prefers-reduced-motion:reduce)");
   var parts;
-  try{parts=(window.Intl&&Intl.Segmenter)?Array.from(new Intl.Segmenter("km",{granularity:"grapheme"}).segment(full),function(x){return x.segment}):Array.from(full)}catch(e){parts=Array.from(full)}
+  try{parts=(window.Intl&&Intl.Segmenter)?Array.from(new Intl.Segmenter(locale,{granularity:"grapheme"}).segment(full),function(x){return x.segment}):Array.from(full)}catch(e){parts=Array.from(full)}
   if(!("IntersectionObserver" in window))return;
   var done=document.createElement("span"),rest=document.createElement("span");
   rest.style.visibility="hidden";rest.textContent=full;el.textContent="";el.appendChild(done);el.appendChild(rest);
@@ -677,12 +677,16 @@ $("openBtn").addEventListener("click",function(){
     var i=0,step=function(){
       if(motionQuery.matches){finish();return}
       i++;done.textContent=parts.slice(0,i).join("");rest.textContent=parts.slice(i).join("");
-      if(i<parts.length)writeTimer=setTimeout(step,parts[i-1]==="។"?700:(parts[i-1]===" "?170:110))};
+      if(i<parts.length)writeTimer=setTimeout(step,pace(parts[i-1]))};
     step()}
   new IntersectionObserver(function(en,ob){
     en.forEach(function(e){if(e.isIntersecting&&!started){started=true;ob.disconnect();write()}})
   },{threshold:.1}).observe(el);
-})();
+}
+/* Khmer: 110 ms per letter, 170 at spaces, 700 at the end of a sentence */
+thanksWriter($("thanksText"),"km",function(c){return c==="។"?700:(c===" "?170:110)});
+/* English: same idea, a little faster per letter; starts when the English paragraph is shown (language switch / ?lang=en) */
+thanksWriter(document.querySelector(".thanks-copy.lang-en"),"en",function(c){return c==="."||c==="!"||c==="?"?600:(c===","?220:(c===" "?90:45))});
 
 /* photo carousel: one photo set, with only the edge copies needed to close the loop */
 (function(){

@@ -578,6 +578,34 @@ body:not(.go) #fx{z-index:56;opacity:.6}
 #s-video .video-frame:fullscreen video{border-radius:22px}
 @media (prefers-reduced-motion:reduce){#s-video .video-frame,#s-video .video-frame video,#s-video .video-frame:after,#s-video .video-frame:before,#s-video .video-play,#s-video .video-play:before,#s-video .video-controls,#s-video .video-control,#s-video .video-control svg,#s-video .video-seek-tooltip,#s-video .video-volume,#s-video .video-cursor{animation:none!important;transition:opacity .15s ease!important}#s-video .video-card:hover .video-frame:not(.is-playing) video{transform:none}#s-video .video-card:hover .video-frame{box-shadow:0 20px 60px rgba(201,169,63,.18)}#s-video .video-card:hover .video-frame:before{animation:none;opacity:0}#s-video .video-play:before{display:none}}
 
+/* ===== pre-wedding video: one framed screen =====
+   Final layer for #s-video. It replaces the look built up by the earlier rules above:
+   the legacy .vid animated border + pulsing glow, the double rings, sparkle dots, leaf and shine sweep. */
+#s-video{min-height:0;padding-top:clamp(44px,9vw,68px);padding-bottom:clamp(44px,9vw,68px)}
+#s-video h2{font-size:clamp(1.7rem,7vw,2.3rem);line-height:1.6}
+html[lang="en"] #s-video h2{font-style:italic;font-weight:500;font-size:clamp(2.1rem,8vw,2.9rem);line-height:1.2}
+#s-video .video-subtitle{margin-bottom:36px;font-size:.95rem;letter-spacing:0}
+#s-video .vid.video-card{animation:none;background:none;border:0;box-shadow:none}
+#s-video .video-card:before,#s-video .video-card:after,
+#s-video .video-frame:before,#s-video .video-frame:after{content:none;animation:none}
+#s-video .video-ambient{opacity:.3}
+/* the screen: hairline gold edge, one offset keyline, squared like the gallery prints */
+#s-video .video-frame{border:1px solid rgba(232,212,139,.7);border-radius:4px;background:#090804;
+  outline:1px solid rgba(201,169,63,.5);outline-offset:9px;box-shadow:0 30px 60px -28px rgba(0,0,0,.9)}
+#s-video .video-card:hover .video-frame,#s-video .video-frame:focus-within{box-shadow:0 30px 60px -28px rgba(0,0,0,.9)}
+#s-video .video-frame:focus-visible{outline:2px solid #f0dda0;outline-offset:9px}
+#s-video .video-frame video{border-radius:3px}
+#s-video .video-card:hover .video-frame:not(.is-playing) video{transform:none}
+#s-video .video-controls{border-radius:0 0 3px 3px}
+/* play: centred, still, no pulsing ring */
+#s-video .video-play{top:50%;width:68px;height:68px;border:1px solid rgba(244,235,200,.8);background:rgba(18,14,5,.5);box-shadow:none;animation:none}
+#s-video .video-play:before{content:none;animation:none}
+/* progress slider: the page-wide input style must not draw a pill around it */
+#s-video .video-progress,#s-video .video-volume{border:0;border-radius:0;box-shadow:none;padding:0}
+@media (min-width:720px){
+  #s-video{max-width:900px;margin-block:28px;border-radius:30px;box-shadow:0 30px 60px -34px rgba(58,48,16,.6),inset 0 0 0 1px rgba(216,192,104,.35)}
+}
+
 /* A — keep floating petals and sparkles below all page content. */
 body.go #petals,body.go #fx{z-index:0;opacity:.35;pointer-events:none}
 body.go>section,body.go>footer{position:relative;z-index:1}

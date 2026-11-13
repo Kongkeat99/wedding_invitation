@@ -23,7 +23,7 @@ function syncHero(){var en=document.documentElement.dataset.language==="en";
   $("heroVenue").hidden=!$("heroVenue").textContent}
 syncHero();
 if("MutationObserver" in window)new MutationObserver(syncHero).observe(document.documentElement,{attributes:true,attributeFilter:["data-language"]});
-$("mapBtn").href=CONFIG.mapUrl;$("heroMap").href=CONFIG.mapUrl;
+$("mapBtn").href=CONFIG.mapUrl;
 /* hero "Add to Calendar": builds an all-day .ics event for the wedding date (Cambodia time) */
 $("calBtn").onclick=function(){
   var d=new Date(getDate());if(isNaN(d))return;

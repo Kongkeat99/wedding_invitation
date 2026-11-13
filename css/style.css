@@ -1141,3 +1141,24 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
 }
 @media (max-height:700px){#cover .cover-date{margin-top:8px}#cover .cover-invite{margin-top:8px}}
 @media (prefers-reduced-motion:reduce){#cover .cover-cta{animation:none}}
+
+/* ===== closing section redesign v4: full-bleed dark finale, richer card, monogram footer ===== */
+#s-thanks{position:relative;isolation:isolate;box-shadow:0 0 0 100vmax #1A1608;clip-path:inset(0 -100vmax);
+  background:radial-gradient(ellipse 70% 38% at 50% 8%,rgba(201,169,63,.16),transparent 70%),radial-gradient(ellipse 60% 30% at 50% 78%,rgba(201,169,63,.12),transparent 70%),#1A1608}
+#s-thanks .thanks-card{padding:26px clamp(22px,5vw,48px) 22px;background:linear-gradient(160deg,rgba(232,212,139,.1),rgba(26,22,8,.2) 55%,rgba(201,169,63,.07));box-shadow:0 24px 50px rgba(0,0,0,.35),inset 0 0 40px rgba(201,169,63,.05)}
+#s-thanks .thanks-quote{height:30px;font-size:4rem;color:rgba(232,212,139,.4)}
+#s-thanks .thanks-copy{font-size:1.06rem;line-height:2;margin:6px auto 18px;color:#FFF8E0}
+#s-thanks .thanks-signature{padding-top:16px;border-top:1px solid rgba(201,169,63,.28);font-size:.95rem}
+#s-thanks .signature-orn{width:34px}
+#s-thanks .closing-lotus-wrap{margin:30px auto 0}
+
+.wedding-footer{position:relative;isolation:isolate;box-shadow:0 0 0 100vmax #1A1608;clip-path:inset(0 -100vmax);padding:6px 20px max(30px,env(safe-area-inset-bottom,0px))}
+.wedding-footer .closing-divider{margin-bottom:20px}
+.ft-mono{display:grid;place-items:center;width:78px;height:78px;margin:0 auto 14px;border:1px solid rgba(232,212,139,.6);border-radius:50%;box-shadow:0 0 0 5px rgba(201,169,63,.1),inset 0 0 18px rgba(201,169,63,.12)}
+.ft-mono span{color:#E8D48B;font:italic 500 1.5rem/1 'Cormorant Garamond',Georgia,serif}
+.ft-mono i{color:#C9A93F;font-size:.75em;margin:0 2px}
+.ft-note{max-width:320px;margin:8px auto 14px;color:rgba(244,235,200,.85);font:400 .9rem/1.8 'Kantumruy Pro','Battambang',sans-serif}
+.footer-love{font-size:.95rem;font-style:italic;color:#E8D48B}
+.ft-top{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:40px;padding:8px 18px;border:1px solid rgba(232,212,139,.4);border-radius:999px;background:rgba(255,255,255,.05);color:#F4EBC8;font:500 .8rem 'Kantumruy Pro','Battambang',sans-serif;cursor:pointer;transition:background .25s,border-color .25s}
+.ft-top:hover,.ft-top:focus-visible{background:rgba(201,169,63,.2);border-color:#E8D48B}
+.ft-top:focus-visible{outline:2px solid #E8D48B;outline-offset:3px}

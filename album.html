@@ -271,6 +271,15 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
 .donut.intro .donut-center::after{animation-delay:.8s}
 @keyframes donutPulse{from{opacity:.75;transform:scale(1)}to{opacity:0;transform:scale(1.5)}}
 @media (prefers-reduced-motion:reduce){.donut.intro .donut-g,.donut.intro .donut-label,.donut.intro .donut-center,.donut-g[aria-pressed="true"],.donut-label.is-on,.donut-center::after{animation:none}}
+/* Side toggle and photo grid share the donut's motion language (same spring, same stagger). */
+#sides .wipe-fill{--wipe-ease:cubic-bezier(.22,1,.36,1);--wipe-duration:560ms}
+.seg-indicator{transition:transform .55s cubic-bezier(.34,1.56,.64,1)}
+.segmented button[aria-pressed="true"] .seg-count{animation:segCountPop .55s cubic-bezier(.34,1.56,.64,1) backwards}
+@keyframes segCountPop{from{opacity:0;transform:scale(.4)}}
+/* After a wedge tap, photos drift in from the side of the ring that was tapped. */
+.photo-grid.enter .photo-card{animation:gridIn .6s cubic-bezier(.22,1,.36,1) var(--delay,0ms) backwards}
+@keyframes gridIn{from{opacity:0;transform:translate(var(--enter-x,0px),-16px) scale(.95)}}
+@media (prefers-reduced-motion:reduce){.photo-grid.enter .photo-card,.segmented button[aria-pressed="true"] .seg-count{animation:none}}
 </style>
 </head>
 <body>
@@ -401,7 +410,7 @@ const albums={
   }
 
   function renderGrid(){
-    const grid=$('photoGrid');grid.innerHTML='';photos=category==='all'?allPhotos():entriesFor(groups().find(group=>group.id===category));
+    const grid=$('photoGrid');const key=side+'|'+category,animateGrid=!reduceMotion&&gridKey!==null&&gridKey!==key;gridKey=key;grid.classList.toggle('enter',animateGrid);grid.style.setProperty('--enter-x',(pickDx*22).toFixed(1)+'px');pickDx=0;grid.innerHTML='';photos=category==='all'?allPhotos():entriesFor(groups().find(group=>group.id===category));
     viewerPhotos=photos.filter(entry=>!isSamplePhoto(entry.photo));
     if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
     photos.forEach((entry,index)=>{
@@ -447,7 +456,7 @@ const albums={
     renderCategories();renderDonut();renderGrid();const current=category==='all'?null:groups().find(group=>group.id===category);const count=photos.length,hasSamples=photos.some(entry=>isSamplePhoto(entry.photo));const sideLabel=side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride';$('heroCount').textContent=hasSamples?sideLabel+' album · '+comingSoonLabel():'រូបភាព '+count+' · '+count+' photos · '+sideLabel+' album';$('galleryTitle').textContent=sideLabel+' · '+displayName(current);$('galleryCount').textContent=hasSamples?comingSoonLabel():count+' photos';
   }
 
-  let donutSide=null;
+  let donutSide=null,pickDx=0,gridKey=null;
   const sideCount=key=>albums[key].groups.filter(group=>group.photos&&group.photos.length).length;
   function renderDonut(){
     const host=$('donut'),stage=$('donutStage'),section=$('donutSection'),available=availableGroups(),n=available.length;
@@ -474,7 +483,7 @@ const albums={
       const edge=document.createElementNS(NS,'path');edge.setAttribute('class','donut-edge');edge.setAttribute('d',d);
       const face=document.createElementNS(NS,'path');face.setAttribute('class','donut-face');face.setAttribute('d',d);
       g.append(edge,face);
-      const pick=()=>selectCategory(category===group.id?'all':group.id);
+      const pick=()=>{pickDx=Math.cos(mid);selectCategory(category===group.id?'all':group.id)};
       g.addEventListener('click',pick);
       g.addEventListener('keydown',event=>{
         if(event.key==='Enter'||event.key===' '){event.preventDefault();pick();return}

@@ -762,7 +762,9 @@ body.video-section-active #langBtn{visibility:hidden;pointer-events:none}
 /* ===== Guest photo album section (after pre-wedding video) ===== */
 #s-guest-album .sub{margin:0 0 24px;opacity:.85}
 .ga-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto}
-.ga-card{position:relative;display:flex;align-items:flex-end;aspect-ratio:3/4;overflow:hidden;border-radius:20px;border:1px solid var(--gold);text-decoration:none;color:#fff;background:#1a1608 var(--ga-img) center/cover no-repeat;box-shadow:0 10px 26px rgba(0,0,0,.35);transition:transform .25s ease,box-shadow .25s ease}
+.ga-card{position:relative;display:flex;align-items:flex-end;aspect-ratio:3/4;overflow:hidden;border-radius:20px;border:1px solid var(--gold);text-decoration:none;color:#fff;background:#1a1608 center/cover no-repeat;box-shadow:0 10px 26px rgba(0,0,0,.35);transition:transform .25s ease,box-shadow .25s ease}
+.ga-card[data-album="groom"]{background-image:url(../assets/photos/thumbs/DSC_5485.jpg)}
+.ga-card[data-album="bride"]{background-image:url(../assets/photos/thumbs/DSC_5501.jpg)}
 .ga-card:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,4,.92) 0%,rgba(20,15,4,.55) 42%,rgba(20,15,4,0) 72%)}
 .ga-corner{position:absolute;inset:7px;border:1px solid rgba(216,192,104,.55);border-radius:14px;pointer-events:none}
 .ga-info{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:0 10px 16px;text-align:center}

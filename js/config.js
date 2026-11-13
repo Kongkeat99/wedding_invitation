@@ -50,6 +50,7 @@ var CONFIG = {
     groom: { categories: [
       {id:"trax-team", km:"ក្រុមការងារ Trax Apparel", en:"Trax Apparel Team", folder:"assets/album/groom/trax-team/", count:15, list:[]},
       {id:"silver-age", km:"ក្រុមការងារ Silver Age", en:"Silver Age Team", folder:"assets/album/groom/silver-age/", count:15, list:[]},
+      {id:"asean-freight", km:"ក្រុមការងារ ASEAN FREIGHT", en:"ASEAN FREIGHT Team", folder:"assets/album/groom/asean-freight/", count:15, list:[]},
       {id:"university", km:"មិត្តចាស់សាកលវិទ្យាល័យ", en:"University Old Friend", folder:"assets/album/groom/university/", count:15, list:[]},
       {id:"high-school", km:"មិត្តចាស់វិទ្យាល័យ", en:"High School Old Friend", folder:"assets/album/groom/high-school/", count:15, list:[]},
       {id:"primary", km:"មិត្តចាស់បឋមសិក្សា", en:"Primary Old Friend", folder:"assets/album/groom/primary/", count:15, list:[]},

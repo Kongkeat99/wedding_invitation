@@ -203,6 +203,22 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
 
 @media (min-width:600px){.photo-grid{column-gap:16px}.photo-card{margin-bottom:16px}}
 @media (prefers-reduced-motion:reduce){.photo-card:after{transition:none}}
+/* UX: one tap on touch screens (no hover), compact filter bar on phones, swipe hint */
+.photo-card img{object-position:50% 28%}
+@media (hover:none){
+  .photo-card:not(.is-sample):before{transform:scaleX(1);transform-origin:left}
+  .photo-card:not(.is-sample) .photo-caption{opacity:1;transform:none}
+}
+@media (max-width:639px){
+  :root{--header-height:0px}
+  .site-header{position:static}
+  .control-deck{top:var(--safe-top);padding:8px 16px 10px;transition:transform .28s ease}
+  .control-deck.is-tucked{transform:translateY(calc(-100% - var(--safe-top) - 6px))}
+  .segmented{margin-bottom:8px}
+}
+.lightbox-hint{position:absolute;left:50%;bottom:10px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 16px;border:1px solid rgba(233,207,122,.45);border-radius:18px;background:rgba(20,15,4,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--cream);font-size:.74rem;line-height:1.5;text-align:center;white-space:nowrap;pointer-events:none;opacity:0;transform:translate(-50%,8px);transition:opacity .3s ease,transform .3s ease}
+.lightbox-hint[hidden]{display:none}
+.lightbox-hint.is-on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
@@ -263,6 +279,7 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
   <div class="lightbox-stage" id="lightboxStage">
     <button class="lightbox-nav wipe-fill" id="previousPhoto" type="button" aria-label="រូបមុន · Previous photo">‹</button>
     <img class="lightbox-image" id="lightboxImage" alt="" draggable="false">
+    <div class="lightbox-hint" id="lightboxHint" aria-hidden="true" hidden><span>‹ អូស · Swipe ›</span><span>↓ ទាញចុះដើម្បីបិទ · Pull down to close</span></div>
     <button class="lightbox-nav wipe-fill" id="nextPhoto" type="button" aria-label="រូបបន្ទាប់ · Next photo">›</button>
   </div>
   <div class="lightbox-bottom"><a class="lightbox-action wipe-fill" id="downloadPhoto" download>⬇ រក្សាទុក · Save</a><button class="lightbox-action wipe-fill" id="sharePhoto" type="button">↗ ចែករំលែក · Share</button><button class="lightbox-action wipe-fill" id="zoomPhoto" type="button">＋ ពង្រីក · Zoom</button></div>
@@ -286,7 +303,7 @@ const makePhotos=group=>{
   const paths=group.list&&group.list.length?group.list:Array.from({length:group.count||0},(_,index)=>(group.folder||'')+(index+1)+'.jpg');
   return paths.map((path,index)=>{
     const source=typeof path==='string'?{src:path}:path;
-    return{src:source.src,thumb:'assets/album-placeholder.svg',w:source.w||720,h:source.h||960,alt:source.alt||group.km+' · '+group.en+' · រូបភាព '+(index+1)+' · Photo '+(index+1),isReal:source.isReal===true};
+    return{src:source.src,thumb:'assets/album-placeholder.svg',w:source.w||720,h:source.h||960,hasSize:!!(source.w&&source.h),alt:source.alt||group.km+' · '+group.en+' · រូបភាព '+(index+1)+' · Photo '+(index+1),isReal:source.isReal===true};
   });
 };
 const albums={
@@ -332,7 +349,7 @@ const albums={
     if(!photos.length){$('empty').hidden=false;return}$('empty').hidden=true;
     photos.forEach((entry,index)=>{
       const photo=entry.photo,group=entry.group,sample=isSamplePhoto(photo),card=document.createElement('button');
-      card.className='photo-card'+(sample?' is-sample':'');card.type='button';card.disabled=sample;card.tabIndex=sample?-1:0;
+      card.className='photo-card'+(sample?' is-sample':'');if(photo.hasSize)card.style.aspectRatio=String(Math.min(1.5,Math.max(.7,photo.w/photo.h)));card.type='button';card.disabled=sample;card.tabIndex=sample?-1:0;
       card.style.setProperty('--delay',reduceMotion?'0ms':Math.min(index*35,420)+'ms');
       const image=document.createElement('img');const imageSource=photo.thumb||photo.src;image.alt=photo.alt;image.width=photo.w;image.height=photo.h;image.loading='lazy';image.decoding='async';
       const errorMessage=document.createElement('span');errorMessage.className='photo-error';errorMessage.hidden=true;
@@ -361,8 +378,7 @@ const albums={
           return
         }
         if(sample)return;
-        if(window.matchMedia('(hover: none)').matches&&event.detail>0){if(!card.classList.contains('on')){document.querySelectorAll('.photo-card.on').forEach(active=>active.classList.remove('on'));card.classList.add('on');return}}
-        openViewer(index)
+                openViewer(index)
       };
       grid.appendChild(card);image.src=imageSource;if(image.complete){if(image.naturalWidth)imageLoaded();else imageFailed()}
     });
@@ -376,16 +392,19 @@ const albums={
 
   function openSheet(){sheetFocus=document.activeElement;$('groupPicker').setAttribute('aria-expanded','true');$('groupSheet').hidden=false;requestAnimationFrame(()=>{$('groupSheet').classList.add('is-open');const selected=$('sheetOptions').querySelector('[aria-selected="true"]');if(selected)selected.focus()})}
   function closeSheet(){if($('groupSheet').hidden)return;$('groupSheet').classList.remove('is-open');$('groupSheet').hidden=true;$('groupPicker').setAttribute('aria-expanded','false');if(sheetFocus&&sheetFocus.focus)sheetFocus.focus();sheetFocus=null}
-  function selectSide(next){side=next;category='all';closeSheet();closeViewer();setHash();render()}
-  function selectCategory(next){category=next;closeSheet();closeViewer();setHash();render()}
+  function scrollToGallery(){const meta=document.querySelector('.gallery-meta'),deck=document.querySelector('.control-deck');if(!meta)return;const y=meta.getBoundingClientRect().top+window.scrollY-(deck?deck.offsetHeight:0)-12;if(window.scrollY>y)window.scrollTo({top:Math.max(0,y),behavior:reduceMotion?'auto':'smooth'})}
+  function selectSide(next){side=next;category='all';closeSheet();closeViewer();setHash();render();scrollToGallery()}
+  function selectCategory(next){category=next;closeSheet();closeViewer();setHash();render();scrollToGallery()}
   function applyTransform(){$('lightboxImage').style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
   function preload(index){if(!viewerPhotos.length)return;const image=new Image();image.src=viewerPhotos[(index+viewerPhotos.length)%viewerPhotos.length].photo.src}
   function showViewer(index,direction){if(!viewerPhotos.length)return;viewerIndex=(index+viewerPhotos.length)%viewerPhotos.length;const photo=viewerPhotos[viewerIndex].photo,image=$('lightboxImage');image.classList.remove('is-loaded','slide-left','slide-right');if(direction){void image.offsetWidth;image.classList.add(direction<0?'slide-left':'slide-right')}image.onload=()=>image.classList.add('is-loaded');image.src=photo.src;if(image.complete)image.classList.add('is-loaded');image.alt=photo.alt;$('lightboxCounter').textContent=(viewerIndex+1)+' / '+viewerPhotos.length;$('downloadPhoto').href=photo.src;$('downloadPhoto').download=photo.src.split('/').pop();preload(viewerIndex+1);preload(viewerIndex-1)}
   function rubberBand(direction){const stage=$('lightboxStage');stage.classList.remove('rubber-left','rubber-right');void stage.offsetWidth;stage.classList.add(direction<0?'rubber-left':'rubber-right')}
   function navigate(direction){if(zoom>1){rubberBand(direction);return}const next=viewerIndex+direction;if(next<0||next>=viewerPhotos.length){rubberBand(direction);return}showViewer(next,direction<0?-1:1)}
   function animateFromThumbnail(){if(reduceMotion||!viewerFrom)return;const image=$('lightboxImage'),origin=viewerFrom.getBoundingClientRect(),target=image.getBoundingClientRect();if(!target.width||!target.height)return;image.style.setProperty('--flip-x',origin.left+origin.width/2-(target.left+target.width/2)+'px');image.style.setProperty('--flip-y',origin.top+origin.height/2-(target.top+target.height/2)+'px');image.style.setProperty('--flip-sx',Math.max(.05,origin.width/target.width));image.style.setProperty('--flip-sy',Math.max(.05,origin.height/target.height));image.classList.remove('flip-in');void image.offsetWidth;image.classList.add('flip-in')}
-  function openViewer(index){const viewerIndexForPhoto=viewerPhotos.indexOf(photos[index]);if(viewerIndexForPhoto<0)return;viewerFrom=document.activeElement;zoom=1;panX=0;panY=0;applyTransform();showViewer(viewerIndexForPhoto);$('lightbox').hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>{$('lightbox').classList.add('is-open');animateFromThumbnail()});$('closeLightbox').focus()}
-  function closeViewer(){if($('lightbox').hidden)return;$('lightbox').classList.remove('is-open');$('lightbox').hidden=true;document.body.style.overflow='';zoom=1;panX=0;panY=0;if(viewerFrom&&viewerFrom.focus)viewerFrom.focus();viewerFrom=null}
+  function showSwipeHint(){const hint=$('lightboxHint');if(!hint||viewerPhotos.length<2||!window.matchMedia('(hover: none) and (pointer: coarse)').matches)return;try{if(sessionStorage.getItem('albumSwipeHint')==='1')return;sessionStorage.setItem('albumSwipeHint','1')}catch(e){}hint.hidden=false;requestAnimationFrame(()=>hint.classList.add('is-on'));setTimeout(hideSwipeHint,3600)}
+  function hideSwipeHint(){const hint=$('lightboxHint');if(!hint||hint.hidden)return;hint.classList.remove('is-on');setTimeout(()=>{hint.hidden=true},300)}
+  function openViewer(index){const viewerIndexForPhoto=viewerPhotos.indexOf(photos[index]);if(viewerIndexForPhoto<0)return;viewerFrom=document.activeElement;zoom=1;panX=0;panY=0;applyTransform();showViewer(viewerIndexForPhoto);$('lightbox').hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>{$('lightbox').classList.add('is-open');animateFromThumbnail()});$('closeLightbox').focus();showSwipeHint()}
+  function closeViewer(){if($('lightbox').hidden)return;hideSwipeHint();$('lightbox').classList.remove('is-open');$('lightbox').hidden=true;document.body.style.overflow='';zoom=1;panX=0;panY=0;if(viewerFrom&&viewerFrom.focus)viewerFrom.focus();viewerFrom=null}
   function distance(touches){return Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)}
   function changeZoom(next){zoom=Math.max(1,Math.min(3,next));if(zoom===1){panX=0;panY=0}applyTransform()}
   async function sharePhoto(){if(!viewerPhotos.length)return;const url=new URL(viewerPhotos[viewerIndex].photo.src,location.href).href;try{if(navigator.share){await navigator.share({title:'Soem Kungkiet & Chham Chanthu',text:'Wedding photo · រូបភាពអាពាហ៍ពិពាហ៍',url});return}if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);else{const input=document.createElement('textarea');input.value=url;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();if(!document.execCommand('copy'))throw new Error('Copy failed');input.remove()}$('sharePhoto').textContent='✓ បានចម្លង · Copied'}catch(error){if(error.name!=='AbortError')$('sharePhoto').textContent='មិនអាចចែករំលែក · Try again';setTimeout(()=>$('sharePhoto').textContent='↗ ចែករំលែក · Share',1800)}}
@@ -395,10 +414,11 @@ const albums={
   $('groupSheet').addEventListener('touchstart',event=>{sheetStartY=event.touches[0].clientY},{passive:true});
   $('groupSheet').addEventListener('touchend',event=>{if(event.changedTouches[0].clientY-sheetStartY>60)closeSheet()},{passive:true});
   $('languageToggle').querySelectorAll('button').forEach(button=>button.onclick=()=>{uiLanguage=button.dataset.language;$('languageToggle').querySelectorAll('button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));if(window.updateComingSoonLanguage)window.updateComingSoonLanguage(uiLanguage);render()});
-  $('back').href='index.html'+location.search;
+  $('back').href='index.html'+location.search+'#s-guest-album';
+  $('back').addEventListener('click',event=>{let fromSite=false;try{const ref=new URL(document.referrer);fromSite=ref.origin===location.origin&&!/album\.html$/.test(ref.pathname)}catch(e){}if(fromSite&&history.length>1){event.preventDefault();history.back()}});
   $('closeLightbox').onclick=closeViewer;$('previousPhoto').onclick=()=>navigate(-1);$('nextPhoto').onclick=()=>navigate(1);$('zoomPhoto').onclick=()=>changeZoom(zoom===1?2:1);$('sharePhoto').onclick=sharePhoto;
   $('lightbox').onclick=event=>{if(event.target===$('lightbox'))closeViewer()};
-  $('lightboxImage').addEventListener('touchstart',event=>{if(event.touches.length===2){pinching=true;dragging=false;pinchDistance=distance(event.touches);return}swipeX=event.touches[0].clientX;swipeY=event.touches[0].clientY;if(zoom>1){dragging=true;panStartX=panX;panStartY=panY}},{passive:true});
+  $('lightboxImage').addEventListener('touchstart',event=>{hideSwipeHint();if(event.touches.length===2){pinching=true;dragging=false;pinchDistance=distance(event.touches);return}swipeX=event.touches[0].clientX;swipeY=event.touches[0].clientY;if(zoom>1){dragging=true;panStartX=panX;panStartY=panY}},{passive:true});
   $('lightboxImage').addEventListener('touchmove',event=>{if(pinching&&event.touches.length===2){changeZoom(zoom*distance(event.touches)/pinchDistance);pinchDistance=distance(event.touches);event.preventDefault();return}if(dragging&&zoom>1){panX=panStartX+event.touches[0].clientX-swipeX;panY=panStartY+event.touches[0].clientY-swipeY;applyTransform();event.preventDefault()}},{passive:false});
   $('lightboxImage').addEventListener('touchend',event=>{if(pinching){if(event.touches.length<2)pinching=false;return}const dx=event.changedTouches[0].clientX-swipeX,dy=event.changedTouches[0].clientY-swipeY;dragging=false;if(zoom>1)return;if(dy>80&&Math.abs(dy)>Math.abs(dx)){closeViewer();return}if(Math.abs(dx)>45)navigate(dx<0?1:-1)},{passive:true});
   $('lightboxImage').ondblclick=()=>changeZoom(zoom===1?2:1);
@@ -419,6 +439,9 @@ const albums={
     function onStylesError(){window.clearTimeout(fallback);console.error('Could not load the album stylesheet.');hideLoading()}
     styles.addEventListener('load',onStylesReady,{once:true});styles.addEventListener('error',onStylesError,{once:true})
   }
+  (()=>{const deck=document.querySelector('.control-deck'),phone=window.matchMedia('(max-width:639px)');if(!deck)return;let lastY=window.scrollY,ticking=false;
+    window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=window.scrollY,d=y-lastY;if(!phone.matches||y<160||d<-6)deck.classList.remove('is-tucked');else if(d>8)deck.classList.add('is-tucked');if(Math.abs(d)>6)lastY=y;ticking=false})},{passive:true});
+    deck.addEventListener('focusin',()=>deck.classList.remove('is-tucked'))})();
   readHash();revealAlbum();window.addEventListener('hashchange',()=>{closeViewer();readHash()});
 })();
 </script>

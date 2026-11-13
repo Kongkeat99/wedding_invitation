@@ -1013,3 +1013,21 @@ html[lang="en"] .gallery-swipe-hint [lang="km"]{display:none}
 
 /* envelope already opened in this tab (e.g. coming back from the album): no cover flash */
 html.skip-cover #cover{display:none!important}
+
+/* ===== cover polish 3: Khmer-safe spacing, quieter CTA, bigger date, monogram seal ===== */
+/* Khmer clusters break apart with letter-spacing, so spacing is reset on Khmer text */
+#cover .cover-date,#cover .cover-invite,#cover .env-to span,.cover-cta{letter-spacing:0}
+#cover .cover-date{margin-top:12px;font-size:clamp(1.15rem,5vw,1.4rem);font-weight:600}
+#cover .cover-invite{margin-top:10px;font-size:clamp(.9rem,3.6vw,1.05rem)}
+/* the seal is the real tap target: the pill becomes a quiet hint */
+.cover-cta{min-height:44px;border:1px solid rgba(232,212,139,.5);background:rgba(255,255,255,.06);color:#F4EBC8;font-weight:500;box-shadow:none;animation:none}
+.cover-cta .tap-icon{stroke:#E8D48B}
+/* envelope: guest name sits larger and lower, closer to the seal */
+#cover .env-to{top:14%}
+#cover .env-to b{font-size:clamp(1.25rem,5.6vw,1.6rem)}
+/* monogram seal */
+#cover .seal-mono{position:relative;color:#F6E3D0;font:italic 600 1.05rem/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.02em;text-shadow:0 1px 1px rgba(75,10,16,.7)}
+#cover .seal-mono i{font-size:.75em;margin:0 1px;color:#E8D48B}
+@media (max-width:600px){#cover .seal-mono{font-size:.95rem}}
+/* wide screens: larger envelope */
+@media (min-width:900px) and (min-height:760px){#cover .env{width:460px}}

@@ -925,3 +925,7 @@ h2{line-height:1.6;letter-spacing:.01em}
 #cover .names{margin-block:1px 4px}
 #cover :focus-visible{outline:3px solid #fff;outline-offset:4px}
 .noscript-msg{position:relative;z-index:60;margin:0;padding:28px 18px;text-align:center;line-height:1.9}
+
+/* ===== inner-page semantic pass: lists/address keep their old look ===== */
+:where(ol.tl,ol#story,ul.gift-list){list-style:none;margin:0;padding:0}
+:where(address#venue){font-style:normal;margin-block:1em}

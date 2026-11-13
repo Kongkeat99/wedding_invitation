@@ -736,3 +736,7 @@ body.video-section-active #langBtn{visibility:hidden;pointer-events:none}
 
 /* soft fade at the left/right edge of the photo gallery instead of a hard cut */
 .grid#grid{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
+
+/* The gallery is animated frame by frame in js/app.js. The generic .ph transitions made a photo "fly" across the
+   screen when the loop wrapped from the last photo to the first, so they are switched off for the carousel. */
+.grid#grid .ph{transition:none!important}

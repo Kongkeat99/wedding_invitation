@@ -228,7 +228,7 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
 .seg-count{display:inline-grid;place-items:center;min-width:1.45em;height:1.45em;margin-left:6px;padding:0 6px;border-radius:999px;background:rgba(233,207,122,.16);color:var(--gold2);font:700 .72rem/1 'Cormorant Garamond',Georgia,serif;transition:background .25s,color .25s}
 .segmented button[aria-pressed="true"] .seg-count{background:rgba(20,17,10,.2);color:var(--ink)}
 .donut-section{margin:26px auto 12px;text-align:center}
-.donut-stage{position:relative;width:min(400px,92vw);aspect-ratio:1;margin:0 auto;touch-action:pan-y}
+.donut-stage{position:relative;width:min(400px,92vw);aspect-ratio:1;margin:0 auto;touch-action:pan-y;container-type:inline-size}
 .donut{position:relative;width:100%;height:100%}
 .donut.flip{animation:donutIn .42s cubic-bezier(.22,1,.36,1) .14s both}
 .donut-ghost{position:absolute;inset:0;pointer-events:none;animation:donutOut .2s ease-in both}
@@ -254,6 +254,23 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
 .donut-center .dc-sub{font:500 .74rem/1.3 'Noto Sans Khmer','Cormorant Garamond',serif;opacity:.75}
 .donut-hint{margin:18px 0 0;color:var(--muted);font-size:.8rem}
 @media (prefers-reduced-motion:reduce){.donut.flip,.donut-ghost{animation:none}.donut-ghost{display:none}.donut-edge,.donut-face,.donut-label{transition:none}}
+/* Donut motion: one intro sequence on first load, then motion only in response to a tap. */
+.donut.intro .donut-g{transform-box:view-box;transform-origin:50% 50%;animation:donutWedgeIn .85s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*85ms + 150ms) backwards}
+@keyframes donutWedgeIn{from{opacity:0;transform:rotate(-30deg) scale(.8)}}
+.donut.intro .donut-label{animation:donutFade .5s ease calc(var(--i,0)*85ms + 560ms) backwards}
+@keyframes donutFade{from{opacity:0}}
+.donut.intro .donut-center{animation:donutCenterIn .9s cubic-bezier(.34,1.4,.64,1) .1s backwards}
+@keyframes donutCenterIn{from{opacity:0;transform:translate(-50%,-50%) scale(.45)}}
+/* Selected wedge springs outward along its own angle; its label travels with it. */
+.donut-g[aria-pressed="true"]{transform:translate(calc(var(--dxn,0)*1px),calc(var(--dyn,0)*1px));animation:donutPop .55s cubic-bezier(.34,1.56,.64,1) backwards}
+@keyframes donutPop{from{transform:translate(0,0)}}
+.donut-label.is-on{animation:donutLabelPop .55s cubic-bezier(.34,1.56,.64,1) backwards}
+@keyframes donutLabelPop{from{translate:calc(var(--dxn,0)*-.25cqw) calc(var(--dyn,0)*-.25cqw)}}
+/* A thin gold ring leaves the centre medallion whenever the view changes. */
+.donut-center::after{content:"";position:absolute;inset:-7px;border:1.5px solid #E9CF7A;border-radius:50%;opacity:0;pointer-events:none;animation:donutPulse 1s ease-out .1s}
+.donut.intro .donut-center::after{animation-delay:.8s}
+@keyframes donutPulse{from{opacity:.75;transform:scale(1)}to{opacity:0;transform:scale(1.5)}}
+@media (prefers-reduced-motion:reduce){.donut.intro .donut-g,.donut.intro .donut-label,.donut.intro .donut-center,.donut-g[aria-pressed="true"],.donut-label.is-on,.donut-center::after{animation:none}}
 </style>
 </head>
 <body>
@@ -438,7 +455,7 @@ const albums={
     $('cGroom').textContent=sideCount('groom');$('cBride').textContent=sideCount('bride');
     if(!n){section.hidden=true;return}
     section.hidden=false;
-    const NS='http://www.w3.org/2000/svg',C=200,R=192,r=94,GAP=8,S=9,ro=R-S,ri=r+S,TAU=Math.PI*2;
+    const NS='http://www.w3.org/2000/svg',C=200,R=192,r=94,GAP=8,S=9,ro=R-S,ri=r+S,TAU=Math.PI*2,PUSH=8,intro=donutSide===null&&!reduceMotion;
     const pt=(rad,a)=>(C+rad*Math.cos(a)).toFixed(2)+' '+(C+rad*Math.sin(a)).toFixed(2);
     const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 400 400');svg.setAttribute('class','donut-svg');svg.setAttribute('role','group');
     svg.setAttribute('aria-label',(side==='groom'?'ខាងកូនកំលោះ · Groom':'ខាងកូនក្រមុំ · Bride')+' groups');
@@ -452,7 +469,7 @@ const albums={
       const mid=-Math.PI/2+i*TAU/n,half=Math.PI/n,oOff=(GAP/2+S)/ro,iOff=(GAP/2+S)/ri;
       const a1=mid-half+oOff,a2=mid+half-oOff,b1=mid-half+iOff,b2=mid+half-iOff,large=(a2-a1)>Math.PI?1:0;
       const d='M'+pt(ro,a1)+' A'+ro+' '+ro+' 0 '+large+' 1 '+pt(ro,a2)+' L'+pt(ri,b2)+' A'+ri+' '+ri+' 0 '+large+' 0 '+pt(ri,b1)+' Z';
-      const g=document.createElementNS(NS,'g');g.setAttribute('class','donut-g');g.setAttribute('role','button');g.setAttribute('tabindex','0');g.dataset.category=group.id;
+      const g=document.createElementNS(NS,'g');g.setAttribute('class','donut-g');g.setAttribute('role','button');g.setAttribute('tabindex','0');g.dataset.category=group.id;const on=category===group.id,dxn=(on?PUSH*Math.cos(mid):0).toFixed(2),dyn=(on?PUSH*Math.sin(mid):0).toFixed(2);g.style.setProperty('--i',i);g.style.setProperty('--dxn',dxn);g.style.setProperty('--dyn',dyn);
       g.setAttribute('aria-pressed',String(category===group.id));g.setAttribute('aria-label',group.kh+' · '+group.en);
       const edge=document.createElementNS(NS,'path');edge.setAttribute('class','donut-edge');edge.setAttribute('d',d);
       const face=document.createElementNS(NS,'path');face.setAttribute('class','donut-face');face.setAttribute('d',d);
@@ -467,7 +484,7 @@ const albums={
       svg.appendChild(g);
       const label=document.createElement('span'),mr=(R+r)/2;
       label.className='donut-label'+(category===group.id?' is-on':'');label.setAttribute('aria-hidden','true');
-      label.style.left=((C+mr*Math.cos(mid))/4)+'%';label.style.top=((C+mr*Math.sin(mid))/4)+'%';
+      label.style.left=((C+(mr+(on?PUSH:0))*Math.cos(mid))/4)+'%';label.style.top=((C+(mr+(on?PUSH:0))*Math.sin(mid))/4)+'%';label.style.setProperty('--i',i);label.style.setProperty('--dxn',dxn);label.style.setProperty('--dyn',dyn);
       const real=realPhotoCount(group);label.innerHTML=nameHtml(group)+(real?'<small>'+real+'</small>':'');
       labels.appendChild(label);
     });
@@ -487,7 +504,7 @@ const albums={
       ghost.setAttribute('aria-hidden','true');ghost.inert=true;ghost.innerHTML=host.innerHTML;stage.appendChild(ghost);
       ghost.addEventListener('animationend',()=>ghost.remove(),{once:true});setTimeout(()=>ghost.remove(),500);
     }
-    host.classList.toggle('dense',n>6);
+    host.classList.toggle('dense',n>6);host.classList.toggle('intro',intro);
     host.innerHTML='';host.append(svg,labels,center);
     $('donutHint').textContent=uiLanguage==='km'?'ចុចលើក្រុម ដើម្បីមើលរូបភាព · អូសទៅចំហៀង ដើម្បីប្តូរខាង':uiLanguage==='en'?'Tap a group to view its photos · swipe sideways to switch side':'ចុចលើក្រុម ដើម្បីមើលរូបភាព · Tap a group to view photos. អូសទៅចំហៀង · Swipe sideways to switch side.';
     if(flipping){host.classList.remove('flip');void host.offsetWidth;host.classList.add('flip');host.addEventListener('animationend',()=>host.classList.remove('flip'),{once:true})}

@@ -1,0 +1,274 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 0 600 940" width="600" height="940" fill="none" xmlns:c2pa="http://c2pa.org/manifest">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF1B8"/><stop offset=".35" stop-color="#E8C45A"/>
+      <stop offset=".7" stop-color="#B98A22"/><stop offset="1" stop-color="#F2D77C"/>
+    </linearGradient>
+    <linearGradient id="goldV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBE9A3"/><stop offset=".5" stop-color="#D6AC3C"/><stop offset="1" stop-color="#A97A1C"/>
+    </linearGradient>
+    <linearGradient id="silk" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8E1E3A"/><stop offset=".5" stop-color="#C23B5A"/><stop offset="1" stop-color="#7A1630"/>
+    </linearGradient>
+    <linearGradient id="sash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7E4A0" stop-opacity=".95"/><stop offset="1" stop-color="#D9AE45" stop-opacity=".85"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F2CFA0"/><stop offset="1" stop-color="#D49E68"/>
+    </linearGradient>
+    <radialGradient id="gem" cx=".4" cy=".35" r=".7">
+      <stop offset="0" stop-color="#FFB3C0"/><stop offset=".5" stop-color="#D3233F"/><stop offset="1" stop-color="#7A0F24"/>
+    </radialGradient>
+    <radialGradient id="emer" cx=".4" cy=".35" r=".7">
+      <stop offset="0" stop-color="#9BF2CF"/><stop offset=".55" stop-color="#14A06F"/><stop offset="1" stop-color="#0A5A40"/>
+    </radialGradient>
+    <pattern id="brocade" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M11 3 Q15 11 11 19 Q7 11 11 3Z M3 11 Q11 7 19 11 Q11 15 3 11Z" stroke="#7A5410" stroke-width=".9" fill="none" opacity=".55"/>
+      <circle cx="11" cy="11" r="1.6" fill="#FFF3C2" opacity=".8"/>
+    </pattern>
+    <linearGradient id="lotusFront" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FFF4F6"/><stop offset=".55" stop-color="#FFC1D2"/><stop offset="1" stop-color="#EE6E98"/>
+    </linearGradient>
+    <linearGradient id="lotusBack" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FFE3EA"/><stop offset="1" stop-color="#D9507C"/>
+    </linearGradient>
+    <style>
+      /* Choreography studied from real Royal Ballet apsara footage:
+         slow 4.8s phrase, soft knee-bend on each beat, weight shift side to side,
+         held head-slide, arms that flow shoulder > elbow > wrist, planted feet. */
+      g[class]{animation-duration:4.8s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.45,.05,.55,.95)}
+      .body{transform-origin:330px 880px;animation-name:plie}
+      .torso{transform-origin:332px 440px;animation-name:breathe;animation-duration:2.4s}
+      .head{transform-origin:345px 252px;animation-name:headSlide;animation-delay:-.4s}
+      .uB{transform-origin:306px 284px;animation-name:uBk;animation-delay:-.9s}
+      .fB{transform-origin:224px 330px;animation-name:fBk;animation-delay:-.6s}
+      .hB{transform-origin:172px 284px;animation-name:hBk;animation-duration:2.4s;animation-delay:-.3s}
+      .flower{transform-origin:166px 290px;animation-name:flowerLag;animation-duration:2.4s;animation-delay:.1s}
+      .uF{transform-origin:370px 280px;animation-name:uFk;animation-delay:-.7s}
+      .fF{transform-origin:456px 178px;animation-name:fFk;animation-delay:-.45s}
+      .hF{transform-origin:500px 90px;animation-name:hFk;animation-duration:2.4s}
+      .thigh{transform-origin:318px 520px;animation-name:thighK;animation-delay:-.2s}
+      .shin{transform-origin:196px 592px;animation-name:shinK;animation-delay:-.1s}
+      .foot{transform-origin:104px 522px;animation-name:footK;animation-duration:2.4s}
+      .skirt{transform-origin:330px 470px;animation-name:skirtK;animation-delay:-.35s}
+      .sash{transform-origin:296px 380px;animation-name:sashA;animation-delay:-1s}
+      .sash2{transform-origin:296px 420px;animation-name:sashB;animation-delay:-1.3s}
+      @keyframes plie{
+        0%{transform:translate(0,0) rotate(0)}
+        10%{transform:translate(-1px,9px) rotate(-.5deg)}
+        25%{transform:translate(-5px,0) rotate(-1.4deg)}
+        50%{transform:translate(0,0) rotate(0)}
+        60%{transform:translate(1px,9px) rotate(.5deg)}
+        75%{transform:translate(5px,0) rotate(1.4deg)}
+        100%{transform:translate(0,0) rotate(0)}}
+      @keyframes breathe{from{transform:scale(1,1)}50%{transform:scale(1.008,1.012)}to{transform:scale(1,1)}}
+      @keyframes headSlide{
+        0%{transform:translate(0,0) rotate(0)}
+        14%,38%{transform:translate(-4px,1px) rotate(-4.5deg)}
+        52%{transform:translate(0,0) rotate(0)}
+        64%,88%{transform:translate(4px,1px) rotate(4deg)}
+        100%{transform:translate(0,0) rotate(0)}}
+      @keyframes uBk{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+      @keyframes fBk{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(14deg)}}
+      @keyframes hBk{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(14deg)}}
+      @keyframes flowerLag{0%,100%{transform:rotate(5deg) scale(1)}50%{transform:rotate(-6deg) scale(1.03)}}
+      @keyframes uFk{0%,100%{transform:rotate(5deg)}50%{transform:rotate(-6deg)}}
+      @keyframes fFk{0%,100%{transform:rotate(9deg)}50%{transform:rotate(-11deg)}}
+      @keyframes hFk{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}
+      @keyframes thighK{0%,100%{transform:rotate(2deg)}50%{transform:rotate(-3deg)}}
+      @keyframes shinK{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(7deg)}}
+      @keyframes footK{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+      @keyframes skirtK{
+        0%,50%,100%{transform:rotate(0) skewX(0)}
+        25%{transform:rotate(-1.2deg) skewX(1.6deg)}
+        75%{transform:rotate(1.2deg) skewX(-1.6deg)}}
+      @keyframes sashA{0%,100%{transform:rotate(-3deg) skewY(-1.5deg)}50%{transform:rotate(4deg) skewY(2deg)}}
+      @keyframes sashB{0%,100%{transform:rotate(3deg)}50%{transform:rotate(-4deg)}}
+      @media (prefers-reduced-motion:reduce){g[class]{animation:none}}
+    </style>
+    <filter id="soft"><feGaussianBlur stdDeviation="1.2"/></filter>
+  </defs>
+<g class="body">
+
+<g class="sash">
+  <!-- ===== flowing sash (sbai tail) behind body, left ===== -->
+  <path d="M300 372 C230 360 150 330 60 300 C40 296 20 312 38 322 C110 350 200 395 290 430 Z" fill="url(#sash)" stroke="#9A7018" stroke-width="1.4"/>
+  <path d="M296 392 C220 400 130 395 70 428 C54 438 66 454 84 446 C150 424 230 440 300 448 Z" fill="url(#sash)" stroke="#9A7018" stroke-width="1.4" opacity=".92"/>
+  <path d="M290 372 C220 358 140 332 62 305 M296 395 C220 405 140 405 76 434" stroke="#fff6cf" stroke-width="1" opacity=".7"/>
+
+</g>
+
+<g class="thigh">
+  <path d="M318 520 C270 560 222 590 190 596" stroke="url(#skin)" stroke-width="40" stroke-linecap="round"/>
+ <g class="shin">
+  <path d="M196 592 C160 572 128 548 104 520" stroke="url(#skin)" stroke-width="26" stroke-linecap="round"/>
+  <path d="M120 534 L148 548" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M120 534 L148 548" stroke="#7A5410" stroke-width="1.2" stroke-dasharray="2 3"/>
+  <g class="foot">
+  <path d="M104 522 C92 508 74 494 58 492 C50 492 52 502 62 508 C74 514 86 526 98 538Z" fill="url(#skin)" stroke="#B07A45" stroke-width="1"/>
+  </g>
+ </g>
+</g>
+
+  <g class="skirt">
+  <!-- ===== skirt: sampot with flowing tail over raised leg ===== -->
+  <path d="M286 450 C240 470 190 520 120 600 C150 660 230 700 300 690 C330 640 340 560 352 460Z" fill="url(#gold)" stroke="#8E6414" stroke-width="1.6"/>
+  <path d="M286 450 C240 470 190 520 120 600 C150 660 230 700 300 690 C330 640 340 560 352 460Z" fill="url(#brocade)"/>
+  <!-- fabric folds on flowing skirt -->
+  <path d="M270 470 C240 520 200 570 150 618 M300 480 C280 540 250 610 215 665 M250 462 C214 500 176 548 134 596" stroke="#8E6414" stroke-width="1.2" opacity=".7"/>
+  <!-- trailing hem flare -->
+  <path d="M120 600 C92 626 82 662 112 690 C170 720 262 722 318 700 C260 706 170 690 120 600Z" fill="#E6BE55" stroke="#8E6414" stroke-width="1.4"/>
+  <path d="M112 690 C98 664 106 636 120 600" stroke="#fff3c0" stroke-width="1.2" opacity=".8"/>
+
+</g>
+
+    <!-- ===== standing leg & hanging pleated front (chang kben tail) ===== -->
+  <path d="M318 690 C322 760 326 820 330 872" stroke="url(#skin)" stroke-width="38" stroke-linecap="round"/>
+  <!-- ankle bracelet + foot -->
+  <rect x="312" y="840" width="36" height="14" rx="6" fill="url(#gold)" stroke="#7A5410" stroke-width="1"/>
+  <path d="M312 866 C318 890 336 906 380 912 C402 914 404 904 388 896 C372 888 362 880 356 862Z" fill="url(#skin)" stroke="#B07A45" stroke-width="1"/>
+  <!-- trousers part of sampot over standing leg -->
+  <path d="M296 470 L372 460 C382 540 372 620 362 700 C352 760 345 810 340 836 L310 836 C304 780 298 700 292 620 C290 560 292 510 296 470Z" fill="url(#gold)" stroke="#8E6414" stroke-width="1.6"/>
+  <path d="M296 470 L372 460 C382 540 372 620 362 700 C352 760 345 810 340 836 L310 836 C304 780 298 700 292 620 C290 560 292 510 296 470Z" fill="url(#brocade)"/>
+  <!-- front pleated fan -->
+  <path d="M322 470 L352 466 C380 560 392 660 396 742 C380 760 362 772 346 778 C336 700 326 560 322 470Z" fill="url(#silk)" stroke="#5c0f22" stroke-width="1.2"/>
+  <g stroke="#F0C96A" stroke-width="1.1" opacity=".85">
+    <path d="M330 472 C334 560 342 660 350 776"/><path d="M338 470 C348 560 362 660 372 770"/>
+    <path d="M346 468 C362 560 380 650 388 758"/>
+  </g>
+  <path d="M346 778 C362 772 380 760 396 742 L402 770 L378 786 L360 800Z" fill="url(#gold)" stroke="#8E6414" stroke-width="1.2"/>
+  <path d="M322 470 L352 466" stroke="#fff3c0" stroke-width="2"/>
+
+<g class="torso">
+  <!-- ===== torso ===== -->
+  <path d="M298 276 C318 262 352 258 374 268 C384 310 372 372 364 440 L290 452 C292 400 292 330 298 276Z" fill="url(#skin)" stroke="#B07A45" stroke-width="1"/>
+  <!-- fitted gold bodice / chest wrap -->
+  <path d="M294 296 C316 284 352 282 380 292 C378 330 372 360 368 392 C340 402 312 404 290 398 C290 360 290 324 294 296Z" fill="url(#gold)" stroke="#8E6414" stroke-width="1.4"/>
+  <path d="M294 296 C316 284 352 282 380 292 C378 330 372 360 368 392 C340 402 312 404 290 398 C290 360 290 324 294 296Z" fill="url(#brocade)"/>
+  <!-- diagonal sbai sash across chest -->
+  <path d="M300 268 C340 290 372 320 398 372 L420 450 L384 440 C366 400 340 360 296 330Z" fill="url(#sash)" stroke="#9A7018" stroke-width="1.4"/>
+  <path d="M306 280 C344 304 376 338 400 392" stroke="#fff6cf" stroke-width="1.2" opacity=".8"/>
+  <!-- jeweled belt -->
+  <path d="M288 436 C316 446 350 446 380 436 L384 468 C352 480 318 480 284 470Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.5"/>
+  <g stroke="#6E4A0C" stroke-width=".9" opacity=".8"><path d="M300 442 L298 474 M314 446 L312 478 M328 448 L326 480 M342 448 L342 480 M356 446 L356 478 M370 442 L370 474"/></g>
+  <ellipse cx="334" cy="458" rx="11" ry="13" fill="url(#gem)" stroke="#6E4A0C" stroke-width="1.5"/>
+  <circle cx="334" cy="458" r="3" fill="#fff" opacity=".7"/>
+  <path d="M322 470 C318 484 322 496 334 506 C346 496 350 484 346 470Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1"/>
+
+  <!-- ===== collar necklace (rongveas) ===== -->
+  <path d="M300 276 C318 306 350 312 372 274" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M296 290 C320 332 356 336 380 288" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" opacity=".9"/>
+  <path d="M300 276 C318 306 350 312 372 274" stroke="#6E4A0C" stroke-width=".9" stroke-dasharray="1.6 3"/>
+  <circle cx="336" cy="310" r="6" fill="url(#emer)" stroke="#6E4A0C" stroke-width="1"/>
+  <circle cx="318" cy="302" r="3.6" fill="url(#gem)"/><circle cx="354" cy="302" r="3.6" fill="url(#gem)"/>
+  <circle cx="306" cy="292" r="3" fill="url(#gem)"/><circle cx="366" cy="292" r="3" fill="url(#gem)"/>
+
+</g>
+
+<g class="uB">
+  <path d="M306 284 C282 312 258 340 224 330" stroke="url(#skin)" stroke-width="21" stroke-linecap="round"/>
+  <path d="M290 298 L304 318" stroke="url(#gold)" stroke-width="11" stroke-linecap="round"/>
+ <g class="fB">
+  <path d="M224 330 C198 322 178 300 168 276" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/>
+  <path d="M196 312 L212 326" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M196 312 L212 326" stroke="#6E4A0C" stroke-width="1" stroke-dasharray="2 2.5"/>
+  <g class="hB">
+  <!-- ===== lotus held in the hand ===== -->
+  <g class="flower">
+    <path d="M166 214 C170 240 172 262 176 290" stroke="#2F8F5B" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M170 252 C184 244 196 246 204 254 C192 262 180 262 170 252Z" fill="#3FA86F" stroke="#1F6B43" stroke-width=".8"/>
+    <g transform="translate(166 214)" stroke="#B5456A" stroke-width=".9">
+      <g fill="url(#lotusBack)">
+        <path d="M0 0 C-12 -8 -16 -28 -4 -46 C6 -30 8 -12 0 0Z" transform="rotate(-62)"/>
+        <path d="M0 0 C-12 -8 -16 -28 -4 -46 C6 -30 8 -12 0 0Z" transform="rotate(62) scale(-1 1)"/>
+        <path d="M0 0 C-12 -8 -16 -28 -4 -46 C6 -30 8 -12 0 0Z" transform="rotate(-32)"/>
+        <path d="M0 0 C-12 -8 -16 -28 -4 -46 C6 -30 8 -12 0 0Z" transform="rotate(32) scale(-1 1)"/>
+      </g>
+      <g fill="url(#lotusFront)">
+        <path d="M0 2 C-14 -8 -14 -30 0 -50 C14 -30 14 -8 0 2Z"/>
+        <path d="M0 2 C-12 -4 -26 -14 -34 -32 C-18 -30 -6 -18 0 2Z"/>
+        <path d="M0 2 C12 -4 26 -14 34 -32 C18 -30 6 -18 0 2Z"/>
+      </g>
+      <path d="M0 -4 C-3 -16 -3 -30 0 -42 M-6 -6 C-14 -14 -18 -24 -22 -30 M6 -6 C14 -14 18 -24 22 -30" stroke="#fff" stroke-width=".8" opacity=".55" fill="none"/>
+      <circle cx="0" cy="4" r="5" fill="#E8B83A" stroke="#9A7018"/>
+    </g>
+  </g>
+
+  <!-- hand with backward-bent fingers (kbach) -->
+  <g stroke="#C08B54" stroke-width="1" fill="url(#skin)">
+    <path d="M170 280 C158 266 146 262 138 254 C134 250 138 244 144 248 C154 254 164 258 176 270Z"/>
+    <path d="M176 272 C168 254 160 246 156 236 C154 230 160 228 164 232 C170 242 176 252 182 266Z"/>
+    <path d="M182 268 C180 250 178 240 178 230 C178 224 184 224 186 230 C188 242 190 252 190 268Z"/>
+    <path d="M188 270 C190 254 196 246 202 240 C206 236 210 240 208 246 C204 254 200 262 196 274Z"/>
+    <path d="M168 288 C158 296 150 296 142 292 C138 290 140 284 146 286 C154 288 160 286 166 278Z"/>
+  </g>
+  <g fill="url(#gold)"><path d="M138 252 l6 -8 l2 8Z"/><path d="M156 236 l6 -8 l2 8Z"/><path d="M178 230 l6 -8 l2 8Z"/><path d="M202 240 l8 -6 l0 8Z"/></g>
+  </g>
+ </g>
+</g>
+
+<g class="uF">
+  <path d="M370 280 C410 262 442 226 456 178" stroke="url(#skin)" stroke-width="21" stroke-linecap="round"/>
+  <path d="M384 274 L400 262" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+ <g class="fF">
+  <path d="M456 178 C470 144 488 112 500 84" stroke="url(#skin)" stroke-width="15" stroke-linecap="round"/>
+  <path d="M452 188 L466 160" stroke="url(#gold)" stroke-width="13" stroke-linecap="round"/>
+  <path d="M452 188 L466 160" stroke="#6E4A0C" stroke-width="1" stroke-dasharray="2 2.5"/>
+  <g class="hF">
+  <!-- raised hand: fingers arcing back -->
+  <g stroke="#C08B54" stroke-width="1" fill="url(#skin)">
+    <path d="M498 90 C492 66 480 48 466 38 C460 34 456 40 462 46 C474 58 480 74 486 94Z"/>
+    <path d="M502 86 C504 62 498 40 488 22 C484 16 478 20 482 26 C490 42 494 62 494 86Z"/>
+    <path d="M506 88 C514 66 516 44 510 26 C508 18 500 20 502 28 C506 46 504 66 500 88Z"/>
+    <path d="M510 92 C524 74 534 56 536 40 C536 32 528 34 528 40 C526 56 518 72 506 90Z"/>
+    <path d="M498 96 C510 94 522 98 530 106 C535 112 530 118 524 113 C516 106 508 106 496 108Z"/>
+  </g>
+  <g fill="url(#gold)"><path d="M462 40 l-8 -6 l10 -2Z"/><path d="M482 24 l-6 -8 l10 0Z"/><path d="M508 24 l0 -10 l8 6Z"/><path d="M528 38 l4 -10 l6 8Z"/></g>
+  </g>
+ </g>
+</g>
+
+  <g class="head">
+  <!-- ===== neck, head ===== -->
+  <path d="M338 232 C336 250 336 262 340 276 L366 272 C362 258 360 244 360 230Z" fill="url(#skin)"/>
+  <ellipse cx="352" cy="190" rx="29" ry="38" transform="rotate(8 352 190)" fill="url(#skin)" stroke="#B07A45" stroke-width="1"/>
+  <!-- profile features: forehead/nose/lips facing right -->
+  <path d="M376 168 C384 176 390 186 386 192 C392 196 392 200 386 202 C390 206 388 212 380 214 C378 224 366 232 354 232" stroke="#B07A45" stroke-width="1.3" fill="none"/>
+  <path d="M358 178 C366 174 374 176 380 180" stroke="#2A1710" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M362 186 C368 189 374 189 378 186" stroke="#2A1710" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M380 208 C384 210 386 210 388 208" stroke="#B02A48" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="364" cy="206" rx="7" ry="4" fill="#E88A8A" opacity=".35"/>
+  <!-- hair bun & coif -->
+  <path d="M322 168 C318 196 322 226 336 242 C328 222 330 196 336 172Z" fill="#1c0f0b"/>
+  <path d="M320 150 C328 136 356 134 376 150 C380 160 376 168 372 174 C360 160 340 160 326 172Z" fill="#1c0f0b"/>
+  <path d="M322 200 C306 206 304 232 322 244 C316 230 320 214 330 206Z" fill="#1c0f0b"/>
+  <!-- earring -->
+  <path d="M336 204 C334 216 338 224 342 224" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="342" cy="228" r="4" fill="url(#gem)" stroke="#6E4A0C" stroke-width=".8"/>
+  <!-- flower at ear -->
+  <g transform="translate(330 170)" fill="#fffaf0" stroke="#d7c89a" stroke-width=".8">
+    <ellipse cx="0" cy="-9" rx="5" ry="9"/><ellipse cx="0" cy="-9" rx="5" ry="9" transform="rotate(72)"/><ellipse cx="0" cy="-9" rx="5" ry="9" transform="rotate(144)"/>
+    <ellipse cx="0" cy="-9" rx="5" ry="9" transform="rotate(216)"/><ellipse cx="0" cy="-9" rx="5" ry="9" transform="rotate(288)"/>
+    <circle r="3.6" fill="#E8B83A" stroke="none"/>
+  </g>
+
+  <!-- ===== mokot: tiered Khmer crown ===== -->
+  <path d="M318 154 C318 140 372 138 380 152 L384 164 C360 156 336 156 316 166Z" fill="url(#goldV)" stroke="#6E4A0C" stroke-width="1.4"/>
+  <path d="M322 142 C326 118 370 116 376 142 C360 136 338 136 322 142Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.3"/>
+  <path d="M326 120 C330 98 364 96 370 120 C358 114 340 114 326 120Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.3"/>
+  <path d="M331 98 C334 80 360 78 364 98 C354 93 342 93 331 98Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.3"/>
+  <path d="M337 78 C339 62 356 60 358 78 C352 74 344 74 337 78Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.2"/>
+  <!-- flame spire -->
+  <path d="M347 62 C338 46 344 34 350 16 C354 34 364 42 356 62Z" fill="url(#goldV)" stroke="#6E4A0C" stroke-width="1.2"/>
+  <circle cx="350" cy="14" r="3" fill="#FFF3C2"/>
+  <!-- crown ornaments: jewels + ear flares -->
+  <circle cx="347" cy="150" r="4.5" fill="url(#gem)" stroke="#6E4A0C" stroke-width="1"/>
+  <circle cx="334" cy="108" r="2.6" fill="url(#emer)"/><circle cx="360" cy="108" r="2.6" fill="url(#emer)"/>
+  <circle cx="338" cy="130" r="2.6" fill="url(#gem)"/><circle cx="358" cy="130" r="2.6" fill="url(#gem)"/>
+  <path d="M318 160 C306 150 298 134 304 118 C312 130 318 138 324 148Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.1"/>
+  <path d="M380 160 C392 152 398 138 394 124 C388 134 384 142 378 148Z" fill="url(#gold)" stroke="#6E4A0C" stroke-width="1.1"/>
+  <g stroke="#FFF3C2" stroke-width=".9" opacity=".8"><path d="M330 112 C340 108 356 108 366 112 M334 92 C342 88 354 88 360 92 M327 134 C340 129 358 129 372 134"/></g>
+</g>
+
+  </g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYToyYjQyNThmMC00OGRjLTQ3NWItYTIzYS1mM2M0ZjY4NTBjMzEAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaB2YpBm5FxjahxUxkZ04VKYAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDowNDhjMjNlOS1mYjlhLTQ3MTAtYjgyZS0zOTNjN2NiNDk1MDJscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoo/+GlhWxgP1WhnPSxbQydwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggw84mDk65ZTFcoiXdAA5+m3nPO5Vntjgi57y/fiLTd7+kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaAWSiwiN/QSDI2eXVYPnfdkAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIIDnMbWSHY2Ue6qeFXDLNLzKO0aw3/BN7CCJT+OZM1GGZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GUwVZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjJiNDI1OGYwLTQ4ZGMtNDc1Yi1hMjNhLWYzYzRmNjg1MGMzMS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmFmN2Q0NDhmLTdhNjUtNDU5Zi1hMmYyLTY2MTQxNTRhODc3ZXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCDDziYOTrllMVyiJd0ADn6bec87lWe2OCLnvL9+ItN3v6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFgg4dklnKEOuuqfDIbIewELncneknHEWsbVVjuTQzqdxAeiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggl1neQ3uyywloDaVXeXG2dzvIS38+jMnenTVCUfb4Ikp0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQJj10lRIVbuacxVqQGPUFbTl9uOvFc5ONmihtxNPq2Hy2n+zFQa6RXzdTFWNV/5HWC4lV87X71ZDiqtBkpnlsB4=</c2pa:manifest></metadata></svg>

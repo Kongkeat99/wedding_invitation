@@ -278,7 +278,7 @@ function copyTxt(t,done){
 function flash(b,txt){var o=b.dataset.o||b.textContent;b.dataset.o=o;b.textContent=txt;setTimeout(function(){b.textContent=o},1800)}
 
 /* guest album page: keep the personal guest link when opening it */
-$("albumLink").href="album.html"+location.search;
+$("albumLink").href="album.html"+location.search;document.querySelectorAll("#s-guest-album .ga-card").forEach(function(a){a.href="album.html"+location.search+"#"+a.dataset.album});
 
 /* live stream (optional) */
 if(CONFIG.live){$("liveBtn").href=CONFIG.live;$("liveBtn").hidden=false}
@@ -923,4 +923,3 @@ $("openBtn").addEventListener("click",function(){
     idle=setTimeout(function(){away=false;document.body.classList.remove("fab-away")},700)
   },{passive:true})
 })();
-

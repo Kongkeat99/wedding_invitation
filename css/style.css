@@ -1216,4 +1216,6 @@ html[lang="km"] .ga-card b{padding-top:.3em}
 @media (max-height:520px) and (orientation:landscape){.cv-garland{display:none}}
 
 /* groom portrait: face sits right of centre in the source photo, so shift the crop to centre it */
-#s-profile #pfGroom .pf-photo img{object-position:90% 22%}
+#s-profile #pfGroom .pf-photo img{object-position:100% 30%}
+#s-profile #pfBride .pf-photo img{object-position:50% 30%}
+#s-profile .pf-photo:after{content:"";position:absolute;inset:3px;z-index:2;border-radius:72px 72px 13px 13px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,244,200,.18),inset 0 -34px 30px -22px rgba(20,14,0,.38)}

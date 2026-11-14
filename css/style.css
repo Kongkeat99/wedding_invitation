@@ -1214,3 +1214,6 @@ html[lang="km"] .ga-card b{padding-top:.3em}
 @keyframes cvSway{0%,100%{transform:translateX(-50%) rotate(-.8deg)}50%{transform:translateX(-50%) rotate(.8deg)}}
 @media (prefers-reduced-motion:reduce){.cv-corner,.cv-garland{animation:none}}
 @media (max-height:520px) and (orientation:landscape){.cv-garland{display:none}}
+
+/* groom portrait: face sits right of centre in the source photo, so shift the crop to centre it */
+#s-profile #pfGroom .pf-photo img{object-position:90% 22%}

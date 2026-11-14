@@ -1219,3 +1219,52 @@ html[lang="km"] .ga-card b{padding-top:.3em}
 #s-profile #pfGroom .pf-photo img{object-position:100% 30%}
 #s-profile #pfBride .pf-photo img{object-position:50% 30%}
 #s-profile .pf-photo:after{content:"";position:absolute;inset:3px;z-index:2;border-radius:72px 72px 13px 13px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,244,200,.18),inset 0 -34px 30px -22px rgba(20,14,0,.38)}
+
+/* ===== cover + letter redesign v3 =====
+   1) garland/corner no longer fight the top-right controls  2) monogram medal fills the top
+   3) names lead, title is lighter  4) envelope has depth  5) gold foil seal (matches the theme)
+   6) letter is a real ivory card that carries the guest name + date; flap no longer hides the names */
+.cv-garland{width:min(36vw,190px)}
+@media (max-width:600px){.cv-tr{animation:none;opacity:.28}}
+
+.cover-medal{position:relative;display:grid;place-items:center;width:62px;height:62px;margin:0 auto 12px;border:1.5px solid transparent;border-radius:50%;
+  background:linear-gradient(#1A1608,#1A1608) padding-box,linear-gradient(145deg,#F4EBC8,#C9A93F 55%,#8F7524) border-box;box-shadow:0 0 26px rgba(201,169,63,.2)}
+.cover-medal:before{content:"";position:absolute;inset:-6px;border:1px solid rgba(232,212,139,.38);border-radius:50%}
+.cover-medal .mm{color:#E8D48B;font:italic 600 1.2rem/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.04em}
+.cover-medal .mm i{color:#C9A93F;font-size:.8em}
+.cover-medal .lang-km,.seal-mono .lang-km,.letter-monogram .lang-km{font-family:'Battambang','Noto Serif Khmer',serif;font-style:normal;font-weight:700}
+@media (max-height:740px){.cover-medal{display:none}}
+
+#cover h2{font-size:clamp(1.12rem,4.5vw,1.65rem);opacity:.92}
+#cover .names{font-size:clamp(1.95rem,9.4vw,3rem);font-weight:600;margin-block:4px 2px}
+#cover .cover-amp{display:grid;place-items:center;width:1.9em;height:1.9em;margin:4px 0;border:1px solid rgba(232,212,139,.55);border-radius:50%;font-size:.5em;line-height:1;opacity:1}
+
+#cover .env{width:min(76vw,380px);background-image:repeating-linear-gradient(0deg,rgba(111,83,32,.022) 0,rgba(111,83,32,.022) 1px,transparent 1px,transparent 4px),linear-gradient(145deg,#f8efcf,#e9dba9 50%,#d4c28c);
+  box-shadow:0 34px 56px -10px rgba(0,0,0,.62),0 14px 26px rgba(0,0,0,.3),0 0 46px rgba(201,169,63,.2),inset 0 0 0 1px rgba(255,255,255,.7),inset 0 -26px 34px -20px rgba(111,83,32,.35)}
+#cover .flap{background:linear-gradient(175deg,#fcf5da,#ecdcaa 60%,#cdb77c);filter:drop-shadow(0 4px 4px rgba(89,65,21,.35))}
+#cover .pocket{background:linear-gradient(160deg,#eee1b6,#dac78f 58%,#c8b377);border-top:1px solid rgba(111,83,32,.4);filter:drop-shadow(0 -3px 4px rgba(89,65,21,.3))}
+
+#cover .seal{width:66px;height:66px;border:1.5px solid rgba(255,244,200,.95);
+  background:radial-gradient(circle at 32% 26%,#fff3c4 0,#e6c85f 38%,#b8922d 72%,#8a6a18 100%);
+  box-shadow:0 6px 14px rgba(60,42,8,.55),inset 0 2px 3px rgba(255,255,255,.65),inset 0 -5px 9px rgba(96,70,12,.5),0 0 0 4px rgba(201,169,63,.22)}
+#cover .seal:before{border-color:rgba(96,70,12,.4)}
+#cover .seal-mono{color:#4a3508;font-size:1.3rem;text-shadow:0 1px 0 rgba(255,244,200,.65)}
+#cover .seal-mono i{color:#6b4f0e}
+@media (max-width:600px){#cover .seal{width:62px;height:62px}#cover .seal-mono{font-size:1.2rem}}
+
+#cover .letter{gap:5px;border:0;border-radius:3px;background-color:#FBF6E4;
+  background-image:repeating-linear-gradient(0deg,rgba(111,83,32,.025) 0,rgba(111,83,32,.025) 1px,transparent 1px,transparent 3px),linear-gradient(135deg,#fffdf4,#f8f0d6 60%,#efe3bd);
+  box-shadow:0 10px 24px rgba(40,28,6,.4),0 0 0 1px rgba(201,169,63,.55),inset 0 0 0 5px #FBF6E4,inset 0 0 0 6px rgba(201,169,63,.6)}
+.letter-rule{width:30%}
+.letter-monogram{font-size:clamp(1.1rem,4.2vw,1.45rem)}
+.letter-to{display:flex;flex-direction:column;align-items:center;gap:1px;max-width:86%;color:#6e5b17;text-align:center}
+.letter-to span{font:500 .7rem/1.2 'Kantumruy Pro','Battambang',sans-serif;letter-spacing:.2em;opacity:.8}
+.letter-to b{font:italic 600 clamp(1.05rem,5vw,1.4rem)/1.2 'Cormorant Garamond','Battambang',Georgia,serif;color:#5a4a10;overflow-wrap:anywhere}
+.letter-date{color:#8F7524;font:500 .78rem/1.3 'Cormorant Garamond','Battambang',serif;letter-spacing:.22em}
+
+#cover .names,#cover .cover-date{transition:opacity .45s ease,transform .45s ease}
+#cover.unseal .names,#cover.unseal .cover-date{opacity:0;transform:translateY(-6px)}
+#cover.unseal .letter{transform:translateY(-46%) scale(1.04);transition:opacity .35s 1.1s,transform .85s 1.1s cubic-bezier(.2,.8,.2,1),visibility 0s}
+@media (prefers-reduced-motion:reduce){#cover.unseal .letter{transform:none}#cover .names,#cover .cover-date{transition:none}}
+.cover-medal{margin-top:16px}
+#cover .cover-amp:before,#cover .cover-amp:after{display:none!important}

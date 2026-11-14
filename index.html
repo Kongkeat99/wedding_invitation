@@ -112,15 +112,18 @@
 <section id="hero" aria-labelledby="heroTitle">
   <div class="aur"><i></i><i></i><i></i></div>
   <img class="hero-photo" src="assets/hero.jpg" alt="Soem Kungkiet and Cham Chanthu" fetchpriority="high" decoding="async">
-  <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"/></svg></div>
-  <h1 id="heroTitle" tabindex="-1" data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
-  <div class="orn"></div>
-  <div id="heroGuest" hidden style="margin:4px 0 18px"><p class="sub" style="margin:0 0 4px;opacity:.85">សូមគោរពអញ្ជើញ<br><span style="font-size:.85em">You are cordially invited</span></p><p class="moul" id="heroGuestName" style="font-size:1.2rem;margin:0"></p></div>
-  <p class="role" data-en="Groom">កូនកំលោះ</p>
-  <p class="nm" id="n1" lang="en"></p>
-  <div class="amp">&amp;</div>
-  <p class="role" data-en="Bride">កូនក្រមុំ</p>
-  <p class="nm" id="n2" lang="en"></p>
+  <div class="hero-card">
+    <div class="hero-medal" aria-hidden="true"><span class="mm"><span class="lang-km">ស <i>&amp;</i> ឆ</span><span class="lang-en" lang="en" hidden>S <i>&amp;</i> C</span></span></div>
+    <h1 id="heroTitle" tabindex="-1" data-en="Wedding Celebration">សិរីមង្គលអាពាហ៍ពិពាហ៍</h1>
+    <div class="kb-div" aria-hidden="true"><i></i></div>
+    <div id="heroGuest" hidden><p class="hg-invite"><span class="hg-km">សូមគោរពអញ្ជើញ</span><span class="hg-en" lang="en">You are cordially invited</span></p><p class="hg-name" id="heroGuestName"></p></div>
+    <p class="role" data-en="Groom">កូនកំលោះ</p>
+    <p class="nm" id="n1" lang="en"></p>
+    <div class="amp">&amp;</div>
+    <p class="role" data-en="Bride">កូនក្រមុំ</p>
+    <p class="nm" id="n2" lang="en"></p>
+    <p class="hero-dateline"><time id="heroDateLine"></time></p>
+  </div>
   <div class="hero-when">
     <p class="date"><time id="dateTxt"></time></p>
     <p class="hero-venue" id="heroVenue"></p>
@@ -131,14 +134,7 @@
   <p class="cdl" id="cdLbl" data-en="Countdown to our wedding day">រាប់ថយក្រោយដល់ថ្ងៃមង្គលការ</p>
   <div id="cd" role="timer" aria-labelledby="cdLbl" style="margin-top:8px"></div>
   <p class="sub" id="cdMsg" style="margin-top:12px"></p>
-  <svg class="lotus" viewBox="0 0 160 92" aria-hidden="true">
-    <path pathLength="1" style="--d:0s" d="M80 8C66 28 66 54 80 72C94 54 94 28 80 8Z"/>
-    <path pathLength="1" style="--d:.3s" d="M80 72C58 66 40 48 38 24C58 28 72 46 80 72Z"/>
-    <path pathLength="1" style="--d:.3s" d="M80 72C102 66 120 48 122 24C102 28 88 46 80 72Z"/>
-    <path pathLength="1" style="--d:.6s" d="M80 72C52 74 22 62 12 40C36 40 62 52 80 72Z"/>
-    <path pathLength="1" style="--d:.6s" d="M80 72C108 74 138 62 148 40C124 40 98 52 80 72Z"/>
-    <path pathLength="1" style="--d:.9s" d="M34 82Q80 94 126 82"/>
-  </svg>
+  <div class="kb-div kb-div--end" aria-hidden="true"><i></i></div>
 </section>
 
 <nav id="nav" aria-label="ផ្នែកក្នុងទំព័រ">

@@ -17,7 +17,7 @@ function enDate(t){var c=new Date(t.getTime()+7*3600000),H=c.getUTCHours(),M=c.g
   return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][c.getUTCDay()]+", "+c.getUTCDate()+" "+["January","February","March","April","May","June","July","August","September","October","November","December"][c.getUTCMonth()]+" "+c.getUTCFullYear()+"\n"+(H%12||12)+":"+("0"+M).slice(-2)+" "+(H<12?"AM":"PM")}
 function coverDateTxt(en){var c=new Date(new Date(WD).getTime()+7*3600000),t=("0"+c.getUTCDate()).slice(-2)+" · "+("0"+(c.getUTCMonth()+1)).slice(-2)+" · "+c.getUTCFullYear();return en?t:kd(t)}
 function syncHero(){var en=document.documentElement.dataset.language==="en";
-  $("coverDate").textContent=coverDateTxt(en);$("letterDate").textContent=coverDateTxt(en);var wdIso=new Date(WD);if(!isNaN(wdIso)){$("coverDate").setAttribute("datetime",wdIso.toISOString());$("dateTxt").setAttribute("datetime",wdIso.toISOString())}
+  $("coverDate").textContent=coverDateTxt(en);$("letterDate").textContent=coverDateTxt(en);$("heroDateLine").textContent=coverDateTxt(en);var wdIso=new Date(WD);if(!isNaN(wdIso)){$("coverDate").setAttribute("datetime",wdIso.toISOString());$("dateTxt").setAttribute("datetime",wdIso.toISOString())}
   $("dateTxt").textContent=en?enDate(new Date(WD)):khDate(new Date(WD));
   $("heroVenue").textContent=(en&&CONFIG.en&&CONFIG.en.venue)||CONFIG.venue||"";
   $("heroVenue").hidden=!$("heroVenue").textContent}
@@ -1000,3 +1000,10 @@ thanksWriter(document.querySelector(".thanks-copy.lang-en"),"en",function(c){ret
     lastY=y
   },{passive:true})
 })();
+
+/* floating controls: music stays, language + theme tuck away behind a "more" button */
+(function(){var d=document.getElementById("dock");if(!d)return;var b=document.createElement("button");b.id="dockMore";b.type="button";b.setAttribute("aria-label","More controls");b.setAttribute("aria-expanded","false");
+  b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>';d.appendChild(b);
+  var t;function set(o){d.classList.toggle("open",o);b.setAttribute("aria-expanded",o?"true":"false");clearTimeout(t);if(o)t=setTimeout(function(){set(false)},5000)}
+  b.addEventListener("click",function(){set(!d.classList.contains("open"))});
+  document.addEventListener("pointerdown",function(e){if(!d.contains(e.target))set(false)})})();

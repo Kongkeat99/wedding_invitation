@@ -75,6 +75,13 @@
     swapText(document);
     Array.prototype.forEach.call(document.querySelectorAll(".lang-km"),function(e){e.hidden=cur!=="km"});
     Array.prototype.forEach.call(document.querySelectorAll(".lang-en"),function(e){e.hidden=cur!=="en"});
+    /* couple names: Khmer spelling in Khmer mode, English spelling in English mode */
+    (function(){
+      var g=cur==="km"?(CONFIG.groomKm||CONFIG.groom):CONFIG.groom,b=cur==="km"?(CONFIG.brideKm||CONFIG.bride):CONFIG.bride;
+      [["n1","cn1","pfGroomName"],["n2","cn2","pfBrideName"]].forEach(function(ids,i){
+        ids.forEach(function(id){var el=$(id);if(el){el.textContent=i?b:g;el.lang=cur}})});
+      var fl=$("footerLove");if(fl)fl.textContent=(cur==="km"?"ដោយក្ដីស្រឡាញ់ · ":"With love · ")+g+" & "+b;
+    })();
     var en=E();
     setKept($("venue"),"data-km",en.venue);
     setKept($("dtxt"),"data-km",en.dressText);

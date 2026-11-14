@@ -1162,3 +1162,7 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
 .ft-top{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:40px;padding:8px 18px;border:1px solid rgba(232,212,139,.4);border-radius:999px;background:rgba(255,255,255,.05);color:#F4EBC8;font:500 .8rem 'Kantumruy Pro','Battambang',sans-serif;cursor:pointer;transition:background .25s,border-color .25s}
 .ft-top:hover,.ft-top:focus-visible{background:rgba(201,169,63,.2);border-color:#E8D48B}
 .ft-top:focus-visible{outline:2px solid #E8D48B;outline-offset:3px}
+
+/* Khmer spelling of the couple's names: upright Khmer face, no faux italic */
+#cover .names span[lang="km"],.nm[lang="km"],.pf-name[lang="km"]{font-family:'Moul','Battambang','Kantumruy Pro',serif;font-style:normal;font-weight:400;letter-spacing:0;line-height:1.5}
+#cover .names span[lang="km"]{font-size:.72em}

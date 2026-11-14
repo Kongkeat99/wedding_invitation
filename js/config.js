@@ -7,6 +7,8 @@ var CONFIG = {
   VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",
   bride: "Cham Chanthu",
+  groomKm: "ស៊ឹម គង់គៀត",                        // Khmer spelling, shown when the guest switches to Khmer
+  brideKm: "ឆាំ ចន្ធូ",
   date: "2026-11-22T15:00:00+07:00",          // wedding date/time (Cambodia time, UTC+7)
   venue: "គេហដ្ឋានខាងស្រី",
   mapUrl: "https://maps.app.goo.gl/ZqvGd8Px3T6WwukE9?g_st=ic",

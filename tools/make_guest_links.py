@@ -113,7 +113,7 @@ def main():
             print(f"WARN  {code}: photo '{photo}' not found in tools/guest-photos/ -> using the default preview photo")
             cover = "assets/og.jpg"
         url = f"{base}/g/{code}/"
-        title = f"សូមគោរពអញ្ជើញ {name} · Dear {name}, you are invited · Soem Kungkiet & Chham Chanthu"
+        title = f"សូមគោរពអញ្ជើញ {name} · Dear {name}, you are invited · Soem Kungkiet & Cham Chanthu"
         km_when, en_when = when(cfg, time_o)
         venue = venue_o or cfg["venue"]
         desc = f"📅 {km_when} · 📍 {venue} · {en_when}"

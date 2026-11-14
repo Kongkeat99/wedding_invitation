@@ -1,4 +1,4 @@
-# Wedding Invitation – Soem Kungkiet & Chham Chanthu
+# Wedding Invitation – Soem Kungkiet & Cham Chanthu
 
 Static website (HTML + CSS + JavaScript). No build step, no server needed.
 

@@ -6,7 +6,7 @@ var CONFIG = {
   VIDEO_AUTOPLAY: true,                         // pre-wedding video starts by itself (muted) when scrolled into view; false = guest taps play
   VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",
-  bride: "Chham Chanthu",
+  bride: "Cham Chanthu",
   date: "2026-11-22T15:00:00+07:00",          // wedding date/time (Cambodia time, UTC+7)
   venue: "គេហដ្ឋានខាងស្រី",
   mapUrl: "https://maps.app.goo.gl/ZqvGd8Px3T6WwukE9?g_st=ic",

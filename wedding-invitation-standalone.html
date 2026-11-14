@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu · Wedding Invitation">
+<meta name="description" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Cham Chanthu · Wedding Invitation">
 <meta name="theme-color" content="#1A1608">
 <meta property="og:type" content="website">
-<meta property="og:title" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Chham Chanthu">
+<meta property="og:title" content="សិរីមង្គលអាពាហ៍ពិពាហ៍ · Soem Kungkiet &amp; Cham Chanthu">
 <meta property="og:description" content="សូមគោរពអញ្ជើញចូលរួមក្នុងពិធីមង្គលការរបស់យើងខ្ញុំ">
 <meta property="og:image" content="https://wedding-ten-self.vercel.app/assets/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -816,7 +816,7 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
     <p class="cover-invite"><span data-km="សូមគោរពអញ្ជើញ" data-en="You are cordially invited">សូមគោរពអញ្ជើញ</span><span class="moul" id="guestName" hidden></span></p>
     <div class="env-stage">
       <div class="env">
-        <div class="letter"><span class="letter-rule"></span><span class="letter-monogram">S <i>&amp;</i> C</span><span class="letter-rule"></span></div>
+        <div class="letter"><span class="letter-rule"></span><span class="letter-monogram"><span class="lang-km">គ <i>&amp;</i> ធ</span><span class="lang-en" lang="en" hidden>S <i>&amp;</i> T</span></span><span class="letter-rule"></span></div>
         <div class="flap"></div><div class="pocket"></div>
         <span class="light-burst" aria-hidden="true"></span>
         <button class="seal" id="openBtn" type="button" aria-label="បើកសំបុត្រ / Open invitation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg><span class="seal-crack" aria-hidden="true"></span></button>
@@ -935,7 +935,7 @@ body.go.fab-away #mus,body.go.fab-away #thm{translate:34px 0}
 
 <section>
   <div class="quote">ស្នេហាពិតមិនមែនជារឿងដែលយើងស្វែងរកឃើញនោះទេ តែជារឿងដែលយើងកសាងជាមួយគ្នារាល់ថ្ងៃ។</div>
-  <p class="hint">Love is not found, it is built together every day.</p>
+  <p class="hint">Love is not found; it is built together, every day.</p>
 </section>
 
 <section id="s-story">
@@ -1032,7 +1032,7 @@ var CONFIG = {
   PHOTO_COMING_SOON: false,
   VIDEO_COMING_SOON: false,
   groom: "Soem Kungkiet",
-  bride: "Chham Chanthu",
+  bride: "Cham Chanthu",
   date: "2026-11-22T15:00:00+07:00",          // wedding date/time (Cambodia time, UTC+7)
   venue: "គេហដ្ឋានខាងស្រី",
   mapUrl: "https://maps.app.goo.gl/ZqvGd8Px3T6WwukE9?g_st=ic",
@@ -1623,7 +1623,7 @@ try{var sv=localStorage.getItem("theme");if(sv)setTheme(sv);else{thm.textContent
 
 /* ===== magic pack ===== */
 /* monogram preloader */
-$("pm").textContent=(CONFIG.groom||"").charAt(0)+" & "+(CONFIG.bride||"").charAt(0);
+$("pm").textContent="S & T";
 var t0=Date.now();
 function hidePre(){setTimeout(function(){$("pre").classList.add("gone")},Math.max(0,1500-(Date.now()-t0)))}
 if(document.readyState==="complete")hidePre();else{addEventListener("load",hidePre);setTimeout(hidePre,3500)}

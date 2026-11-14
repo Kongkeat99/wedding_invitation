@@ -499,9 +499,9 @@ body:not(.go) #fx{z-index:56;opacity:.6}
 @keyframes arrowBounce{0%,100%{transform:translateY(-1px)}50%{transform:translateY(3px)}}
 @keyframes dustDrift{to{opacity:.62;transform:translate3d(0,-6px,0)}}
 @media (max-width:600px){#cover{padding:calc(64px + env(safe-area-inset-top,0px)) 12px calc(14px + env(safe-area-inset-bottom,0px))}.cover-content{transform:translateY(-3px)}#cover .cover-heart{width:48px;height:48px}#cover .cover-heart svg{width:22px}#cover .env{width:min(78vw,360px)}#cover .seal{width:54px;height:54px}#cover .seal svg{width:25px;height:25px}#cover .names{gap:6px;font-size:clamp(1.6rem,8vw,1.95rem)}.env-stage{margin-top:16px}.cover-cta{margin-top:14px}}
-@media (max-height:700px){#cover{padding-top:58px;padding-bottom:8px}.cover-content{transform:scale(.88)}.env-stage{margin-top:10px}.cover-cta{margin-top:8px}}
+@media (max-height:700px){#cover{padding-top:58px;padding-bottom:8px}.cover-content{transform:none}.env-stage{margin-top:10px}.cover-cta{margin-top:8px}}
 @media (max-height:700px) and (max-width:600px){#cover .env{width:min(88.6vw,409px)}}
-@media (max-height:560px) and (orientation:landscape){#cover{padding-top:48px;padding-bottom:4px}.cover-content{transform:scale(.72)}}
+@media (max-height:560px) and (orientation:landscape){#cover{padding-top:48px;padding-bottom:4px}.cover-content{transform:none}}
 @media (prefers-reduced-motion:reduce){#cover:after,.cover-heart,.env-stage,#cover .seal,#cover .seal:after,.seal-crack,#cover .env:after,.cover-cta,.tap-icon,.cta-arrow,#petals i{animation:none!important}#cover .env{transition:opacity .25s ease}#cover.unseal .flap{transform:none;opacity:.35}#cover.unseal .letter{transform:none;opacity:.5}#cover.unseal .seal{animation:none;opacity:0}#cover.unseal .light-burst{animation:none;opacity:.35}#cover.open{transition:opacity .4s ease,transform .4s ease}}
 
 /* Premium pre-wedding player: clipped portrait frame and interactive controls. */
@@ -941,7 +941,7 @@ h2{line-height:1.6;letter-spacing:.01em}
 }
 @media (max-width:600px) and (max-height:700px){
   #cover{padding-top:52px;padding-bottom:18px}
-  .cover-content{transform:scale(.9)}
+  .cover-content{transform:none}
 }
 /* a single filled pill; the extra English caption and bouncing arrow are redundant with it */
 .cover-cta-en,.cta-arrow{display:none}

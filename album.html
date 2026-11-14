@@ -15,6 +15,7 @@ html,body{min-height:100%;margin:0;background:#14110A;color:#F3EBD8}
 .album-loading-spinner{width:26px;height:26px;border:2px solid rgba(201,166,58,.28);border-top-color:#C9A63A;border-radius:50%;animation:albumLoadingSpin .8s linear infinite}
 @keyframes albumLoadingSpin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){#albumLoading{transition:none}.album-loading-spinner{animation:none}}
+.names span{display:block}.names .names-kh{font-family:'Moul','Battambang','Kantumruy Pro',serif;font-style:normal;font-weight:400;font-size:.62em;line-height:1.6;letter-spacing:0;margin-bottom:2px}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -302,7 +303,7 @@ body:before{background:radial-gradient(ellipse at 50% 0%,#c9a63a22,transparent 5
   <section class="hero" aria-labelledby="page-title">
     <p class="hero-kicker">Guest photo album</p>
     <h1 id="page-title">អាល់ប៊ុមរូបភាព</h1>
-    <p class="names">Soem Kungkiet &amp; Cham Chanthu</p>
+    <p class="names" id="albumNames">Soem Kungkiet &amp; Cham Chanthu</p>
     <p class="hero-count" id="heroCount" aria-live="polite"></p>
     <div class="rule" aria-hidden="true"></div>
   </section>
@@ -551,6 +552,8 @@ const albums={
   $('groupSheet').addEventListener('touchstart',event=>{sheetStartY=event.touches[0].clientY},{passive:true});
   $('groupSheet').addEventListener('touchend',event=>{if(event.changedTouches[0].clientY-sheetStartY>60)closeSheet()},{passive:true});
   $('languageToggle').querySelectorAll('button').forEach(button=>button.onclick=()=>{uiLanguage=button.dataset.language;$('languageToggle').querySelectorAll('button').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));if(window.updateComingSoonLanguage)window.updateComingSoonLanguage(uiLanguage);render()});
+  const albumNames=()=>{const el=$('albumNames');if(!el)return;const kh=(CONFIG.groomKm||'ស៊ឹម គង់គៀត')+' & '+(CONFIG.brideKm||'ឆាំ ចន្ធូ'),en=CONFIG.groom+' & '+CONFIG.bride;el.textContent='';if(uiLanguage!=='en'){const a=document.createElement('span');a.lang='km';a.className='names-kh';a.textContent=kh;el.appendChild(a)}if(uiLanguage!=='km'){const b=document.createElement('span');b.lang='en';b.className='names-en';b.textContent=en;el.appendChild(b)}};
+  $('languageToggle').querySelectorAll('button').forEach(button=>button.addEventListener('click',albumNames));albumNames();
   $('back').href='index.html'+location.search+'#s-guest-album';
   $('back').addEventListener('click',event=>{let fromSite=false;try{const ref=new URL(document.referrer);fromSite=ref.origin===location.origin&&!/album\.html$/.test(ref.pathname)}catch(e){}if(fromSite&&history.length>1){event.preventDefault();history.back()}});
   $('closeLightbox').onclick=closeViewer;$('previousPhoto').onclick=()=>navigate(-1);$('nextPhoto').onclick=()=>navigate(1);$('zoomPhoto').onclick=()=>changeZoom(zoom===1?2:1);$('sharePhoto').onclick=sharePhoto;

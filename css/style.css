@@ -1166,3 +1166,10 @@ body.go #dock #mus:not(.eq):after{content:"";position:absolute;width:24px;height
 /* Khmer spelling of the couple's names: upright Khmer face, no faux italic */
 #cover .names span[lang="km"],.nm[lang="km"],.pf-name[lang="km"]{font-family:'Moul','Battambang','Kantumruy Pro',serif;font-style:normal;font-weight:400;letter-spacing:0;line-height:1.5}
 #cover .names span[lang="km"]{font-size:.72em}
+
+/* Khmer names: Battambang (narrower than Moul) at sizes matched to the English names */
+#cover .names span[lang="km"],.nm[lang="km"],.pf-name[lang="km"]{font-family:'Battambang','Kantumruy Pro',serif;font-weight:700;line-height:1.45}
+#hero .nm[lang="km"],.nm[lang="km"]{font-size:clamp(1.05rem,5vw,1.3rem)}
+#cover .names span[lang="km"]{font-size:.6em}
+.pf-name[lang="km"],#s-profile .pf-name[lang="km"]{font-size:1.2rem}
+.names .names-kh{font-family:'Battambang','Kantumruy Pro',serif;font-weight:700;font-size:.55em}

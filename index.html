@@ -41,6 +41,38 @@
       </g>
     </svg>
     <span class="cover-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <!-- decor: gold corner flourishes + hanging flower garland -->
+    <svg class="cv-defs" width="0" height="0" focusable="false" aria-hidden="true"><defs>
+      <linearGradient id="cvDecorGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F4EBC8"/><stop offset=".5" stop-color="#D9BC55"/><stop offset="1" stop-color="#A88A2E"/></linearGradient>
+      <symbol id="cvCorner" viewBox="0 0 100 100">
+        <g fill="none" stroke="url(#cvDecorGold)" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 64C3 30 30 3 64 3" stroke-width="1.4"/>
+          <path d="M11 54C11 29 29 11 54 11" stroke-width=".8"/>
+          <path d="M22 24C36 20 46 30 40 40C36 47 27 45 28 38C29 33 35 33 36 37" stroke-width="1.1"/>
+          <path d="M44 6C50 14 58 14 64 8C58 3 50 2 44 6Z M6 44C14 50 14 58 8 64C3 58 2 50 6 44Z" stroke-width=".9" fill="rgba(232,212,139,.18)"/>
+          <path d="M70 5C78 5 86 8 92 14M5 70C5 78 8 86 14 92" stroke-width=".7"/>
+        </g>
+        <path d="M6 1.5L10.5 6L6 10.5L1.5 6Z" fill="url(#cvDecorGold)"/>
+        <circle cx="92" cy="14" r="1.6" fill="#E8D48B"/><circle cx="14" cy="92" r="1.6" fill="#E8D48B"/>
+      </symbol>
+      <symbol id="cvBloom" viewBox="-10 -10 20 20">
+        <g fill="rgba(244,235,200,.9)" stroke="#C9A93F" stroke-width=".5">
+          <ellipse cx="0" cy="-5" rx="2.6" ry="4.6"/><ellipse cx="0" cy="-5" rx="2.6" ry="4.6" transform="rotate(72)"/><ellipse cx="0" cy="-5" rx="2.6" ry="4.6" transform="rotate(144)"/><ellipse cx="0" cy="-5" rx="2.6" ry="4.6" transform="rotate(216)"/><ellipse cx="0" cy="-5" rx="2.6" ry="4.6" transform="rotate(288)"/>
+        </g><circle r="1.8" fill="#C9A93F"/>
+      </symbol>
+    </defs></svg>
+    <svg class="cv-corner cv-tl" viewBox="0 0 100 100" focusable="false"><use href="#cvCorner"/></svg>
+    <svg class="cv-corner cv-tr" viewBox="0 0 100 100" focusable="false"><use href="#cvCorner"/></svg>
+    <svg class="cv-corner cv-bl" viewBox="0 0 100 100" focusable="false"><use href="#cvCorner"/></svg>
+    <svg class="cv-corner cv-br" viewBox="0 0 100 100" focusable="false"><use href="#cvCorner"/></svg>
+    <svg class="cv-garland" viewBox="0 0 240 64" preserveAspectRatio="xMidYMin meet" focusable="false">
+      <path d="M4 4Q120 30 236 4" fill="none" stroke="url(#cvDecorGold)" stroke-width="1"/>
+      <g fill="none" stroke="url(#cvDecorGold)" stroke-width=".8">
+        <path d="M40 15V32M80 22V42M120 26V52M160 22V42M200 15V32"/>
+      </g>
+      <g fill="#E8D48B"><circle cx="40" cy="34" r="2.2"/><circle cx="80" cy="44" r="2.2"/><circle cx="120" cy="54" r="2.6"/><circle cx="160" cy="44" r="2.2"/><circle cx="200" cy="34" r="2.2"/></g>
+      <use href="#cvBloom" x="22" y="6" width="14" height="14"/><use href="#cvBloom" x="60" y="14" width="14" height="14"/><use href="#cvBloom" x="100" y="19" width="16" height="16"/><use href="#cvBloom" x="124" y="19" width="16" height="16" transform="translate(0 0)"/><use href="#cvBloom" x="166" y="14" width="14" height="14"/><use href="#cvBloom" x="204" y="6" width="14" height="14"/>
+    </svg>
   </div>
   <svg class="cover-pattern" viewBox="0 0 120 120" aria-hidden="true">
     <defs><pattern id="lotusPattern" width="120" height="120" patternUnits="userSpaceOnUse">

@@ -1201,3 +1201,16 @@ html[lang="km"] h1,html[lang="km"] h2,.moul{padding-top:.35em}
 html[lang="km"] .ga-card b{padding-top:.3em}
 #cover #guestName{padding-top:.3em}
 .names .names-kh{padding-top:.4em}
+
+/* ===== cover decor: corner flourishes + hanging garland ===== */
+.cv-defs{position:absolute;width:0;height:0;overflow:hidden}
+.cv-corner{position:absolute;width:clamp(56px,17vw,104px);height:auto;aspect-ratio:1;pointer-events:none;opacity:.8;filter:drop-shadow(0 0 6px rgba(201,169,63,.28));animation:cvDecorGlow 5s ease-in-out infinite}
+.cv-tl{left:max(14px,env(safe-area-inset-left,0px));top:max(14px,env(safe-area-inset-top,0px))}
+.cv-tr{right:max(14px,env(safe-area-inset-right,0px));top:max(14px,env(safe-area-inset-top,0px));transform:scaleX(-1)}
+.cv-bl{left:max(14px,env(safe-area-inset-left,0px));bottom:14px;transform:scaleY(-1)}
+.cv-br{right:max(14px,env(safe-area-inset-right,0px));bottom:14px;transform:scale(-1,-1)}
+.cv-garland{position:absolute;left:50%;top:max(10px,env(safe-area-inset-top,0px));width:min(46vw,250px);height:auto;transform:translateX(-50%);pointer-events:none;opacity:.85;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35));transform-origin:50% 0;animation:cvSway 6s ease-in-out infinite}
+@keyframes cvDecorGlow{0%,100%{opacity:.62}50%{opacity:.95}}
+@keyframes cvSway{0%,100%{transform:translateX(-50%) rotate(-.8deg)}50%{transform:translateX(-50%) rotate(.8deg)}}
+@media (prefers-reduced-motion:reduce){.cv-corner,.cv-garland{animation:none}}
+@media (max-height:520px) and (orientation:landscape){.cv-garland{display:none}}

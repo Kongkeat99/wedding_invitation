@@ -1185,3 +1185,19 @@ html[lang="km"] .tt span{font-family:'Noto Serif Khmer','Battambang',serif;font-
 html[lang="km"] .pf-initial{font-family:'Moul','Battambang',serif;font-style:normal;font-size:2.2rem}
 html[lang="km"] #cover .cover-invite,html[lang="km"] #cover .cover-date{font-family:'Noto Serif Khmer','Battambang',serif;font-weight:500;letter-spacing:.06em}
 html[lang="km"] .cover-cta{font-family:'Battambang','Kantumruy Pro',sans-serif;font-weight:700;letter-spacing:0}
+
+/* hero names: tighter, even rhythm between role label, name and ampersand (Khmer line-height was making the gaps too tall) */
+#hero .role{line-height:1.45;margin:12px 0 0}
+#hero .nm,#hero .nm[lang="km"]{line-height:1.4;margin:0}
+#hero .nm[lang="km"]{padding-top:2px}
+#hero .amp{line-height:1;margin:2px 0 0;font-size:1.9rem}
+
+/* headroom above Moul-style Khmer (tall vowels/subscripts crowd the line above) */
+html[lang="km"] h1,html[lang="km"] h2,.moul{padding-top:.35em}
+#hero .nm[lang="km"],.nm[lang="km"]{padding-top:.5em}
+.pf-name[lang="km"],#s-profile .pf-name[lang="km"]{padding-top:.45em}
+#cover .names span[lang="km"]{padding-top:.4em}
+#cover h2{padding-top:.35em}
+html[lang="km"] .ga-card b{padding-top:.3em}
+#cover #guestName{padding-top:.3em}
+.names .names-kh{padding-top:.4em}

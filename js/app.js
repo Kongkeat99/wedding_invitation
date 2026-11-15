@@ -779,7 +779,7 @@ thanksWriter(document.querySelector(".thanks-copy.lang-en"),"en",function(c){ret
     var index=wrap(Math.round(pos/step),n);
     if(index!==activeIndex){
       activeIndex=index;
-      counter.textContent=String(index+1).padStart(2,"0")+" / "+String(n).padStart(2,"0");
+      counter.textContent=String(index+1).padStart(2,"0")+" / "+String(n).padStart(2,"0");;counter.style.setProperty("--gp",((index+1)/n*100)+"%")
       counter.setAttribute("aria-label","Photo "+(index+1)+" of "+n)
     }
     if(index!==lastStackIndex||stackDirty){
@@ -1027,3 +1027,29 @@ thanksWriter(document.querySelector(".thanks-copy.lang-en"),"en",function(c){ret
 (function(){var cards=document.querySelectorAll(".pf-card");if(!cards.length||!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove("pf-pre");io.unobserve(e.target)}})},{threshold:.15});
   cards.forEach(function(c){var r=c.getBoundingClientRect();if(r.top>innerHeight){c.classList.add("pf-pre");io.observe(c)}})})();
+
+/* gallery v2: blur-up placeholders, "view all" grid, video sound hint */
+(function(){
+  var g=document.getElementById("grid");
+  if(g)Array.prototype.forEach.call(g.querySelectorAll("img.ph"),function(im){
+    function done(){im.classList.add("ld")}
+    if(im.complete&&im.naturalWidth)done();else im.addEventListener("load",done,{once:true})
+  });
+  var btn=document.getElementById("galAll"),grid=document.getElementById("galGrid");
+  if(btn&&grid&&typeof ph!=="undefined"&&ph.length){
+    ph.forEach(function(u,i){
+      var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Photo "+(i+1));
+      var im=document.createElement("img");im.src=u.replace(/\/([^/]+)$/,"/thumbs/$1");im.alt="";im.loading="lazy";im.decoding="async";
+      b.appendChild(im);b.onclick=function(){openLb(i)};grid.appendChild(b)});
+    btn.addEventListener("click",function(){
+      var o=grid.hidden;grid.hidden=!o;btn.setAttribute("aria-expanded",String(o));btn.classList.toggle("on",o)})
+  }
+  var vids=document.getElementById("vids"),cap=document.querySelector(".video-cap");
+  if(vids&&cap){
+    var card=vids.children[0],v=card&&card.video;
+    if(v){
+      function sync(){cap.classList.toggle("off",!v.muted||v.paused)}
+      v.addEventListener("volumechange",sync);v.addEventListener("play",sync);v.addEventListener("pause",sync);sync()
+    }
+  }
+})();

@@ -1471,3 +1471,55 @@ html[lang="en"] #story .st small{font:italic 700 .95rem/1.5 'Cormorant Garamond'
 #s-quote .quote:before{height:38px;margin-bottom:0}
 #s-quote .kb-div{margin:6px auto 12px}
 #story .st:last-child{padding-bottom:22px}
+
+/* ===== gallery + video v2 ===== */
+#s-photo,#s-video{background:#1A1608;color:#F4EBC8}
+#s-photo{padding-bottom:6px}
+#s-photo:before{display:none}
+#s-photo .gal-title,#s-video h2{font:400 1.7rem/1.5 'Moul','Battambang',serif;color:#E8D48B;letter-spacing:.02em;text-align:center}
+html[lang=en] #s-video h2,html[lang=en] #s-photo .gal-title{font:600 1.9rem/1.25 'Cormorant Garamond',serif}
+.gv-div{margin:8px auto 14px;width:min(200px,60%)}
+.gv-div i{filter:brightness(1.35) saturate(1.1)}
+.gv-div:before,.gv-div:after{background:linear-gradient(90deg,transparent,#C9A93F)}
+#s-video{position:relative;padding-top:34px}
+#s-video:before{content:"";display:block;width:min(240px,64%);height:1px;margin:0 auto 22px;background:linear-gradient(90deg,transparent,rgba(201,169,63,.7),transparent)}
+#s-video .video-subtitle{color:#E8D48B;opacity:1;text-align:center}
+#s-video .video-orn{display:none}
+/* photo frames: gold double border, focused centre */
+.grid#grid .ph{background:#120E04;padding:0;border:1px solid #C9A93F;border-radius:2px;box-shadow:0 0 0 4px #1A1608,0 0 0 5px rgba(201,169,63,.55),0 18px 30px -14px rgba(0,0,0,.9);object-fit:cover}
+.grid#grid .ph:not(.ld){background:linear-gradient(135deg,#2a2210,#14100a)}
+#s-photo .gal-title:before,#s-photo .gal-title:after{content:none}
+#s-photo .gal-title{padding-bottom:0}
+/* dark sections must not fade over the cream page (made a grey band): fade only their content */
+#s-photo.rv,#s-video.rv{opacity:1;animation:none;transition:none}
+#s-photo.rv .coming-soon-content,#s-video.rv .coming-soon-content{transition:opacity .7s ease}
+#s-photo.rv:not(.in) .coming-soon-content,#s-video.rv:not(.in) .coming-soon-content{opacity:0}
+/* arrows */
+.gallery-arrow{background:linear-gradient(135deg,#E8D48B,#C9A93F)!important;color:#1A1608!important;border:1px solid #8F7524!important;box-shadow:0 4px 12px rgba(0,0,0,.45)!important;width:44px!important;height:44px!important;min-width:44px;min-height:44px}
+.gallery-arrow svg{width:22px;height:22px}
+.gallery-counter{color:#E8D48B!important;opacity:1!important;font-weight:600;letter-spacing:.14em;margin:10px auto 4px;position:relative;padding-bottom:8px}
+.gallery-counter:after{width:90px!important;height:2px!important;transform:none!important;background:linear-gradient(90deg,#E8D48B var(--gp,0%),rgba(201,169,63,.28) var(--gp,0%))!important}
+/* view all */
+.gal-all{display:block;margin:10px auto 0;padding:10px 22px;min-height:44px;border:1px solid #C9A93F;border-radius:999px;background:transparent;color:#E8D48B;font:600 .9rem 'Battambang','Cormorant Garamond',serif;cursor:pointer}
+.gal-all.on{background:#C9A93F;color:#1A1608}
+html[lang=en] .gal-all [lang=km],html[lang=km] .gal-all [lang=en]{display:none}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 12px 0}
+.gal-grid[hidden]{display:none}
+.gal-grid button{padding:0;border:1px solid rgba(201,169,63,.6);background:#120E04;aspect-ratio:3/4;overflow:hidden;cursor:pointer}
+.gal-grid img{width:100%;height:100%;object-fit:cover;display:block}
+/* video frame */
+#s-video .video-frame{position:relative}
+#s-video .video-controls{background:linear-gradient(0deg,rgba(10,8,2,.9),rgba(10,8,2,0))!important;padding-top:26px}
+#s-video .video-control{color:#E8D48B}
+#s-video .video-control svg{width:24px;height:24px}
+#s-video .video-time{color:#F4EBC8;font-weight:600}
+#s-video .video-play{background:rgba(201,169,63,.9)!important;color:#1A1608!important;border-color:#E8D48B!important;width:78px!important;height:78px!important;top:50%!important;box-shadow:0 0 0 8px rgba(201,169,63,.25),0 8px 24px rgba(0,0,0,.5)}
+#s-video .video-card{position:relative}
+#s-video .video-card:before,#s-video .video-card:after{content:"";position:absolute;z-index:4;width:22px;height:22px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 22V8Q2 2 8 2h14' fill='none' stroke='%23E8D48B' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='9' cy='9' r='1.8' fill='%23E8D48B'/%3E%3C/svg%3E") no-repeat}
+#s-video .video-card:before{top:-2px;left:-2px}
+#s-video .video-card:after{bottom:-2px;right:-2px;transform:rotate(180deg)}
+.video-cap{text-align:center;margin:14px auto 0;color:#E8D48B;font:500 .85rem 'Battambang','Cormorant Garamond',serif;letter-spacing:.08em;transition:opacity .4s}
+.video-cap.off{opacity:0}
+html[lang=en] .video-cap [lang=km],html[lang=km] .video-cap [lang=en]{display:none}
+/* soft transition into next section */
+#s-video{padding-bottom:46px;background:linear-gradient(180deg,#1A1608 0,#1A1608 88%,#241c0a 100%)}

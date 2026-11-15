@@ -1007,3 +1007,8 @@ thanksWriter(document.querySelector(".thanks-copy.lang-en"),"en",function(c){ret
   var t;function set(o){d.classList.toggle("open",o);b.setAttribute("aria-expanded",o?"true":"false");clearTimeout(t);if(o)t=setTimeout(function(){set(false)},5000)}
   b.addEventListener("click",function(){set(!d.classList.contains("open"))});
   document.addEventListener("pointerdown",function(e){if(!d.contains(e.target))set(false)})})();
+
+/* profile cards: gentle reveal (groom from the left, bride from the right) */
+(function(){var cards=document.querySelectorAll(".pf-card");if(!cards.length||!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove("pf-pre");io.unobserve(e.target)}})},{threshold:.15});
+  cards.forEach(function(c){var r=c.getBoundingClientRect();if(r.top>innerHeight){c.classList.add("pf-pre");io.observe(c)}})})();

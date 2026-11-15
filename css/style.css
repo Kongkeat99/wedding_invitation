@@ -1350,3 +1350,44 @@ body.go #dock #dockMore svg{width:22px;height:22px;fill:currentColor;transition:
 body.go #dock.open #dockMore svg{transform:rotate(90deg)}
 body.go #dock:not(.open) #langBtn,body.go #dock:not(.open) #thm{display:none}
 @media (prefers-reduced-motion:reduce){#hero .hero-card .nm{animation:none}}
+
+/* ===== profile v2: dark-gold cards like the hero, kanok crests, ribbon role, medal connector ===== */
+#s-profile{scroll-margin-top:84px;padding-top:clamp(56px,11vw,84px)}
+#s-profile h2{font-size:1.3rem;color:#8c7620}
+#s-profile .kb-div{margin:8px auto 14px}
+#s-profile .sub{margin:0 0 34px;opacity:1;font-size:.95rem;line-height:1.9;color:var(--ink)}
+#s-profile .pf-wrap{position:relative;gap:0}
+#s-profile .pf-card{padding:46px 18px 18px;border:1px solid rgba(232,212,139,.7);color:#F4EBC8;
+  background:radial-gradient(ellipse at 20% 0,rgba(201,169,63,.24),transparent 60%),linear-gradient(165deg,#2B2210,#1A1608);box-shadow:0 22px 38px -22px rgba(0,0,0,.65)}
+#s-profile #pfBride{background:radial-gradient(ellipse at 80% 0,rgba(201,169,63,.24),transparent 60%),linear-gradient(195deg,#2B2210,#1A1608)}
+#s-profile .pf-card:before{border:1px solid rgba(201,169,63,.28);border-style:solid}
+.pf-crest{position:absolute;left:50%;top:-34px;width:150px;height:49px;transform:translateX(-50%);overflow:visible;pointer-events:none;filter:drop-shadow(0 0 7px rgba(201,169,63,.4))}
+#s-profile .pf-photo{width:112px;height:142px;margin:0 auto 0;border-radius:56px 56px 14px 14px}
+#s-profile .pf-photo:before{inset:-6px;border-radius:62px 62px 18px 18px;border-color:rgba(232,212,139,.55);opacity:1}
+#s-profile .pf-photo img,#s-profile .pf-initial{border-radius:53px 53px 11px 11px;background:#26200C;color:#E8D48B}
+#s-profile .pf-photo:after{border-radius:53px 53px 11px 11px}
+#s-profile .pf-role{position:relative;z-index:3;display:inline-block;margin:-15px 0 0;padding:3px 16px;border:1px solid rgba(255,244,200,.7);border-radius:999px;
+  background:linear-gradient(180deg,#EBD98F,#C9A93F);color:#2b2208;font-size:.8rem;font-weight:600;box-shadow:0 6px 14px -6px rgba(0,0,0,.6)}
+#s-profile .pf-name{margin:8px 0 10px;font-size:1.75rem;color:#F4EBC8;text-shadow:0 0 18px rgba(201,169,63,.35)}
+#s-profile .pf-name:after{content:"";display:block;width:80px;height:1px;margin:6px auto 0;background:linear-gradient(90deg,transparent,#C9A93F,transparent)}
+#s-profile .pf-bio{margin:0 0 6px;font-size:.88rem;line-height:1.8;color:rgba(244,235,200,.92);opacity:1}
+#s-profile .pf-parents{padding-top:0;border-top:0;color:rgba(244,235,200,.78);opacity:1}
+#s-profile .pf-parents:before{content:"";display:block;width:76%;height:18px;margin:6px auto 4px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 60'%3E%3Cg fill='none' stroke='%23E8D48B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 2C23 8 22 13 24 18C26 24 30 28 27 34C25 40 29 46 26 52C24 56 22 58 20 58C18 58 16 56 14 52C11 46 15 40 13 34C10 28 14 24 16 18C18 13 17 8 20 2Z'/%3E%3Cpath d='M26 36C33 36 36 30 32 26M14 36C7 36 4 30 8 26'/%3E%3C/g%3E%3C/svg%3E") center/11px 16px no-repeat,linear-gradient(90deg,rgba(201,169,63,.65),transparent 36%,transparent 64%,rgba(201,169,63,.65)) center/100% 1px no-repeat}
+#s-profile .pf-parents b{display:inline-block;margin-top:2px;color:#E8D48B;font-weight:700}
+#s-profile .pf-amp{position:relative;z-index:2;display:grid;place-items:center;width:54px;height:54px;margin:16px 0;border:1.5px solid transparent;border-radius:50%;
+  background:linear-gradient(#1A1608,#1A1608) padding-box,linear-gradient(145deg,#F4EBC8,#C9A93F 55%,#8F7524) border-box;box-shadow:0 0 0 5px rgba(201,169,63,.16),0 8px 18px -8px rgba(0,0,0,.6);
+  color:#E8D48B;font:italic 600 1.05rem/1 'Cormorant Garamond',Georgia,serif}
+#s-profile .pf-amp i{color:#C9A93F;font-size:.8em}
+#s-profile .pf-amp .lang-km{font-family:'Battambang','Noto Serif Khmer',serif;font-style:normal;font-weight:700}
+#s-profile .pf-amp:before,#s-profile .pf-amp:after{content:"";position:absolute;left:50%;width:1px;height:17px;background:linear-gradient(#C9A93F,#E8D48B)}#s-profile .pf-amp:before{top:-17px}#s-profile .pf-amp:after{bottom:-17px}
+@media (min-width:640px){#s-profile .pf-amp{margin:0 -30px}#s-profile .pf-amp:before,#s-profile .pf-amp:after{display:none}}
+/* reveal: groom from the left, bride from the right, crest last */
+.pf-card.pf-pre{opacity:0;transform:translateX(-30px)}
+#pfBride.pf-pre{transform:translateX(30px)}
+.pf-card{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.pf-card.pf-pre .pf-crest{opacity:0}
+.pf-crest{transition:opacity .8s .5s ease}
+@media (prefers-reduced-motion:reduce){.pf-card.pf-pre{opacity:1;transform:none}.pf-card.pf-pre .pf-crest{opacity:1}}
+
+.pf-crest{width:170px;height:55px;top:-38px}

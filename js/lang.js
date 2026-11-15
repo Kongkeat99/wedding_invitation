@@ -40,7 +40,7 @@
       if(!st.hasAttribute("data-km-t")){st.setAttribute("data-km-t",tn.textContent);st.setAttribute("data-km-p",p.textContent);if(small)st.setAttribute("data-km-d",small.textContent)}
       if(cur==="en"){
         if(en[i]&&en[i].title)tn.textContent=en[i].title;if(en[i]&&en[i].text)p.textContent=en[i].text;
-        if(small){var d=new Date(new Date(window.WD||CONFIG.date).getTime()+7*3600000),
+        if(small&&small.getAttribute("data-en"))small.textContent=small.getAttribute("data-en");if(small&&!small.getAttribute("data-en")){var d=new Date(new Date(window.WD||CONFIG.date).getTime()+7*3600000),
           mo=["January","February","March","April","May","June","July","August","September","October","November","December"];
           if(CONFIG.story[i]&&CONFIG.story[i].date==="wedding")small.textContent=d.getUTCDate()+" "+mo[d.getUTCMonth()]+" "+d.getUTCFullYear()}
       }else{tn.textContent=st.getAttribute("data-km-t");p.textContent=st.getAttribute("data-km-p");if(small)small.textContent=st.getAttribute("data-km-d")}

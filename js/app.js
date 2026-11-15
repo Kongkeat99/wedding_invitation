@@ -474,7 +474,7 @@ function lotusSvg(n,total){
 var sy=$("story");
 (CONFIG.story||[]).forEach(function(e,n){var d=document.createElement("li");d.className="st";
   var a=document.createElement("small"),dt=e.date==="wedding"?khDate(new Date(WD)).split("\n")[0].replace(/^ថ្ងៃ\S+\s/,""):(e.date||"");a.textContent=dt;var h=document.createElement("h3");var ic=document.createElement("span");ic.className="ic";ic.setAttribute("aria-hidden","true");if(e.icon)ic.textContent=e.icon;else ic.innerHTML=lotusSvg(n,CONFIG.story.length);h.appendChild(ic);h.appendChild(document.createTextNode(e.title||""));
-  var p=document.createElement("p");p.textContent=e.text||"";if(dt)d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
+  var p=document.createElement("p");p.textContent=e.text||"";if(!dt){var kd="០១២៣៤៥៦៧៨៩";a.textContent="ជំពូកទី "+String(n+1).replace(/\d/g,function(c){return kd[c]});a.className="chap";a.setAttribute("data-en","Chapter "+(n+1));dt=a.textContent}if(dt)d.appendChild(a);d.appendChild(h);d.appendChild(p);sy.appendChild(d)});
 if(!sy.children.length)$("s-story").hidden=true;
 
 var ph=CONFIG.photos||[],li=0,lbFrom=null,lb=$("lb");

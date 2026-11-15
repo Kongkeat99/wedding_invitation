@@ -483,7 +483,7 @@ function drv(u,w){var id=CONFIG.USE_DRIVE_PHOTOS!==false&&CONFIG.drivePhotos&&CO
 function setSrc(im,u,w,local){var d=drv(u,w);if(!d){im.src=local;return}var tried=false;im.onerror=function(){if(!tried){tried=true;im.src=local}};im.src=d}
 function thumbOf(u){return u.replace(/\/([^/]+)$/,"/thumbs/$1")}
 function openLb(i){
-  li=(i+ph.length)%ph.length;setSrc($("lbi"),ph[li],1600,ph[li]);$("lbi").alt="Pre-wedding photo "+(li+1)+" of "+ph.length;
+  li=(i+ph.length)%ph.length;setSrc($("lbi"),ph[li],1600,thumbOf(ph[li]));$("lbi").alt="Pre-wedding photo "+(li+1)+" of "+ph.length;
   if(lb.hidden){lbFrom=document.activeElement;lb.hidden=false;$("lbx").focus()}}
 function closeLb(){lb.hidden=true;if(lbFrom&&lbFrom.focus)lbFrom.focus();lbFrom=null}
 if(ph.length){

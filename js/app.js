@@ -37,8 +37,23 @@ $("calBtn").onclick=function(){
   var blob=new Blob([L.join("\r\n")],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=u;a.download="wedding-invitation.ics";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)
 };
-var ic=["🙏","✂️","🍽️","🥂","🌙"];
-$("prog").innerHTML='<ol class="tl">'+CONFIG.program.map(function(p,i){return '<li class="ti"><div class="td" aria-hidden="true">'+(ic[i]||"✦")+'</div><div class="tt"><b>'+p[0]+'</b><span>'+p[1]+'</span></div></li>'}).join("")+'</ol>';
+var ic=['<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4C9.5 7.500 9.500 11.500 12 15C14.500 11.500 14.500 7.500 12 4Z"/><path d="M12 15C7.500 15 4.500 12 3.500 8C7 8 10 10 12 15Z"/><path d="M12 15C16.500 15 19.500 12 20.500 8C17 8 14 10 12 15Z"/><path d="M6 19h12"/></g></svg>','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6.500" r="2.500"/><circle cx="6" cy="17.500" r="2.500"/><path d="M8 8l12 9.500M8 16l12-9.500"/></g></svg>','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6.500"/><circle cx="12" cy="12" r="3.200"/><path d="M3 4v5.500a1.500 1.500 0 0 0 3 0V4M4.500 4v16M21 4c-2 1.200-2.500 3.500-2.500 6v10"/></g></svg>','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10l-1 7a4 4 0 0 1-8 0Z"/><path d="M12 14v6M8.500 20h7"/><path d="M7.500 7h9"/></g></svg>','<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.500A8 8 0 1 1 9.500 4a6.500 6.500 0 0 0 10.500 10.500Z"/></g></svg>'];
+var KHD="០១២៣៤៥៦៧៨៩";
+function progHour(t){return +String(t).replace(/[០-៩]/g,function(c){return KHD.indexOf(c)}).split(":")[0]||0}
+function progPeriod(t){var h=progHour(t);return h<12?["ព្រឹក","Morning"]:h<17?["រសៀល","Afternoon"]:["ល្ងាច","Evening"]}
+$("prog").innerHTML='<ol class="tl">'+CONFIG.program.map(function(p,i){var pe=progPeriod(p[0]);return '<li class="ti" style="--i:'+i+'"><div class="td" aria-hidden="true">'+(ic[i]||"")+'</div><div class="tt"><b>'+p[0]+'</b><span>'+p[1]+'</span>'+(p[2]?'<small class="tx">'+p[2]+'</small>':'')+'<i class="tp" data-km="'+pe[0]+'" data-en="'+pe[1]+'">'+pe[0]+'</i></div></li>'}).join("")+'</ol>';
+/* timeline: draw the line on scroll, mark what is on now / next */
+(function(){var tl=document.querySelector("#prog .tl");if(!tl)return;
+  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion:reduce)").matches){tl.classList.add("go")}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){tl.classList.add("go");io.disconnect()}})},{threshold:.2});io.observe(tl)}
+  function state(){var rows=tl.querySelectorAll(".ti"),c=new Date(new Date(WD).getTime()+7*3600000),y=c.getUTCFullYear(),m=c.getUTCMonth(),d=c.getUTCDate();
+    var st=CONFIG.program.map(function(p){var t=String(p[0]).replace(/[០-៩]/g,function(ch){return KHD.indexOf(ch)}).split(":");return Date.UTC(y,m,d,+t[0]||0,+t[1]||0)-7*3600000});
+    var now=Date.now(),cur=-1,k;for(k=0;k<st.length;k++){if(now>=st[k])cur=k}
+    var over=now>st[st.length-1]+4*3600000;
+    Array.prototype.forEach.call(rows,function(r,n){r.classList.remove("is-now","is-next","is-past","is-start");
+      if(cur<0){if(n===0)r.classList.add("is-start")}
+      else if(!over){if(n<cur)r.classList.add("is-past");else if(n===cur)r.classList.add("is-now");else if(n===cur+1)r.classList.add("is-next")}})}
+  state();setInterval(state,60000)})();
 
 /* countdown */
 var cdEls=null;

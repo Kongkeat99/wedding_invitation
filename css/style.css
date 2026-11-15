@@ -1391,3 +1391,38 @@ body.go #dock:not(.open) #langBtn,body.go #dock:not(.open) #thm{display:none}
 @media (prefers-reduced-motion:reduce){.pf-card.pf-pre{opacity:1;transform:none}.pf-card.pf-pre .pf-crest{opacity:1}}
 
 .pf-crest{width:170px;height:55px;top:-38px}
+
+/* ===== program v2: dark-gold card, line icons, solid time pills, drawn timeline, now/next ===== */
+#s-prog{scroll-margin-top:84px;padding-top:clamp(56px,11vw,84px);padding-bottom:clamp(20px,5vw,36px)}
+#s-prog h2{font-size:1.3rem;color:#8c7620}
+#s-prog .kb-div{margin:8px auto 22px}
+#prog .tl{width:min(100%,380px);padding:36px 18px 10px;border:1px solid rgba(232,212,139,.7);color:#F4EBC8;
+  background:radial-gradient(ellipse at 50% 0,rgba(201,169,63,.22),transparent 62%),linear-gradient(165deg,#2B2210,#1A1608);box-shadow:0 22px 38px -22px rgba(0,0,0,.65)}
+#prog .tl:before{border:1px solid rgba(201,169,63,.28)}
+#prog .tl:after{content:"";position:absolute;left:50%;top:-13px;width:26px;height:30px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 60'%3E%3Cg fill='none' stroke='%23E8D48B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 2C23 8 22 13 24 18C26 24 30 28 27 34C25 40 29 46 26 52C24 56 22 58 20 58C18 58 16 56 14 52C11 46 15 40 13 34C10 28 14 24 16 18C18 13 17 8 20 2Z'/%3E%3Cpath d='M26 36C33 36 36 30 32 26M14 36C7 36 4 30 8 26'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 6px rgba(201,169,63,.5))}
+#prog .ti{gap:14px;align-items:center;padding-bottom:26px;transition:opacity .4s}
+#prog .td{width:54px;height:54px;border:1.5px solid transparent;color:#E8D48B;
+  background:linear-gradient(#1A1608,#1A1608) padding-box,linear-gradient(145deg,#F4EBC8,#C9A93F 55%,#8F7524) border-box;box-shadow:0 0 0 4px rgba(201,169,63,.16)}
+#prog .td svg{width:26px;height:26px}
+#prog .ti:not(:last-child):before{left:27px;width:2px;margin-left:-1px;top:58px;bottom:-2px;background:linear-gradient(#E8D48B,#C9A93F);transform-origin:top;transform:scaleY(0);transition:transform .6s ease calc(var(--i)*.35s + .2s)}
+#prog .tl.go .ti:not(:last-child):before{transform:scaleY(1)}
+#prog .tt{flex:1;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"s b" "s p" "x x";align-items:center;gap:2px 10px;padding-top:0}
+#prog .tt span{grid-area:s;margin:0;color:#F4EBC8;font-size:1rem;line-height:1.7;overflow-wrap:anywhere}
+#prog .tt b{grid-area:b;justify-self:end;padding:2px 12px;border:1px solid rgba(255,244,200,.7);border-radius:999px;background:linear-gradient(180deg,#EBD98F,#C9A93F);color:#2b2208;font-size:1rem;font-weight:700;letter-spacing:.03em;box-shadow:0 6px 12px -6px rgba(0,0,0,.6)}
+#prog .tt .tx{grid-area:x;color:rgba(244,235,200,.7);font-size:.8rem;line-height:1.6}
+#prog .tt .tp{grid-area:p;justify-self:end;width:100%;text-align:center;font-style:normal;font-size:.72rem;letter-spacing:.06em;color:#E8D48B;opacity:.85}
+/* now / next / first */
+#prog .ti.is-past{opacity:.5}
+#prog .ti.is-now .td{box-shadow:0 0 0 4px rgba(201,169,63,.35),0 0 22px rgba(232,212,139,.6)}
+#prog .is-now .tt span:after,#prog .is-next .tt span:after,#prog .is-start .tt span:after{display:inline-block;margin-left:8px;padding:0 9px;border-radius:999px;background:#E8D48B;color:#2b2208;font-size:.68rem;line-height:1.7;vertical-align:middle}
+#prog .is-now .tt span:after{content:"ឥឡូវនេះ"}
+#prog .is-next .tt span:after{content:"បន្ទាប់"}
+#prog .is-start .tt span:after{content:"ចាប់ផ្ដើម"}
+html[data-language="en"] #prog .is-now .tt span:after{content:"Now"}
+html[data-language="en"] #prog .is-next .tt span:after{content:"Next up"}
+html[data-language="en"] #prog .is-start .tt span:after{content:"Starts here"}
+#prog .td,#prog .tt{transition:opacity .5s ease calc(var(--i)*.35s)}
+.prog-end{margin:30px auto 0}
+@media (prefers-reduced-motion:reduce){#prog .ti:not(:last-child):before{transform:none;transition:none}}
+
+#prog .tt .tx{margin-top:2px}

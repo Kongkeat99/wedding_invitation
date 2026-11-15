@@ -478,13 +478,17 @@ var sy=$("story");
 if(!sy.children.length)$("s-story").hidden=true;
 
 var ph=CONFIG.photos||[],li=0,lbFrom=null,lb=$("lb");
+/* Drive-first photo loading with automatic fallback to the repo copy */
+function drv(u,w){var id=CONFIG.USE_DRIVE_PHOTOS!==false&&CONFIG.drivePhotos&&CONFIG.drivePhotos[u.split("/").pop()];return id?"https://lh3.googleusercontent.com/d/"+id+"=w"+w:""}
+function setSrc(im,u,w,local){var d=drv(u,w);if(!d){im.src=local;return}var tried=false;im.onerror=function(){if(!tried){tried=true;im.src=local}};im.src=d}
+function thumbOf(u){return u.replace(/\/([^/]+)$/,"/thumbs/$1")}
 function openLb(i){
-  li=(i+ph.length)%ph.length;$("lbi").src=ph[li];$("lbi").alt="Pre-wedding photo "+(li+1)+" of "+ph.length;
+  li=(i+ph.length)%ph.length;setSrc($("lbi"),ph[li],1600,ph[li]);$("lbi").alt="Pre-wedding photo "+(li+1)+" of "+ph.length;
   if(lb.hidden){lbFrom=document.activeElement;lb.hidden=false;$("lbx").focus()}}
 function closeLb(){lb.hidden=true;if(lbFrom&&lbFrom.focus)lbFrom.focus();lbFrom=null}
 if(ph.length){
   ph.forEach(function(u,i){
-    var im=document.createElement("img");im.src=u.replace(/\/([^/]+)$/,"/thumbs/$1");im.alt="Pre-wedding photo "+(i+1)+" of "+ph.length;im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
+    var im=document.createElement("img");setSrc(im,u,720,thumbOf(u));im.alt="Pre-wedding photo "+(i+1)+" of "+ph.length;im.width=720;im.height=960;im.loading="lazy";im.decoding="async";
     im.className="ph";im.tabIndex=0;im.setAttribute("role","button");im.setAttribute("aria-label","View "+im.alt);
     im.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openLb(i)}};
     g.appendChild(im)})
@@ -1039,7 +1043,7 @@ thanksWriter(document.querySelector(".thanks-copy.lang-en"),"en",function(c){ret
   if(btn&&grid&&typeof ph!=="undefined"&&ph.length){
     ph.forEach(function(u,i){
       var b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Photo "+(i+1));
-      var im=document.createElement("img");im.src=u.replace(/\/([^/]+)$/,"/thumbs/$1");im.alt="";im.loading="lazy";im.decoding="async";
+      var im=document.createElement("img");setSrc(im,u,360,thumbOf(u));im.alt="";im.loading="lazy";im.decoding="async";
       b.appendChild(im);b.onclick=function(){openLb(i)};grid.appendChild(b)});
     btn.addEventListener("click",function(){
       var o=grid.hidden;grid.hidden=!o;btn.setAttribute("aria-expanded",String(o));btn.classList.toggle("on",o)})

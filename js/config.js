@@ -68,6 +68,42 @@ var CONFIG = {
       {id:"family", km:"បងប្អូន និងញាតិសន្តាន", en:"Sibling & Cousin", folder:"assets/album/bride/family/", count:15, list:[]}
     ]}
   },
+  // Google Drive copies of the gallery photos (folder "Wedding Invitation Media", shared: anyone with the link).
+  // The page tries Drive first and falls back to assets/photos/ if a Drive image fails. Set USE_DRIVE_PHOTOS:false to use only the repo.
+  USE_DRIVE_PHOTOS: true,
+  drivePhotos: {
+    "DSC_5408.jpg": "1tFIhGW11qLhqJ4D8BzNBQDL7xH8MxBSO",
+    "DSC_5424.jpg": "1nDbJBISzzeobi-FQpHz9Rn3kiMZ2Dzqp",
+    "DSC_5433.jpg": "18urB9fZLpqSD37Ct1aoew4U524LDeQTX",
+    "DSC_5437.jpg": "10vlE8WJZ6hE01Or6ZdT8-5JrcyT9O2v-",
+    "DSC_5441.jpg": "1U7G_XwJC1ricA1pd9KHOPTYpgVzOrqlc",
+    "DSC_5443.jpg": "1zyS4Zx7T_gEpyE0i8kYZc2Rr7NWzRLU7",
+    "DSC_5448.jpg": "1jrIjUf6Dzf0jFAPG1tmOo5ST8HzV69dJ",
+    "DSC_5450.jpg": "1rcLWlnWCr2LfDdvNIDU9uc4AI7pRHtmo",
+    "DSC_5452.jpg": "1aJc1ofaCQsFIcIEUIhRNN_fjcNUZujLS",
+    "DSC_5456.jpg": "1w7kr7LiPRjf9_TSguJirHKyKWJpyUrlr",
+    "DSC_5466.jpg": "1_awplSun0GWWtKv0hYTUPGQ7hxA4DXLf",
+    "DSC_5468.jpg": "19jtYIQ7SN7DQHvOIvO5L2bbhpzw4q_rl",
+    "DSC_5472.jpg": "1x-Yw3FlEAcd0alsrqq7cLdcsiyFAf_Bp",
+    "DSC_5477.jpg": "1yrSL-23T2zJ-f3UVqyOjVyVY4dF7s67G",
+    "DSC_5481.jpg": "1KSnGxU4IEpYCByXGqhxto2LFIxf3ZgMd",
+    "DSC_5485.jpg": "1siFrGJ3mKUuCxIETlBOt2Xkxl277OcAl",
+    "DSC_5488.jpg": "1M4mlnbPaHLQuEV0OygZBgE_sawrMTtIk",
+    "DSC_5490.jpg": "1LmT-oxuG_lF9uAh5wGY6962Tmo_GWTJ0",
+    "DSC_5492.jpg": "1JAgjbeddm6xyCuOaAQy7-jgscEH8oFWs",
+    "DSC_5495.jpg": "1vxdFlV-jji-L2jZvQj0-3HnidlTA--q3",
+    "DSC_5499.jpg": "1uwPe8unVLfgC4oEhO1FxoAu38m837zfb",
+    "DSC_5501.jpg": "1ud-CxdFqvRYoa0oE2WAmgH9hDM_Yu3Uc",
+    "DSC_5504.jpg": "1W2VJtnjxhgkQb-TYHZikcRIFwCXWiySe",
+    "DSC_5512.jpg": "1eyRyu8E9_E7drCQ5365_g0371ddeJZut",
+    "DSC_5514.jpg": "1l0pezgS2zJ20qXgdHzRXwgoMZJnSMivI",
+    "DSC_5519.jpg": "19tXUM5Tp1OXfJY1sdjOBFNZ1Ta6mSTwX",
+    "DSC_5523.jpg": "1RVS9RJSE3VwHD_kEyszMx_NFwvrhGCj7",
+    "DSC_5525.jpg": "1CRanbTgA3_y9_OduZQu5jUaSSFOZStnN",
+    "DSC_5526.jpg": "10uNjm7Rg17Q--eTPZrEDScE5jZzWIG75",
+    "DSC_5527.jpg": "1h__O-IetN0iOcr4oQZ7BDeE_G0J_EurF",
+    "DSC_5533.jpg": "1oaCapABD91mPcPf-gkpCYCyxUujc_c63"
+  },
   photos: [                                    // photos in assets/photos/
     "assets/photos/DSC_5408.jpg",
     "assets/photos/DSC_5424.jpg",
